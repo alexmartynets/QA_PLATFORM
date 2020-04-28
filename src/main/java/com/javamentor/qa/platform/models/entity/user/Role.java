@@ -1,4 +1,4 @@
-package com.javamentor.qa.platform.models.entity;
+package com.javamentor.qa.platform.models.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -17,17 +14,19 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "role")
 public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String role;
+    @Column
+    private String name;
 
     @Override
     public String getAuthority() {
-        return role;
+        return name;
     }
 
     @Override
@@ -36,11 +35,11 @@ public class Role implements GrantedAuthority {
         if (o == null || getClass() != o.getClass()) return false;
         Role role1 = (Role) o;
         return Objects.equals(id, role1.id) &&
-                Objects.equals(role, role1.role);
+                Objects.equals(name, role1.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, role);
+        return Objects.hash(id, name);
     }
 }
