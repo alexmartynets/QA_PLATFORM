@@ -29,5 +29,19 @@ public class UserServisTest {
         user.setRole(new Role("ADMIN"));
         user.setIsEnabled(true);
         dao.persist(user);
+        System.out.println("ADD");
+    }
+
+    public void deleteUser(Long id){
+        dao.deleteByKeyCascadeIgnore(id);
+        System.out.println("DEL");
+    }
+    public void deleteUser2(Long id){
+        dao.deleteByKeyCascadeEnable(id);
+        System.out.println("DEL");
+    }
+
+    public User getUser(Long id){
+        return dao.getByKey(id);
     }
 }

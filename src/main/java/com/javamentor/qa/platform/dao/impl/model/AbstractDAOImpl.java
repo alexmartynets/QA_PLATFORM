@@ -1,11 +1,12 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracrt.model.AbstractDAO;
-import org.springframework.stereotype.Component;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -45,7 +46,11 @@ public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
     @Override
     public void deleteByKeyCascadeIgnore(PK id) {
         if(existsById(id)){
-            entityManager.remove(getByKey(id));
+            Query query = entityManager.createQuery(
+                    "DELETE FROM " +clazz.getName() + " u WHERE u.id = :id" );
+            query.setParameter("id", id);
+            int rowsDeleted = query.executeUpdate();
+            System.out.println("entities deleted: " + rowsDeleted);
         }
     }
 
