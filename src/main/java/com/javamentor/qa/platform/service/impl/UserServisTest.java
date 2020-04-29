@@ -1,9 +1,9 @@
 package com.javamentor.qa.platform.service.impl;
 
-import com.javamentor.qa.platform.dao.abstracrt.model.AbstractDAO;
+
 import com.javamentor.qa.platform.dao.impl.model.AbstractDAOImpl;
-import com.javamentor.qa.platform.models.entity.Role;
-import com.javamentor.qa.platform.models.entity.User;
+import com.javamentor.qa.platform.models.entity.user.Role;
+import com.javamentor.qa.platform.models.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class UserServisTest {
         user.setEmail("email@email");
         user.setPassword("password");
         user.setRole(new Role("ADMIN"));
-        user.setEnabled(true);
+        user.setIsEnabled(true);
         dao.persist(user);
     }
 }
