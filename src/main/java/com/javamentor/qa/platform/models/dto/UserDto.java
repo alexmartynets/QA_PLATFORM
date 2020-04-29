@@ -1,11 +1,13 @@
 package com.javamentor.qa.platform.models.dto;
 
+import com.javamentor.qa.platform.models.entity.User;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
@@ -13,11 +15,11 @@ import javax.validation.constraints.Null;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class UserDto {
 
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
-    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значние при обновлении")
+    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     private Long id;
 
     @NotNull
