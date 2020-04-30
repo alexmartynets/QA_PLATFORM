@@ -14,7 +14,6 @@ import java.util.List;
 public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     private Class<T> tClass;
-    private String tClassName;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -23,7 +22,6 @@ public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
                 .getActualTypeArguments()[0];
-        this.tClassName = tClass.getName().substring(tClass.getName().lastIndexOf(".") + 1);
     }
 
     @Override
@@ -51,7 +49,7 @@ public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
     @Override
     public void deleteByKeyCascadeIgnore(PK id) {
         if (existsById(id)) {
-            Query query = entityManager.createQuery("DELETE FROM " + tClassName + " u WHERE u.id = :id");
+            Query query = entityManager.createQuery("DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
             query.setParameter("id", id);
             query.executeUpdate();
         }
@@ -69,6 +67,6 @@ public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     @Override
     public List<T> getAll() {
-        return entityManager.createQuery("from " + tClassName).getResultList();
+        return entityManager.createQuery("from " + tClass.getName()).getResultList();
     }
 }
