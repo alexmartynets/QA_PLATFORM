@@ -7,18 +7,23 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Repository
 public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
-    private Class<T> clazz;
+    private Class<T> tClass;
+    private String tClassName;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void setClazz(Class<T> clazzToSet) {
-        this.clazz = clazzToSet;
+    public AbstractDAOImpl() {
+        this.tClass = (Class<T>) ((ParameterizedType) getClass()
+                .getGenericSuperclass())
+                .getActualTypeArguments()[0];
+        this.tClassName = tClass.getName().substring(tClass.getName().lastIndexOf(".") + 1);
     }
 
     @Override
@@ -38,34 +43,32 @@ public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     @Override
     public void deleteByKeyCascadeEnable(PK id) {
-        if(existsById(id)){
+        if (existsById(id)) {
             entityManager.remove(getByKey(id));
         }
     }
 
     @Override
     public void deleteByKeyCascadeIgnore(PK id) {
-        if(existsById(id)){
-            Query query = entityManager.createQuery(
-                    "DELETE FROM " +clazz.getName() + " u WHERE u.id = :id" );
+        if (existsById(id)) {
+            Query query = entityManager.createQuery("DELETE FROM " + tClassName + " u WHERE u.id = :id");
             query.setParameter("id", id);
-            int rowsDeleted = query.executeUpdate();
-            System.out.println("entities deleted: " + rowsDeleted);
+            query.executeUpdate();
         }
     }
 
     @Override
     public boolean existsById(PK id) {          //id or Key
-        return entityManager.find(clazz, id) != null;
+        return entityManager.find(tClass, id) != null;
     }
 
     @Override
     public T getByKey(PK id) {
-        return entityManager.find(clazz, id);
+        return entityManager.find(tClass, id);
     }
 
     @Override
     public List<T> getAll() {
-        return entityManager.createQuery("from " + clazz.getName()).getResultList();
+        return entityManager.createQuery("from " + tClassName).getResultList();
     }
 }
