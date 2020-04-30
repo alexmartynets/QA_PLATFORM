@@ -15,7 +15,7 @@ public class QuestionResourceController {
 
     @GetMapping()
     public ResponseEntity<String> getQuestion(){
-        userServisTest.deleteUser2(2l);
+        userServisTest.deleteByKeyCascadeEnable(2L);
         return ResponseEntity.ok("Тест секьюрити");
     }
 

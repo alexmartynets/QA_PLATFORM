@@ -11,37 +11,40 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserServisTest {
+public class UserServisTest extends AbstractDAOImpl<User, Long> {
 
 
-    private AbstractDAOImpl<User, Long> dao;
 
-    @Autowired
-    public void setDao(AbstractDAOImpl<User, Long> daoToSet) {
-        dao = daoToSet;
-        dao.setClazz(User.class);
-    }
 
-    public void addUser(){
-        User user = new User();
-        user.setEmail("email@email");
-        user.setPassword("password");
-        user.setRole(new Role("ADMIN"));
-        user.setIsEnabled(true);
-        dao.persist(user);
-        System.out.println("ADD");
-    }
+    // private AbstractDAOImpl<User, Long> dao;
 
-    public void deleteUser(Long id){
-        dao.deleteByKeyCascadeIgnore(id);
-        System.out.println("DEL");
-    }
-    public void deleteUser2(Long id){
-        dao.deleteByKeyCascadeEnable(id);
-        System.out.println("DEL");
-    }
+//    @Autowired
+//    public void setDao(AbstractDAOImpl<User, Long> daoToSet) {
+//        dao = daoToSet;
+//        dao.setClazz(User.class);
+//    }
 
-    public User getUser(Long id){
-        return dao.getByKey(id);
-    }
+//    public void addUser() {
+//        User user = new User();
+//        user.setEmail("email@email");
+//        user.setPassword("password");
+//        user.setRole(new Role("ADMIN"));
+//        user.setIsEnabled(true);
+//        dao.persist(user);
+//        System.out.println("ADD");
+//    }
+//
+//    public void deleteUser(Long id) {
+//        dao.deleteByKeyCascadeIgnore(id);
+//        System.out.println("DEL");
+//    }
+//
+//    public void deleteUser2(Long id) {
+//        dao.deleteByKeyCascadeEnable(id);
+//        System.out.println("DEL");
+//    }
+//
+//    public User getUser(Long id) {
+//        return dao.getByKey(id);
+//    }
 }
