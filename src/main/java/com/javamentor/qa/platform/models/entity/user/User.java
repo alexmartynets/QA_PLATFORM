@@ -141,4 +141,13 @@ public class User implements UserDetails {
     public int hashCode() {
         return Objects.hash(id, email, password, fullName, persistDateTime, isEnabled, reputationCount, city, linkSite, linkGitHub, linkVk, about, imageUser, lastUpdateDateTime);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }
