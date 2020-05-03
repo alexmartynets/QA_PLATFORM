@@ -3,14 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9da06bc3-fba0-4125-8cf2-88b1e2bb51b9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/javamentor/qa/platform/models/dto/CommentDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/javamentor/qa/platform/service/impl/CommentDaoImp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/javamentor/qa/platform/webapp/controllers/CommentResourceController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/FontAwesome.otf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/fonts/FontAwesome.otf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fontawesome-webfont.eot" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/fonts/fontawesome-webfont.eot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fontawesome-webfont.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/fonts/fontawesome-webfont.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fontawesome-webfont.woff" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/fonts/fontawesome-webfont.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fontawesome-webfont.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/registration.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/registration.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/registration.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +48,7 @@
     </option>
   </component>
   <component name="ProjectId" id="1bGqpAMK9IgHpmyY0V5zJVrmtOY" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -70,7 +64,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../client" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../jm-overflow" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -122,6 +116,7 @@
       <workItem from="1588357422608" duration="808000" />
       <workItem from="1588403000723" duration="12970000" />
       <workItem from="1588438760696" duration="1772000" />
+      <workItem from="1588490285134" duration="2719000" />
     </task>
     <task id="LOCAL-00001" summary="registration page, controlle">
       <created>1588440320035</created>
@@ -145,14 +140,14 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="693" y="287" width="528" height="508" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1588440434459" />
-    <state x="468" y="109" width="1298" height="851" key="CommitChangelistDialog2" timestamp="1588440319347">
+    <state x="468" y="109" width="1298" height="851" key="CommitChangelistDialog2" timestamp="1588504922109">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="468" y="109" width="1298" height="851" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1588440319347" />
-    <state x="733" y="299" key="FileChooserDialogImpl" timestamp="1588434285460">
+    <state x="468" y="109" width="1298" height="851" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1588504922109" />
+    <state x="733" y="299" key="FileChooserDialogImpl" timestamp="1588490647879">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="733" y="299" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1588434285460" />
+    <state x="733" y="299" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1588490647879" />
     <state width="1864" height="345" key="GridCell.Tab.0.bottom" timestamp="1588342172711">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

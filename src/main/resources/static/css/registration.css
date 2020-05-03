@@ -41,11 +41,5 @@ body {
     text-align: left;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgb(87, 84, 84);
-}
-
-#home-section .btn-block {
-    padding-top: 12px;
-    padding-bottom: 12px;
-
+    box-shadow: 0 0 10px 0 rgb(87, 84, 84);
 }
