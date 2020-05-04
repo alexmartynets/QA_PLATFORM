@@ -22,17 +22,17 @@ public class QuestionResourceController {
     @GetMapping()
     public ResponseEntity<String> getQuestion(){
 
-        userServiceTest.deleteByKeyCascadeIgnore(5L);
-//        User user = new User();
-//        user.setFullName("eeee");
-//        user.setEmail("uuu@uuu");
-//        user.setPassword("pass");
-//        user.setRole(roleServiceTest.getByKey(1L));
-//        userServiceTest.persist(user);
-//        for(User u:userServiceTest.getAll()){
-//            System.out.println(u.toString());
-//        }
-        return ResponseEntity.ok("Тест секьюрити");
+//        userServiceTest.deleteByKeyCascadeIgnore(5L);
+        User user = new User();
+        user.setFullName("eeee1");
+        user.setEmail("uuu@uuu1");
+        user.setPassword("pass1");
+        user.setRole(roleServiceTest.getByKey(1L));
+        userServiceTest.persist(user);
+        for(User u:userServiceTest.getAll()){
+            System.out.println(u.toString());
+        }
+        return ResponseEntity.ok("Тест секьюрити QuestionResourceController");
     }
 
 }

@@ -15,17 +15,17 @@ import java.util.List;
 @Transactional
 public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
-    private Class<T> tClass;
-    private String tClassName;
+    protected Class<T> tClass;
+//    private String tClassName;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     public AbstractDAOImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
                 .getActualTypeArguments()[0];
-        this.tClassName = tClass.getName().substring(tClass.getName().lastIndexOf(".") + 1);
+//        this.tClassName = tClass.getName().substring(tClass.getName().lastIndexOf(".") + 1);
     }
 
 
@@ -69,7 +69,7 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     @Override
     public List<T> getAll() {
-        return entityManager.createQuery("from " + tClassName).getResultList();
+        return entityManager.createQuery("from " + tClass.getName()).getResultList();
     }
 }
 
