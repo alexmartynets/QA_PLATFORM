@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.dao.impl.model;
 import com.javamentor.qa.platform.dao.abstracrt.model.AbstractDAO;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,7 +12,8 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Repository
-public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
+@Transactional
+public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     private Class<T> tClass;
 
