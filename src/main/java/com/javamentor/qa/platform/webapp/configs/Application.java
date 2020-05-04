@@ -25,5 +25,4 @@ public class Application {
         return TestEntityInit.builder()
                 .build();
     }
-
 }

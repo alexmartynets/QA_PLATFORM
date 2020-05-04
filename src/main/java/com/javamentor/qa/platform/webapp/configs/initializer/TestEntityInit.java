@@ -1,6 +1,8 @@
 package com.javamentor.qa.platform.webapp.configs.initializer;
 
+import com.javamentor.qa.platform.dao.impl.model.testImpl.*;
 import com.javamentor.qa.platform.models.entity.Comment;
+import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.RelatedTag;
@@ -29,8 +31,20 @@ import java.util.logging.Logger;
 @Builder
 public class TestEntityInit {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(TestEntityInit.class);
+    @Autowired
+    private final TestClassRole testClassRole;
 
+    @Autowired
+    private final TestClassUser testClassUser;
+
+    @Autowired
+    private final TestClassQuestion testClassQuestion;
+
+    @Autowired
+    private final TestClassAnswer testClassAnswer;
+
+    @Autowired
+    private final TestClassComment testClassComment;
 //    @Autowired
 //    private Answer answer;
 //
@@ -65,14 +79,16 @@ public class TestEntityInit {
 
         // Создаем роли
         Role roleAdmin = Role.builder()
-                .id(1L)
+//                .id(1L)
                 .name("ADMIN")
                 .build();
+//        testClassRole.persist(roleAdmin);
 
         Role roleUser = Role.builder()
-                .id(2L)
+//                .id(2L)
                 .name("USER")
                 .build();
+//        testClassRole.persist(roleUser);
 
         // содаем и добавляем в БД регистрационные шаги для пользователей
 //        RegistrationStep rs1 = new RegistrationStep();
@@ -123,7 +139,7 @@ public class TestEntityInit {
 
         // тестовые аккаунты: admin 1
         User admin = User.builder()
-                .id(1L)
+//                .id(1L)
                 .email("admin@admin.ru")
                 .password("admin")
                 .fullName("Админ Админович Админов")
@@ -135,10 +151,11 @@ public class TestEntityInit {
                 .about("about admin")
                 .role(roleAdmin)
                 .build();
+//        testClassUser.persist(admin);
 
         // тестовые аккаунты: user 1
         User user1 = User.builder()
-                .id(2L)
+//                .id(2L)
                 .email("user1@user.ru")
                 .password("user1")
                 .fullName("Иван Иванович Иванов")
@@ -150,10 +167,11 @@ public class TestEntityInit {
                 .about("about user1")
                 .role(roleUser)
                 .build();
+//        testClassUser.persist(user1);
 
         // тестовые аккаунты: user 2
         User user2 = User.builder()
-                .id(3L)
+//                .id(3L)
                 .email("user2@user.ru")
                 .password("user2")
                 .fullName("Петр Петрович Петров")
@@ -165,10 +183,11 @@ public class TestEntityInit {
                 .about("about user2")
                 .role(roleAdmin)
                 .build();
+//        testClassUser.persist(user2);
 
         // тестовые сущности: tag 1
         Tag tag1 = Tag.builder()
-                .id(1L)
+//                .id(1L)
                 .name("Main tag1")
                 .description("Description tag1")
                 .persistDateTime(LocalDateTime.now())
@@ -176,7 +195,7 @@ public class TestEntityInit {
 
         // тестовые сущности: tag 2
         Tag tag2 = Tag.builder()
-                .id(2L)
+//                .id(2L)
                 .name("Main tag2")
                 .description("Description tag2")
                 .persistDateTime(LocalDateTime.now())
@@ -184,7 +203,7 @@ public class TestEntityInit {
 
         // тестовые сущности: question 1
         Question question1 = Question.builder()
-                .id(1L)
+//                .id(1L)
                 .title("Question1 title")
                 .viewCount(3)
                 .description("Question1 description")
@@ -201,7 +220,7 @@ public class TestEntityInit {
 
         // тестовые сущности: question 1
         Question question2 = Question.builder()
-                .id(2L)
+//                .id(2L)
                 .title("Question2 title")
                 .viewCount(4)
                 .description("Question2 description")
@@ -217,35 +236,60 @@ public class TestEntityInit {
         List<Question> questionList1 = new ArrayList<>();
         questionList1.add(question1);
         tag1.setQuestions(questionList1);
+//        testClassQuestion.persist(question1);
 
         // создание списка вопросов для тэга2
         List<Question> questionList2 = new ArrayList<>();
         questionList2.add(question1);
         questionList2.add(question2);
         tag2.setQuestions(questionList2);
+//        testClassQuestion.persist(question2);
 
         //todo не нашёл id пользователя - автора ответа
 
         // создание ответов для question1
         Answer answer1_1 = Answer.builder()
-                .id(1L)
+//                .id(1L)
+                .user(user2)
                 .countValuable(2)
                 .isHelpful(true)
                 .question(question1)
                 .dateAcceptTime(LocalDateTime.now())
                 .htmlBody("Helpfull answer for question 1")
                 .build();
+//        testClassAnswer.persist(answer1_1);
 
-        // создание ответов для question1
         Answer answer1_2 = Answer.builder()
-                .id(2L)
+//                .id(2L)
+                .user(user1)
                 .countValuable(2)
                 .question(question1)
                 .dateAcceptTime(LocalDateTime.now())
                 .htmlBody("Don't helpfull answer for question 1")
                 .build();
+//        testClassAnswer.persist(answer1_2);
+
+        Comment comment1 = Comment.builder()
+//                .id(1L)
+                .commentType(CommentType.ANSWER)
+                .persistDateTime(LocalDateTime.now())
+                .text("Comment 1 text")
+                .user(user1)
+                .build();
+//        testClassComment.persist(comment1);
+
+        CommentAnswer commentAnswer = CommentAnswer.builder()
+//                .id(1L)
+                .answer(answer1_1)
+                .comment(comment1)
+                .build();
 
 
+
+        Comment comment2 = Comment.builder()
+                .id(2L)
+                .commentType(CommentType.QUESTION)
+                .build();
 //        admin.("admin");
 //        admin.setPassword("admin");
 //        admin.setEmail("admin@gmail.com");
