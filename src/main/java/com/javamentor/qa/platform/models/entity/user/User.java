@@ -77,7 +77,7 @@ public class User implements UserDetails {
     private LocalDateTime lastUpdateDateTime;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id",nullable = false)
     private Role role;
 
@@ -140,5 +140,14 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(id, email, password, fullName, persistDateTime, isEnabled, reputationCount, city, linkSite, linkGitHub, linkVk, about, imageUser, lastUpdateDateTime);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }
