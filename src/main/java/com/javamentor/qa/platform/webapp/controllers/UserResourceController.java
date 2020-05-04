@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/user")
 public class UserResourceController {
-
-    @Autowired
-    private UserServiceImpl userService;
-
-    @PostMapping
-    public ResponseEntity<UserDto> addUser(@RequestBody User userDto) {
-
-        userService.persist(userDto);
-        return ResponseEntity.ok().build();
-    }
+//
+//    @Autowired
+//    private UserServiceImpl userService;
+//
+//    @PostMapping
+//    public ResponseEntity<UserDto> addUser(@RequestBody User userDto) {
+//
+//        userService.persist(userDto);
+//        return ResponseEntity.ok().build();
+//    }
 }

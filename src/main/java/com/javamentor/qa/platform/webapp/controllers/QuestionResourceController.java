@@ -13,13 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user/question")
 public class QuestionResourceController {
-
-    @Autowired
-    private UserServiceImpl userService;
-
-    @GetMapping
-    public ResponseEntity<List<QuestionDto>> questionPage() {
-        userService.getAll();
-        return ResponseEntity.ok().build();
-    }
+//
+//    @Autowired
+//    private UserServiceImpl userService;
+//
+//    @GetMapping
+//    public ResponseEntity<List<QuestionDto>> questionPage() {
+//        userService.getAll();
+//        return ResponseEntity.ok().build();
+//    }
 }
