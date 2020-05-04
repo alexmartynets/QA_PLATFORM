@@ -8,7 +8,7 @@ public interface AbstractDAO<T, PK> {
 
     void update(T t);
 
-    void delete (T t);
+    void delete(T t);
 
     void deleteByKeyCascadeEnable(PK id);
 
@@ -19,4 +19,6 @@ public interface AbstractDAO<T, PK> {
     T getByKey(PK id);
 
     List<T> getAll();
+
+
 }

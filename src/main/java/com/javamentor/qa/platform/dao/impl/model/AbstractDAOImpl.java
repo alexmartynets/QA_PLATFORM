@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.dao.impl.model;
 import com.javamentor.qa.platform.dao.abstracrt.model.AbstractDAO;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,18 +12,22 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Repository
-public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
+@Transactional
+public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
-    private Class<T> tClass;
+    protected Class<T> tClass;
+//    private String tClassName;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     public AbstractDAOImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
                 .getActualTypeArguments()[0];
+//        this.tClassName = tClass.getName().substring(tClass.getName().lastIndexOf(".") + 1);
     }
+
 
     @Override
     public void persist(T t) {
@@ -41,18 +46,15 @@ public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     @Override
     public void deleteByKeyCascadeEnable(PK id) {
-        if (existsById(id)) {
-            entityManager.remove(getByKey(id));
-        }
+        entityManager.remove(getByKey(id));
     }
 
     @Override
     public void deleteByKeyCascadeIgnore(PK id) {
-        if (existsById(id)) {
-            Query query = entityManager.createQuery("DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
-            query.setParameter("id", id);
-            query.executeUpdate();
-        }
+        Query query = entityManager.createQuery(
+                "DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 
     @Override
@@ -70,3 +72,17 @@ public class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
         return entityManager.createQuery("from " + tClass.getName()).getResultList();
     }
 }
+
+/*@Service
+class UserServiceImpl implements UserService{
+
+   AbstractDAOImpl<User, Long> dao;
+
+   @Autowired
+   public void setDao(AbstractDAOImpl<User, Long> daoToSet) {
+      dao = daoToSet;
+      dao.setClazz(User.class);
+   }
+
+   // ...
+}*/
