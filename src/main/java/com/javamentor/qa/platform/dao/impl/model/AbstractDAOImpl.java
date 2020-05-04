@@ -16,7 +16,6 @@ import java.util.List;
 public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     protected Class<T> tClass;
-//    private String tClassName;
 
     @PersistenceContext
     protected EntityManager entityManager;
@@ -25,7 +24,6 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
                 .getActualTypeArguments()[0];
-//        this.tClassName = tClass.getName().substring(tClass.getName().lastIndexOf(".") + 1);
     }
 
 
@@ -72,17 +70,3 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
         return entityManager.createQuery("from " + tClass.getName()).getResultList();
     }
 }
-
-/*@Service
-class UserServiceImpl implements UserService{
-
-   AbstractDAOImpl<User, Long> dao;
-
-   @Autowired
-   public void setDao(AbstractDAOImpl<User, Long> daoToSet) {
-      dao = daoToSet;
-      dao.setClazz(User.class);
-   }
-
-   // ...
-}*/
