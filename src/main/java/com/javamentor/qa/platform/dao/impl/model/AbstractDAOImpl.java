@@ -15,10 +15,10 @@ import java.util.List;
 @Transactional
 public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
-    private Class<T> tClass;
+    protected Class<T> tClass;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     public AbstractDAOImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
