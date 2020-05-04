@@ -1,4 +1,4 @@
-package com.javamentor.qa.platform.dao.abstracrt.model;
-
-public interface QuestionDAO<T, PK> {
-}
+//package com.javamentor.qa.platform.dao.abstracrt.model;
+//
+//public interface QuestionDAO<T, PK> {
+//}
