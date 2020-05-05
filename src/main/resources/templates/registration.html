@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="#" class="btn btn-primary btn-block" >Log in</a>
+                    <a href="#" class="btn btn-primary btn-block">Log in</a>
                 </li>
                 <label class="interval-label"></label>
                 <li class="nav-item">
@@ -67,20 +67,30 @@
                                 <form id="registration" action="#" method="post">
                                     <div class="form-group">
                                         <label for="username" class="control-label">Name</label>
-                                        <input name="username" type="text" class="form-control" placeholder="username" id="username">
+                                        <input name="username" type="text" class="form-control" placeholder="username"
+                                               id="username" data-toggle="tooltip" data-placement="right"
+                                               title="Введите коретное имя">
                                     </div>
                                     <div class="form-group">
-                                        <label for="email" class="control-label" >Email</label>
-                                        <input name="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="email" id="email">
-                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                        <label for="email" class="control-label">Email</label>
+                                        <input name="email" type="email" class="form-control"
+                                               placeholder="email" id="email"
+                                               data-toggle="tooltip" data-placement="right"
+                                               title="Введите коретный email">
+                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email
+                                            with anyone else.</small>
                                     </div>
-                                    <label for= "password" class="control-label">Password</label>
+                                    <label for="password" class="control-label">Password</label>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" aria-describedby="passwordHelp" placeholder="password" id="password">
-                                        <small id="passwordHelp" class="form-text text-muted">Passwords must contain at least eight characters, including at least 1 letter and 1 number.</small>
+                                        <input type="password" class="form-control" placeholder="password" id="password"
+                                               data-toggle="tooltip" data-placement="right"
+                                               title="Введите коретный password">
+                                        <small id="passwordHelp" class="form-text text-muted">Passwords must contain at
+                                            least eight characters, including at least 1 letter and 1 number.</small>
                                     </div>
                                     <span class="btn-label"></span>
-                                    <button type="submit" class="btn btn-primary btn-block" id="sign_up">Sign up</button>
+                                    <button type="submit" class="btn btn-primary btn-block" id="sign_up">Sign up
+                                    </button>
                                 </form>
                             </div>
                         </div>

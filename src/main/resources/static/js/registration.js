@@ -5,10 +5,15 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
 
         let data = new Data();
+        let result = data.validateForm();
 
-        let dataForm = data.collectDataForm();
+        if (result){
+            $(".tooltip").remove();
 
-        data.sendDataForm(dataForm, '/#', 'post');
+            let dataForm = data.collectDataForm();
+            data.sendDataForm(dataForm, '/#', 'post');
+
+        }
 
         $("#registration")[0].reset();
 
@@ -51,6 +56,43 @@ class Data {
             "email": $("#email").val(),
             "password": $("#password").val()
         };
+    }
+
+    // проверка формы регистрации
+    validateForm() {
+
+        let valid;
+        let username = $("#username").val();
+        let email = $('#email').val();
+        let password = $('#password').val();
+
+        if (username.length < 1) {
+            $('#username').tooltip('enable');
+            return valid = false;
+        }
+        if (email.length < 1) {
+            $('#email').tooltip('show');
+            return valid = false;
+        } else {
+            let regEx = /@/;
+            let validEmail = regEx.test(email);
+            if (!validEmail) {
+                $('#email').tooltip('show');
+                return valid = false;
+            }
+        }
+        if (password.length < 8) {
+            $('#password').tooltip('show');
+            return valid = false;
+        } else {
+            let regEx = /[0-9][A-Za-z]/;
+            let validPassword = regEx.test(password);
+            if (!validPassword) {
+                $('#password').tooltip('show');
+                return valid = false;
+            }
+        }
+        return valid = true;
     }
 }
 
