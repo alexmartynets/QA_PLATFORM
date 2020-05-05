@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequestMapping("/api/user")
 public class UserResourceController {
     private final UserServiceImpl userService;
-    private final UserConverter userConverter;
+    protected UserConverter userConverter;
 
     @PostMapping
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {

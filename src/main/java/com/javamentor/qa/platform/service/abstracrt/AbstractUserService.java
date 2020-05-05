@@ -4,5 +4,4 @@ import com.javamentor.qa.platform.dao.impl.model.UserDaoImpl;
 
 
 public abstract class AbstractUserService<T, PK> extends UserDaoImpl<T, PK> {
-
 }
