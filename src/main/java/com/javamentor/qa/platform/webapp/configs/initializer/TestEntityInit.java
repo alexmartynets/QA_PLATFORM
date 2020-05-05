@@ -3,8 +3,10 @@ package com.javamentor.qa.platform.webapp.configs.initializer;
 import com.javamentor.qa.platform.dao.impl.model.testImpl.Comment.TestClassComment;
 import com.javamentor.qa.platform.dao.impl.model.testImpl.Comment.TestClassCommentAnswer;
 import com.javamentor.qa.platform.dao.impl.model.testImpl.*;
+import com.javamentor.qa.platform.dao.impl.model.testImpl.Comment.TestClassCommentQuestion;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
+import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.Tag;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
@@ -52,6 +54,9 @@ public class TestEntityInit {
 
     @Autowired
     private final TestClassCommentAnswer testClassCommentAnswer;
+
+    @Autowired
+    private final TestClassCommentQuestion testClassCommentQuestion;
 
     private void init() throws Exception {
 
@@ -204,32 +209,40 @@ public class TestEntityInit {
                 .text("Comment 1 text")
                 .user(user1)
                 .build();
-        testClassComment.persist(comment1);
 
         CommentAnswer commentAnswer = CommentAnswer.builder()
                 .comment(comment1)
                 .answer(answer1_1)
                 .build();
-//        testClassCommentAnswer.persist(commentAnswer);
-
+        testClassCommentAnswer.persist(commentAnswer);
 
         Comment comment2 = Comment.builder()
-                .commentType(CommentType.QUESTION)
+                .commentType(CommentType.ANSWER)
                 .persistDateTime(LocalDateTime.now())
                 .lastUpdateDateTime(LocalDateTime.now())
                 .text("Comment 2 text")
                 .user(user1)
                 .build();
-        testClassComment.persist(comment2);
+
+        CommentAnswer commentAnswer2 = CommentAnswer.builder()
+                .comment(comment2)
+                .answer(answer1_1)
+                .build();
+        testClassCommentAnswer.persist(commentAnswer2);
 
         Comment comment3 = Comment.builder()
                 .commentType(CommentType.QUESTION)
                 .persistDateTime(LocalDateTime.now())
                 .lastUpdateDateTime(LocalDateTime.now())
                 .text("Comment 3 text")
-                .user(user1)
+                .user(user2)
                 .build();
-        testClassComment.persist(comment3);
+
+        CommentQuestion commentQuestion1 = CommentQuestion.builder()
+                .comment(comment3)
+                .question(question1)
+                .build();
+        testClassCommentQuestion.persist(commentQuestion1);
 
         UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
                 .user(testClassUser.getByKey(2L))
