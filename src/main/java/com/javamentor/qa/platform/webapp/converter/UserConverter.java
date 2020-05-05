@@ -8,7 +8,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class UserConverter {
-    public abstract User toUser(UserDto userDto);
-    public abstract UserDto toUserDto(User user);
-    public abstract List<UserDto> toUserDtos(List<User> users);
+    public abstract User toEntity(UserDto userDto);
+    public abstract UserDto toDto(User user);
+    public abstract List<User> toEntityList(List<UserDto> entityList);
+    public abstract List<UserDto> toDtoList(List<User> dtoList);
 }

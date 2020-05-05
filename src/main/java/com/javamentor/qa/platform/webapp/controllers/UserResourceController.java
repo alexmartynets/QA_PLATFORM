@@ -15,31 +15,32 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/user")
 public class UserResourceController {
+
     private final UserServiceImpl userService;
-    protected UserConverter userConverter;
+    private final UserConverter userConverter;
 
     @PostMapping
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
-        userService.persist(userConverter.toUser(userDto));
+        userService.persist(userConverter.toEntity(userDto));
         return ResponseEntity.ok().body(userDto);
     }
 
     @GetMapping
     public ResponseEntity<List<UserDto>> findAllUsers() {
-        return ResponseEntity.ok(userConverter.toUserDtos(userService.getAll()));
+        return ResponseEntity.ok(userConverter.toDtoList(userService.getAll()));
     }
 
-    @PutMapping("/api/user/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        User user = userConverter.toUser(userDto);
+        User user = userConverter.toEntity(userDto);
         user.setId(id);
         userService.persist(user);
         return ResponseEntity.ok().body(userDto);
     }
 
-    @GetMapping("/api/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDto> findUser (@PathVariable Long id) {
         Optional<User> user = Optional.ofNullable(userService.getByKey(id));
-        return ResponseEntity.ok(userConverter.toUserDto(user.get()));
+        return ResponseEntity.ok(userConverter.toDto(user.get()));
     }
 }
