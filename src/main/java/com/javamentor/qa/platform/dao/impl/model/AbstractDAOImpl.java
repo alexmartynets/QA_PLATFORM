@@ -1,10 +1,7 @@
 package com.javamentor.qa.platform.dao.impl.model;
-
 import com.javamentor.qa.platform.dao.abstracrt.model.AbstractDAO;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -20,14 +17,12 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     @PersistenceContext
     protected EntityManager entityManager;
-
     public AbstractDAOImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
                 .getActualTypeArguments()[0];
 //        this.tClassName = tClass.getName().substring(tClass.getName().lastIndexOf(".") + 1);
     }
-
 
     @Override
     public void persist(T t) {
@@ -42,7 +37,7 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
     @Override
     public void delete(T t) {
         entityManager.remove(t);
-    }
+}
 
     @Override
     public void deleteByKeyCascadeEnable(PK id) {
@@ -72,17 +67,3 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
         return entityManager.createQuery("from " + tClass.getName()).getResultList();
     }
 }
-
-/*@Service
-class UserServiceImpl implements UserService{
-
-   AbstractDAOImpl<User, Long> dao;
-
-   @Autowired
-   public void setDao(AbstractDAOImpl<User, Long> daoToSet) {
-      dao = daoToSet;
-      dao.setClazz(User.class);
-   }
-
-   // ...
-}*/

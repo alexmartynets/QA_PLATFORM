@@ -1,35 +1,30 @@
 package com.javamentor.qa.platform.webapp.configs.initializer;
 
+import com.javamentor.qa.platform.dao.impl.model.testImpl.Comment.TestClassComment;
+import com.javamentor.qa.platform.dao.impl.model.testImpl.Comment.TestClassCommentAnswer;
 import com.javamentor.qa.platform.dao.impl.model.testImpl.*;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
-import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
 import com.javamentor.qa.platform.models.entity.question.Question;
-import com.javamentor.qa.platform.models.entity.question.RelatedTag;
 import com.javamentor.qa.platform.models.entity.question.Tag;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
 import com.javamentor.qa.platform.models.entity.user.Role;
 import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
+import com.javamentor.qa.platform.service.impl.RoleServiceTest;
 import lombok.Builder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Builder
 public class TestEntityInit {
+
+    private static Logger log = Logger.getLogger(TestEntityInit.class.getName());
 
     @Autowired
     private final TestClassRole testClassRole;
@@ -45,101 +40,34 @@ public class TestEntityInit {
 
     @Autowired
     private final TestClassComment testClassComment;
-//    @Autowired
-//    private Answer answer;
-//
-//    @Autowired
-//    private CommentAnswer commentAnswer;
-//
-//    @Autowired
-//    private Question question;
-//
-//    @Autowired
-//    private CommentQuestion commentQuestion;
-//
-//    @Autowired
-//    private Tag tag;
-//
-//    @Autowired
-//    private RelatedTag relatedTag;
 
-//    @Autowired
-//    private Role role;
+    @Autowired
+    private final TestClassTag testClassTag;
 
-//    @Autowired
-//    private User user;
+    @Autowired
+    private final RoleServiceTest roleServiceTest;
 
-//    @Autowired
-//    private UserFavoriteQuestion userFavoriteQuestion;
-//
-//    @Autowired
-//    private Comment comment;
+    @Autowired
+    private final TestUserFavoriteQuestion testUserFavoriteQuestion;
+
+    @Autowired
+    private final TestClassCommentAnswer testClassCommentAnswer;
 
     private void init() throws Exception {
 
         // Создаем роли
         Role roleAdmin = Role.builder()
-//                .id(1L)
                 .name("ADMIN")
                 .build();
-//        testClassRole.persist(roleAdmin);
+        testClassRole.persist(roleAdmin);
 
         Role roleUser = Role.builder()
-//                .id(2L)
                 .name("USER")
                 .build();
-//        testClassRole.persist(roleUser);
-
-        // содаем и добавляем в БД регистрационные шаги для пользователей
-//        RegistrationStep rs1 = new RegistrationStep();
-//        rs1.setName("registration-step-user");
-//        registrationStepService.save(rs1);
-//
-//        RegistrationStep rs2 = new RegistrationStep();
-//        rs2.setName("registration-step-company");
-//        registrationStepService.save(rs2);
-//
-//        RegistrationStep rs3 = new RegistrationStep();
-//        rs3.setName("registration-step-address");
-//        registrationStepService.save(rs3);
-//
-//        RegistrationStep rsFinal = new RegistrationStep();
-//        rsFinal.setName("registration-step-end");
-//        registrationStepService.save(rsFinal);
-
-//        private Long id;
-//
-//        private String email;
-//
-//        private String password;
-//
-//        private String fullName;
-//
-//        private LocalDateTime persistDateTime;
-//
-//        private Boolean isEnabled = true;
-//
-//        private Integer reputationCount;
-//
-//        private String city;
-//
-//        private String linkSite;
-//
-//        private String linkGitHub;
-//
-//        private String linkVk;
-//
-//        private String about;
-//
-//        private Blob imageUser;
-//
-//        private LocalDateTime lastUpdateDateTime;
-//
-//        private Role role;
+        testClassRole.persist(roleUser);
 
         // тестовые аккаунты: admin 1
         User admin = User.builder()
-//                .id(1L)
                 .email("admin@admin.ru")
                 .password("admin")
                 .fullName("Админ Админович Админов")
@@ -149,13 +77,13 @@ public class TestEntityInit {
                 .linkGitHub("github.admin.ru")
                 .linkVk("vk.admin.ru")
                 .about("about admin")
-                .role(roleAdmin)
+                .role(testClassRole.getByKey(1L))
+                .isEnabled(true)
                 .build();
-//        testClassUser.persist(admin);
+        testClassUser.persist(admin);
 
         // тестовые аккаунты: user 1
         User user1 = User.builder()
-//                .id(2L)
                 .email("user1@user.ru")
                 .password("user1")
                 .fullName("Иван Иванович Иванов")
@@ -165,14 +93,15 @@ public class TestEntityInit {
                 .linkGitHub("github.user1.ru")
                 .linkVk("vk.user1.ru")
                 .about("about user1")
-                .role(roleUser)
+                .role(testClassRole.getByKey(2L))
+                .isEnabled(true)
                 .build();
-//        testClassUser.persist(user1);
+        testClassUser.persist(user1);
 
-        // тестовые аккаунты: user 2
+//         тестовые аккаунты: user 2
         User user2 = User.builder()
-//                .id(3L)
                 .email("user2@user.ru")
+                .isEnabled(true)
                 .password("user2")
                 .fullName("Петр Петрович Петров")
                 .reputationCount(3)
@@ -181,34 +110,33 @@ public class TestEntityInit {
                 .linkGitHub("github.user2.ru")
                 .linkVk("vk.user2.ru")
                 .about("about user2")
-                .role(roleAdmin)
+                .role(testClassRole.getByKey(2L))
                 .build();
-//        testClassUser.persist(user2);
+        testClassUser.persist(user2);
 
         // тестовые сущности: tag 1
         Tag tag1 = Tag.builder()
-//                .id(1L)
                 .name("Main tag1")
                 .description("Description tag1")
                 .persistDateTime(LocalDateTime.now())
                 .build();
+        testClassTag.persist(tag1);
 
         // тестовые сущности: tag 2
         Tag tag2 = Tag.builder()
-//                .id(2L)
                 .name("Main tag2")
                 .description("Description tag2")
                 .persistDateTime(LocalDateTime.now())
                 .build();
+        testClassTag.persist(tag2);
 
         // тестовые сущности: question 1
         Question question1 = Question.builder()
-//                .id(1L)
                 .title("Question1 title")
                 .viewCount(3)
                 .description("Question1 description")
                 .persistDateTime(LocalDateTime.now())
-                .user(user1)
+                .user(testClassUser.getByKey(2L))
                 .countValuable(2)
                 .build();
 
@@ -220,32 +148,30 @@ public class TestEntityInit {
 
         // тестовые сущности: question 1
         Question question2 = Question.builder()
-//                .id(2L)
                 .title("Question2 title")
                 .viewCount(4)
                 .description("Question2 description")
                 .persistDateTime(LocalDateTime.now())
-                .user(user2)
+                .user(testClassUser.getByKey(3L))
                 .countValuable(2)
                 .build();
+
         List<Tag> tagList2 = new ArrayList<>();
         tagList2.add(tag2);
         question2.setTags(tagList2);
 
         // создание списка вопросов для тэга1
         List<Question> questionList1 = new ArrayList<>();
-        questionList1.add(question1);
+        questionList1.add(testClassQuestion.getByKey(1L));
         tag1.setQuestions(questionList1);
-//        testClassQuestion.persist(question1);
+        testClassQuestion.persist(question1);
 
         // создание списка вопросов для тэга2
         List<Question> questionList2 = new ArrayList<>();
         questionList2.add(question1);
         questionList2.add(question2);
         tag2.setQuestions(questionList2);
-//        testClassQuestion.persist(question2);
-
-        //todo не нашёл id пользователя - автора ответа
+        testClassQuestion.persist(question2);
 
         // создание ответов для question1
         Answer answer1_1 = Answer.builder()
@@ -255,50 +181,61 @@ public class TestEntityInit {
                 .isHelpful(true)
                 .question(question1)
                 .dateAcceptTime(LocalDateTime.now())
+                .persistDateTime(LocalDateTime.now())
                 .htmlBody("Helpfull answer for question 1")
                 .build();
-//        testClassAnswer.persist(answer1_1);
+        testClassAnswer.persist(answer1_1);
 
         Answer answer1_2 = Answer.builder()
-//                .id(2L)
                 .user(user1)
                 .countValuable(2)
                 .question(question1)
                 .dateAcceptTime(LocalDateTime.now())
+                .persistDateTime(LocalDateTime.now())
+                .isHelpful(false)
                 .htmlBody("Don't helpfull answer for question 1")
                 .build();
-//        testClassAnswer.persist(answer1_2);
+        testClassAnswer.persist(answer1_2);
 
         Comment comment1 = Comment.builder()
-//                .id(1L)
                 .commentType(CommentType.ANSWER)
                 .persistDateTime(LocalDateTime.now())
+                .lastUpdateDateTime(LocalDateTime.now())
                 .text("Comment 1 text")
                 .user(user1)
                 .build();
-//        testClassComment.persist(comment1);
+        testClassComment.persist(comment1);
 
         CommentAnswer commentAnswer = CommentAnswer.builder()
-//                .id(1L)
-                .answer(answer1_1)
                 .comment(comment1)
+                .answer(answer1_1)
                 .build();
-
+//        testClassCommentAnswer.persist(commentAnswer);
 
 
         Comment comment2 = Comment.builder()
-                .id(2L)
                 .commentType(CommentType.QUESTION)
+                .persistDateTime(LocalDateTime.now())
+                .lastUpdateDateTime(LocalDateTime.now())
+                .text("Comment 2 text")
+                .user(user1)
                 .build();
-//        admin.("admin");
-//        admin.setPassword("admin");
-//        admin.setEmail("admin@gmail.com");
-//        Set<Role> adminRoles = new HashSet<>();
-//        adminRoles.add(roleAdmin);
-//        adminRoles.add(roleUser);
-//        admin.setRoles(adminRoles);
-//        userService.addUser(admin);
+        testClassComment.persist(comment2);
 
+        Comment comment3 = Comment.builder()
+                .commentType(CommentType.QUESTION)
+                .persistDateTime(LocalDateTime.now())
+                .lastUpdateDateTime(LocalDateTime.now())
+                .text("Comment 3 text")
+                .user(user1)
+                .build();
+        testClassComment.persist(comment3);
+
+        UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
+                .user(testClassUser.getByKey(2L))
+                .persistDateTime(LocalDateTime.now())
+                .question(testClassQuestion.getByKey(2L))
+                .build();
+        testUserFavoriteQuestion.persist(userFavoriteQuestion);
     }
-
 }
