@@ -56,7 +56,7 @@ public class CommentResourceController {
     * Сохранить комментарий к вопросу/ответу отличать по CommentType брать из сущности?
     * нужен id вопроса/ответа где брать?
     * Какой будет URL у запроса
-    * Сосхонять в таблицу CommentQuestion id Question и id Comment или перезаписывать
+    * Сосхонять в таблицу CommentQuestion id Question(из запроса) и id Comment(еще не создан) или перезаписывать
     * */
     @PostMapping
     public ResponseEntity<Comment> saveComment(@RequestBody Comment comment) {
@@ -70,7 +70,7 @@ public class CommentResourceController {
      * Обновлять комментарий к вопросу/ответу отличать по CommentType брать из сущности?
      * нужен id вопроса/ответа где брать?
      * Какой будет URL у запроса
-     * Сосхонять в таблицу CommentAnswer id Answer и id Comment или перезаписывать
+     * Сосхонять в таблицу CommentAnswer id Answer(из запроса) и id Comment(из запроса) или перезаписывать
      * */
     @PutMapping
     public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
