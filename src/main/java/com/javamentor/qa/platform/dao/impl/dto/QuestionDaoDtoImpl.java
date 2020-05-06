@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.dao.impl.dto;
 import com.javamentor.qa.platform.dao.abstracrt.dto.QuestionDaoDto;
 import com.javamentor.qa.platform.dao.impl.model.AbstractDAOImpl;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.dto.TagDto;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
@@ -41,8 +42,8 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
         return Optional.ofNullable(questionDto);
     }
 
-    private List<String> getTagsByQuestionId(@NotNull Long questionId) {
-        List<String> tags = new ArrayList<>();
+    private List<TagDto> getTagsByQuestionId(@NotNull Long questionId) {
+        List<TagDto> tags = new ArrayList<>();
         try {
            tags = entityManager.createNativeQuery("SELECT t.name FROM tag t LEFT JOIN question_has_tag qht on t.id = qht.tag_id WHERE qht.question_id = :questionId")
                    .setParameter("questionId", questionId).getResultList();
