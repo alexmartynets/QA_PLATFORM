@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+
 @Repository
 @Transactional
 public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {

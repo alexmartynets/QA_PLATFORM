@@ -1,11 +1,8 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
-import com.javamentor.qa.platform.models.dto.CommentDto;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.service.impl.CommentServiceImp;
-import com.javamentor.qa.platform.webapp.converter.CommentConverter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +37,8 @@ public class CommentResourceController {
     * Нужно по answerId получить список всех комментов к ответу
     * Какой будет URL у запроса
     * */
-    @GetMapping("/answer/{answerId}/comment")
-    public ResponseEntity<List<Comment>> getCommentsToAnswer(@PathVariable Long answerId) {
+    @GetMapping("/question/{questionId}/anwer/answer/{answerId}/comment")
+    public ResponseEntity<List<Comment>> getCommentsToAnswer(@PathVariable Long questionId, @PathVariable Long answerId) {
         if (answerId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
