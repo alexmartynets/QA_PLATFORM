@@ -9,9 +9,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public abstract class CommentConverter {
 
-    public abstract Comment toComment(CommentDto userDto);
-    public abstract CommentDto toCommentDto(Comment user);
-    public abstract List<CommentDto> toListCommentDto(List<Comment> users);
+//    public abstract Comment toComment(CommentDto userDto);
+//    public abstract CommentDto toCommentDto(Comment user);
+//    public abstract List<CommentDto> toListCommentDto(List<Comment> users);
 
 }
 
