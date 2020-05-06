@@ -58,7 +58,7 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
     }
 
     @Override
-    public boolean existsById(PK id) {          //id or Key
+    public boolean existsById(PK id) {
         return entityManager.find(tClass, id) != null;
     }
 
