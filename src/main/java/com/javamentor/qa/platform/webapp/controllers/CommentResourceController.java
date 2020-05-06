@@ -20,7 +20,10 @@ public class CommentResourceController {
 
     private final CommentServiceImp serviceImp;
 
-    //  todo Get - нужно по questionId получить список всех коменнтов
+    /*
+    * Нужно по questionId получить список всех коменнтов к вопросу
+    * Какой будет URL у запроса
+    * */
     @GetMapping("/question/{questionId}/comment")
     public ResponseEntity<List<Comment>> getCommentsToQuestion(@PathVariable Long questionId) {
         if (questionId == null) {
@@ -33,7 +36,10 @@ public class CommentResourceController {
         return ResponseEntity.ok().body(list);
     }
 
-    //  todo Get - Get - нужно по answerId получить список всех комментов
+    /*
+    * Нужно по answerId получить список всех комментов к ответу
+    * Какой будет URL у запроса
+    * */
     @GetMapping("/answer/{answerId}/comment")
     public ResponseEntity<List<Comment>> getCommentsToAnswer(@PathVariable Long answerId) {
         if (answerId == null) {
@@ -46,22 +52,31 @@ public class CommentResourceController {
         return ResponseEntity.ok().body(list);
     }
 
+    /*
+    * Сохранить комментарий к вопросу/ответу отличать по CommentType брать из сущности?
+    * нужен id вопроса/ответа где брать?
+    * Какой будет URL у запроса
+    * Сосхонять в таблицу CommentQuestion id Question и id Comment или перезаписывать
+    * */
     @PostMapping
     public ResponseEntity<Comment> saveComment(@RequestBody Comment comment) {
         if (comment == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         serviceImp.saveComment(comment);
         return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
-
+    /*
+     * Обновлять комментарий к вопросу/ответу отличать по CommentType брать из сущности?
+     * нужен id вопроса/ответа где брать?
+     * Какой будет URL у запроса
+     * Сосхонять в таблицу CommentAnswer id Answer и id Comment или перезаписывать
+     * */
     @PutMapping
     public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
         if (comment == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         serviceImp.updateComment(comment);
         return ResponseEntity.ok().body(comment);
     }

@@ -37,3 +37,6 @@ public class CommentServiceImp {
         return list;
     }
 }
+/*
+* Нужен ковертер для сушностей
+* */

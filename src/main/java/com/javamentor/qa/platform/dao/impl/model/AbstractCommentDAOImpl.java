@@ -32,3 +32,7 @@ public abstract class AbstractCommentDAOImpl extends AbstractDAOImpl<Comment, Lo
         return list.isEmpty() ? null : list;
     }
 }
+
+/*
+* Какая иеархия?
+* */

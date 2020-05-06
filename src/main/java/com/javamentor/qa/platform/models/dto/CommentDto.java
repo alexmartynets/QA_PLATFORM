@@ -39,3 +39,7 @@ public class CommentDto {
     private User user;
 
 }
+
+/*
+* Какие поля оставлять?
+* */
