@@ -20,11 +20,13 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
     @PersistenceContext
     protected EntityManager entityManager;
 
+    @SuppressWarnings("unchecked")
     public AbstractDAOImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
                 .getActualTypeArguments()[0];
     }
+
 
     @Override
     public void persist(T t) {
@@ -43,18 +45,15 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     @Override
     public void deleteByKeyCascadeEnable(PK id) {
-        if (existsById(id)) {
-            entityManager.remove(getByKey(id));
-        }
+        entityManager.remove(entityManager.find(tClass, id));
     }
 
     @Override
     public void deleteByKeyCascadeIgnore(PK id) {
-        if (existsById(id)) {
-            Query query = entityManager.createQuery("DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
-            query.setParameter("id", id);
-            query.executeUpdate();
-        }
+        Query query = entityManager.createQuery(
+                "DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 
     @Override
@@ -67,6 +66,7 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
         return entityManager.find(tClass, id);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<T> getAll() {
         return entityManager.createQuery("from " + tClass.getName()).getResultList();
