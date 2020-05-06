@@ -1,4 +1,4 @@
-package com.javamentor.qa.platform.webapp.controllers.rest;
+package com.javamentor.qa.platform.webapp.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
