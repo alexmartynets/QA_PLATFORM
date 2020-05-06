@@ -16,7 +16,6 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionDto> getAll() {
-        List<Long> listQuestionId = questionDaoDto.getListQuestionId();
-        return questionDaoDto.getListQuestionDtoByListQuestionId(listQuestionId);
+        return questionDaoDto.getListQuestionDto();
     }
 }
