@@ -8,6 +8,7 @@ import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +22,20 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
     public Optional<QuestionDto> getQuestionDtoByQuestionId(@NotNull Long questionId) {
         QuestionDto questionDto = null;
         try {
-            questionDto = (QuestionDto) entityManager.createNativeQuery("SELECT q.user_id, u.full_name, u.reputation_count, q FROM question q LEFT JOIN" +
-                    " users u ON q.user_id = u.id WHERE q.id = :questionId")
+            questionDto = (QuestionDto) entityManager.createNativeQuery("SELECT " +
+                    "q.id AS \"id\", " +
+                    "q.title AS \"title\", " +
+                    "u.full_name AS \"username\", " +
+                    "u.reputation_count AS \"reputationCount\", " +
+                    "q.view_count AS \"viewCount\", " +
+                    "q.count_valuable AS \"countValuable\", q.persist_date AS \"persistDateTime\" " +
+                    "FROM question q, users u WHERE q.id = :questionId")
+
                     .setParameter("questionId", questionId)
                     .unwrap(NativeQuery.class)
                     .setResultTransformer(Transformers.aliasToBean(QuestionDto.class))
                     .getSingleResult();
+            questionDto.setId((Long) questionDto.getId());
             if (checkTagsByQuestionId(questionId)){
                 questionDto.setTag_name(getTagsByQuestionId(questionId));
             }
