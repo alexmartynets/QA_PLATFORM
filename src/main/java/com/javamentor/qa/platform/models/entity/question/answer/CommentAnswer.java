@@ -46,7 +46,7 @@ public class CommentAnswer {
     }
 
     private void checkConstraints() {
-        if (this.comment.getCommentType() != CommentType.QUESTION) {
+        if (this.comment.getCommentType() != CommentType.ANSWER) {
             throw new RuntimeException("У экземпляра Comment, связанного с CommentAnswer, " +
                     "поле commentType должно принимать значение CommentType.ANSWER");
         }

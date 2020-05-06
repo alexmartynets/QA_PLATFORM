@@ -24,17 +24,16 @@ public class CommentServiceImp {
     }
 
     public List<Comment> getCommentsToQuestion(Long questionId) {
-        List<Comment> list = commentDAO.getCommentsToQuestion(questionId);
-//        List<CommentDto> dtoList = list.stream().map(CommentConverter.INSTANCE::toCommentDto).collect(Collectors.toList());
+        //        List<CommentDto> dtoList = list.stream().map(CommentConverter.INSTANCE::toCommentDto).collect(Collectors.toList());
 //       list.forEach(System.out::println);
-        return list;
+        return commentDAO.getCommentsToQuestion(questionId);
     }
 
     public List<Comment> getCommentsToAnswer(Long answerId) {
-        List<Comment> list = commentDAO.getCommentsToAnswer(answerId);
-//        List<CommentDto> dtoList = list.stream().map(CommentConverter.INSTANCE::toCommentDto).collect(Collectors.toList());
+
+        //        List<CommentDto> dtoList = list.stream().map(CommentConverter.INSTANCE::toCommentDto).collect(Collectors.toList());
 //        list.forEach(System.out::println);
-        return list;
+        return commentDAO.getCommentsToAnswer(answerId);
     }
 }
 /*

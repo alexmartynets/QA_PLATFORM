@@ -22,20 +22,11 @@ public class CommentDto {
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
     @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значние при обновлении")
     private Long id;
-
-    @NotNull
     private String text;
-
-    @NotNull
     private CommentType commentType;
-
-    @NotNull
     private LocalDateTime persistDateTime;
-
-    @NotNull
     private LocalDateTime lastUpdateDateTime;
 
-    @NotNull
     private User user;
 
 }
