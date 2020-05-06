@@ -10,15 +10,10 @@ public interface AbstractDAO<T, PK> {
 
     void delete(T t);
 
-    void deleteByKeyCascadeEnable(PK id);
-
-    void deleteByKeyCascadeIgnore(PK id);
-
     boolean existsById(PK id);
 
     T getByKey(PK id);
 
     List<T> getAll();
-
 
 }

@@ -14,7 +14,6 @@ import javax.annotation.PostConstruct;
 @EntityScan("com.javamentor.qa.platform.models.entity")
 public class Application {
 
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -22,7 +21,6 @@ public class Application {
     @Bean(initMethod = "init")
     @PostConstruct
     public TestEntityInit initTestData() {
-        return TestEntityInit.builder()
-                .build();
+        return TestEntityInit.builder().build();
     }
 }
