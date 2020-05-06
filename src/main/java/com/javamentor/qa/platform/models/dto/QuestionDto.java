@@ -12,7 +12,7 @@ public class QuestionDto {
     private Long id;
     private String title;
     private String username;
-    private List<String> tag_name;
+    private List<TagDto> tagName;
     private Integer reputationCount;
     private Integer viewCount = 0;
     private Integer countAnswer = 0;

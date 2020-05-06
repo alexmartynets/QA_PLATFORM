@@ -8,7 +8,6 @@ import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,18 +34,11 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
                     .unwrap(NativeQuery.class)
                     .setResultTransformer(Transformers.aliasToBean(QuestionDto.class))
                     .getSingleResult();
-            questionDto.setId((Long) questionDto.getId());
-            if (checkTagsByQuestionId(questionId)){
-                questionDto.setTag_name(getTagsByQuestionId(questionId));
-            }
+                questionDto.setTagName(getTagsByQuestionId(questionId));
         } catch (Exception e){
             e.printStackTrace();
         }
         return Optional.ofNullable(questionDto);
-    }
-
-    private boolean checkTagsByQuestionId(@NotNull Long questionId) {
-        return getTagsByQuestionId(questionId) != null;
     }
 
     private List<String> getTagsByQuestionId(@NotNull Long questionId) {
