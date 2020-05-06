@@ -3,19 +3,16 @@ package com.javamentor.qa.platform.models.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@Data
 public class QuestionDto {
     private Long id;
     private String title;
     private String username;
-    private String tag_name;
+    private List<String> tag_name;
     private Integer reputationCount;
     private Integer viewCount = 0;
     private Integer countAnswer = 0;
