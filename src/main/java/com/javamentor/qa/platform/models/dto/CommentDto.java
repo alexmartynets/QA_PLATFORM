@@ -4,10 +4,7 @@ import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -17,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class CommentDto {
 
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
@@ -26,9 +24,7 @@ public class CommentDto {
     private CommentType commentType;
     private LocalDateTime persistDateTime;
     private LocalDateTime lastUpdateDateTime;
-
-    private User user;
-
+    private String fullName;
 }
 
 /*

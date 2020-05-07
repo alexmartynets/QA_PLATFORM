@@ -1,19 +1,24 @@
 package com.javamentor.qa.platform.service.impl;
 
 import com.javamentor.qa.platform.dao.impl.model.AbstractCommentDAOImpl;
+import com.javamentor.qa.platform.models.dto.CommentDto;
 import com.javamentor.qa.platform.models.entity.Comment;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
-@RequiredArgsConstructor
+
 @Service
+@Transactional
 public class CommentServiceImp {
 
     public final AbstractCommentDAOImpl commentDAO;
+
+    public CommentServiceImp(AbstractCommentDAOImpl commentDAO) {
+        this.commentDAO = commentDAO;
+    }
 
     public void saveComment(Comment comment) {
         commentDAO.persist(comment);
@@ -23,13 +28,13 @@ public class CommentServiceImp {
         commentDAO.update(comment);
     }
 
-    public List<Comment> getCommentsToQuestion(Long questionId) {
+    public List<CommentDto> getCommentsToQuestion(Long questionId) {
         //        List<CommentDto> dtoList = list.stream().map(CommentConverter.INSTANCE::toCommentDto).collect(Collectors.toList());
 //       list.forEach(System.out::println);
         return commentDAO.getCommentsToQuestion(questionId);
     }
 
-    public List<Comment> getCommentsToAnswer(Long answerId) {
+    public List<CommentDto> getCommentsToAnswer(Long answerId) {
 
         //        List<CommentDto> dtoList = list.stream().map(CommentConverter.INSTANCE::toCommentDto).collect(Collectors.toList());
 //        list.forEach(System.out::println);
