@@ -1,8 +1,10 @@
 package com.javamentor.qa.platform.service.abstracrt;
 
-import com.javamentor.qa.platform.dao.impl.model.CommentDAOImpl;
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
-public class AbstractCommentDAOService extends CommentDAOImpl {
+public interface AbstractCommentDAOService<T, PK> {
+
+    List<T> getCommentsToQuestion(PK questionId);
+
+    List<T> getCommentsToAnswer(PK answerId);
 }
