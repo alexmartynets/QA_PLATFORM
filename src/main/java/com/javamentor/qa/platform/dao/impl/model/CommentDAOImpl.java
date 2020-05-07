@@ -1,7 +1,7 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
+import com.javamentor.qa.platform.dao.abstracrt.model.CommentDAO;
 import com.javamentor.qa.platform.models.dto.CommentDto;
-import com.javamentor.qa.platform.models.entity.Comment;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -9,12 +9,13 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public abstract class AbstractCommentDAOImpl extends AbstractDAOImpl<Comment, Long> {
+public abstract class CommentDAOImpl implements CommentDAO<CommentDto, Long> {
 
     @PersistenceContext
     protected EntityManager entityManager;
 
     //    список comment к Question
+    @Override
     public List<CommentDto> getCommentsToQuestion(Long questionId) {
         String hql = "select new com.javamentor.qa.platform.models.dto.CommentDto(" +
                 "c.id, " +
@@ -31,27 +32,17 @@ public abstract class AbstractCommentDAOImpl extends AbstractDAOImpl<Comment, Lo
         return list.isEmpty() ? null : list;
     }
 
-    /*List<PostDTO> postDTOs = entityManager.createQuery("""
-    select new com.vladmihalcea.book.hpjp.hibernate.forum.dto.PostDTO(
-       p.id,
-       p.title
-    )
-    from Post p
-    where p.createdOn > :fromTimestamp
-    """, PostDTO.class)
-.setParameter(
-    "fromTimestamp",
-    Timestamp.from(
-        LocalDate.of(2020, 1, 1)
-            .atStartOfDay()
-            .toInstant(ZoneOffset.UTC)
-    )
-)
-.getResultList();*/
-
     //    список comment к Answer
+    @Override
     public List<CommentDto> getCommentsToAnswer(Long answerId) {
-        String hql = "select c from Comment as c join CommentAnswer as ca on c.id = ca.id where ca.answer.id = :answerId";
+        String hql = "select new com.javamentor.qa.platform.models.dto.CommentDto(" +
+                "c.id, " +
+                "c.text, " +
+                "c.commentType," +
+                "c.persistDateTime," +
+                "c.lastUpdateDateTime, " +
+                "c.user.fullName) " +
+                "from Comment as c join CommentAnswer as ca on c.id = ca.id where ca.answer.id = :answerId";
         List<CommentDto> list = entityManager.createQuery(hql, CommentDto.class)
                 .setParameter("answerId", answerId)
                 .getResultList();
@@ -60,3 +51,4 @@ public abstract class AbstractCommentDAOImpl extends AbstractDAOImpl<Comment, Lo
     }
 }
 
+/*String hql = "select c from Comment as c join CommentAnswer as ca on c.id = ca.id where ca.answer.id = :answerId";*/

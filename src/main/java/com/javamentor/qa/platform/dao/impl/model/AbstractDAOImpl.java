@@ -41,7 +41,7 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
     }
     @Override
     public void deleteByKeyCascadeEnable(PK id) {
-        entityManager.remove(getByKey(id));
+        entityManager.remove(entityManager.find(tClass, id));
     }
 
     @Override
