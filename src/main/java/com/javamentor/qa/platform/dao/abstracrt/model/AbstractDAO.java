@@ -19,6 +19,4 @@ public interface AbstractDAO<T, PK> {
     T getByKey(PK id);
 
     List<T> getAll();
-
-
 }
