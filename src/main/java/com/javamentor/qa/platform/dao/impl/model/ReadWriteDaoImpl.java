@@ -1,7 +1,6 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDao;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -11,13 +10,13 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 
-@Repository
 public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
 
     protected Class<T> tClass;
 
     @PersistenceContext
     protected EntityManager entityManager;
+
     @SuppressWarnings("unchecked")
     public ReadWriteDaoImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
@@ -43,6 +42,7 @@ public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
     public void delete(T t) {
         entityManager.remove(t);
     }
+
     @Override
     @Transactional
     public void deleteByKeyCascadeEnable(PK id) {
@@ -59,7 +59,7 @@ public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
     }
 
     @Override
-    public boolean existsById(PK id) {          //id or Key
+    public boolean existsById(PK id) {
         return entityManager.find(tClass, id) != null;
     }
 
@@ -68,8 +68,8 @@ public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
         return entityManager.find(tClass, id);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public List<T> getAll() {
         return entityManager.createQuery("from " + tClass.getName()).getResultList();
     }
