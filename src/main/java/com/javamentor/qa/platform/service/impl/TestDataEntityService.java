@@ -14,6 +14,7 @@ import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
 import com.javamentor.qa.platform.service.impl.model.*;
 import com.javamentor.qa.platform.service.impl.model.Comment.CommentAnswerServiceImpl;
 import com.javamentor.qa.platform.service.impl.model.Comment.CommentQuestionServiceImpl;
+import com.javamentor.qa.platform.service.impl.model.Comment.CommentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,13 +52,16 @@ public class TestDataEntityService {
     @Autowired
     private RelatedTagServiceImpl relatedTagServiceImpl;
 
+    @Autowired
+    private CommentServiceImpl commentService;
+
     public void createEntity() {
         creatRoleEntity();
         creatUserEntity();
         creatTagEntity();
         creatQuestionEntity();
         creatAnswerEntity();
-        creatComment();
+//        creatComment();
         creatUserFavoriteQuestion();
     }
 
@@ -214,12 +218,13 @@ public class TestDataEntityService {
                 .text("Comment 1 text")
                 .user(userServiceImpl.getByKey(2L))
                 .build();
+        commentService.persist(comment1);
 
         CommentAnswer commentAnswer = CommentAnswer.builder()
                 .comment(comment1)
                 .answer(answerServiceImpl.getByKey(1L))
                 .build();
-        commentAnswerServiceImpl.persist(commentAnswer);
+//        commentAnswerServiceImpl.persist(commentAnswer);
 
         Comment comment2 = Comment.builder()
                 .commentType(CommentType.ANSWER)
@@ -233,7 +238,7 @@ public class TestDataEntityService {
                 .comment(comment2)
                 .answer(answerServiceImpl.getByKey(1L))
                 .build();
-        commentAnswerServiceImpl.persist(commentAnswer2);
+//        commentAnswerServiceImpl.persist(commentAnswer2);
 
         Comment comment3 = Comment.builder()
                 .commentType(CommentType.QUESTION)
@@ -247,7 +252,7 @@ public class TestDataEntityService {
                 .comment(comment3)
                 .question(questionServiceImpl.getByKey(1L))
                 .build();
-        commentQuestionServiceImpl.persist(commentQuestion1);
+//        commentQuestionServiceImpl.persist(commentQuestion1);
     }
 
     private void creatUserFavoriteQuestion() {
