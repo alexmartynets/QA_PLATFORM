@@ -11,27 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user/question")
 public class QuestionResourceController {
 
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleServiceTest roleServiceTest;
-
-    @GetMapping()
-    public ResponseEntity<String> getQuestion(){
-
-//        userServiceTest.deleteByKeyCascadeIgnore(5L);
-        User user = new User();
-        user.setFullName("eeee1");
-        user.setEmail("uuu@uuu1");
-        user.setPassword("pass1");
-        user.setRole(roleServiceTest.getByKey(1L));
-        userService.persist(user);
-        for(User u: userService.getAll()){
-            System.out.println(u.toString());
-        }
-        return ResponseEntity.ok("Тест секьюрити QuestionResourceController");
+    @GetMapping
+    public ResponseEntity<String> getQuestion() {
+        return ResponseEntity.ok("Тест секьюрити");
     }
 
 }
