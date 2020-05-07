@@ -1,6 +1,9 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
-import com.javamentor.qa.platform.dao.abstracrt.model.TagDAO;
+import com.javamentor.qa.platform.dao.abstracts.model.TagDAO;
+import com.javamentor.qa.platform.models.entity.question.Tag;
+import org.springframework.stereotype.Repository;
 
-public abstract class TagDAOImpl<T, PK> extends AbstractDAOImpl<T, PK> implements TagDAO<T, PK> {
+@Repository
+public class TagDAOImpl extends ReadWriteDAOImpl<Tag, Long> implements TagDAO {
 }

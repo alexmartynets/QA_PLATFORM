@@ -1,5 +1,7 @@
-package com.javamentor.qa.platform.dao.abstracrt.model;
+package com.javamentor.qa.platform.dao.abstracts.model;
 
-public interface QuestionDAO<T, PK> extends AbstractDAO<T, PK> {
+import com.javamentor.qa.platform.models.entity.question.Question;
+
+public interface QuestionDAO extends ReadWriteDAO<Question, Long> {
 
 }

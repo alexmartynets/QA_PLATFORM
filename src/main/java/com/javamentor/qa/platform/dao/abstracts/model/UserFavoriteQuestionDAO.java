@@ -1,4 +1,6 @@
-package com.javamentor.qa.platform.dao.abstracrt.model;
+package com.javamentor.qa.platform.dao.abstracts.model;
 
-public interface UserFavoriteQuestionDAO<T, PK> extends AbstractDAO<T, PK>{
+import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
+
+public interface UserFavoriteQuestionDAO extends ReadWriteDAO<UserFavoriteQuestion, Long>{
 }

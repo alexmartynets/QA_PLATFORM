@@ -1,5 +1,7 @@
-package com.javamentor.qa.platform.dao.abstracrt.model;
+package com.javamentor.qa.platform.dao.abstracts.model;
 
-public interface TagDAO<T, PK> extends AbstractDAO<T, PK> {
+import com.javamentor.qa.platform.models.entity.question.Tag;
+
+public interface TagDAO extends ReadWriteDAO<Tag, Long> {
 
 }

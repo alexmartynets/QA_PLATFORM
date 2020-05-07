@@ -1,6 +1,9 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
-import com.javamentor.qa.platform.dao.abstracrt.model.UserDAO;
+import com.javamentor.qa.platform.dao.abstracts.model.UserDAO;
+import com.javamentor.qa.platform.models.entity.user.User;
+import org.springframework.stereotype.Repository;
 
-public abstract class UserDAOImpl<T, PK> extends AbstractDAOImpl<T, PK> implements UserDAO<T, PK> {
+@Repository
+public class UserDAOImpl extends ReadWriteDAOImpl<User, Long> implements UserDAO {
 }

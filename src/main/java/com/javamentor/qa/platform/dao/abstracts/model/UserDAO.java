@@ -1,4 +1,6 @@
-package com.javamentor.qa.platform.dao.abstracrt.model;
+package com.javamentor.qa.platform.dao.abstracts.model;
 
-public interface UserDAO<T, PK> extends AbstractDAO<T, PK>{
+import com.javamentor.qa.platform.models.entity.user.User;
+
+public interface UserDAO extends ReadWriteDAO<User, Long> {
 }

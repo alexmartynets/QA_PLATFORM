@@ -1,8 +1,11 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
-import com.javamentor.qa.platform.dao.abstracrt.model.UserFavoriteQuestionDAO;
+import com.javamentor.qa.platform.dao.abstracts.model.UserFavoriteQuestionDAO;
+import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
+import org.springframework.stereotype.Repository;
 
-public abstract class UserFavoriteQuestionDAOImpl<T, PK>
-        extends AbstractDAOImpl<T, PK>
-        implements UserFavoriteQuestionDAO<T, PK> {
+@Repository
+public class UserFavoriteQuestionDAOImpl
+        extends ReadWriteDAOImpl<UserFavoriteQuestion, Long>
+        implements UserFavoriteQuestionDAO {
 }

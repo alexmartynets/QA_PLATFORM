@@ -1,14 +1,20 @@
 package com.javamentor.qa.platform.dao.abstracts.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
-public interface ReadWriteDao<T, PK> {
+public interface ReadWriteDAO<T, PK> {
 
     void persist(T t);
 
     void update(T t);
 
     void delete(T t);
+
+    void deleteByKeyCascadeEnable(PK id);
+
+    void deleteByKeyCascadeIgnore(PK id);
 
     boolean existsById(PK id);
 
