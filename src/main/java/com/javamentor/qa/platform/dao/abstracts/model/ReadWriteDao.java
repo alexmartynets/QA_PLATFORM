@@ -1,8 +1,8 @@
-package com.javamentor.qa.platform.dao.abstracrt.model;
+package com.javamentor.qa.platform.dao.abstracts.model;
 
 import java.util.List;
 
-public interface AbstractDAO<T, PK> {
+public interface ReadWriteDao<T, PK> {
 
     void persist(T t);
 
