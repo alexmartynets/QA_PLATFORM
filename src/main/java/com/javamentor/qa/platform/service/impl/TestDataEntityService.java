@@ -4,6 +4,7 @@ import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
 import com.javamentor.qa.platform.models.entity.question.Question;
+import com.javamentor.qa.platform.models.entity.question.RelatedTag;
 import com.javamentor.qa.platform.models.entity.question.Tag;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
@@ -45,6 +46,9 @@ public class TestDataEntityService {
 
     @Autowired
     private AnswerService answerService;
+
+    @Autowired
+    private RelatedTagService relatedTagService;
 
     public void createEntity() {
         creatRoleEntity();
@@ -124,11 +128,17 @@ public class TestDataEntityService {
         tagService.persist(tag1);
 
         Tag tag2 = Tag.builder()
-                .name("Main tag2")
+                .name("Child tag1")
                 .description("Description tag2")
                 .persistDateTime(LocalDateTime.now())
                 .build();
         tagService.persist(tag2);
+
+        RelatedTag relatedTag = RelatedTag.builder()
+                .mainTag(tag1)
+                .childTag(tag2)
+                .build();
+        relatedTagService.persist(relatedTag);
     }
 
     private void creatQuestionEntity() {
