@@ -1,9 +1,10 @@
 package com.javamentor.qa.platform.models.dto;
 
-import lombok.*;
+import com.javamentor.qa.platform.models.entity.question.Tag;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder

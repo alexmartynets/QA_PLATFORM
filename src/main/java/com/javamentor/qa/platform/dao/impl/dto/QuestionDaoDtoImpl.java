@@ -3,7 +3,6 @@ package com.javamentor.qa.platform.dao.impl.dto;
 import com.javamentor.qa.platform.dao.abstracrt.dto.QuestionDaoDto;
 import com.javamentor.qa.platform.dao.impl.model.AbstractDAOImpl;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
-import com.javamentor.qa.platform.models.dto.TagDto;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
@@ -20,14 +19,14 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
     public List<QuestionDto> getListQuestionDto() {
         List<QuestionDto> questionDto = new ArrayList<>();
         try {
-            questionDto = entityManager.createQuery("SELECT " +
+        questionDto = entityManager.createQuery("SELECT " +
                     "q.id, " +
                     "q.title, " +
                     "q.user.fullName, " +
                     "q.user.reputationCount, " +
                     "q.viewCount, " +
                     "q.countValuable, " +
-                    "q.persistDateTime " +
+                    "q.persistDateTime  " +
                     "FROM Question q")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
