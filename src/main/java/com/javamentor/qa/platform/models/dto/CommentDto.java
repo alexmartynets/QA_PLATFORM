@@ -24,7 +24,7 @@ public class CommentDto {
     private CommentType commentType;
     private LocalDateTime persistDateTime;
     private LocalDateTime lastUpdateDateTime;
-    private String fullName;
+    private Long userId;
 }
 
 /*

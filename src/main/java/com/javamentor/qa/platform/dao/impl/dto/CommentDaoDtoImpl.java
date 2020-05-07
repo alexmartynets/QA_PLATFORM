@@ -23,7 +23,7 @@ public class CommentDaoDtoImpl implements CommentDaoDto {
                 "c.commentType," +
                 "c.persistDateTime," +
                 "c.lastUpdateDateTime, " +
-                "c.user.fullName) " +
+                "c.user.id) " +
                 "from Comment as c join CommentQuestion as cq on c.id = cq.id where cq.question.id = :questionId";
         List<CommentDto> list = entityManager.createQuery(hql, CommentDto.class)
                 .setParameter("questionId", questionId)
@@ -40,7 +40,7 @@ public class CommentDaoDtoImpl implements CommentDaoDto {
                 "c.commentType," +
                 "c.persistDateTime," +
                 "c.lastUpdateDateTime, " +
-                "c.user.fullName) " +
+                "c.user.id) " +
                 "from Comment as c join CommentAnswer as ca on c.id = ca.id where ca.answer.id = :answerId";
         List<CommentDto> list = entityManager.createQuery(hql, CommentDto.class)
                 .setParameter("answerId", answerId)

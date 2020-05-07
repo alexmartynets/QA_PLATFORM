@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommentServiceImpl extends ReadWriteServiceImpl<Comment, Long> implements CommentService {
 
-    private final CommentDao commentDao;
-
     @Autowired
     public CommentServiceImpl(CommentDao commentDao) {
         super(commentDao);
-        this.commentDao = commentDao;
     }
 }
