@@ -1,17 +1,16 @@
 package com.javamentor.qa.platform.webapp.configs.initializer;
 
 import com.javamentor.qa.platform.service.impl.TestDataEntityService;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
-@Builder
+@Service
 public class TestEntityInit {
 
     @Autowired
-    private final TestDataEntityService testDataEntityService;
+    private TestDataEntityService testDataEntityService;
 
-    private void init() throws Exception {
+    public void init() throws Exception {
         testDataEntityService.createEntity();
     }
 }

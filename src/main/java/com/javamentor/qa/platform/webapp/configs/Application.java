@@ -21,6 +21,6 @@ public class Application {
     @Bean(initMethod = "init")
     @PostConstruct
     public TestEntityInit initTestData() {
-        return TestEntityInit.builder().build();
+        return new TestEntityInit();
     }
 }

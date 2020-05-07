@@ -12,6 +12,7 @@ import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
 import com.javamentor.qa.platform.service.impl.Comment.CommentAnswerService;
 import com.javamentor.qa.platform.service.impl.Comment.CommentQuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,39 +22,29 @@ import java.util.List;
 @Service
 public class TestDataEntityService {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    private final RoleServiceTest roleServiceTest;
+    @Autowired
+    private RoleServiceTest roleServiceTest;
 
-    private final CommentAnswerService commentAnswerService;
+    @Autowired
+    private CommentAnswerService commentAnswerService;
 
-    private final CommentQuestionService commentQuestionService;
+    @Autowired
+    private CommentQuestionService commentQuestionService;
 
-    private final TagService tagService;
+    @Autowired
+    private TagService tagService;
 
-    private final UserFavoriteQuestionService userFavoriteQuestionService;
+    @Autowired
+    private UserFavoriteQuestionService userFavoriteQuestionService;
 
-    private final QuestionService questionService;
+    @Autowired
+    private QuestionService questionService;
 
-    private final AnswerService answerService;
-
-    public TestDataEntityService(UserService userService,
-                                 AnswerService answerService,
-                                 TagService tagService,
-                                 UserFavoriteQuestionService userFavoriteQuestionService,
-                                 QuestionService questionService,
-                                 CommentAnswerService commentAnswerService,
-                                 CommentQuestionService commentQuestionService,
-                                 RoleServiceTest roleServiceTest) {
-        this.userService = userService;
-        this.answerService = answerService;
-        this.roleServiceTest = roleServiceTest;
-        this.tagService = tagService;
-        this.questionService = questionService;
-        this.userFavoriteQuestionService = userFavoriteQuestionService;
-        this.commentAnswerService = commentAnswerService;
-        this.commentQuestionService = commentQuestionService;
-    }
+    @Autowired
+    private AnswerService answerService;
 
     public void createEntity() {
         creatRoleEntity();
@@ -180,7 +171,7 @@ public class TestDataEntityService {
         questionService.persist(question2);
     }
 
-    private void creatAnswerEntity(){
+    private void creatAnswerEntity() {
         Answer answer1_1 = Answer.builder()
                 .user(userService.getByKey(3L))
                 .countValuable(2)
@@ -248,7 +239,7 @@ public class TestDataEntityService {
         commentQuestionService.persist(commentQuestion1);
     }
 
-    private void creatUserFavoriteQuestion(){
+    private void creatUserFavoriteQuestion() {
         UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
                 .user(userService.getByKey(2L))
                 .persistDateTime(LocalDateTime.now())
