@@ -2,6 +2,7 @@ package com.javamentor.qa.platform.dao.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracrt.model.AbstractDAO;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,7 +18,7 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
     @PersistenceContext
     protected EntityManager entityManager;
-
+    @SuppressWarnings("unchecked")
     public AbstractDAOImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
@@ -26,25 +27,30 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
 
 
     @Override
+    @Transactional
     public void persist(T t) {
         entityManager.persist(t);
     }
 
     @Override
+    @Transactional
     public void update(T t) {
         entityManager.merge(t);
     }
 
     @Override
+    @Transactional
     public void delete(T t) {
         entityManager.remove(t);
     }
     @Override
+    @Transactional
     public void deleteByKeyCascadeEnable(PK id) {
         entityManager.remove(entityManager.find(tClass, id));
     }
 
     @Override
+    @Transactional
     public void deleteByKeyCascadeIgnore(PK id) {
         Query query = entityManager.createQuery(
                 "DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
@@ -63,6 +69,7 @@ public abstract class AbstractDAOImpl<T, PK> implements AbstractDAO<T, PK> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<T> getAll() {
         return entityManager.createQuery("from " + tClass.getName()).getResultList();
     }

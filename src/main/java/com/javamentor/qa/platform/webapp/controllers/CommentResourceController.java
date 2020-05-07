@@ -1,7 +1,7 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.CommentDto;
-import com.javamentor.qa.platform.service.impl.CommentDAOServiceImpl;
+//import com.javamentor.qa.platform.service.impl.CommentDAOServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,24 +17,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")   // ("/api/user/question/{questionId}/anwer/answer/{answerId}/comment")
 public class CommentResourceController {
-    @Autowired
-    private CommentDAOServiceImpl commentDAOService;
-
-    /*
-     * Нужно по questionId получить список всех коменнтов к вопросу
-     * Какой будет URL у запроса /question/{questionId}/comment
-     * */
-    @GetMapping("/question/{questionId}/comment")
-    public ResponseEntity<List<CommentDto>> getCommentsToQuestion(@PathVariable Long questionId) {
-        if (questionId == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        List<CommentDto> list = commentDAOService.getCommentsToQuestion(questionId);
-        if (list.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok().body(list);
-    }
+//    @Autowired
+//    private CommentDAOServiceImpl commentDAOService;
+//
+//    /*
+//     * Нужно по questionId получить список всех коменнтов к вопросу
+//     * Какой будет URL у запроса /question/{questionId}/comment
+//     * */
+//    @GetMapping("/question/{questionId}/comment")
+//    public ResponseEntity<List<CommentDto>> getCommentsToQuestion(@PathVariable Long questionId) {
+//        if (questionId == null) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        List<CommentDto> list = commentDAOService.getCommentsToQuestion(questionId);
+//        if (list.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return ResponseEntity.ok().body(list);
+//    }
 
 //    /*
 //     * Нужно по answerId получить список всех комментов к ответу

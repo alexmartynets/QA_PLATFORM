@@ -1,10 +1,7 @@
 package com.javamentor.qa.platform.dao.abstracrt.model;
 
-import java.util.List;
+import com.javamentor.qa.platform.models.entity.Comment;
 
-public interface CommentDAO<T, PK> {
+public interface CommentDAO extends AbstractDAO<Comment, Long> {
 
-    List<T> getCommentsToQuestion(PK questionId);
-
-    List<T> getCommentsToAnswer(PK answerId);
 }
