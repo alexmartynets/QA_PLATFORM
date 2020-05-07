@@ -11,5 +11,4 @@ public class TagDto {
     private Long id;
     private String name;
     private String description;
-    private LocalDateTime persistDateTime;
 }
