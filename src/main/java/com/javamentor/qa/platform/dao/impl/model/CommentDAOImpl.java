@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public abstract class CommentDAOImpl implements CommentDAO<CommentDto, Long> {
+public class CommentDAOImpl implements CommentDAO<CommentDto, Long> {
 
     @PersistenceContext
     protected EntityManager entityManager;

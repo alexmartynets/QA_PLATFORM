@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CommentServiceImp implements AbstractCommentService<Comment, Long> {
 
+
     private AbstractDAOImpl abstractDAO;
 
     public void persist(Comment comment) {
@@ -20,5 +21,9 @@ public class CommentServiceImp implements AbstractCommentService<Comment, Long> 
 
     public void update(Comment comment) {
         abstractDAO.update(comment);
+    }
+
+    public Comment getByKey(Long id){
+        return null;
     }
 }
