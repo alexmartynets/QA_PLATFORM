@@ -69,8 +69,8 @@ public class CommentResourceController {
      * URI "/question/ или /answer /{typeId}/comment"
      */
     @PostMapping("/{typeId}/comment")
-    public ResponseEntity<Comment> saveComment(@RequestBody Comment comment, @PathVariable Long typeId) {
-        if (comment == null) {
+    public ResponseEntity<CommentDto> saveComment(@RequestBody CommentDto commentDto, @PathVariable Long typeId) {
+        if (commentDto == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         if (typeId == null) {
@@ -78,49 +78,52 @@ public class CommentResourceController {
         }
         // type  ANSWER(0), QUESTION(1)
 
-        if (comment.getCommentType() == CommentType.QUESTION) {
+        if (commentDto.getCommentType() == CommentType.QUESTION) {
             CommentQuestion commentQuestion = new CommentQuestion();
+
+            Comment comment = converter.toComment(commentDto);
             commentQuestion.setComment(comment);
+
             Question question = questionService.getByKey(typeId);
             commentQuestion.setQuestion(question);
+
             commentQuestionService.persist(commentQuestion);
-            return ResponseEntity.status(HttpStatus.CREATED).body(comment);
+            return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
         }
-        if (comment.getCommentType() == CommentType.ANSWER) {
+        if (commentDto.getCommentType() == CommentType.ANSWER) {
             CommentAnswer commentAnswer = new CommentAnswer();
+
+            Comment comment = converter.toComment(commentDto);
             commentAnswer.setComment(comment);
+
             Answer answer = answerService.getByKey(typeId);
             commentAnswer.setAnswer(answer);
+
             commentAnswerService.persist(commentAnswer);
-            return ResponseEntity.status(HttpStatus.CREATED).body(comment);
+            return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(comment);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(commentDto);
     }
 
     /*
      * URI "/question/ или /answer /comment"
      */
     @PutMapping("/comment")
-    public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
-        if (comment == null) {
+    public ResponseEntity<CommentDto> updateComment(@RequestBody CommentDto commentDto) {
+        if (commentDto == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         // меняем текст и дату
         // обновить сам Comment по id
-
-        Comment comment1 = commentService.getByKey(comment.getId());
-
-        if (comment1 == null){
+        Comment comment = commentService.getByKey(commentDto.getId());
+        if (comment == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        comment.setText(comment.getText());
+        comment.setLastUpdateDateTime(LocalDateTime.now());
 
-        comment1.setText(comment.getText());
-        comment1.setLastUpdateDateTime(LocalDateTime.now());
-
-        commentService.update(comment1);
-
-        return ResponseEntity.ok().body(comment);
+        commentService.update(comment);
+        return ResponseEntity.ok().body(commentDto);
     }
 
     /*
@@ -132,9 +135,7 @@ public class CommentResourceController {
         if (id == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         Comment comment = commentService.getByKey(id);
-
         if (comment == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
