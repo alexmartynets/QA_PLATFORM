@@ -35,7 +35,7 @@ public class UserResourceController {
         User user = userConverter.toEntity(userDto);
         user.setId(id);
         userService.persist(user);
-        return ResponseEntity.ok().body(userDto);
+        return ResponseEntity.ok().body(userConverter.toDto(userService.getByKey(id)));
     }
 
     @GetMapping("/{id}")

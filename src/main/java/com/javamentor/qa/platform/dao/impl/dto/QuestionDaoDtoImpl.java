@@ -61,22 +61,21 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
 
                         @Override
                         public List transformList(List list) {
-                            List<QuestionDto> questionDtos = (List<QuestionDto>) list;
+                            List<QuestionDto> questionDtoList = (List<QuestionDto>) list;
                             Set<QuestionDto> resultSet = new HashSet<>();
-                            for (QuestionDto q : questionDtos) {
+                            for (QuestionDto question : questionDtoList) {
                                 Set<TagDto> setTag = new HashSet<>();
-                                for (QuestionDto q1 : questionDtos) {
-                                    if (q.getId().equals(q1.getId())) {
-                                        setTag.addAll(q.getTags());
-                                        setTag.addAll(q1.getTags());
+                                for (QuestionDto question1 : questionDtoList) {
+                                    if (question.getId().equals(question1.getId())) {
+                                        setTag.addAll(question.getTags());
+                                        setTag.addAll(question1.getTags());
                                     }
                                 }
-                                List<TagDto> list1 = new ArrayList<>(setTag);
-                                q.setTags(list1);
-                                resultSet.add(q);
+                                List<TagDto> tagDtoList = new ArrayList<>(setTag);
+                                question.setTags(tagDtoList);
+                                resultSet.add(question);
                             }
-                            List<QuestionDto> result = new ArrayList<>(resultSet);
-                            return result;
+                            return new ArrayList<>(resultSet);
                         }
                     })
                     .getResultList();
