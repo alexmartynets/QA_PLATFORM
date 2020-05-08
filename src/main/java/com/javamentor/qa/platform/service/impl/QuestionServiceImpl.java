@@ -2,6 +2,7 @@ package com.javamentor.qa.platform.service.impl;
 
 import com.javamentor.qa.platform.dao.abstracrt.dto.QuestionDaoDto;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.service.abstracrt.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,10 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionDto> getAll() {
         return questionDaoDto.getListQuestionDto();
+    }
+
+    @Override
+    public List<TagDto> getTags() {
+        return questionDaoDto.listTags();
     }
 }

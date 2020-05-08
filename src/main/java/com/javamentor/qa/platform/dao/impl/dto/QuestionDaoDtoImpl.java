@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.dao.impl.dto;
 import com.javamentor.qa.platform.dao.abstracrt.dto.QuestionDaoDto;
 import com.javamentor.qa.platform.dao.impl.model.AbstractDAOImpl;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.dto.TagDto;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
@@ -26,12 +27,22 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
                     "q.user.reputationCount, " +
                     "q.viewCount, " +
                     "q.countValuable, " +
-                    "q.persistDateTime  " +
-                    "FROM Question q")
+                    "q.persistDateTime,  " +
+                    "t.id, " +
+                    "t.name, " +
+                    "t.description, (SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) " +
+                    "FROM Question q JOIN q.tags t")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
                                               @Override
                                               public Object transformTuple(Object[] objects, String[] strings) {
+                                                  TagDto tagDto = TagDto.builder()
+                                                          .id((Long) objects[7])
+                                                          .name((String) objects[8])
+                                                          .description((String) objects[9])
+                                                          .build();
+                                                  List<TagDto> tagDtoList = new ArrayList<>();
+                                                  tagDtoList.add(tagDto);
                                                   return QuestionDto.builder()
                                                           .id((Long) objects[0])
                                                           .title((String) objects[1])
@@ -40,6 +51,8 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
                                                           .viewCount((Integer) objects[4])
                                                           .countValuable((Integer) objects[5])
                                                           .persistDateTime((LocalDateTime) objects[6])
+                                                          .tags(tagDtoList)
+                                                          .countAnswer(((Number) objects[10]).intValue())
                                                           .build();
                                               }
 
@@ -53,5 +66,11 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
             e.printStackTrace();
         }
         return questionDto;
+    }
+
+    public List<TagDto> listTags(){
+        List<TagDto> listTags;
+        listTags = entityManager.createQuery("SELECT t.name, t.id, t.description, t.persistDateTime FROM Tag t").getResultList();
+        return listTags;
     }
 }
