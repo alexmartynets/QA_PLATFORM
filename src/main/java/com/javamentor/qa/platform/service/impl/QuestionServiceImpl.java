@@ -19,9 +19,4 @@ public class QuestionServiceImpl implements QuestionService {
     public List<QuestionDto> getAll() {
         return questionDaoDto.getListQuestionDto();
     }
-
-    @Override
-    public List<TagDto> getTags() {
-        return questionDaoDto.listTags();
-    }
 }

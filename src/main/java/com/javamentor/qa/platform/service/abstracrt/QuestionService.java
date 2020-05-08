@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface QuestionService {
     List<QuestionDto> getAll();
-    List<TagDto> getTags();
 }

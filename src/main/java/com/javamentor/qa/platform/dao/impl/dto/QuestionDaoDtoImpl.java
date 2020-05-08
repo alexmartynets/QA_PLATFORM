@@ -30,7 +30,8 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
                     "q.persistDateTime,  " +
                     "t.id, " +
                     "t.name, " +
-                    "t.description, (SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) " +
+                    "t.description, " +
+                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) " +
                     "FROM Question q JOIN q.tags t")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
@@ -66,11 +67,5 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
             e.printStackTrace();
         }
         return questionDto;
-    }
-
-    public List<TagDto> listTags(){
-        List<TagDto> listTags;
-        listTags = entityManager.createQuery("SELECT t.name, t.id, t.description, t.persistDateTime FROM Tag t").getResultList();
-        return listTags;
     }
 }
