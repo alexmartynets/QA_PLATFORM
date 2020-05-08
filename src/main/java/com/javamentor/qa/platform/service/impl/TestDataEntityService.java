@@ -14,7 +14,6 @@ import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
 import com.javamentor.qa.platform.service.impl.model.*;
 import com.javamentor.qa.platform.service.impl.model.Comment.CommentAnswerServiceImpl;
 import com.javamentor.qa.platform.service.impl.model.Comment.CommentQuestionServiceImpl;
-import com.javamentor.qa.platform.service.impl.model.Comment.CommentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
