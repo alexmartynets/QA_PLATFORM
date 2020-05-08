@@ -15,7 +15,7 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
     @PersistenceContext
     protected EntityManager entityManager;
 
-    //    список comment к Question
+    //    todo добавить ИМЯ список comment к Question
     public List<CommentDto> getCommentsToQuestion(Long questionId) {
         String hql = "select new com.javamentor.qa.platform.models.dto.CommentDto(" +
                 "c.id, " +

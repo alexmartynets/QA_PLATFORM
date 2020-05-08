@@ -3,31 +3,41 @@ package com.javamentor.qa.platform.webapp.controllers;
 import com.javamentor.qa.platform.models.dto.CommentDto;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
-import com.javamentor.qa.platform.models.entity.user.User;
+import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
+import com.javamentor.qa.platform.models.entity.question.Question;
+import com.javamentor.qa.platform.models.entity.question.answer.Answer;
+import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
 import com.javamentor.qa.platform.service.impl.dto.CommentDtoServiceImpl;
-import com.javamentor.qa.platform.service.impl.model.CommentServiceImpl;
+import com.javamentor.qa.platform.service.impl.model.*;
+import com.javamentor.qa.platform.webapp.converter.CommentConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/user")   // ("/api/user/question/{questionId}/anwer/answer/{answerId}/comment")
+@RequestMapping("/api/user")
 public class CommentResourceController {
     @Autowired
     private CommentDtoServiceImpl dtoService;
     @Autowired
-    private CommentServiceImpl service;
+    private CommentServiceImpl commentService;
+    @Autowired
+    private CommentAnswerServiceImpl commentAnswerService;
+    @Autowired
+    private CommentQuestionServiceImpl commentQuestionService;
+    @Autowired
+    private AnswerServiceImpl answerService;
+    @Autowired
+    private QuestionServiceImpl questionService;
+    @Autowired
+    private CommentConverter converter;
 
-
-//    @Autowired
-//    private final CommentConverter converter;
-
+     //    URL общий "/api/user/question/{questionId}/anwer/answer/{answerId}/comment"
     //     Нужно по questionId получить список всех коменнтов к вопросу
     @GetMapping("/question/{questionId}/comment")
     public ResponseEntity<List<CommentDto>> getCommentsToQuestion(@PathVariable Long questionId) {
@@ -55,36 +65,61 @@ public class CommentResourceController {
     }
 
     /*
-     * Сохранить комментарий к вопросу/ответу отличать по CommentType
-     *  нужен id вопроса/ответа
-     * Какой будет URL у запроса
-     * Сосхонять в таблицу CommentQuestion/CommentAnswer id Question/Answer
-     *  и id Comment(а если еще не создан ?)
+     * URI "/question/ или /answer /{typeId}/comment"
      * */
     @PostMapping("/{typeId}/comment")
     public ResponseEntity<Comment> saveComment(@RequestBody Comment comment, @PathVariable Long typeId) {
         if (comment == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-//        Comment comment = converter.toComment(commentDto);
-        service.persist(comment);
+        if (typeId == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        // type  ANSWER(0), QUESTION(1)
+
+        if (comment.getCommentType() == CommentType.QUESTION) {
+            CommentQuestion commentQuestion = new CommentQuestion();
+            commentQuestion.setComment(comment);
+            Question question = questionService.getByKey(typeId);
+            commentQuestion.setQuestion(question);
+            commentQuestionService.persist(commentQuestion);
+        }
+        if (comment.getCommentType() == CommentType.ANSWER) {
+            CommentAnswer commentAnswer = new CommentAnswer();
+            commentAnswer.setComment(comment);
+            Answer answer = answerService.getByKey(typeId);
+            commentAnswer.setAnswer(answer);
+            commentAnswerService.persist(commentAnswer);
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
 
     /*
-     * Обновлять комментарий к вопросу/ответу отличать по CommentType
-     *  нужен id вопроса/ответа
-     * Какой будет URL у запроса
-     * Сосхонять в таблицу CommentQuestion/CommentAnswer ничего не нужно
-     *  просто перезаписать коментарий
+     * URI "/question/ или /answer /comment"
      * */
     @PutMapping("/comment")
     public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
         if (comment == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        service.update(comment);
+
+        // меняем текст и дату
+        // обновить сам Comment по id
+
+        Comment comment1 = commentService.getByKey(comment.getId());
+
+        comment1.setText(comment.getText());
+        comment1.setLastUpdateDateTime(comment.getLastUpdateDateTime());
+
+        commentService.update(comment1);
+
         return ResponseEntity.ok().body(comment);
+    }
+    // test
+    @GetMapping("/comment/{id}")
+    public ResponseEntity<CommentDto> getComment(@PathVariable Long id){
+        Comment comment = commentService.getByKey(id);
+        return ResponseEntity.ok().body(converter.toCommentDto(comment));
     }
 }
