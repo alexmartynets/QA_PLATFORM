@@ -8,4 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommentQuestionServiceImpl extends ReadWriteServiceImpl<CommentQuestion, Long> implements CommentQuestionService {
 
+    public CommentQuestionServiceImpl(ReadWriteDao<CommentQuestion, Long> readWriteDao) {
+        super(readWriteDao);
+    }
 }

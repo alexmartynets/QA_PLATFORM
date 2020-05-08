@@ -1,4 +1,6 @@
 package com.javamentor.qa.platform.service.abstracts.model;
 
-public interface AnswerService extends ReadWriteService<AnswerService, Long>{
+import com.javamentor.qa.platform.models.entity.question.answer.Answer;
+
+public interface AnswerService extends ReadWriteService<Answer, Long>{
 }
