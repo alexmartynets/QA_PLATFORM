@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class CommentResourceController {
     @Autowired
     private CommentConverter converter;
 
-     //    URL общий "/api/user/question/{questionId}/anwer/answer/{answerId}/comment"
+    //     URL общий "/api/user/question/{questionId}/anwer/answer/{answerId}/comment"
     //     Нужно по questionId получить список всех коменнтов к вопросу
     @GetMapping("/question/{questionId}/comment")
     public ResponseEntity<List<CommentDto>> getCommentsToQuestion(@PathVariable Long questionId) {
@@ -66,7 +67,7 @@ public class CommentResourceController {
 
     /*
      * URI "/question/ или /answer /{typeId}/comment"
-     * */
+     */
     @PostMapping("/{typeId}/comment")
     public ResponseEntity<Comment> saveComment(@RequestBody Comment comment, @PathVariable Long typeId) {
         if (comment == null) {
@@ -83,6 +84,7 @@ public class CommentResourceController {
             Question question = questionService.getByKey(typeId);
             commentQuestion.setQuestion(question);
             commentQuestionService.persist(commentQuestion);
+            return ResponseEntity.status(HttpStatus.CREATED).body(comment);
         }
         if (comment.getCommentType() == CommentType.ANSWER) {
             CommentAnswer commentAnswer = new CommentAnswer();
@@ -90,14 +92,14 @@ public class CommentResourceController {
             Answer answer = answerService.getByKey(typeId);
             commentAnswer.setAnswer(answer);
             commentAnswerService.persist(commentAnswer);
+            return ResponseEntity.status(HttpStatus.CREATED).body(comment);
         }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(comment);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(comment);
     }
 
     /*
      * URI "/question/ или /answer /comment"
-     * */
+     */
     @PutMapping("/comment")
     public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
         if (comment == null) {
@@ -109,17 +111,34 @@ public class CommentResourceController {
 
         Comment comment1 = commentService.getByKey(comment.getId());
 
+        if (comment1 == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         comment1.setText(comment.getText());
-        comment1.setLastUpdateDateTime(comment.getLastUpdateDateTime());
+        comment1.setLastUpdateDateTime(LocalDateTime.now());
 
         commentService.update(comment1);
 
         return ResponseEntity.ok().body(comment);
     }
-    // test
+
+    /*
+     * URI "/question/ или /answer /comment/{id}"
+     */
+    // test Converter
     @GetMapping("/comment/{id}")
     public ResponseEntity<CommentDto> getComment(@PathVariable Long id){
+        if (id == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         Comment comment = commentService.getByKey(id);
+
+        if (comment == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.ok().body(converter.toCommentDto(comment));
     }
 }
+

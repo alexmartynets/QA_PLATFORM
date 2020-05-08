@@ -2,7 +2,6 @@ package com.javamentor.qa.platform.webapp.converter;
 
 import com.javamentor.qa.platform.models.dto.CommentDto;
 import com.javamentor.qa.platform.models.entity.Comment;
-import com.javamentor.qa.platform.models.entity.user.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -15,6 +14,7 @@ public abstract class CommentConverter {
     @Mapping(source = "commentDto.persistDateTime", target = "persistDateTime")
     @Mapping(source = "commentDto.lastUpdateDateTime", target = "lastUpdateDateTime")
     @Mapping(source = "commentDto.userId", target = "user.id")
+    @Mapping(source = "commentDto.fullName", target = "user.fullName")
     public abstract Comment toComment(CommentDto commentDto);
 
     @Mapping(source = "comment.id", target = "id")
@@ -23,8 +23,8 @@ public abstract class CommentConverter {
     @Mapping(source = "comment.persistDateTime", target = "persistDateTime")
     @Mapping(source = "comment.lastUpdateDateTime", target = "lastUpdateDateTime")
     @Mapping(source = "comment.user.id", target = "userId")
+    @Mapping(source = "comment.user.fullName", target = "fullName")
     public abstract CommentDto toCommentDto(Comment comment);
-
 }
 
 

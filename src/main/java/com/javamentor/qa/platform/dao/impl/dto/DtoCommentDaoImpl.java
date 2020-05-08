@@ -15,7 +15,7 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
     @PersistenceContext
     protected EntityManager entityManager;
 
-    //    todo добавить ИМЯ список comment к Question
+    //    список comment к Question
     public List<CommentDto> getCommentsToQuestion(Long questionId) {
         String hql = "select new com.javamentor.qa.platform.models.dto.CommentDto(" +
                 "c.id, " +
@@ -23,7 +23,8 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
                 "c.commentType," +
                 "c.persistDateTime," +
                 "c.lastUpdateDateTime, " +
-                "c.user.id) " +
+                "c.user.id, " +
+                "c.user.fullName)" +
                 "from Comment as c join CommentQuestion as cq on c.id = cq.id where cq.question.id = :questionId";
         List<CommentDto> list = entityManager.createQuery(hql, CommentDto.class)
                 .setParameter("questionId", questionId)
@@ -40,7 +41,8 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
                 "c.commentType," +
                 "c.persistDateTime," +
                 "c.lastUpdateDateTime, " +
-                "c.user.id) " +
+                "c.user.id, " +
+                "c.user.fullName)" +
                 "from Comment as c join CommentAnswer as ca on c.id = ca.id where ca.answer.id = :answerId";
         List<CommentDto> list = entityManager.createQuery(hql, CommentDto.class)
                 .setParameter("answerId", answerId)
