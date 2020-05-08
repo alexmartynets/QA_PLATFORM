@@ -52,9 +52,6 @@ public class TestDataEntityService {
     @Autowired
     private RelatedTagServiceImpl relatedTagServiceImpl;
 
-    @Autowired
-    private CommentServiceImpl commentService;
-
     public void createEntity() {
         creatRoleEntity();
         creatUserEntity();
