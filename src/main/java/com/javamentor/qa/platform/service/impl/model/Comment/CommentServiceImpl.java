@@ -1,10 +1,8 @@
 package com.javamentor.qa.platform.service.impl.model.Comment;
 
-import com.javamentor.qa.platform.dao.abstracts.model.CommentDAO;
-import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDAO;
-import com.javamentor.qa.platform.dao.impl.model.CommentDAOImpl;
+import com.javamentor.qa.platform.dao.abstracts.model.comment.CommentDAO;
 import com.javamentor.qa.platform.models.entity.Comment;
-import com.javamentor.qa.platform.service.abstracts.model.CommentService;
+import com.javamentor.qa.platform.service.abstracts.model.comment.CommentService;
 import com.javamentor.qa.platform.service.impl.model.ReadWriteServiceImpl;
 import org.springframework.stereotype.Service;
 

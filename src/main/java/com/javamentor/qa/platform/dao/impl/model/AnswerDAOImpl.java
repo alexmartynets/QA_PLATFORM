@@ -8,13 +8,3 @@ import org.springframework.stereotype.Repository;
 public class AnswerDAOImpl extends ReadWriteDAOImpl<Answer, Long> implements AnswerDAO {
 
 }
-
-
-//@Repository
-//public class AnswerDaoImpl extends ReadWriteDaoImpl<Answer, Long> implements AnswerDAO<T, PK> {
-//    @Override
-//    public List getAnswersByQuestionID(Object questionId) {
-//        return null;
-//    }
-//
-//}

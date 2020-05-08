@@ -1,7 +1,5 @@
 package com.javamentor.qa.platform.dao.abstracts.model;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 public interface ReadWriteDAO<T, PK> {
