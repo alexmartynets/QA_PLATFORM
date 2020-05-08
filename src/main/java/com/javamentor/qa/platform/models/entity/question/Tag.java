@@ -1,6 +1,5 @@
 package com.javamentor.qa.platform.models.entity.question;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
