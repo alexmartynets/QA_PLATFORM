@@ -1,12 +1,16 @@
 package com.javamentor.qa.platform.models.dto;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Builder
+@ToString
+@EqualsAndHashCode
 public class QuestionDto {
     private Long id;
     private String title;

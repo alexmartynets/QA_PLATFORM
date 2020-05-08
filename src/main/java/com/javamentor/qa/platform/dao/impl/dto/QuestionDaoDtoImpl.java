@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> implements QuestionDaoDto {
@@ -20,7 +22,7 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
     public List<QuestionDto> getListQuestionDto() {
         List<QuestionDto> questionDto = new ArrayList<>();
         try {
-        questionDto = entityManager.createQuery("SELECT " +
+            questionDto = entityManager.createQuery("SELECT " +
                     "q.id, " +
                     "q.title, " +
                     "q.user.fullName, " +
@@ -35,35 +37,50 @@ public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> imple
                     "FROM Question q JOIN q.tags t")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
-                                              @Override
-                                              public Object transformTuple(Object[] objects, String[] strings) {
-                                                  TagDto tagDto = TagDto.builder()
-                                                          .id((Long) objects[7])
-                                                          .name((String) objects[8])
-                                                          .description((String) objects[9])
-                                                          .build();
-                                                  List<TagDto> tagDtoList = new ArrayList<>();
-                                                  tagDtoList.add(tagDto);
-                                                  return QuestionDto.builder()
-                                                          .id((Long) objects[0])
-                                                          .title((String) objects[1])
-                                                          .username((String) objects[2])
-                                                          .reputationCount((Integer) objects[3])
-                                                          .viewCount((Integer) objects[4])
-                                                          .countValuable((Integer) objects[5])
-                                                          .persistDateTime((LocalDateTime) objects[6])
-                                                          .tags(tagDtoList)
-                                                          .countAnswer(((Number) objects[10]).intValue())
-                                                          .build();
-                                              }
+                        @Override
+                        public Object transformTuple(Object[] objects, String[] strings) {
+                            TagDto tagDto = TagDto.builder()
+                                    .id((Long) objects[7])
+                                    .name((String) objects[8])
+                                    .description((String) objects[9])
+                                    .build();
+                            List<TagDto> tagDtoList = new ArrayList<>();
+                            tagDtoList.add(tagDto);
+                            return QuestionDto.builder()
+                                    .id((Long) objects[0])
+                                    .title((String) objects[1])
+                                    .username((String) objects[2])
+                                    .reputationCount((Integer) objects[3])
+                                    .viewCount((Integer) objects[4])
+                                    .countValuable((Integer) objects[5])
+                                    .persistDateTime((LocalDateTime) objects[6])
+                                    .tags(tagDtoList)
+                                    .countAnswer(((Number) objects[10]).intValue())
+                                    .build();
+                        }
 
-                                              @Override
-                                              public List transformList(List list) {
-                                                  return list;
-                                              }
-                                          })
+                        @Override
+                        public List transformList(List list) {
+                            List<QuestionDto> questionDtos = (List<QuestionDto>) list;
+                            Set<QuestionDto> resultSet = new HashSet<>();
+                            for (QuestionDto q : questionDtos) {
+                                Set<TagDto> setTag = new HashSet<>();
+                                for (QuestionDto q1 : questionDtos) {
+                                    if (q.getId().equals(q1.getId())) {
+                                        setTag.addAll(q.getTags());
+                                        setTag.addAll(q1.getTags());
+                                    }
+                                }
+                                List<TagDto> list1 = new ArrayList<>(setTag);
+                                q.setTags(list1);
+                                resultSet.add(q);
+                            }
+                            List<QuestionDto> result = new ArrayList<>(resultSet);
+                            return result;
+                        }
+                    })
                     .getResultList();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return questionDto;
