@@ -19,24 +19,4 @@ public abstract class CommentConverter {
 
 }
 
-/*
-    @Mapper
-    interface DeliveryAddressMapper {
-
-    @Mapping(source = "customer.firstName", target = "forename")
-    @Mapping(source = "customer.lastName", target = "surname")
-    @Mapping(source = "address.street", target = "street")
-    @Mapping(source = "address.postalcode", target = "postalcode")
-    @Mapping(source = "address.county", target = "county")
-    DeliveryAddress from(Customer customer, Address address);
-
-}*/
-
-/*Hibernate:
-    insert
-    into
-        comment
-        (comment_type, last_redaction_date, persist_date, text, user_id)
-    values
-        (?, ?, ?, ?, ?)*/
 
