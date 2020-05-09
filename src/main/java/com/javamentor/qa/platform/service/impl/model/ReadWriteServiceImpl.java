@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public class ReadWriteServiceImpl<T, PK> implements ReadWriteService<T, PK> {
+public abstract class ReadWriteServiceImpl<T, PK> implements ReadWriteService<T, PK> {
 
     private final ReadWriteDao<T, PK> readWriteDao;
 
