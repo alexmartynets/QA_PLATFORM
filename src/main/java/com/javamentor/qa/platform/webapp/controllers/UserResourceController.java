@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.webapp.controllers;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDao;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.user.User;
+import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.service.impl.model.UserServiceImpl;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
@@ -19,7 +20,7 @@ import java.util.Optional;
 public class UserResourceController {
 
     private final UserService userService;
-    private final UserDtoDao userDtoDao;
+    private final UserDtoService userDtoService;
     private final UserConverter userConverter;
 
     @PostMapping
@@ -30,7 +31,7 @@ public class UserResourceController {
 
     @GetMapping
     public ResponseEntity<List<UserDto>> findAllUsers() {
-        return ResponseEntity.ok(userDtoDao.getUserDtoList());
+        return ResponseEntity.ok(userDtoService.getUserDtoList());
     }
 
     @PutMapping("/{id}")
@@ -38,12 +39,11 @@ public class UserResourceController {
         User user = userConverter.toEntity(userDto);
         user.setId(id);
         userService.persist(user);
-        return ResponseEntity.ok().body(userDto);
+        return ResponseEntity.ok().body(userDtoService.getUserDtoById(id));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findUser (@PathVariable Long id) {
-        Optional<User> user = Optional.ofNullable(userService.getByKey(id));
-        return ResponseEntity.ok(userConverter.toDto(user.get()));
+        return ResponseEntity.ok(userDtoService.getUserDtoById(id));
     }
 }
