@@ -1,4 +1,6 @@
 package com.javamentor.qa.platform.service.abstracts.model;
 
-public interface UserService<T, PK> extends ReadWriteService<T, PK> {
+import com.javamentor.qa.platform.models.entity.user.User;
+
+public interface UserService extends ReadWriteService<User, Long> {
 }
