@@ -1,7 +1,9 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDao;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.user.User;
+import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.service.impl.model.UserServiceImpl;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,8 @@ import java.util.Optional;
 @RequestMapping("/api/user")
 public class UserResourceController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
+    private final UserDtoDao userDtoDao;
     private final UserConverter userConverter;
 
     @PostMapping
@@ -27,7 +30,7 @@ public class UserResourceController {
 
     @GetMapping
     public ResponseEntity<List<UserDto>> findAllUsers() {
-        return ResponseEntity.ok(userConverter.toDtoList(userService.getAll()));
+        return ResponseEntity.ok(userDtoDao.getUserDtoList());
     }
 
     @PutMapping("/{id}")

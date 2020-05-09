@@ -16,6 +16,6 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
 
     @Override
     public List<QuestionDto> getAll() {
-        return questionDtoDao.getListQuestionDto();
+        return questionDtoDao.getQuestionDtoList();
     }
 }

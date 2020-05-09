@@ -19,7 +19,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDaoImpl<QuestionDto, Long> impl
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<QuestionDto> getListQuestionDto() {
+    public List<QuestionDto> getQuestionDtoList() {
         List<QuestionDto> questionDto = new ArrayList<>();
         try {
             questionDto = entityManager.createQuery("SELECT " +
