@@ -4,11 +4,11 @@ import com.javamentor.qa.platform.models.dto.CommentDto;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
+import com.javamentor.qa.platform.models.entity.question.Question;
+import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
 import com.javamentor.qa.platform.service.impl.dto.CommentDtoServiceImpl;
-import com.javamentor.qa.platform.service.impl.model.CommentAnswerServiceImpl;
-import com.javamentor.qa.platform.service.impl.model.CommentQuestionServiceImpl;
-import com.javamentor.qa.platform.service.impl.model.CommentServiceImpl;
+import com.javamentor.qa.platform.service.impl.model.*;
 import com.javamentor.qa.platform.webapp.converter.CommentConverter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -34,6 +33,11 @@ public class CommentResourceController {
     private CommentQuestionServiceImpl commentQuestionService;
     @Autowired
     private CommentConverter converter;
+    @Autowired
+    private AnswerServiceImpl answerService;
+    @Autowired
+    private QuestionServiceImpl questionService;
+
     // URL общий "/api/user/question/{questionId}/anwer/answer/{answerId}/comment"
 
     @GetMapping("/question/{questionId}/comment")
@@ -41,7 +45,7 @@ public class CommentResourceController {
 
         List<CommentDto> list = dtoService.getCommentsToQuestion(questionId);
         if (list.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(list);
     }
@@ -51,7 +55,7 @@ public class CommentResourceController {
 
         List<CommentDto> list = dtoService.getCommentsToAnswer(answerId);
         if (list.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(list);
     }
@@ -63,12 +67,20 @@ public class CommentResourceController {
         Comment comment = converter.toComment(commentDto);
 
         if (commentDto.getCommentType() == CommentType.QUESTION) {
-            CommentQuestion commentQuestion = commentQuestionService.getCommentQuestion(comment, typeId);
+            Question question = questionService.getByKey(typeId);
+            if (question == null) {
+                return ResponseEntity.notFound().build();
+            }
+            CommentQuestion commentQuestion = commentQuestionService.getCommentQuestion(comment, question);
             commentQuestionService.persist(commentQuestion);
             return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
         }
         if (commentDto.getCommentType() == CommentType.ANSWER) {
-            CommentAnswer commentAnswer = commentAnswerService.getCommentAnswer(comment, typeId);
+            Answer answer = answerService.getByKey(typeId);
+            if (answer == null) {
+                return ResponseEntity.notFound().build();
+            }
+            CommentAnswer commentAnswer = commentAnswerService.getCommentAnswer(comment, answer);
             commentAnswerService.persist(commentAnswer);
             return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
         }
@@ -83,10 +95,8 @@ public class CommentResourceController {
         if (comment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        comment.setText(comment.getText());
-        comment.setLastUpdateDateTime(LocalDateTime.now());
-
-        commentService.update(comment);
+        Comment updatedComment = commentService.getUpdateComment(comment, commentDto);
+        commentService.update(updatedComment);
         return ResponseEntity.ok().body(commentDto);
     }
 
@@ -96,20 +106,10 @@ public class CommentResourceController {
 
         Comment comment = commentService.getByKey(id);
         if (comment == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(converter.toCommentDto(comment));
     }
 }
 
-/*
-    @PostMapping("/students")
-	public ResponseEntity<Object> createStudent(@RequestBody Student student) {
-    Student savedStudent = studentRepository.save(student);
-
-	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedStudent.getId()).toUri();
-
-	return ResponseEntity.created(location).build(); }
- */
 

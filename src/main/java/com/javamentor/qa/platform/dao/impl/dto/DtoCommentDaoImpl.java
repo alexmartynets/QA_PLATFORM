@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -30,7 +31,7 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
                 .setParameter("questionId", questionId)
                 .getResultList();
         list.forEach(System.out::println);
-        return list.isEmpty() ? null : list;
+        return list.isEmpty() ? Collections.emptyList() : list;
     }
 
     //    список comment к Answer
@@ -48,6 +49,6 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
                 .setParameter("answerId", answerId)
                 .getResultList();
         list.forEach(System.out::println);
-        return list.isEmpty() ? null : list;
+        return list.isEmpty() ? Collections.emptyList() : list;
     }
 }

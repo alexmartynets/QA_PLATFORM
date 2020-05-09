@@ -8,11 +8,11 @@ import com.javamentor.qa.platform.service.abstracts.model.CommentQuestionService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CommentQuestionServiceImpl extends ReadWriteServiceImpl<CommentQuestion, Long> implements CommentQuestionService {
 
-    @Autowired
-    private QuestionServiceImpl questionService;
 
     @Autowired
     public CommentQuestionServiceImpl(CommentQuestionDao commentQuestionDao) {
@@ -20,10 +20,9 @@ public class CommentQuestionServiceImpl extends ReadWriteServiceImpl<CommentQues
     }
 
     @Override
-    public CommentQuestion getCommentQuestion(Comment comment, Long typeId) {
-
-        Question question = questionService.getByKey(typeId);
-
+    public CommentQuestion getCommentQuestion(Comment comment, Question question) {
+        comment.setPersistDateTime(LocalDateTime.now());
+        comment.setLastUpdateDateTime(LocalDateTime.now());
         return CommentQuestion.builder()
                 .comment(comment)
                 .question(question)
