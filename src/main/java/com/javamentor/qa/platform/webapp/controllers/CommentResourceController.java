@@ -60,13 +60,12 @@ public class CommentResourceController {
         return ResponseEntity.ok().body(list);
     }
 
-    // URI "/question/ или /answer /{typeId}/comment"
     @PostMapping("/{typeId}/comment")
     public ResponseEntity<CommentDto> saveComment(@RequestBody @NonNull CommentDto commentDto,
                                                   @PathVariable @NonNull Long typeId) {
         Comment comment = converter.toComment(commentDto);
 
-        if (commentDto.getCommentType() == CommentType.QUESTION) {
+        if (comment.getCommentType() == CommentType.QUESTION) {
             Question question = questionService.getByKey(typeId);
             if (question == null) {
                 return ResponseEntity.notFound().build();
@@ -75,7 +74,7 @@ public class CommentResourceController {
             commentQuestionService.persist(commentQuestion);
             return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
         }
-        if (commentDto.getCommentType() == CommentType.ANSWER) {
+        if (comment.getCommentType() == CommentType.ANSWER) {
             Answer answer = answerService.getByKey(typeId);
             if (answer == null) {
                 return ResponseEntity.notFound().build();
@@ -87,7 +86,6 @@ public class CommentResourceController {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(commentDto);
     }
 
-    // URI "/question/ или /answer /comment", меняем текст и дату
     @PutMapping("/comment")
     public ResponseEntity<CommentDto> updateComment(@RequestBody @NonNull CommentDto commentDto) {
 
@@ -100,7 +98,7 @@ public class CommentResourceController {
         return ResponseEntity.ok().body(commentDto);
     }
 
-    // URI "/question/ или /answer /comment/{id}",  test Converter
+    // test Converter
     @GetMapping("/comment/{id}")
     public ResponseEntity<CommentDto> getComment(@PathVariable @NonNull Long id) {
 
