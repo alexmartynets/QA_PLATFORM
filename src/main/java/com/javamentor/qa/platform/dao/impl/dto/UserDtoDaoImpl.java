@@ -53,6 +53,36 @@ public class UserDtoDaoImpl extends ReadWriteDaoImpl<UserDto, Long> implements U
 
     @Override
     public UserDto getUserDtoById(Long id) {
-        return null;
+        UserDto userDto = null;
+        try {
+            userDto = (UserDto) entityManager.createQuery("SELECT u.id, " +
+                    "u.email, " +
+                    "u.password, " +
+                    "u.role.name " +
+                    "FROM User u WHERE u.id = :id")
+                    .setParameter("id", id)
+                    .unwrap(Query.class)
+                    .setResultTransformer(new ResultTransformer() {
+                        @Override
+                        public Object transformTuple(Object[] objects, String[] strings) {
+                            return UserDto.builder()
+                                    .id(((Number) objects[0]).longValue())
+                                    .email((String) objects[1])
+                                    .password((String) objects[2])
+                                    .role((String) objects[3])
+                                    .build();
+                        }
+
+                        @Override
+                        public List transformList(List list) {
+                            return list;
+                        }
+                    })
+                    .getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return userDto;
     }
 }
