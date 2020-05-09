@@ -30,7 +30,7 @@ public class UserDtoDaoImpl extends ReadWriteDaoImpl<UserDto, Long> implements U
                         @Override
                         public Object transformTuple(Object[] objects, String[] strings) {
                             return UserDto.builder()
-                                    .id(((Number)objects[0]).longValue())
+                                    .id(((Number) objects[0]).longValue())
                                     .email((String) objects[1])
                                     .password((String) objects[2])
                                     .role((String) objects[3])
