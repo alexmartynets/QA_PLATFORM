@@ -1,7 +1,7 @@
 package com.javamentor.qa.platform.dao.impl.dto;
 
-import com.javamentor.qa.platform.dao.abstracrt.dto.QuestionDaoDto;
-import com.javamentor.qa.platform.dao.impl.model.AbstractDAOImpl;
+import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
+import com.javamentor.qa.platform.dao.impl.model.ReadWriteDaoImpl;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.dto.TagDto;
 import org.hibernate.query.Query;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public class QuestionDaoDtoImpl extends AbstractDAOImpl<QuestionDto, Long> implements QuestionDaoDto {
+public class QuestionDtoDaoImpl extends ReadWriteDaoImpl<QuestionDto, Long> implements QuestionDtoDao {
 
     @SuppressWarnings("unchecked")
     @Override

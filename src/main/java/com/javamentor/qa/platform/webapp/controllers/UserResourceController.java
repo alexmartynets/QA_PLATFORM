@@ -2,7 +2,7 @@ package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.user.User;
-import com.javamentor.qa.platform.service.impl.UserServiceImpl;
+import com.javamentor.qa.platform.service.impl.model.UserServiceImpl;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

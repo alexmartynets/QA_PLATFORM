@@ -1,9 +1,9 @@
-package com.javamentor.qa.platform.dao.abstracrt.dto;
+package com.javamentor.qa.platform.dao.abstracts.dto;
 
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 
 import java.util.List;
 
-public interface QuestionDaoDto {
+public interface QuestionDtoDao {
     List<QuestionDto> getListQuestionDto();
 }
