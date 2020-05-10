@@ -6,7 +6,6 @@ import com.javamentor.qa.platform.models.dto.CommentDto;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
-import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,7 +20,7 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
     @PersistenceContext
     protected EntityManager entityManager;
 
-    //    список comment к Question
+    //  получить список comment к Question
     public List<CommentDto> getCommentsToQuestion(Long questionId) {
         String hql = "select " +
                 "c.id, " +
@@ -56,10 +55,9 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
                 })
                 .getResultList();
         return list.isEmpty() ? Collections.emptyList() : list;
-//        return list;
     }
 
-    //    список comment к Answer
+    //  получить список comment к Answer
     public List<CommentDto> getCommentsToAnswer(Long answerId) {
         String hql = "select " +
                 "c.id, " +
@@ -95,7 +93,6 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
                 })
                 .getResultList();
         return list.isEmpty() ? Collections.emptyList() : list;
-//        return list;
     }
 }
 
