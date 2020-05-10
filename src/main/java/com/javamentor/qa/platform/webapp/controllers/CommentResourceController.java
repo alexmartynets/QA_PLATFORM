@@ -12,7 +12,6 @@ import com.javamentor.qa.platform.service.impl.model.*;
 import com.javamentor.qa.platform.webapp.converter.CommentConverter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,20 +22,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 public class CommentResourceController {
-    @Autowired
-    private CommentDtoServiceImpl dtoService;
-    @Autowired
-    private CommentServiceImpl commentService;
-    @Autowired
-    private CommentAnswerServiceImpl commentAnswerService;
-    @Autowired
-    private CommentQuestionServiceImpl commentQuestionService;
-    @Autowired
-    private CommentConverter converter;
-    @Autowired
-    private AnswerServiceImpl answerService;
-    @Autowired
-    private QuestionServiceImpl questionService;
+
+    private final CommentDtoServiceImpl dtoService;
+    private final CommentServiceImpl commentService;
+    private final CommentAnswerServiceImpl commentAnswerService;
+    private final CommentQuestionServiceImpl commentQuestionService;
+    private final CommentConverter converter;
+    private final AnswerServiceImpl answerService;
+    private final QuestionServiceImpl questionService;
 
     // URL общий "/api/user/question/{questionId}/anwer/answer/{answerId}/comment"
 

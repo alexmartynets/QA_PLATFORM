@@ -15,12 +15,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class DtoCommentDaoImpl implements DtoCommentDao {
+public class DtoCommentDaoImpl implements DtoCommentDao<CommentDto, Long> {
 
     @PersistenceContext
     protected EntityManager entityManager;
 
     //  получить список comment к Question
+    @Override
+    @SuppressWarnings("unchecked")
     public List<CommentDto> getCommentsToQuestion(Long questionId) {
         String hql = "select " +
                 "c.id, " +
@@ -31,7 +33,7 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
                 "c.user.id, " +
                 "c.user.fullName " +
                 "from Comment as c join CommentQuestion as cq on c.id = cq.id where cq.question.id = :questionId";
-        List<CommentDto> list = (List<CommentDto>) entityManager.createQuery(hql)
+        List<CommentDto> list = entityManager.createQuery(hql)
                 .setParameter("questionId", questionId)
                 .unwrap(org.hibernate.query.Query.class)
                 .setResultTransformer(new ResultTransformer() {
@@ -58,6 +60,8 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
     }
 
     //  получить список comment к Answer
+    @Override
+    @SuppressWarnings("unchecked")
     public List<CommentDto> getCommentsToAnswer(Long answerId) {
         String hql = "select " +
                 "c.id, " +
@@ -68,7 +72,7 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
                 "c.user.id, " +
                 "c.user.fullName " +
                 "from Comment as c join CommentAnswer as ca on c.id = ca.id where ca.answer.id = :answerId";
-        List<CommentDto> list = (List<CommentDto>) entityManager.createQuery(hql)
+        List<CommentDto> list = entityManager.createQuery(hql)
                 .unwrap(Query.class)
                 .setParameter("answerId", answerId)
                 .setResultTransformer(new ResultTransformer() {
@@ -87,7 +91,6 @@ public class DtoCommentDaoImpl implements DtoCommentDao {
 
                     @Override
                     public List transformList(List list) {
-                        list.forEach(System.out::println);
                         return list;
                     }
                 })

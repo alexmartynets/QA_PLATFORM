@@ -10,8 +10,13 @@ import java.util.List;
 
 @Service
 public class CommentDtoServiceImpl implements CommentDtoService<CommentDto, Long> {
+
+    public final DtoCommentDaoImpl commentDaoDto;
+
     @Autowired
-    public DtoCommentDaoImpl commentDaoDto;
+    public CommentDtoServiceImpl(DtoCommentDaoImpl commentDaoDto) {
+        this.commentDaoDto = commentDaoDto;
+    }
 
     @Override
     public List<CommentDto> getCommentsToQuestion(Long questionId) {
