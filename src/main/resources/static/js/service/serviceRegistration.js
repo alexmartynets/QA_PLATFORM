@@ -1,4 +1,4 @@
-class Data {
+class DataUserRegistration {
 
     constructor() {
 
@@ -17,7 +17,7 @@ class Data {
             success: function (data) {
                 if (data !== null) {
                     alert('Вы зарегистрировались!');
-                    // location.assign("/login");
+                    // location.assign("/api/user/login");
                 }
             },
             error: function (xhr, status, error) {
@@ -29,7 +29,7 @@ class Data {
     // сбор данных из формы регистрации
     collectDataForm() {
         return {
-            "username": $("#username").val(),
+            "fullName": $("#username").val(),
             "email": $("#email").val(),
             "password": $("#password").val()
         };

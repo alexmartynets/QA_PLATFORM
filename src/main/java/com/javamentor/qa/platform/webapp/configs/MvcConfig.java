@@ -13,7 +13,6 @@ public class MvcConfig implements WebMvcConfigurer {
             "classpath:/static/", "classpath:/public/"
     };
 
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
@@ -24,6 +23,5 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
-
     }
 }

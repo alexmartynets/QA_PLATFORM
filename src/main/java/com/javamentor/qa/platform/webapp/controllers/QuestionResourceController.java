@@ -6,12 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/user/question")
+@RequestMapping("/api/user")
 public class QuestionResourceController {
 
-    @GetMapping
-    public ResponseEntity<String> getQuestion (){
+    @GetMapping("/question")
+    public ResponseEntity<String> getQuestion() {
         return ResponseEntity.ok("Тест секьюрити");
     }
-
 }

@@ -37,10 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/login", "/", "/static/css/**", "/static/js/**").permitAll();
+                .antMatchers("/login", "/", "/css/**", "/js/**").permitAll();
 
         http
-                .cors().disable();
+                .cors().disable()
+                .csrf().disable();
 
         http
                 .logout()
@@ -50,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
