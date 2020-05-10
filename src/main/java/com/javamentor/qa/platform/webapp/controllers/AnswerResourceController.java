@@ -26,7 +26,7 @@ public class AnswerResourceController {
 
     @GetMapping
     public ResponseEntity<List<AnswerDto>> getAnswersDto(@PathVariable Long questionId) {
-        return ResponseEntity.ok(answerDtoService.getAnswersDto(questionId));
+        return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionId(questionId));
     }
 
     @PostMapping
