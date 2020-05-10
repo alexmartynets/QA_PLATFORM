@@ -47,18 +47,7 @@ public class AnswerDtoDaoImpl implements AnswerDtoDao {
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] tuple, String[] aliases) {
-                        return AnswerDto.builder()
-                                .id(((Number) tuple[0]).longValue())
-                                .htmlBody((String) tuple[1])
-                                .persistDateTime((LocalDateTime) tuple[2])
-                                .countValuable((Integer) tuple[3])
-                                .isHelpful((Boolean) tuple[4])
-                                .fullName((String) tuple[5])
-                                .imageUser((Blob) tuple[6])
-                                .reputationCount((Integer) tuple[7])
-                                .questionId(((Number) tuple[8]).longValue())
-                                .userId(((Number) tuple[9]).longValue())
-                                .build();
+                        return getObject(tuple);
                     }
 
                     @Override
@@ -93,18 +82,7 @@ public class AnswerDtoDaoImpl implements AnswerDtoDao {
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] tuple, String[] aliases) {
-                        return AnswerDto.builder()
-                                .id(((Number) tuple[0]).longValue())
-                                .htmlBody((String) tuple[1])
-                                .persistDateTime((LocalDateTime) tuple[2])
-                                .countValuable((Integer) tuple[3])
-                                .isHelpful((Boolean) tuple[4])
-                                .fullName((String) tuple[5])
-                                .imageUser((Blob) tuple[6])
-                                .reputationCount((Integer) tuple[7])
-                                .questionId(((Number) tuple[8]).longValue())
-                                .userId(((Number) tuple[9]).longValue())
-                                .build();
+                        return getObject(tuple);
                     }
 
                     @Override
@@ -113,5 +91,20 @@ public class AnswerDtoDaoImpl implements AnswerDtoDao {
                     }
                 })
                 .getSingleResult();
+    }
+    private Object getObject (Object[] tuple){
+
+        return AnswerDto.builder()
+                .id(((Number) tuple[0]).longValue())
+                .htmlBody((String) tuple[1])
+                .persistDateTime((LocalDateTime) tuple[2])
+                .countValuable((Integer) tuple[3])
+                .isHelpful((Boolean) tuple[4])
+                .fullName((String) tuple[5])
+                .imageUser((Blob) tuple[6])
+                .reputationCount((Integer) tuple[7])
+                .questionId(((Number) tuple[8]).longValue())
+                .userId(((Number) tuple[9]).longValue())
+                .build();
     }
 }
