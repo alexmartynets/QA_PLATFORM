@@ -17,15 +17,16 @@ public class QuestionDto {
     private String username;
     private List<TagDto> tags = new ArrayList<>();
     private Integer reputationCount;
-    private Integer viewCount = 0;
-    private Integer countAnswer = 0;
-    private Integer countValuable = 0;
+    private Integer viewCount;
+    private Integer countAnswer;
+    private Integer countValuable;
     private LocalDateTime persistDateTime;
+    private Boolean isHelpful;
 
     public QuestionDto() {
     }
 
-    public QuestionDto(Long id, String title, String username, List<TagDto> tags, Integer reputationCount, Integer viewCount, Integer countAnswer, Integer countValuable, LocalDateTime persistDateTime) {
+    public QuestionDto(Long id, String title, String username, List<TagDto> tags, Integer reputationCount, Integer viewCount, Integer countAnswer, Integer countValuable, LocalDateTime persistDateTime, Boolean isHelpful) {
         this.id = id;
         this.title = title;
         this.username = username;
@@ -35,6 +36,7 @@ public class QuestionDto {
         this.countAnswer = countAnswer;
         this.countValuable = countValuable;
         this.persistDateTime = persistDateTime;
+        this.isHelpful = isHelpful;
     }
 
     public Long getId() {
@@ -107,5 +109,13 @@ public class QuestionDto {
 
     public void setPersistDateTime(LocalDateTime persistDateTime) {
         this.persistDateTime = persistDateTime;
+    }
+
+    public Boolean getHelpful() {
+        return isHelpful;
+    }
+
+    public void setHelpful(Boolean helpful) {
+        isHelpful = helpful;
     }
 }
