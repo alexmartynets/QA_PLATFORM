@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/user/question/{questionId}/answer")
-public class ResourceAnswerController {
+public class AnswerResourceController {
 
     private final AnswerConverter answerConverter;
     private final AnswerService answerService;
