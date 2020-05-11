@@ -25,7 +25,6 @@ public class Answer {
     private Long id;
 
     @CreationTimestamp
-    @NotNull
     @Column(name = "persist_date", updatable = false)
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;

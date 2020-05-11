@@ -34,7 +34,7 @@ public class Comment {
     @Column(columnDefinition = "smallint")
     private CommentType commentType;
 
-    @NotNull
+//    @NotNull
     @Column(name = "persist_date", updatable = false)
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     @CreationTimestamp
