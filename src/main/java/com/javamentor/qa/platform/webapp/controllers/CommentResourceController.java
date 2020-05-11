@@ -2,13 +2,13 @@ package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.CommentDto;
 import com.javamentor.qa.platform.models.entity.Comment;
-import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
-import com.javamentor.qa.platform.service.impl.dto.CommentDtoServiceImpl;
-import com.javamentor.qa.platform.service.impl.model.*;
+import com.javamentor.qa.platform.service.abstracts.dto.CommentAnswerServiceDto;
+import com.javamentor.qa.platform.service.abstracts.dto.CommentQuestionServiceDto;
+import com.javamentor.qa.platform.service.abstracts.model.*;
 import com.javamentor.qa.platform.webapp.converter.CommentConverter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -23,71 +23,62 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class CommentResourceController {
 
-    private final CommentDtoServiceImpl dtoService;
-    private final CommentServiceImpl commentService;
-    private final CommentAnswerServiceImpl commentAnswerService;
-    private final CommentQuestionServiceImpl commentQuestionService;
+    private final CommentQuestionServiceDto questionServiceDto;
+    private final CommentAnswerServiceDto answerServiceDto;
     private final CommentConverter converter;
-    private final AnswerServiceImpl answerService;
-    private final QuestionServiceImpl questionService;
-
-    // URL общий "/api/user/question/{questionId}/anwer/answer/{answerId}/comment"
+    private final QuestionService questionService;
+    private final AnswerService answerService;
+    private final CommentService commentService;
+    private final CommentQuestionService commentQuestionService;
+    private final CommentAnswerService commentAnswerService;
 
     @GetMapping("/question/{questionId}/comment")
     public ResponseEntity<List<CommentDto>> getCommentsToQuestion(@PathVariable @NonNull Long questionId) {
 
-        List<CommentDto> list = dtoService.getCommentsToQuestion(questionId);
-        if (list.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        List<CommentDto> list = questionServiceDto.getCommentsToQuestion(questionId);
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/answer/{answerId}/comment")
     public ResponseEntity<List<CommentDto>> getCommentsToAnswer(@PathVariable @NonNull Long answerId) {
 
-        List<CommentDto> list = dtoService.getCommentsToAnswer(answerId);
-        if (list.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        List<CommentDto> list = answerServiceDto.getCommentsToAnswer(answerId);
         return ResponseEntity.ok().body(list);
     }
 
-    @PostMapping("/{typeId}/comment")
-    public ResponseEntity<CommentDto> saveComment(@RequestBody @NonNull CommentDto commentDto,
-                                                  @PathVariable @NonNull Long typeId) {
+    @PostMapping("/question/{questionId}/comment")
+    public ResponseEntity<CommentDto> saveCommentQuestion(@RequestBody @NonNull CommentDto commentDto,
+                                                          @PathVariable @NonNull Long questionId) {
         Comment comment = converter.toComment(commentDto);
+        Question question = questionService.getByKey(questionId);
+        CommentQuestion commentQuestion = CommentQuestion.builder()
+                .comment(comment)
+                .question(question).build();
 
-        if (comment.getCommentType() == CommentType.QUESTION) {
-            Question question = questionService.getByKey(typeId);
-            if (question == null) {
-                return ResponseEntity.notFound().build();
-            }
-            CommentQuestion commentQuestion = commentQuestionService.getCommentQuestion(comment, question);
-            commentQuestionService.persist(commentQuestion);
-            return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
-        }
-        if (comment.getCommentType() == CommentType.ANSWER) {
-            Answer answer = answerService.getByKey(typeId);
-            if (answer == null) {
-                return ResponseEntity.notFound().build();
-            }
-            CommentAnswer commentAnswer = commentAnswerService.getCommentAnswer(comment, answer);
-            commentAnswerService.persist(commentAnswer);
-            return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
-        }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(commentDto);
+        commentQuestionService.persist(commentQuestion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
+    }
+
+    @PostMapping("/answer/{answerId}/comment")
+    public ResponseEntity<CommentDto> saveCommentAnswer(@RequestBody @NonNull CommentDto commentDto,
+                                                        @PathVariable @NonNull Long answerId) {
+        Comment comment = converter.toComment(commentDto);
+        Answer answer = answerService.getByKey(answerId);
+        CommentAnswer commentAnswer = CommentAnswer.builder()
+                .comment(comment)
+                .answer(answer)
+                .build();
+
+        commentAnswerService.persist(commentAnswer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
     }
 
     @PutMapping("/comment")
-    public ResponseEntity<CommentDto> updateComment(@RequestBody @NonNull CommentDto commentDto) {
+    public ResponseEntity<CommentDto> updateCommentQuestion(@RequestBody @NonNull CommentDto commentDto) {
 
         Comment comment = commentService.getByKey(commentDto.getId());
-        if (comment == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Comment updatedComment = commentService.getUpdateComment(comment, commentDto);
-        commentService.update(updatedComment);
+        comment.setText(commentDto.getText());
+        commentService.update(comment);
         return ResponseEntity.ok().body(commentDto);
     }
 
@@ -96,9 +87,6 @@ public class CommentResourceController {
     public ResponseEntity<CommentDto> getComment(@PathVariable @NonNull Long id) {
 
         Comment comment = commentService.getByKey(id);
-        if (comment == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok().body(converter.toCommentDto(comment));
     }
 }
