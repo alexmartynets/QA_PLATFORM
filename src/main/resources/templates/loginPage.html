@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<style>
+
+    /* Form Style */
+    .form-horizontal {
+        background: #fff;
+        padding-bottom: 40px;
+        border-radius: 15px;
+        text-align: center;
+    }
+
+    .form-horizontal .heading {
+        display: block;
+        font-size: 35px;
+        font-weight: 700;
+        padding: 35px 0;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 30px;
+    }
+
+    .form-horizontal .form-group {
+        padding: 0 40px;
+        margin: 0 0 25px 0;
+        position: relative;
+    }
+
+    .form-horizontal .form-control {
+        background: #f0f0f0;
+        border: none;
+        border-radius: 20px;
+        box-shadow: none;
+        padding: 0 20px 0 45px;
+        height: 40px;
+        transition: all 0.3s ease 0s;
+    }
+
+    .form-horizontal .form-control:focus {
+        background: #e0e0e0;
+        box-shadow: none;
+        outline: 0 none;
+    }
+
+    .form-horizontal .form-group i {
+        position: absolute;
+        top: 12px;
+        left: 60px;
+        font-size: 17px;
+        color: #c8c8c8;
+        transition: all 0.5s ease 0s;
+    }
+
+    .form-horizontal .form-control:focus + i {
+        color: red;
+    }
+
+    .form-horizontal .fa-question-circle {
+        display: inline-block;
+        position: absolute;
+        top: 12px;
+        right: 60px;
+        font-size: 20px;
+        color: #808080;
+        transition: all 0.5s ease 0s;
+    }
+
+    .form-horizontal .fa-question-circle:hover {
+        color: #000;
+    }
+
+
+    .form-horizontal .btn {
+        float: right;
+        font-size: 14px;
+        border-radius: 30px;
+        padding: 10px 25px;
+        border: none;
+        text-transform: capitalize;
+        transition: all 0.5s ease 0s;
+    }
+
+</style>
+
+
+<body>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-offset-3 col-md-6">
+            <form class="form-horizontal" action="/login">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <img src="1.jpg">
+                <span class="heading">АВТОРИЗАЦИЯ</span>
+                <div class="form-group">
+                    <input type="username" class="form-control" id="username" name="username" placeholder="E-mail">
+                    <i class="fa fa-envelope-o fw"></i>
+                </div>
+                <div class="form-group help">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    <i class="fa fa-lock fw"></i>
+                    <a href="#" class="fa fa-question-circle"></a>
+                </div>
+                <div class="form-group">
+
+                    <button type="button" class="btn btn-danger">ВХОД</button>
+                </div>
+            </form>
+        </div>
+
+    </div><!-- /.row -->
+</div><!-- /.container -->
+</body>
+</html>
