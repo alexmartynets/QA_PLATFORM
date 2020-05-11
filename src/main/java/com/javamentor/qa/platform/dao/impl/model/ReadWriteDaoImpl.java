@@ -18,7 +18,7 @@ public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
     private Class<T> tClass;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     public ReadWriteDaoImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
