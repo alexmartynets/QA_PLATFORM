@@ -13,6 +13,8 @@ public class MvcConfig implements WebMvcConfigurer {
             "classpath:/static/", "classpath:/public/"
     };
 
+
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");

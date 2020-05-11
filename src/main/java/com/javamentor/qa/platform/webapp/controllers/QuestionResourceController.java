@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user")
 public class QuestionResourceController {
 
-    @GetMapping("/question")
-    public ResponseEntity<String> getQuestion() {
+    @GetMapping
+    public ResponseEntity<String> getQuestion (){
         return ResponseEntity.ok("Тест секьюрити");
     }
+
 }
