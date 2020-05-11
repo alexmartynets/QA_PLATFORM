@@ -41,12 +41,12 @@ public class AnswerResourceController {
         Answer answer = answerConverter.dtoToEntity(answerDTO);
         answer.setId(answerId);
         answerService.update(answer);
-        return ResponseEntity.ok(answerDtoService.getAnswerDtoById(answerId));
+        return ResponseEntity.ok(answerConverter.entityToDto(answer));
     }
 
     @DeleteMapping("/{answerId}")
     public ResponseEntity<AnswerDto> deleteAnswer(@PathVariable Long answerId) {
-        answerService.delete(answerService.getByKey(answerId));
+        answerService.deleteById(answerId);
         return ResponseEntity.ok().build();
     }
 }

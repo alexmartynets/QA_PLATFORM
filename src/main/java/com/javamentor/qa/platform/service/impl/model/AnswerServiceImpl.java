@@ -20,7 +20,7 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
     }
 
     @Override
-    public List<Answer> getAnswersByQuestionID(Long questionId) {
-        return answerDao.getAnswersByQuestionID(questionId);
+    public void deleteById(Long answerId) {
+        answerDao.deleteById(answerId);
     }
 }

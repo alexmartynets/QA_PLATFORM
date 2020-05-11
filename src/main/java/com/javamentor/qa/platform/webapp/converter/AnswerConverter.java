@@ -30,6 +30,26 @@ public abstract class AnswerConverter{
     })
     public abstract Answer dtoToEntity(AnswerDto answerDto);
 
+    @Mappings({
+            @Mapping(target="question.id", source="questionId"),
+            @Mapping(target="user.fullName", source="fullName"),
+            @Mapping(target="user.imageUser", source="imageUser"),
+            @Mapping(target="user.reputationCount", source="reputationCount"),
+            @Mapping(target="user.id", source="userId")
+    })
+    public abstract Answer dtoToEntityAdd(AnswerDto answerDto);
+
+    @Mappings({
+            @Mapping(target="question.id", source="questionId"),
+            @Mapping(target="user.fullName", source="fullName"),
+            @Mapping(target="user.imageUser", source="imageUser"),
+            @Mapping(target="user.reputationCount", source="reputationCount"),
+            @Mapping(target="user.id", source="userId")
+    })
+    public abstract Answer dtoToEntityUpdate(AnswerDto answerDto);
+
+
+
     public abstract List<AnswerDto> entitiesToDtos(List<Answer> answers);
 
     public abstract List<Answer> dtosToEntities(List<AnswerDto> answerDtos);
