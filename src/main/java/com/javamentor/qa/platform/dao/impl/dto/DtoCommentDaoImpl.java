@@ -20,7 +20,6 @@ public class DtoCommentDaoImpl implements DtoCommentDao<CommentDto, Long> {
     @PersistenceContext
     protected EntityManager entityManager;
 
-    //  получить список comment к Question
     @Override
     @SuppressWarnings("unchecked")
     public List<CommentDto> getCommentsToQuestion(Long questionId) {
@@ -35,7 +34,7 @@ public class DtoCommentDaoImpl implements DtoCommentDao<CommentDto, Long> {
                 "from Comment as c join CommentQuestion as cq on c.id = cq.id where cq.question.id = :questionId";
         List<CommentDto> list = entityManager.createQuery(hql)
                 .setParameter("questionId", questionId)
-                .unwrap(org.hibernate.query.Query.class)
+                .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
@@ -54,12 +53,11 @@ public class DtoCommentDaoImpl implements DtoCommentDao<CommentDto, Long> {
                     public List transformList(List list) {
                         return list;
                     }
-                })
-                .getResultList();
+                }).getResultList();
+
         return list.isEmpty() ? Collections.emptyList() : list;
     }
 
-    //  получить список comment к Answer
     @Override
     @SuppressWarnings("unchecked")
     public List<CommentDto> getCommentsToAnswer(Long answerId) {
@@ -93,8 +91,8 @@ public class DtoCommentDaoImpl implements DtoCommentDao<CommentDto, Long> {
                     public List transformList(List list) {
                         return list;
                     }
-                })
-                .getResultList();
+                }).getResultList();
+
         return list.isEmpty() ? Collections.emptyList() : list;
     }
 }
