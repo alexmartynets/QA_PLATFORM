@@ -75,7 +75,7 @@ public class User implements UserDetails {
     private LocalDateTime lastUpdateDateTime;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "role_id",nullable = false)
     private Role role;
 

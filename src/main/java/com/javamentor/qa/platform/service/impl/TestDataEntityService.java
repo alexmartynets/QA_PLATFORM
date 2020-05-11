@@ -29,8 +29,8 @@ public class TestDataEntityService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RoleService roleService;
+//    @Autowired
+//    private RoleService roleService;
 
     @Autowired
     private CommentAnswerService commentAnswerService;
@@ -54,7 +54,7 @@ public class TestDataEntityService {
     private RelatedTagService relatedTagService;
 
     public void createEntity() {
-        creatRoleEntity();
+//        creatRoleEntity();
         creatUserEntity();
         creatTagEntity();
         creatQuestionEntity();
@@ -63,19 +63,29 @@ public class TestDataEntityService {
         creatUserFavoriteQuestion();
     }
 
-    private void creatRoleEntity() {
-        Role roleAdmin = Role.builder()
-                .name("ADMIN")
-                .build();
-        roleService.persist(roleAdmin);
-
-        Role roleUser = Role.builder()
-                .name("USER")
-                .build();
-        roleService.persist(roleUser);
-    }
+//    private void creatRoleEntity() {
+//        Role roleAdmin = Role.builder()
+//                .name("ADMIN")
+//                .build();
+//        roleService.persist(roleAdmin);
+//
+//        Role roleUser = Role.builder()
+//                .name("USER")
+//                .build();
+//        roleService.persist(roleUser);
+//    }
 
     private void creatUserEntity() {
+
+        Role adminRole = Role.builder()
+                .name("ADMIN")
+                .build();
+
+        Role userRole = Role.builder()
+                .name("USER")
+                .build();
+
+
         User admin = User.builder()
                 .email("admin@admin.ru")
                 .password("admin")
@@ -86,7 +96,7 @@ public class TestDataEntityService {
                 .linkGitHub("github.admin.ru")
                 .linkVk("vk.admin.ru")
                 .about("about admin")
-                .role(roleService.getByKey(1L))
+                .role(adminRole)
                 .isEnabled(true)
                 .build();
         userService.persist(admin);
@@ -101,7 +111,7 @@ public class TestDataEntityService {
                 .linkGitHub("github.user1.ru")
                 .linkVk("vk.user1.ru")
                 .about("about user1")
-                .role(roleService.getByKey(2L))
+                .role(userRole)
                 .isEnabled(true)
                 .build();
         userService.persist(user1);
@@ -117,7 +127,7 @@ public class TestDataEntityService {
                 .linkGitHub("github.user2.ru")
                 .linkVk("vk.user2.ru")
                 .about("about user2")
-                .role(roleService.getByKey(2L))
+                .role(userRole)
                 .build();
         userService.persist(user2);
     }
@@ -133,7 +143,7 @@ public class TestDataEntityService {
         Tag tag2 = Tag.builder()
                 .name("Child tag1")
                 .description("Description tag2")
-                .persistDateTime(LocalDateTime.now())
+//                .persistDateTime(LocalDateTime.now())
                 .build();
         tagService.persist(tag2);
 

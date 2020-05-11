@@ -32,7 +32,7 @@ public class Tag {
     private String description;
 
     @CreationTimestamp
-    @NotNull
+//    @NotNull
     @Column(name = "persist_date", updatable = false)
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
