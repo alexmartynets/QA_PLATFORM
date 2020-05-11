@@ -19,4 +19,12 @@ public class AnswerDaoImpl extends ReadWriteDaoImpl<Answer, Long> implements Ans
                 .setParameter("questionId", questionId)
                 .getResultList();
     }
+
+    @Override
+    @Transactional
+    public void deleteById(Long answerId) {
+        entityManager.createQuery("delete from Answer a where a.id = :answerId")
+                .setParameter("answerId", answerId)
+                .executeUpdate();
+    }
 }
