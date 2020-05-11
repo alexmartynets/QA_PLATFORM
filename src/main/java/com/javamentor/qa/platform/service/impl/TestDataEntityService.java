@@ -11,9 +11,9 @@ import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
 import com.javamentor.qa.platform.models.entity.user.Role;
 import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
-import com.javamentor.qa.platform.service.impl.model.*;
-import com.javamentor.qa.platform.service.impl.model.Comment.CommentAnswerServiceImpl;
-import com.javamentor.qa.platform.service.impl.model.Comment.CommentQuestionServiceImpl;
+import com.javamentor.qa.platform.service.abstracts.model.*;
+import com.javamentor.qa.platform.service.abstracts.model.comment.CommentAnswerService;
+import com.javamentor.qa.platform.service.abstracts.model.comment.CommentQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,31 +25,31 @@ import java.util.List;
 public class TestDataEntityService {
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     @Autowired
-    private RoleServiceImpl roleServiceImpl;
+    private RoleService roleService;
 
     @Autowired
-    private CommentAnswerServiceImpl commentAnswerServiceImpl;
+    private CommentAnswerService commentAnswerService;
 
     @Autowired
-    private CommentQuestionServiceImpl commentQuestionServiceImpl;
+    private CommentQuestionService commentQuestionService;
 
     @Autowired
-    private TagServiceImpl tagServiceImpl;
+    private TagService tagService;
 
     @Autowired
-    private UserFavoriteQuestionServiceImpl userFavoriteQuestionServiceImpl;
+    private UserFavoriteQuestionService userFavoriteQuestionService;
 
     @Autowired
-    private QuestionServiceImpl questionServiceImpl;
+    private QuestionService questionService;
 
     @Autowired
-    private AnswerServiceImpl answerServiceImpl;
+    private AnswerService answerService;
 
     @Autowired
-    private RelatedTagServiceImpl relatedTagServiceImpl;
+    private RelatedTagService relatedTagService;
 
     public void createEntity() {
         creatRoleEntity();
@@ -65,12 +65,12 @@ public class TestDataEntityService {
         Role roleAdmin = Role.builder()
                 .name("ADMIN")
                 .build();
-        roleServiceImpl.persist(roleAdmin);
+        roleService.persist(roleAdmin);
 
         Role roleUser = Role.builder()
                 .name("USER")
                 .build();
-        roleServiceImpl.persist(roleUser);
+        roleService.persist(roleUser);
     }
 
     private void creatUserEntity() {
@@ -84,10 +84,10 @@ public class TestDataEntityService {
                 .linkGitHub("github.admin.ru")
                 .linkVk("vk.admin.ru")
                 .about("about admin")
-                .role(roleServiceImpl.getByKey(1L))
+                .role(roleService.getByKey(1L))
                 .isEnabled(true)
                 .build();
-        userServiceImpl.persist(admin);
+        userService.persist(admin);
 
         User user1 = User.builder()
                 .email("user1@user.ru")
@@ -99,10 +99,10 @@ public class TestDataEntityService {
                 .linkGitHub("github.user1.ru")
                 .linkVk("vk.user1.ru")
                 .about("about user1")
-                .role(roleServiceImpl.getByKey(2L))
+                .role(roleService.getByKey(2L))
                 .isEnabled(true)
                 .build();
-        userServiceImpl.persist(user1);
+        userService.persist(user1);
 
         User user2 = User.builder()
                 .email("user2@user.ru")
@@ -115,9 +115,9 @@ public class TestDataEntityService {
                 .linkGitHub("github.user2.ru")
                 .linkVk("vk.user2.ru")
                 .about("about user2")
-                .role(roleServiceImpl.getByKey(2L))
+                .role(roleService.getByKey(2L))
                 .build();
-        userServiceImpl.persist(user2);
+        userService.persist(user2);
     }
 
     private void creatTagEntity() {
@@ -126,20 +126,20 @@ public class TestDataEntityService {
                 .description("Description tag1")
                 .persistDateTime(LocalDateTime.now())
                 .build();
-        tagServiceImpl.persist(tag1);
+        tagService.persist(tag1);
 
         Tag tag2 = Tag.builder()
                 .name("Child tag1")
                 .description("Description tag2")
                 .persistDateTime(LocalDateTime.now())
                 .build();
-        tagServiceImpl.persist(tag2);
+        tagService.persist(tag2);
 
         RelatedTag relatedTag = RelatedTag.builder()
                 .mainTag(tag1)
                 .childTag(tag2)
                 .build();
-        relatedTagServiceImpl.persist(relatedTag);
+        relatedTagService.persist(relatedTag);
     }
 
     private void creatQuestionEntity() {
@@ -148,13 +148,13 @@ public class TestDataEntityService {
                 .viewCount(3)
                 .description("Question1 description")
                 .persistDateTime(LocalDateTime.now())
-                .user(userServiceImpl.getByKey(2L))
+                .user(userService.getByKey(2L))
                 .countValuable(2)
                 .build();
 
         List<Tag> tagList1 = new ArrayList<>();
-        tagList1.add(tagServiceImpl.getByKey(1L));
-        tagList1.add(tagServiceImpl.getByKey(2L));
+        tagList1.add(tagService.getByKey(1L));
+        tagList1.add(tagService.getByKey(2L));
         question1.setTags(tagList1);
 
         Question question2 = Question.builder()
@@ -162,48 +162,48 @@ public class TestDataEntityService {
                 .viewCount(4)
                 .description("Question2 description")
                 .persistDateTime(LocalDateTime.now())
-                .user(userServiceImpl.getByKey(3L))
+                .user(userService.getByKey(3L))
                 .countValuable(2)
                 .build();
 
         List<Tag> tagList2 = new ArrayList<>();
-        tagList2.add(tagServiceImpl.getByKey(2L));
+        tagList2.add(tagService.getByKey(2L));
         question2.setTags(tagList2);
 
         List<Question> questionList1 = new ArrayList<>();
-        questionList1.add(questionServiceImpl.getByKey(1L));
-        tagServiceImpl.getByKey(1L).setQuestions(questionList1);
-        questionServiceImpl.persist(question1);
+        questionList1.add(questionService.getByKey(1L));
+        tagService.getByKey(1L).setQuestions(questionList1);
+        questionService.persist(question1);
 
         List<Question> questionList2 = new ArrayList<>();
         questionList2.add(question1);
         questionList2.add(question2);
-        tagServiceImpl.getByKey(2L).setQuestions(questionList2);
-        questionServiceImpl.persist(question2);
+        tagService.getByKey(2L).setQuestions(questionList2);
+        questionService.persist(question2);
     }
 
     private void creatAnswerEntity() {
         Answer answer1_1 = Answer.builder()
-                .user(userServiceImpl.getByKey(3L))
+                .user(userService.getByKey(3L))
                 .countValuable(2)
                 .isHelpful(true)
-                .question(questionServiceImpl.getByKey(1L))
+                .question(questionService.getByKey(1L))
                 .dateAcceptTime(LocalDateTime.now())
                 .persistDateTime(LocalDateTime.now())
                 .htmlBody("Helpfull answer for question 1")
                 .build();
-        answerServiceImpl.persist(answer1_1);
+        answerService.persist(answer1_1);
 
         Answer answer1_2 = Answer.builder()
-                .user(userServiceImpl.getByKey(2L))
+                .user(userService.getByKey(2L))
                 .countValuable(2)
-                .question(questionServiceImpl.getByKey(1L))
+                .question(questionService.getByKey(1L))
                 .dateAcceptTime(LocalDateTime.now())
                 .persistDateTime(LocalDateTime.now())
                 .isHelpful(false)
                 .htmlBody("Don't helpfull answer for question 1")
                 .build();
-        answerServiceImpl.persist(answer1_2);
+        answerService.persist(answer1_2);
     }
 
     private void creatComment() {
@@ -212,50 +212,50 @@ public class TestDataEntityService {
                 .persistDateTime(LocalDateTime.now())
                 .lastUpdateDateTime(LocalDateTime.now())
                 .text("Comment 1 text")
-                .user(userServiceImpl.getByKey(2L))
+                .user(userService.getByKey(2L))
                 .build();
 
         CommentAnswer commentAnswer = CommentAnswer.builder()
                 .comment(comment1)
-                .answer(answerServiceImpl.getByKey(1L))
+                .answer(answerService.getByKey(1L))
                 .build();
-        commentAnswerServiceImpl.persist(commentAnswer);
+        commentAnswerService.persist(commentAnswer);
 
         Comment comment2 = Comment.builder()
                 .commentType(CommentType.ANSWER)
                 .persistDateTime(LocalDateTime.now())
                 .lastUpdateDateTime(LocalDateTime.now())
                 .text("Comment 2 text")
-                .user(userServiceImpl.getByKey(2L))
+                .user(userService.getByKey(2L))
                 .build();
 
         CommentAnswer commentAnswer2 = CommentAnswer.builder()
                 .comment(comment2)
-                .answer(answerServiceImpl.getByKey(1L))
+                .answer(answerService.getByKey(1L))
                 .build();
-        commentAnswerServiceImpl.persist(commentAnswer2);
+        commentAnswerService.persist(commentAnswer2);
 
         Comment comment3 = Comment.builder()
                 .commentType(CommentType.QUESTION)
                 .persistDateTime(LocalDateTime.now())
                 .lastUpdateDateTime(LocalDateTime.now())
                 .text("Comment 3 text")
-                .user(userServiceImpl.getByKey(3L))
+                .user(userService.getByKey(3L))
                 .build();
 
         CommentQuestion commentQuestion1 = CommentQuestion.builder()
                 .comment(comment3)
-                .question(questionServiceImpl.getByKey(1L))
+                .question(questionService.getByKey(1L))
                 .build();
-        commentQuestionServiceImpl.persist(commentQuestion1);
+        commentQuestionService.persist(commentQuestion1);
     }
 
     private void creatUserFavoriteQuestion() {
         UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
-                .user(userServiceImpl.getByKey(2L))
+                .user(userService.getByKey(2L))
                 .persistDateTime(LocalDateTime.now())
-                .question(questionServiceImpl.getByKey(2L))
+                .question(questionService.getByKey(2L))
                 .build();
-        userFavoriteQuestionServiceImpl.persist(userFavoriteQuestion);
+        userFavoriteQuestionService.persist(userFavoriteQuestion);
     }
 }

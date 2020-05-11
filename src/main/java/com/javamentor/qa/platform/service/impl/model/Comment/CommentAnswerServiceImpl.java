@@ -1,4 +1,4 @@
-package com.javamentor.qa.platform.service.impl.model.Comment;
+package com.javamentor.qa.platform.service.impl.model.comment;
 
 import com.javamentor.qa.platform.dao.abstracts.model.comment.CommentAnswerDAO;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommentAnswerServiceImpl extends ReadWriteServiceImpl<CommentAnswer, Long> implements CommentAnswerService {
 
-    @Autowired
     private final CommentAnswerDAO commentAnswerDAO;
 
+    @Autowired
     public CommentAnswerServiceImpl(CommentAnswerDAO commentAnswerDAO) {
         super(commentAnswerDAO);
         this.commentAnswerDAO = commentAnswerDAO;
