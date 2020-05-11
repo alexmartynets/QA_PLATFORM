@@ -15,17 +15,16 @@ import java.util.List;
 @Transactional
 public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
 
-    protected Class<T> tClass;
+    private Class<T> tClass;
 
     @PersistenceContext
-    protected EntityManager entityManager;
+    private EntityManager entityManager;
 
     public ReadWriteDaoImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
                 .getActualTypeArguments()[0];
     }
-
 
     @Override
     public void persist(T t) {
@@ -44,15 +43,18 @@ public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
 
     @Override
     public void deleteByKeyCascadeEnable(PK id) {
-        entityManager.remove(getByKey(id));
+        if (existsById(id)) {
+            entityManager.remove(getByKey(id));
+        }
     }
 
     @Override
     public void deleteByKeyCascadeIgnore(PK id) {
-        Query query = entityManager.createQuery(
-                "DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        if (existsById(id)) {
+            Query query = entityManager.createQuery("DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+        }
     }
 
     @Override
@@ -65,6 +67,7 @@ public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
         return entityManager.find(tClass, id);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<T> getAll() {
         return entityManager.createQuery("from " + tClass.getName()).getResultList();
