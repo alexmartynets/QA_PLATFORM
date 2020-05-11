@@ -21,6 +21,7 @@ public class UserDtoDaoImpl extends ReadWriteDaoImpl<UserDto, Long> implements U
         try {
             getAllUsers = entityManager.createQuery("SELECT " +
                     "u.id, " +
+                    "u.fullName, " +
                     "u.email, " +
                     "u.password, " +
                     "u.role.name " +
@@ -31,9 +32,10 @@ public class UserDtoDaoImpl extends ReadWriteDaoImpl<UserDto, Long> implements U
                         public Object transformTuple(Object[] objects, String[] strings) {
                             return UserDto.builder()
                                     .id(((Number) objects[0]).longValue())
-                                    .email((String) objects[1])
-                                    .password((String) objects[2])
-                                    .role((String) objects[3])
+                                    .fullName((String) objects[1])
+                                    .email((String) objects[2])
+                                    .password((String) objects[3])
+                                    .role((String) objects[4])
                                     .build();
                         }
 
@@ -55,7 +57,9 @@ public class UserDtoDaoImpl extends ReadWriteDaoImpl<UserDto, Long> implements U
     public UserDto getUserDtoById(Long id) {
         UserDto userDto = null;
         try {
-            userDto = (UserDto) entityManager.createQuery("SELECT u.id, " +
+            userDto = (UserDto) entityManager.createQuery("SELECT " +
+                    "u.id, " +
+                    "u.fullName, " +
                     "u.email, " +
                     "u.password, " +
                     "u.role.name " +
@@ -67,9 +71,10 @@ public class UserDtoDaoImpl extends ReadWriteDaoImpl<UserDto, Long> implements U
                         public Object transformTuple(Object[] objects, String[] strings) {
                             return UserDto.builder()
                                     .id(((Number) objects[0]).longValue())
-                                    .email((String) objects[1])
-                                    .password((String) objects[2])
-                                    .role((String) objects[3])
+                                    .fullName((String) objects[1])
+                                    .email((String) objects[2])
+                                    .password((String) objects[3])
+                                    .role((String) objects[4])
                                     .build();
                         }
 

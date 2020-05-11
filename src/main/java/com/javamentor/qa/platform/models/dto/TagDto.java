@@ -1,9 +1,13 @@
 package com.javamentor.qa.platform.models.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Builder
 public class TagDto {
     private Long id;

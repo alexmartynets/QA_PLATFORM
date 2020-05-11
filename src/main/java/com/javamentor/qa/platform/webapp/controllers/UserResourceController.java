@@ -5,20 +5,24 @@ import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/user")
 public class UserResourceController {
 
-    private final UserService userService;
-    private final UserDtoService userDtoService;
-    private final UserConverter userConverter;
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserDtoService userDtoService;
+
+    @Autowired
+    private UserConverter userConverter;
 
     @PostMapping
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
@@ -35,8 +39,8 @@ public class UserResourceController {
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         User user = userConverter.toEntity(userDto);
         user.setId(id);
-        userService.persist(user);
-        return ResponseEntity.ok().body(userDtoService.getUserDtoById(id));
+        userService.update(user);
+        return ResponseEntity.ok().body(userConverter.toDto(user));
     }
 
     @GetMapping("/{id}")

@@ -9,10 +9,7 @@ import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class QuestionDtoDaoImpl extends ReadWriteDaoImpl<QuestionDto, Long> implements QuestionDtoDao {
@@ -63,21 +60,16 @@ public class QuestionDtoDaoImpl extends ReadWriteDaoImpl<QuestionDto, Long> impl
 
                         @Override
                         public List transformList(List list) {
-                            List<QuestionDto> questionDtoList = (List<QuestionDto>) list;
-                            Set<QuestionDto> resultSet = new HashSet<>();
-                            for (QuestionDto question : questionDtoList) {
-                                Set<TagDto> setTag = new HashSet<>();
-                                for (QuestionDto question1 : questionDtoList) {
-                                    if (question.getId().equals(question1.getId())) {
-                                        setTag.addAll(question.getTags());
-                                        setTag.addAll(question1.getTags());
-                                    }
+                            Map<Long, QuestionDto> result = new LinkedHashMap<>();
+                            for (Object obj : list) {
+                                QuestionDto questionDto = (QuestionDto) obj;
+                                if (result.containsKey(questionDto.getId())) {
+                                    result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
+                                } else {
+                                    result.put(questionDto.getId(), questionDto);
                                 }
-                                List<TagDto> tagDtoList = new ArrayList<>(setTag);
-                                question.setTags(tagDtoList);
-                                resultSet.add(question);
                             }
-                            return new ArrayList<>(resultSet);
+                            return new ArrayList<>(result.values());
                         }
                     })
                     .getResultList();
