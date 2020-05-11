@@ -10,6 +10,8 @@ import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+
+
 @Repository
 public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
 

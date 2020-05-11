@@ -8,7 +8,7 @@ public interface ReadWriteDao<T, PK> {
 
     void update(T t);
 
-    void delete(T t);
+    void delete (T t);
 
     void deleteByKeyCascadeEnable(PK id);
 
