@@ -7,11 +7,13 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 
-@Builder
-@EqualsAndHashCode
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
+@Builder
 public class AnswerDto {
     private Long id;
     private String htmlBody;
@@ -22,10 +24,5 @@ public class AnswerDto {
     private Integer reputationCount;
     private QuestionDto questionDto;
     private UserDto userDto;
-
-    public AnswerDto() {
-    }
-
-
 
 }
