@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
+import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDAO;
 import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 
+public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
 
 @Repository
 public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
@@ -21,7 +23,7 @@ public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
     protected EntityManager entityManager;
 
     @SuppressWarnings("unchecked")
-    public ReadWriteDaoImpl() {
+    public ReadWriteDAOImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
                 .getActualTypeArguments()[0];
