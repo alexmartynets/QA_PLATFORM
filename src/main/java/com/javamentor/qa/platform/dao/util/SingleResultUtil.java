@@ -1,6 +1,5 @@
 package com.javamentor.qa.platform.dao.util;
 
-import org.hibernate.NonUniqueResultException;
 import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
