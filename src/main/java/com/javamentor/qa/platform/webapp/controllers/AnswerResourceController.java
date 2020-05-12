@@ -6,15 +6,12 @@ import com.javamentor.qa.platform.service.abstracts.dto.AnswerDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import com.javamentor.qa.platform.webapp.converter.AnswerConverter;
 
-
-import lombok.RequiredArgsConstructor;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/user/question/{questionId}/answer")
 public class AnswerResourceController {
@@ -23,6 +20,12 @@ public class AnswerResourceController {
     private final AnswerService answerService;
     private final AnswerDtoService answerDtoService;
 
+    @Autowired
+    public AnswerResourceController(AnswerConverter answerConverter, AnswerService answerService, AnswerDtoService answerDtoService) {
+        this.answerConverter = answerConverter;
+        this.answerService = answerService;
+        this.answerDtoService = answerDtoService;
+    }
 
     @GetMapping
     public ResponseEntity<List<AnswerDto>> getAnswersDto(@PathVariable Long questionId) {
