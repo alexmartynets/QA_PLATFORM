@@ -11,7 +11,6 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
