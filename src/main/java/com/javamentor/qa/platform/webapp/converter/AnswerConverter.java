@@ -13,9 +13,9 @@ public abstract class AnswerConverter{
 
     @Mappings({
             @Mapping(target="questionId", source="question.id"),
-            @Mapping(target="fullName", source="user.fullName"),
-            @Mapping(target="imageUser", source="user.imageUser"),
-            @Mapping(target="reputationCount", source="user.reputationCount"),
+            @Mapping(target="userDto.fullName", source="user.fullName"),
+            @Mapping(target="userDto.imageUser", source="user.imageUser"),
+            @Mapping(target="userDto.reputationCount", source="user.reputationCount"),
             @Mapping(target="userId", source="user.id")
     })
     public abstract AnswerDto entityToDto(Answer answer);

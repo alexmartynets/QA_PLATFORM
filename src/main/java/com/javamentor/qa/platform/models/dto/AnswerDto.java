@@ -19,10 +19,7 @@ public class AnswerDto {
     private String htmlBody;
     private Integer countValuable;
     private Boolean isHelpful;
-    private String fullName;
-    private byte[] imageUser;
-    private Integer reputationCount;
-    private QuestionDto questionDto;
+    private Long questionId;
     private UserDto userDto;
 
 }
