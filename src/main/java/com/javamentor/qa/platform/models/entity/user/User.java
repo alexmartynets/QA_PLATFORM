@@ -1,9 +1,6 @@
 package com.javamentor.qa.platform.models.entity.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,6 +20,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -77,7 +75,7 @@ public class User implements UserDetails {
     private LocalDateTime lastUpdateDateTime;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "role_id",nullable = false)
     private Role role;
 

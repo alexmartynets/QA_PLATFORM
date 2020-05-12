@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/user/question")
+@RequestMapping("/api/user/question")
 public class QuestionResourceController {
 
     @Autowired
@@ -21,4 +21,5 @@ public class QuestionResourceController {
     public ResponseEntity<List<QuestionDto>> allQuestions (){
         return ResponseEntity.ok(questionDtoService.getAll());
     }
+
 }

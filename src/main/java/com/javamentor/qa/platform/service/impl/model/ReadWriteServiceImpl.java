@@ -1,16 +1,18 @@
 package com.javamentor.qa.platform.service.impl.model;
 
-import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDao;
+import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDAO;
 import com.javamentor.qa.platform.service.abstracts.model.ReadWriteService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+
 public abstract class ReadWriteServiceImpl<T, PK> implements ReadWriteService<T, PK> {
 
-    private final ReadWriteDao<T, PK> readWriteDao;
 
-    protected ReadWriteServiceImpl(ReadWriteDao<T, PK> readWriteDao) {
+    private final ReadWriteDAO<T, PK> readWriteDao;
+
+    protected ReadWriteServiceImpl(ReadWriteDAO<T, PK> readWriteDao) {
         this.readWriteDao = readWriteDao;
     }
 

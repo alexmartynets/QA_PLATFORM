@@ -2,7 +2,7 @@ package com.javamentor.qa.platform.dao.abstracts.model;
 
 import java.util.List;
 
-public interface ReadWriteDao<T, PK> {
+public interface ReadWriteDAO<T, PK> {
 
     void persist(T t);
 
