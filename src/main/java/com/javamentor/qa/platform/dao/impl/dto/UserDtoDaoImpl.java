@@ -42,7 +42,6 @@ public class UserDtoDaoImpl extends ReadWriteDaoImpl<UserDto, Long> implements U
                                     .role((String) objects[4])
                                     .build();
                         }
-
                         @Override
                         public List transformList(List list) {
                             return list;

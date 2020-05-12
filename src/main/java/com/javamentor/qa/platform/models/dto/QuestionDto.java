@@ -22,7 +22,9 @@ public class QuestionDto {
     private String title;
 
     @NotNull
-    private String username;
+    private String username;//todo вместо имени поставить id пользователя
+
+    //todo добавить поле описаине (description)
 
     @NotNull
     private List<TagDto> tags = new ArrayList<>();
