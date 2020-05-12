@@ -7,6 +7,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
-public abstract class QuestionDAOImpl extends ReadWriteDAOImpl<Question, Long> implements QuestionDAO {
-
+public class QuestionDAOImpl extends ReadWriteDAOImpl<Question, Long> implements QuestionDAO {
 }

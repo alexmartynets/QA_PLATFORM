@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public abstract class AnswerDAOImpl extends ReadWriteDAOImpl<Answer, Long> implements AnswerDAO {
+public class AnswerDAOImpl extends ReadWriteDAOImpl<Answer, Long> implements AnswerDAO {
 
 
     @Override
