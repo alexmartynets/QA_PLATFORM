@@ -29,6 +29,5 @@ build/
 
 ### VS Code ###
 .vscode/
-.idea
-.properties
+application.properties
 
