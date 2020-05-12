@@ -1,20 +1,23 @@
 package com.javamentor.qa.platform.dao.util;
 
+import org.hibernate.query.Query;
+
+import javax.persistence.NoResultException;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 public class SingleResultUtil {
 
-    @SuppressWarnings("unchecked")
-    public static <T, K> Optional<T> getSingleResultOrNull(Supplier<K> var) {
+    public static <T> Optional<T> getSingleResultOrNull(Query<T> var) {
 
-        T result = null;
+        T result;
 
         try {
-            result = (T) var.get();
-        } catch (Exception e) {
-            e.printStackTrace();
+            result = var.getSingleResult();
+        } catch (NoResultException e) {
+            return Optional.empty();
         }
-        return Optional.ofNullable(result);
+
+        return Optional.of(result);
     }
 }
