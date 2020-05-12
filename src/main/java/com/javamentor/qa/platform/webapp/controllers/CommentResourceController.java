@@ -23,26 +23,25 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class CommentResourceController {
 
-    private final CommentQuestionServiceDto questionServiceDto;
-    private final CommentAnswerServiceDto answerServiceDto;
+    private final CommentQuestionServiceDto commentQuestionServiceDto;
+    private final CommentAnswerServiceDto commentAnswerServiceDto;
     private final CommentConverter converter;
     private final QuestionService questionService;
     private final AnswerService answerService;
-    private final CommentService commentService;
     private final CommentQuestionService commentQuestionService;
     private final CommentAnswerService commentAnswerService;
 
     @GetMapping("/question/{questionId}/comment")
     public ResponseEntity<List<CommentDto>> getCommentsToQuestion(@PathVariable @NonNull Long questionId) {
 
-        List<CommentDto> list = questionServiceDto.getCommentsToQuestion(questionId);
+        List<CommentDto> list = commentQuestionServiceDto.getCommentsToQuestion(questionId);
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/answer/{answerId}/comment")
     public ResponseEntity<List<CommentDto>> getCommentsToAnswer(@PathVariable @NonNull Long answerId) {
 
-        List<CommentDto> list = answerServiceDto.getCommentsToAnswer(answerId);
+        List<CommentDto> list = commentAnswerServiceDto.getCommentsToAnswer(answerId);
         return ResponseEntity.ok().body(list);
     }
 
@@ -74,19 +73,18 @@ public class CommentResourceController {
     }
 
     @PutMapping("/comment")
-    public ResponseEntity<CommentDto> updateCommentQuestion(@RequestBody @NonNull CommentDto commentDto) {
+    public ResponseEntity<CommentDto> updateComment(@RequestBody @NonNull CommentDto commentDto) {
 
-        Comment comment = commentService.getByKey(commentDto.getId());
+        Comment comment = commentQuestionServiceDto.getByKey(commentDto.getId());
         comment.setText(commentDto.getText());
-        commentService.update(comment);
+        commentQuestionServiceDto.update(comment);
         return ResponseEntity.ok().body(commentDto);
     }
 
-    // test Converter
     @GetMapping("/comment/{id}")
     public ResponseEntity<CommentDto> getComment(@PathVariable @NonNull Long id) {
 
-        Comment comment = commentService.getByKey(id);
+        Comment comment = commentQuestionServiceDto.getByKey(id);
         return ResponseEntity.ok().body(converter.toCommentDto(comment));
     }
 }

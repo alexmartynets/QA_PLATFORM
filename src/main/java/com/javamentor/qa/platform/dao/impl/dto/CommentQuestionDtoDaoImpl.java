@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.dao.impl.dto;
 import com.javamentor.qa.platform.dao.abstracts.dto.CommentQuestionDtoDao;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDaoImpl;
 import com.javamentor.qa.platform.models.dto.CommentDto;
+import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
@@ -15,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class CommentQuestionDtoDaoImpl extends ReadWriteDaoImpl<CommentDto, Long> implements CommentQuestionDtoDao {
+public class CommentQuestionDtoDaoImpl extends ReadWriteDaoImpl<Comment, Long> implements CommentQuestionDtoDao {
 
     @PersistenceContext
     protected EntityManager entityManager;
