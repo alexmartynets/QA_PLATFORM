@@ -21,7 +21,7 @@ public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
     protected EntityManager entityManager;
 
     @SuppressWarnings("unchecked")
-    public ReadWriteDaoImpl() {
+    public ReadWriteDAOImpl() {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
                 .getActualTypeArguments()[0];

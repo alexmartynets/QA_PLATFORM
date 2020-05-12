@@ -14,6 +14,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "comment_question")
 public class CommentQuestion {
 
