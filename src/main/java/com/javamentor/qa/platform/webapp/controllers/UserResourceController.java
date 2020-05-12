@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -44,7 +45,7 @@ public class UserResourceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> findUser (@PathVariable Long id) {
+    public ResponseEntity<Optional<UserDto>> findUser (@PathVariable Long id) {
         return ResponseEntity.ok(userDtoService.getUserDtoById(id));
     }
 }
