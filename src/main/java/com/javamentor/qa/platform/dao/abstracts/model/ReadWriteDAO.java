@@ -1,14 +1,14 @@
-package com.javamentor.qa.platform.dao.abstracrt.model;
+package com.javamentor.qa.platform.dao.abstracts.model;
 
 import java.util.List;
 
-public interface AbstractDAO<T, PK> {
+public interface ReadWriteDAO<T, PK> {
 
     void persist(T t);
 
     void update(T t);
 
-    void delete (T t);
+    void delete(T t);
 
     void deleteByKeyCascadeEnable(PK id);
 
@@ -19,4 +19,5 @@ public interface AbstractDAO<T, PK> {
     T getByKey(PK id);
 
     List<T> getAll();
+
 }
