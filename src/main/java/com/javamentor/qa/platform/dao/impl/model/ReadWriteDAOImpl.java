@@ -1,6 +1,6 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
-import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDao;
+import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDAO;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +11,8 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 
-
 @Repository
-public abstract class ReadWriteDaoImpl<T, PK> implements ReadWriteDao<T, PK> {
+public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
 
     protected Class<T> tClass;
 

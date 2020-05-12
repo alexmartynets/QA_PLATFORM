@@ -9,6 +9,8 @@ import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
 import com.javamentor.qa.platform.service.abstracts.dto.CommentAnswerServiceDto;
 import com.javamentor.qa.platform.service.abstracts.dto.CommentQuestionServiceDto;
 import com.javamentor.qa.platform.service.abstracts.model.*;
+import com.javamentor.qa.platform.service.abstracts.model.comment.CommentAnswerService;
+import com.javamentor.qa.platform.service.abstracts.model.comment.CommentQuestionService;
 import com.javamentor.qa.platform.webapp.converter.CommentConverter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
