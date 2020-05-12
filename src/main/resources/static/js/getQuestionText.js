@@ -9,11 +9,8 @@ function getQuestionText(id) {
         dataType: 'json',
 
         success: function (data) {
-
-            $(data).each(function (index, val) {
-                let textOfDescription = val(data.description);
-                document.getElementById("tblQuestionText").innerHTML = textOfDescription;
-            })
+            let textOfDescription = val(data.description);
+            document.getElementById("tblQuestionText").innerHTML = textOfDescription;
         },
         error: function (error) {
             alert(error);

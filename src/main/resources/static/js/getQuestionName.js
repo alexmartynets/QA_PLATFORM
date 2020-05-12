@@ -1,4 +1,4 @@
-function getNameQuestion1(id) {
+function getQuestionName(id) {
 
     $.ajax({
         url: '/api/question/' + id,
@@ -6,13 +6,8 @@ function getNameQuestion1(id) {
         dataType: 'json',
 
         success: function (data) {
-            let tableBody = $('#tblQuestionName tbody');
-            tableBody.empty();
-            $(data).each(function (index, val) {
-                tableBody.append(`<tr>
-                        <td>${val.title}</td>       
-            </tr>`);
-            })
+            let titleQuestion = val(data.title);
+            document.getElementById("NameAnswer").innerHTML = titleQuestion;
         },
         error: function (error) {
             alert(error);

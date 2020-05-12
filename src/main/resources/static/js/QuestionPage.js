@@ -13,7 +13,13 @@ function getNameQuestion() {
     let te = "Название вопроса";
     document.getElementById("NameAnswer").innerHTML = te;
 
-    getNameQuestion1();
+    let tableBody = $('#tblTextOfQuestion tbody');
+        let testT = "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
+            "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
+            "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ ";
+        tableBody.append(`${testT}`);
+
+    getQuestionName();
     getQuestionText();
     getTextOfQuestion();
 }
