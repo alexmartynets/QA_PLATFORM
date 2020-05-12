@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface QuestionDtoService {
     List<QuestionDto> getAll();
+
+    QuestionDto getQuestionDtoById(Long id);
+
 }

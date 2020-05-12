@@ -78,4 +78,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
         }
         return questionDto;
     }
+
+    @Override
+    public QuestionDto getQuestionDtoById(Long id) {
+        return null;
+    }
 }

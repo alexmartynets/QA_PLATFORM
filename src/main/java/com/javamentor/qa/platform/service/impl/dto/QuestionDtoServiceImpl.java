@@ -19,4 +19,10 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     public List<QuestionDto> getAll() {
         return questionDtoDao.getQuestionDtoList();
     }
+
+    @Override
+    public QuestionDto getQuestionDtoById(Long id) {
+        return null;
+    }
+
 }
