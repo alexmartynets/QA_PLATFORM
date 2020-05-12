@@ -61,7 +61,7 @@ public class UserDtoDaoImpl extends ReadWriteDaoImpl<UserDto, Long> implements U
     @Override
     public Optional<UserDto> getUserDtoById(Long id) {
 
-        Supplier<UserDto> supplier = () -> (UserDto) entityManager.createQuery("SELECT " +
+        return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("SELECT " +
                 "u.id, " +
                 "u.fullName, " +
                 "u.email, " +
@@ -86,8 +86,6 @@ public class UserDtoDaoImpl extends ReadWriteDaoImpl<UserDto, Long> implements U
                     public List transformList(List list) {
                         return list;
                     }
-                }).getSingleResult();
-
-        return SingleResultUtil.getSingleResultOrNull(supplier);
+                }));
     }
 }
