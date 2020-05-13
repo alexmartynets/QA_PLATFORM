@@ -1,6 +1,5 @@
 $(document).ready(function () {
     let newAnswer  = {};
-    getNameQuestion();
     $('#btnSendAnswer').click(function (id) {
         newAnswer .text = $('#Textarea').val();
         let answerObj = JSON.stringify(newAnswer);
