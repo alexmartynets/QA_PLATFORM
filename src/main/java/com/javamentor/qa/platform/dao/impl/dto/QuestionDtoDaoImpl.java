@@ -31,8 +31,8 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "t.name, " +
                     "t.description, " +
                     "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                    "(SELECT a.isHelpful FROM Answer a WHERE a.question.id = q.id) " +
-                    "FROM Question q JOIN q.tags t")
+                    "a.isHelpful " +
+                    "FROM Question q LEFT JOIN Answer a ON q.id = a.question.id JOIN q.tags t")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
                         @Override
@@ -60,16 +60,21 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
 
                         @Override
                         public List transformList(List list) {
-                            Map<Long, QuestionDto> result = new TreeMap<>(Comparator.reverseOrder());
-                            for (Object obj : list) {
-                                QuestionDto questionDto = (QuestionDto) obj;
-                                if (result.containsKey(questionDto.getId())) {
-                                    result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
-                                } else {
-                                    result.put(questionDto.getId(), questionDto);
+                            List<QuestionDto> questionDtos = (List<QuestionDto>) list;
+                            Set<QuestionDto> resultSet = new HashSet<>();
+                            for (QuestionDto q : questionDtos) {
+                                Set<TagDto> setTag = new HashSet<>();
+                                for (QuestionDto q1 : questionDtos) {
+                                    if (q.getId().equals(q1.getId())) {
+                                        setTag.addAll(q.getTags());
+                                        setTag.addAll(q1.getTags());
+                                    }
                                 }
+                                List<TagDto> list1 = new ArrayList<>(setTag);
+                                q.setTags(list1);
+                                resultSet.add(q);
                             }
-                            return new ArrayList<>(result.values());
+                            return new ArrayList<>(resultSet);
                         }
                     })
                     .getResultList();
