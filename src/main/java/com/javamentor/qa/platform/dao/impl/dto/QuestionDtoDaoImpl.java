@@ -4,6 +4,8 @@ import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.dto.TagDto;
+import com.javamentor.qa.platform.models.entity.question.Tag;
+import com.javamentor.qa.platform.models.entity.user.Role;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
@@ -27,20 +29,21 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "q.viewCount, " +
                     "q.countValuable, " +
                     "q.persistDateTime,  " +
+                    "q.description," +
                     "t.id, " +
                     "t.name, " +
-                    "t.description, " +
-                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                    "(SELECT a.isHelpful FROM Answer a WHERE a.question.id = q.id) " +
+                    "t.description " +
+//                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+//                    "(SELECT a.isHelpful FROM Answer a WHERE a.question.id = q.id) " +
                     "FROM Question q JOIN q.tags t")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
                         @Override
                         public Object transformTuple(Object[] objects, String[] strings) {
                             TagDto tagDto = TagDto.builder()
-                                    .id((Long) objects[7])
-                                    .name((String) objects[8])
-                                    .description((String) objects[9])
+                                    .id((Long) objects[8])
+                                    .name((String) objects[9])
+                                    .description((String) objects[10])
                                     .build();
                             List<TagDto> tagDtoList = new ArrayList<>();
                             tagDtoList.add(tagDto);
@@ -52,9 +55,10 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .viewCount((Integer) objects[4])
                                     .countValuable((Integer) objects[5])
                                     .persistDateTime((LocalDateTime) objects[6])
+                                    .description((String) objects[7])
                                     .tags(tagDtoList)
-                                    .countAnswer(((Number) objects[10]).intValue())
-                                    .isHelpful((Boolean) objects[11])
+//                                    .countAnswer(((Number) objects[10]).intValue())
+//                                    .isHelpful((Boolean) objects[11])
                                     .build();
                         }
 
@@ -90,21 +94,23 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "q.user.reputationCount, " +
                     "q.viewCount, " +
                     "q.countValuable, " +
-                    "q.persistDateTime,  " +
+                    "q.persistDateTime, " +
+                    "q.description," +
                     "t.id, " +
                     "t.name, " +
-                    "t.description, " +
-                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                    "(SELECT a.isHelpful FROM Answer a WHERE a.question.id = q.id) " +
-                    "FROM Question q JOIN q.tags t")
+                    "t.description " +
+//                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+//                    "(SELECT a.isHelpful FROM Answer a WHERE a.question.id = q.id) " +
+                    "FROM Question q JOIN q.tags t WHERE q.id = " + id)
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
+
                         @Override
                         public Object transformTuple(Object[] objects, String[] strings) {
                             TagDto tagDto = TagDto.builder()
-                                    .id((Long) objects[7])
-                                    .name((String) objects[8])
-                                    .description((String) objects[9])
+                                    .id((Long) objects[8])
+                                    .name((String) objects[9])
+                                    .description((String) objects[10])
                                     .build();
                             List<TagDto> tagDtoList = new ArrayList<>();
                             tagDtoList.add(tagDto);
@@ -116,9 +122,10 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .viewCount((Integer) objects[4])
                                     .countValuable((Integer) objects[5])
                                     .persistDateTime((LocalDateTime) objects[6])
+                                    .description((String) objects[7])
                                     .tags(tagDtoList)
-                                    .countAnswer(((Number) objects[10]).intValue())
-                                    .isHelpful((Boolean) objects[11])
+//                                    .countAnswer(((Number) objects[10]).intValue())
+//                                    .isHelpful((Boolean) objects[11])
                                     .build();
                         }
 

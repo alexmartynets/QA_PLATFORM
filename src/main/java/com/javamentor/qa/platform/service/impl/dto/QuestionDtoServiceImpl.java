@@ -22,7 +22,7 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
 
     @Override
     public QuestionDto getQuestionDtoById(Long id) {
-        return null;
+        return questionDtoDao.getQuestionDtoById(id);
     }
 
 }
