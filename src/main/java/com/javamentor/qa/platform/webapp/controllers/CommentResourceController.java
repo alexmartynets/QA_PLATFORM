@@ -74,12 +74,21 @@ public class CommentResourceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
     }
 
-    @PutMapping("/comment")
-    public ResponseEntity<CommentDto> updateComment(@RequestBody @NonNull CommentDto commentDto) {
+    @PutMapping("/question/comment")
+    public ResponseEntity<CommentDto> updateCommentQuestion(@RequestBody @NonNull CommentDto commentDto) {
 
         Comment comment = commentQuestionServiceDto.getByKey(commentDto.getId());
         comment.setText(commentDto.getText());
         commentQuestionServiceDto.update(comment);
+        return ResponseEntity.ok().body(commentDto);
+    }
+
+    @PutMapping("/answer/comment")
+    public ResponseEntity<CommentDto> updateCommentAnswer(@RequestBody @NonNull CommentDto commentDto) {
+
+        Comment comment = commentAnswerServiceDto.getByKey(commentDto.getId());
+        comment.setText(commentDto.getText());
+        commentAnswerServiceDto.update(comment);
         return ResponseEntity.ok().body(commentDto);
     }
 
