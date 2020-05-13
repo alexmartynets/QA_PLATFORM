@@ -13,11 +13,17 @@ function getNameQuestion() {
     let te = "Название вопроса";
     document.getElementById("NameAnswer").innerHTML = te;
 
+    let countQuestion = "0";
+    document.getElementById("countValuableQuestion").innerHTML = countQuestion;
+
+    let countAnswer = "1";
+    document.getElementById("countValuableAnswer").innerHTML = countAnswer;
+
     let tableBody = $('#tblTextOfQuestion tbody');
-        let testT = "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
-            "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
-            "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ ";
-        tableBody.append(`${testT}`);
+    let testT = "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
+        "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
+        "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ ";
+    tableBody.append(`${testT}`);
 
     getQuestionName();
     getQuestionText();
