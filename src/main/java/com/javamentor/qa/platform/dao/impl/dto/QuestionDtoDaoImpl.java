@@ -30,9 +30,10 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "t.id, " +
                     "t.name, " +
                     "t.description, " +
-                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                    "a.isHelpful " +
-                    "FROM Question q LEFT JOIN Answer a ON q.id = a.question.id JOIN q.tags t")
+                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) " +
+//                    "a.isHelpful " +
+//                            LEFT JOIN Answer a ON q.id = a.question.id
+                    "FROM Question q JOIN q.tags t")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
                         @Override
@@ -54,27 +55,20 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .persistDateTime((LocalDateTime) objects[6])
                                     .tags(tagDtoList)
                                     .countAnswer(((Number) objects[10]).intValue())
-                                    .isHelpful((Boolean) objects[11])
+//                                    .isHelpful((Boolean) objects[11])
                                     .build();
                         }
 
                         @Override
                         public List transformList(List list) {
-                            List<QuestionDto> questionDtos = (List<QuestionDto>) list;
-                            Set<QuestionDto> resultSet = new HashSet<>();
-                            for (QuestionDto q : questionDtos) {
-                                Set<TagDto> setTag = new HashSet<>();
-                                for (QuestionDto q1 : questionDtos) {
-                                    if (q.getId().equals(q1.getId())) {
-                                        setTag.addAll(q.getTags());
-                                        setTag.addAll(q1.getTags());
-                                    }
-                                }
-                                List<TagDto> list1 = new ArrayList<>(setTag);
-                                q.setTags(list1);
-                                resultSet.add(q);
+                            Map<Long, QuestionDto> result = new TreeMap<>(Comparator.reverseOrder());//Comparator.naturalOrder()
+                            for (Object obj : list) {
+                                QuestionDto questionDto = (QuestionDto) obj;
+                                if (result.containsKey(questionDto.getId()))
+                                    result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
+                                else result.put(questionDto.getId(), questionDto);
                             }
-                            return new ArrayList<>(resultSet);
+                            return new ArrayList<>(result.values());
                         }
                     })
                     .getResultList();
