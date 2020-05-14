@@ -82,7 +82,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
         }
         return questionDto;
     }
-    //todo настроить
+
     @Override
     public QuestionDto getQuestionDtoById(Long id) {
         QuestionDto questionDto = null;
@@ -99,12 +99,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "t.id, " +
                     "t.name, " +
                     "t.description " +
-//                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-//                    "(SELECT a.isHelpful FROM Answer a WHERE a.question.id = q.id) " +
                     "FROM Question q JOIN q.tags t WHERE q.id = " + id)
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
-
                         @Override
                         public Object transformTuple(Object[] objects, String[] strings) {
                             TagDto tagDto = TagDto.builder()
@@ -124,8 +121,6 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .persistDateTime((LocalDateTime) objects[6])
                                     .description((String) objects[7])
                                     .tags(tagDtoList)
-//                                    .countAnswer(((Number) objects[10]).intValue())
-//                                    .isHelpful((Boolean) objects[11])
                                     .build();
                         }
 

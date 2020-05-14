@@ -22,7 +22,10 @@ public class QuestionDto {
     private String title;
 
     @NotNull
-    private String username;//todo вместо имени поставить id пользователя
+    private Long userId;
+
+    @NotNull
+    private String username;
 
     @NotNull
     private String description;
