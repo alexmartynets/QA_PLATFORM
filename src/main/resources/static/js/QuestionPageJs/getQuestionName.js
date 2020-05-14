@@ -1,15 +1,15 @@
 function getQuestionName(id) {
 
-    let te = "Название вопроса";
-    document.getElementById("NameAnswer").innerHTML = te;
-
+  // let te = "Название вопроса";
+  //  document.getElementById("NameAnswer").innerHTML = te;
+    id = 1;
     $.ajax({
-        url: '/api/question/' + id,
+        url: '/api/user/question/' + id,
         method: 'GET',
         dataType: 'json',
 
         success: function (data) {
-            let titleQuestion = val(data.title);
+            let titleQuestion = data.title;
             document.getElementById("NameAnswer").innerHTML = titleQuestion;
         },
         error: function () {

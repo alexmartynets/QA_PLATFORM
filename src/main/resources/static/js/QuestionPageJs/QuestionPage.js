@@ -10,8 +10,8 @@ $(document).ready(function () {
 function getNameQuestion() {
 
     getQuestionName();
-    getQuestionText();
-    getTextOfQuestion();
+  //  getQuestionText();
+  //  getTextOfQuestion();
 }
 
 
