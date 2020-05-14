@@ -30,9 +30,8 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "t.id, " +
                     "t.name, " +
                     "t.description, " +
-                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) " +
-//                    "a.isHelpful " +
-//                            LEFT JOIN Answer a ON q.id = a.question.id
+                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                    "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
                     "FROM Question q JOIN q.tags t")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
@@ -55,7 +54,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .persistDateTime((LocalDateTime) objects[6])
                                     .tags(tagDtoList)
                                     .countAnswer(((Number) objects[10]).intValue())
-//                                    .isHelpful((Boolean) objects[11])
+                                    .isHelpful((Boolean) objects[11])
                                     .build();
                         }
 

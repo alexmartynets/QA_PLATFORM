@@ -12,19 +12,44 @@ jQuery(function ($) {
             })
         },
     });
+    function getButtons(tags){
+        return tags.map(el=>{
+            return `<button type="button" class="btn btn-primary btn-sm mr-1">${el.name}</button>`;
+        });
+    }
 
     function addRow(data) {
 
         var newRow = "";
+        var d = new Date(data.persistDateTime);
+
         newRow += ('<li class="list-group-item">');
+        newRow += ('<div class="container">');
+        newRow += ('<div class="row">');
+        newRow += ('<div class="col-sm-5">')
         newRow += ('<a href = "#">')
-        newRow += ('<button type="button" class="btn btn-outline-dark">Голосов<span class="badge badge-light">' + data.countValuable + '</span></button>');
-        newRow += ('<button type="button" class="btn btn-outline-dark">Ответов<span class="badge badge-light">' + data.countAnswer + '</span></button>');
-        newRow += ('<button type="button" class="btn btn-outline-dark">Показов<span class="badge badge-light">' + data.viewCount + '</span></button>');
-        newRow += ('<h3>' + data.title + '</h3>')
-        newRow += ('</a>')
-        newRow += ('</li>')
+        newRow += ('<button type="button" class="btn btn-outline-secondary mr-1 btn-square">Голосов: '+ data.countValuable +'</button>');
+        if(data.countAnswer > 0 && data.isHelpful === true){
+            newRow += ('<button type="button" class="btn btn-success btn-square">Ответов: ' + data.countAnswer +'</button>');
+        } else if(data.countAnswer > 0 && data.isHelpful === false){
+            newRow += ('<button type="button" class="btn btn-outline-success btn-square">Ответов: ' + data.countAnswer +'</button>');
+        } else {
+            newRow += ('<button type="button" class="btn btn-outline-secondary btn-square">Ответов: ' + data.countAnswer +'</button>');
+        }
+        newRow += ('<button type="button" class="btn btn-outline-secondary ml-1 btn-square">Показов: ' + data.viewCount +' </button>');
+        //newRow += "&nbsp&nbsp&nbsp  ";
+        newRow += ('</div>');
+        newRow += ('<div class="col pl-0">');
+        newRow += ('<h4>' + data.title + '</h4>');
+        newRow += (getButtons(data.tags).join(""));
+        newRow += ('<a class="mr-1">'+ d.toDateString() +'</a>');
+        newRow += ('<a href ="#" class="mr-1"> '+ data.username +'</a>');
+        newRow += ('<a>'+ data.reputationCount+'</a>');
+        newRow += ('</div>');
+        newRow += ('</a>');
+        newRow += ('</li>');
 
         $("#getQuestions").append(newRow);
     }
+
 });
