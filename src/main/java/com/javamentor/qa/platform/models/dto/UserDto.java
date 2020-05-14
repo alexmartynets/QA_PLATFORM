@@ -32,6 +32,7 @@ public class UserDto {
     private String role;
 
     public static class Builder {
+
         private final UserDto userDto;
 
         public Builder() {

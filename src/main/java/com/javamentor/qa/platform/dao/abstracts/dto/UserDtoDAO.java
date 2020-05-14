@@ -10,4 +10,8 @@ public interface UserDtoDAO {
     List<UserDto> getUserDtoList();
 
     Optional<UserDto> getUserDtoById(Long id);
+
+    Long countUser();
+
+    List<UserDto> paginationUser(Long count, Long page);
 }
