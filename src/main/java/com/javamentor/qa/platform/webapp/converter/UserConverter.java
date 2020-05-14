@@ -4,8 +4,6 @@ import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.user.Role;
 import com.javamentor.qa.platform.models.entity.user.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -28,9 +26,6 @@ public abstract class UserConverter {
             .name("USER")
             .build();
 
-    @Mappings({
-            @Mapping(target = "role.name", source = "role"),
-    })
     public User toEntity(UserDto userDto) {
 
         if ( userDto == null ) {
@@ -53,11 +48,6 @@ public abstract class UserConverter {
         return user;
     }
 
-    @Mappings({
-            @Mapping(target = "role", source = "user.role.name"),
-            @Mapping(target = "password", ignore = true),
-            @Mapping(target = "imageUser")
-    })
     public UserDto toDto(User user) throws Exception {
 
         if ( user == null ) {
