@@ -266,9 +266,6 @@ public class TestDataEntityService {
     private void creatQuestionEntity() {
 
         List<Question> questionList1 = new ArrayList<>();
-
-//         questionList1.add(questionService.getByKey(1L));
-
         List<Question> questionList2 = new ArrayList<>();
         List<Question> questionList3 = new ArrayList<>();
 
