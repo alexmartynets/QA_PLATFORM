@@ -2,6 +2,7 @@ package com.javamentor.qa.platform.dao.impl.dto;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.AnswerDtoDao;
 import com.javamentor.qa.platform.models.dto.AnswerDto;
+import com.javamentor.qa.platform.models.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
@@ -94,17 +95,21 @@ public class AnswerDtoDaoImpl implements AnswerDtoDao {
     }
     private Object getObject (Object[] tuple){
 
+        UserDto userDto = UserDto.builder()
+                .fullName(String.valueOf(tuple[5]))
+                .imageUser((Blob) tuple[6])
+                .reputationCount((Integer) tuple[7])
+                .id(((Number)tuple[9]).longValue())
+                .build();
+
         return AnswerDto.builder()
                 .id(((Number) tuple[0]).longValue())
                 .htmlBody((String) tuple[1])
                 .persistDateTime((LocalDateTime) tuple[2])
                 .countValuable((Integer) tuple[3])
                 .isHelpful((Boolean) tuple[4])
-                .fullName((String) tuple[5])
-                .imageUser((Blob) tuple[6])
-                .reputationCount((Integer) tuple[7])
+                .userDto(userDto)
                 .questionId(((Number) tuple[8]).longValue())
-                .userId(((Number) tuple[9]).longValue())
                 .build();
     }
 }

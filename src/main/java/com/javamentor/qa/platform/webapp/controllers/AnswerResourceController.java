@@ -6,6 +6,7 @@ import com.javamentor.qa.platform.service.abstracts.dto.AnswerDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import com.javamentor.qa.platform.webapp.converter.AnswerConverter;
 
+import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,19 +17,21 @@ import java.util.List;
 @RequestMapping("api/user/question/{questionId}/answer")
 public class AnswerResourceController {
 
-    private final AnswerConverter answerConverter;
-    private final AnswerService answerService;
-    private final AnswerDtoService answerDtoService;
+    @Autowired
+    private  AnswerConverter answerConverter;
+    @Autowired
+    private  AnswerService answerService;
+    @Autowired
+    private  AnswerDtoService answerDtoService;
 
     @Autowired
-    public AnswerResourceController(AnswerConverter answerConverter, AnswerService answerService, AnswerDtoService answerDtoService) {
-        this.answerConverter = answerConverter;
-        this.answerService = answerService;
-        this.answerDtoService = answerDtoService;
-    }
+    private UserConverter userConverter;
+
+
 
     @GetMapping
     public ResponseEntity<List<AnswerDto>> getAnswersDto(@PathVariable Long questionId) {
+
         return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionId(questionId));
     }
 

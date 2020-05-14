@@ -16,10 +16,11 @@ import java.time.LocalDateTime;
 @Builder
 public class AnswerDto {
     private Long id;
+    private Long questionId;
+    private LocalDateTime persistDateTime;
     private String htmlBody;
     private Integer countValuable;
     private Boolean isHelpful;
-    private Long questionId;
     private UserDto userDto;
 
 }
