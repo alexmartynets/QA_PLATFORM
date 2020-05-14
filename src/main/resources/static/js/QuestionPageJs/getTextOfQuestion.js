@@ -10,7 +10,6 @@ function getTextOfQuestion(id) {
         "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ ";
     tableBody.append(`${testT}`);
     document.getElementById("tblHeadOfAnswerQuestion").innerHTML = textOfAnswer;
-
     $.ajax({
         url: '/api/user/question/{questionId}/answer/' + id,
         method: 'GET',

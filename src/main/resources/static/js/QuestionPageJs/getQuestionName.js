@@ -1,8 +1,5 @@
 function getQuestionName(id) {
 
-  // let te = "Название вопроса";
-  //  document.getElementById("NameAnswer").innerHTML = te;
-    id = 1;
     $.ajax({
         url: '/api/user/question/' + id,
         method: 'GET',
