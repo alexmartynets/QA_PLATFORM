@@ -12,8 +12,8 @@ function getQuestionText(id) {
             let textOfDescription = val(data.description);
             document.getElementById("tblQuestionText").innerHTML = textOfDescription;
         },
-        error: function (error) {
-            alert(error);
+        error: function () {
+            alert("Текст вопроса ещё не загружен");
         }
     })
 }

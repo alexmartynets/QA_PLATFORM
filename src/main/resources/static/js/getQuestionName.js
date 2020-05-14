@@ -1,5 +1,8 @@
 function getQuestionName(id) {
 
+    let te = "Название вопроса";
+    document.getElementById("NameAnswer").innerHTML = te;
+
     $.ajax({
         url: '/api/question/' + id,
         method: 'GET',
@@ -9,8 +12,8 @@ function getQuestionName(id) {
             let titleQuestion = val(data.title);
             document.getElementById("NameAnswer").innerHTML = titleQuestion;
         },
-        error: function (error) {
-            alert(error);
+        error: function () {
+            alert("Текст название вопроса ещё не загружен");
         }
     })
 }

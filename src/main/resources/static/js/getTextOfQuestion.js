@@ -1,6 +1,13 @@
 function getTextOfQuestion(id) {
     let textOfAnswer = "Описание ответа";
+
+    let tableBody = $('#tblTextOfQuestion tbody');
+    let testT = "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
+        "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
+        "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ ";
+    tableBody.append(`${testT}`);
     document.getElementById("tblHeadOfAnswerQuestion").innerHTML = textOfAnswer;
+
     $.ajax({
         url: '/api/user/question/{questionId}/answer/' + id,
         method: 'GET',
@@ -20,8 +27,8 @@ function getTextOfQuestion(id) {
                 })
             })
         },
-        error: function (error) {
-            alert(error);
+        error: function () {
+            alert("Текст ответа ещё не загружен");
         }
     })
 }
