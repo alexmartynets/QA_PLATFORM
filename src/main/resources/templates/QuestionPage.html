@@ -6,6 +6,9 @@
     <link rel="stylesheet" type="text/css" href="/css/mainPage.css">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="container-">
@@ -251,20 +254,19 @@
                                     </button>
                                 </div>
                                 <hr color="gainsboro">
-                                <div>
 
-                                    <div class="form-group">
-                                        <label for="Textarea"></label><h4 style="float:left;" class="ml-1 mt-3">Ваш
-                                        ответ</h4>
-                                        <textarea class="form-control" id="Textarea" rows="5"></textarea>
+                                <div>
+                                    <div class="row">
+                                        <h4 class="ml-3 mt-3">Ваш ответ</h4>
+                                    </div>
+                                    <div>
+                                        <textarea id="summernote"></textarea>
                                     </div>
                                     <button id="btnSendAnswer" type="button" class="btn btn-primary mt-3"
                                             style="text-align:left;float:left;">
                                         Отправить ответ
                                     </button>
                                 </div>
-
-
                             </div>
 
                         </div>
@@ -337,6 +339,22 @@
 <script type="text/javascript" src="/js/QuestionPageJs/putNewAnswer.js"></script>
 <script type="text/javascript" src="/js/QuestionPageJs/getQuestionText.js"></script>
 <script type="text/javascript" src="/js/QuestionPageJs/getTextOfQuestion.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
 
+
+<script>
+    $('#summernote').summernote({
+        placeholder: 'Ваш ответ',
+        tabsize: 3,
+        height: 100,
+        lang: 'ru-RU',
+        minHeight: 100,
+        toolbar: [
+            //[groupname[list buttons]]         //пример
+            ['style', ['bold', 'italic', 'underline']],
+            ['paragStyle', ['ol', 'ul', 'paragraph']]
+        ]
+    });
+</script>
 </body>
 </html>
