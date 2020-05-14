@@ -19,9 +19,8 @@ public class UserDtoDaoImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     @Override
     @SuppressWarnings("unchecked")
     public List<UserDto> getUserDtoList() {
+
         List<UserDto> getAllUsers = new ArrayList<>();
-
-
 
         try {
             getAllUsers = entityManager.createQuery("SELECT " +
