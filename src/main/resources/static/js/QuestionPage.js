@@ -9,13 +9,6 @@ $(document).ready(function () {
 
 function getNameQuestion() {
 
-    let countQuestion = "0";
-    document.getElementById("countValuableQuestion").innerHTML = countQuestion;
-
-    let countAnswer = "1";
-    document.getElementById("countValuableAnswer").innerHTML = countAnswer;
-
-
     getQuestionName();
     getQuestionText();
     getTextOfQuestion();

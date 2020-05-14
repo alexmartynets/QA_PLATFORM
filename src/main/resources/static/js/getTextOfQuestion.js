@@ -1,12 +1,15 @@
 function getTextOfQuestion(id) {
+    let countAnswer = "1";
+    document.getElementById("countValuableAnswer").innerHTML = countAnswer;
+
     let textOfAnswer = "Описание ответа";
-    document.getElementById("tblHeadOfAnswerQuestion").innerHTML = textOfAnswer;
 
     let tableBody = $('#tblTextOfQuestion tbody');
     let testT = "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
         "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ " +
         "ответ ответ ответ ответ ответ ответ ответ ответ ответ ответ ";
     tableBody.append(`${testT}`);
+    document.getElementById("tblHeadOfAnswerQuestion").innerHTML = textOfAnswer;
 
     $.ajax({
         url: '/api/user/question/{questionId}/answer/' + id,
