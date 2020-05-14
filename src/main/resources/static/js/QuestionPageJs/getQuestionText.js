@@ -13,7 +13,7 @@ function getQuestionText(id) {
             document.getElementById("countValuableQuestion").innerHTML = countQuestion;
         },
         error: function () {
-            alert("Текст вопроса ещё не загружен");
+            alert("Текст вопроса не загружен");
         }
     })
 }

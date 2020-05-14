@@ -30,7 +30,7 @@ function getTextOfQuestion(id) {
             })
         },
         error: function () {
-            alert("Текст ответа ещё не загружен");
+            alert("Текст ответа не загружен");
         }
     })
 }

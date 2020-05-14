@@ -10,7 +10,7 @@ function getQuestionName(id) {
             document.getElementById("NameAnswer").innerHTML = titleQuestion;
         },
         error: function () {
-            alert("Текст название вопроса ещё не загружен");
+            alert("Текст название вопроса не загружен");
         }
     })
 }
