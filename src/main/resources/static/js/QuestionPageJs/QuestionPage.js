@@ -11,7 +11,7 @@ function getNameQuestion(id) {
     id = 1;
     getQuestionName(id);
     getQuestionText(id);
-  //  getTextOfQuestion();
+    getTextOfQuestion();
 }
 
 
