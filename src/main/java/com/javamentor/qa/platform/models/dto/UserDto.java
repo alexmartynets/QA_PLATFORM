@@ -27,6 +27,8 @@ public class UserDto {
     @NotNull
     private String password;
 
+    private String fullName;
+
     private String role;
 
     public static class Builder {
@@ -51,11 +53,15 @@ public class UserDto {
             return this;
         }
 
+        public Builder withFullName(String fullName){
+            userDto.fullName = fullName;
+            return this;
+        }
+
         public Builder withRole(String role){
             userDto.role = role;
             return this;
         }
-
 
         public UserDto build(){
             return userDto;

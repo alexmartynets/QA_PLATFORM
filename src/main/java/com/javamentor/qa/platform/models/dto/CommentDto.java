@@ -1,7 +1,6 @@
 package com.javamentor.qa.platform.models.dto;
 
 import com.javamentor.qa.platform.models.entity.CommentType;
-import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import lombok.*;
