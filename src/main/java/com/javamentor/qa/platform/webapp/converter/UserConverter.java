@@ -26,7 +26,7 @@ public abstract class UserConverter {
             .build();
 
     @Mappings({
-            @Mapping(target="role.name", source="role"),
+            @Mapping(target = "role.name", source = "role"),
     })
     public User toEntity(UserDto userDto) {
         if ( userDto == null ) {
@@ -50,7 +50,7 @@ public abstract class UserConverter {
     }
 
     @Mappings({
-            @Mapping(target="role", source="user.role.name"),
+            @Mapping(target = "role", source = "user.role.name"),
             @Mapping(target = "password", ignore = true)
     })
     public abstract UserDto toDto(User user);
