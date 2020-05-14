@@ -43,7 +43,7 @@ public class UserResourceController {
 
     @PutMapping("/{id}")
     @Validated(OnUpdate.class)
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserDto userDto) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserDto userDto) throws Exception {
         User user = userConverter.toEntity(userDto);
         user.setId(id);
         userService.update(user);

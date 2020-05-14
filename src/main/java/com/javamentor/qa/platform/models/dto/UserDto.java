@@ -35,7 +35,7 @@ public class UserDto {
     @NotNull
     private String role;
 
-    private Blob imageUser;
+    private byte[] imageUser;
 
     private String about;
 
