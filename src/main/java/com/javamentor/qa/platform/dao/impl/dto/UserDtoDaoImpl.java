@@ -8,6 +8,7 @@ import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +28,16 @@ public class UserDtoDaoImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     "u.id, " +
                     "u.fullName, " +
                     "u.email, " +
-                    "u.password, " +
-                    "u.role.name " +
+                    "u.role.name, " +
+                    "u.persistDateTime, " +
+                    "u.reputationCount, " +
+                    "u.about, " +
+                    "u.city, " +
+                    "u.imageUser, " +
+                    "u.lastUpdateDateTime, " +
+                    "u.linkGitHub, " +
+                    "u.linkSite, " +
+                    "u.linkVk " +
                     "FROM User u")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
@@ -38,8 +47,16 @@ public class UserDtoDaoImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                     .id(((Number) objects[0]).longValue())
                                     .fullName((String) objects[1])
                                     .email((String) objects[2])
-                                    .password((String) objects[3])
-                                    .role((String) objects[4])
+                                    .role((String) objects[3])
+                                    .persistDateTime((LocalDateTime) objects[4])
+                                    .reputationCount((Integer) objects[5])
+                                    .about((String) objects[6])
+                                    .city((String) objects[7])
+                                    .imageUser((byte[]) objects[8])
+                                    .lastUpdateDateTime((LocalDateTime) objects[9])
+                                    .linkGitHub((String) objects[10])
+                                    .linkSite((String) objects[11])
+                                    .linkVk((String) objects[12])
                                     .build();
                         }
 
@@ -64,10 +81,17 @@ public class UserDtoDaoImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.id, " +
                 "u.fullName, " +
                 "u.email, " +
-                "u.password, " +
-                "u.role.name " +
-                "FROM User u WHERE u.id = :id")
-                .setParameter("id", id)
+                "u.role.name, " +
+                "u.persistDateTime, " +
+                "u.reputationCount, " +
+                "u.about, " +
+                "u.city, " +
+                "u.imageUser, " +
+                "u.lastUpdateDateTime, " +
+                "u.linkGitHub, " +
+                "u.linkSite, " +
+                "u.linkVk " +
+                "FROM User u WHERE u.id = " + id)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
@@ -76,8 +100,16 @@ public class UserDtoDaoImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .id(((Number) objects[0]).longValue())
                                 .fullName((String) objects[1])
                                 .email((String) objects[2])
-                                .password((String) objects[3])
-                                .role((String) objects[4])
+                                .role((String) objects[3])
+                                .persistDateTime((LocalDateTime) objects[4])
+                                .reputationCount((Integer) objects[5])
+                                .about((String) objects[6])
+                                .city((String) objects[7])
+                                .imageUser((byte[]) objects[8])
+                                .lastUpdateDateTime((LocalDateTime) objects[9])
+                                .linkGitHub((String) objects[10])
+                                .linkSite((String) objects[11])
+                                .linkVk((String) objects[12])
                                 .build();
                     }
 
