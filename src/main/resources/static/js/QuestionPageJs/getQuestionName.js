@@ -1,3 +1,4 @@
+
 function getQuestionName(id) {
 
     $.ajax({
@@ -6,8 +7,13 @@ function getQuestionName(id) {
         dataType: 'json',
 
         success: function (data) {
-            let titleQuestion = data.title;
-            document.getElementById("NameAnswer").innerHTML = titleQuestion;
+
+            document.getElementById("NameAnswer").innerHTML = data.title;
+
+          //   document.getElementById("Test").innerHTML = data.persistDateTime;
+            // document.getElementById("repCount").innerHTML = data.reputationCount;
+
+
         },
         error: function () {
             alert("Текст название вопроса не загружен");

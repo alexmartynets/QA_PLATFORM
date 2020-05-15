@@ -142,17 +142,18 @@
 
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="mr16 mb8" title="2020-05-07 16:38:10Z">
+                                        <div class="mr16 mb8" title="2020-05-07 16:38:10">
                                             <span class="fc-light mr2">Вопрос задан</span>
-                                            <time datetime="2020-05-06T16:38:10">?</time>
+                                            <time id="Test" datetime="2020-05-06T16:38:10"></time>
                                         </div>
+
                                         <div class="mr16 mb8 pl-sm-2" title="2020-05-07 16:38:10Z">
                                             <span class="fc-light mr2">Последняя активность</span>
                                             <a class="s-link"
                                                title="2020-05-07 08:01:24Z">?</a>
                                         </div>
                                         <div class="mb8 pl-sm-2" title="Viewed 20 times">
-                                            <span class="fc-light mr2">Просмотрен ?</span>
+                                            <span class="fc-light mr2"><h id="repCount"></h>Просмотрен ?</span>
                                         </div>
                                     </div>
                                     <hr color="gainsboro">
@@ -160,7 +161,8 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-1">
-                                            <button class=" btn btn-link- outline-dark"
+
+                                            <button type="button" class=" btn btn-link outline-dark"
                                                     title="Вопрос отражает стремление разобраться; он понятен и несёт пользу">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -339,6 +341,8 @@
 <script type="text/javascript" src="/js/QuestionPageJs/putNewAnswer.js"></script>
 <script type="text/javascript" src="/js/QuestionPageJs/getQuestionText.js"></script>
 <script type="text/javascript" src="/js/QuestionPageJs/getTextOfQuestion.js"></script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
 
 

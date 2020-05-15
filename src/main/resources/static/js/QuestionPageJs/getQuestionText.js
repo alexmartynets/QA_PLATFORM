@@ -6,11 +6,9 @@ function getQuestionText(id) {
         dataType: 'json',
 
         success: function (data) {
-            let textOfDescription = data.description;
-            document.getElementById("tblQuestionText").innerHTML = textOfDescription;
 
-            let countQuestion = data.countValuable;
-            document.getElementById("countValuableQuestion").innerHTML = countQuestion;
+            document.getElementById("tblQuestionText").innerHTML = data.description;
+            document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
         },
         error: function () {
             alert("Текст вопроса не загружен");
