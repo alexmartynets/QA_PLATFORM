@@ -131,8 +131,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersForPagination(Long page, Long count) {
-        int counts = count.intValue();
-        int pages = page.intValue();
+        int countInt = count.intValue();
+        int pageInt = page.intValue();
         String hql = "SELECT " +
                 "u.id, " +
                 "u.fullName, " +
@@ -149,8 +149,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkVk " +
                 "FROM User u ";
         List<UserDto> listUsers = entityManager.createQuery(hql)
-                .setFirstResult((pages - 1) * counts)
-                .setMaxResults(counts)
+                .setFirstResult(countInt*(pageInt - 1))
+                .setMaxResults(countInt)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
