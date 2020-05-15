@@ -8,6 +8,8 @@ import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -19,34 +21,57 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     @SuppressWarnings("unchecked")
     public List<UserDto> getUserDtoList() {
 
-        List<UserDto> getAllUsers = entityManager.createQuery("SELECT " +
-                "u.id, " +
-                "u.fullName, " +
-                "u.email, " +
-                "u.password, " +
-                "u.role.name " +
-                "FROM User u")
-                .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] objects, String[] strings) {
-                        return new UserDto.Builder()
-                                .withId(((Number) objects[0]).longValue())
-                                .withFullName((String) objects[1])
-                                .withEmail((String) objects[2])
-                                .withPassword((String) objects[3])
-                                .withRole((String) objects[4])
-                                .build();
-                    }
+        List<UserDto> getAllUsers = new ArrayList<>();
 
-                    @Override
-                    public List transformList(List list) {
-                        return list;
-                    }
-                })
-                .getResultList();
+        try {
+            getAllUsers = entityManager.createQuery("SELECT " +
+                    "u.id, " +
+                    "u.fullName, " +
+                    "u.email, " +
+                    "u.role.name, " +
+                    "u.persistDateTime, " +
+                    "u.reputationCount, " +
+                    "u.about, " +
+                    "u.city, " +
+                    "u.imageUser, " +
+                    "u.lastUpdateDateTime, " +
+                    "u.linkGitHub, " +
+                    "u.linkSite, " +
+                    "u.linkVk " +
+                    "FROM User u")
+                    .unwrap(Query.class)
+                    .setResultTransformer(new ResultTransformer() {
+                        @Override
+                        public Object transformTuple(Object[] objects, String[] strings) {
+                            return UserDto.builder()
+                                    .id(((Number) objects[0]).longValue())
+                                    .fullName((String) objects[1])
+                                    .email((String) objects[2])
+                                    .role((String) objects[3])
+                                    .persistDateTime((LocalDateTime) objects[4])
+                                    .reputationCount((Integer) objects[5])
+                                    .about((String) objects[6])
+                                    .city((String) objects[7])
+                                    .imageUser((byte[]) objects[8])
+                                    .lastUpdateDateTime((LocalDateTime) objects[9])
+                                    .linkGitHub((String) objects[10])
+                                    .linkSite((String) objects[11])
+                                    .linkVk((String) objects[12])
+                                    .build();
+                        }
 
-        return getAllUsers.isEmpty() ? Collections.emptyList() : getAllUsers;
+                        @Override
+                        public List transformList(List list) {
+                            return list;
+                        }
+                    })
+                    .getResultList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return getAllUsers;
     }
 
     @SuppressWarnings("unchecked")
@@ -57,20 +82,35 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.id, " +
                 "u.fullName, " +
                 "u.email, " +
-                "u.password, " +
-                "u.role.name " +
-                "FROM User u WHERE u.id = :id")
-                .setParameter("id", id)
+                "u.role.name, " +
+                "u.persistDateTime, " +
+                "u.reputationCount, " +
+                "u.about, " +
+                "u.city, " +
+                "u.imageUser, " +
+                "u.lastUpdateDateTime, " +
+                "u.linkGitHub, " +
+                "u.linkSite, " +
+                "u.linkVk " +
+                "FROM User u WHERE u.id = " + id)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return new UserDto.Builder()
-                                .withId(((Number) objects[0]).longValue())
-                                .withFullName((String) objects[1])
-                                .withEmail((String) objects[2])
-                                .withPassword((String) objects[3])
-                                .withRole((String) objects[4])
+                        return UserDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .fullName((String) objects[1])
+                                .email((String) objects[2])
+                                .role((String) objects[3])
+                                .persistDateTime((LocalDateTime) objects[4])
+                                .reputationCount((Integer) objects[5])
+                                .about((String) objects[6])
+                                .city((String) objects[7])
+                                .imageUser((byte[]) objects[8])
+                                .lastUpdateDateTime((LocalDateTime) objects[9])
+                                .linkGitHub((String) objects[10])
+                                .linkSite((String) objects[11])
+                                .linkVk((String) objects[12])
                                 .build();
                     }
 
@@ -81,29 +121,54 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 }));
     }
 
+
     @Override
-    public Long countUser() {
+    public Long getNumberUsers() {
         return entityManager.createQuery("select count(*) from  User ", Long.class)
                 .getSingleResult();
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<UserDto> ListPaginationUser(Long count, Long page) {
-        String hql = "SELECT u.id, u.fullName, u.email, u.password, u.role.name from User u";
+    public List<UserDto> getListUsersForPagination(Long page, Long count) {
+        int counts = count.intValue();
+        int pages = page.intValue();
+        String hql = "SELECT " +
+                "u.id, " +
+                "u.fullName, " +
+                "u.email, " +
+                "u.role.name, " +
+                "u.persistDateTime, " +
+                "u.reputationCount, " +
+                "u.about, " +
+                "u.city, " +
+                "u.imageUser, " +
+                "u.lastUpdateDateTime, " +
+                "u.linkGitHub, " +
+                "u.linkSite, " +
+                "u.linkVk " +
+                "FROM User u ";
         List<UserDto> listUsers = entityManager.createQuery(hql)
-                .setFirstResult(10)
-                .setMaxResults(10)
+                .setFirstResult((pages - 1) * counts)
+                .setMaxResults(counts)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return new UserDto.Builder()
-                                .withId(((Number) objects[0]).longValue())
-                                .withFullName((String) objects[1])
-                                .withEmail((String) objects[2])
-                                .withPassword((String) objects[3])
-                                .withRole((String) objects[4])
+                        return UserDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .fullName((String) objects[1])
+                                .email((String) objects[2])
+                                .role((String) objects[3])
+                                .persistDateTime((LocalDateTime) objects[4])
+                                .reputationCount((Integer) objects[5])
+                                .about((String) objects[6])
+                                .city((String) objects[7])
+                                .imageUser((byte[]) objects[8])
+                                .lastUpdateDateTime((LocalDateTime) objects[9])
+                                .linkGitHub((String) objects[10])
+                                .linkSite((String) objects[11])
+                                .linkVk((String) objects[12])
                                 .build();
                     }
 
@@ -114,6 +179,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 })
                 .getResultList();
 
-        return listUsers.isEmpty()? Collections.emptyList(): listUsers;
+        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 }

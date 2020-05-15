@@ -10,4 +10,8 @@ public interface UserDtoService {
     List<UserDto> getUserDtoList();
 
     Optional<UserDto> getUserDtoById(Long id);
+
+    Long getNumberUsers();
+
+    List<UserDto> getListUsersForPagination(Long count, Long page);
 }

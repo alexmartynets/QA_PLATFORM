@@ -2,24 +2,28 @@ package com.javamentor.qa.platform.models.dto;
 
 import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.time.LocalDateTime;
 
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+@Builder
 public class UserDto {
 
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
-    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значние при обновлении")
+    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     private Long id;
+
+    @NotNull
+    private String fullName;
 
     @NotNull
     private String email;
@@ -27,47 +31,24 @@ public class UserDto {
     @NotNull
     private String password;
 
-    private String fullName;
-
+    @NotNull
     private String role;
 
-    public static class Builder {
+    private byte[] imageUser;
 
-        private final UserDto userDto;
+    private String about;
 
-        public Builder() {
-            userDto = new UserDto();
-        }
+    private String city;
 
-        public Builder withId(Long id){
-            userDto.id = id;
-            return this;
-        }
+    private String linkSite;
 
-        public Builder withEmail(String email){
-            userDto.email = email;
-            return this;
-        }
+    private String linkGitHub;
 
-        public Builder withPassword(String password){
-            userDto.password = password;
-            return this;
-        }
+    private String linkVk;
 
-        public Builder withFullName(String fullName){
-            userDto.fullName = fullName;
-            return this;
-        }
+    private Integer reputationCount;
 
-        public Builder withRole(String role){
-            userDto.role = role;
-            return this;
-        }
+    private LocalDateTime persistDateTime;
 
-        public UserDto build(){
-            return userDto;
-        }
-
-    }
-
+    private LocalDateTime lastUpdateDateTime;
 }

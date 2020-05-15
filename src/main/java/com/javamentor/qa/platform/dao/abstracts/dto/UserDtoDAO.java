@@ -11,7 +11,7 @@ public interface UserDtoDAO {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Long countUser();
+    Long getNumberUsers();
 
-    List<UserDto> ListPaginationUser(Long count, Long page);
+    List<UserDto> getListUsersForPagination(Long count, Long page);
 }

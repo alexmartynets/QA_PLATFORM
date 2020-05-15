@@ -24,4 +24,14 @@ public class UserDtoServiceImpl implements UserDtoService {
     public Optional<UserDto> getUserDtoById(Long id) {
         return userDtoDao.getUserDtoById(id);
     }
+
+    @Override
+    public Long getNumberUsers() {
+        return userDtoDao.getNumberUsers();
+    }
+
+    @Override
+    public List<UserDto> getListUsersForPagination(Long count, Long page) {
+        return userDtoDao.getListUsersForPagination(count, page);
+    }
 }
