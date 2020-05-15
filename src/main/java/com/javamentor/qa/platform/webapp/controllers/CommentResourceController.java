@@ -34,14 +34,12 @@ public class CommentResourceController {
 
     @GetMapping("/question/{questionId}/comment")
     public ResponseEntity<List<CommentDto>> getCommentsToQuestion(@PathVariable @NonNull Long questionId) {
-
         List<CommentDto> list = commentQuestionServiceDto.getCommentsToQuestion(questionId);
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/answer/{answerId}/comment")
     public ResponseEntity<List<CommentDto>> getCommentsToAnswer(@PathVariable @NonNull Long answerId) {
-
         List<CommentDto> list = commentAnswerServiceDto.getCommentsToAnswer(answerId);
         return ResponseEntity.ok().body(list);
     }
@@ -49,7 +47,6 @@ public class CommentResourceController {
     @PostMapping("/question/{questionId}/comment")
     public ResponseEntity<CommentDto> saveCommentQuestion(@RequestBody @NonNull CommentDto commentDto,
                                                           @PathVariable @NonNull Long questionId) {
-
         CommentQuestion commentQuestion = questionConverter.toCommentQuestion(commentDto, questionId);
         commentQuestionService.persist(commentQuestion);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
@@ -58,7 +55,6 @@ public class CommentResourceController {
     @PostMapping("/answer/{answerId}/comment")
     public ResponseEntity<CommentDto> saveCommentAnswer(@RequestBody @NonNull CommentDto commentDto,
                                                         @PathVariable @NonNull Long answerId) {
-
         CommentAnswer commentAnswer = answerConverter.toCommentAnswer(commentDto, answerId);
         commentAnswerService.persist(commentAnswer);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
@@ -66,32 +62,28 @@ public class CommentResourceController {
 
     @PutMapping("/question/comment")
     public ResponseEntity<CommentDto> updateCommentQuestion(@RequestBody @NonNull CommentDto commentDto) {
-
         Comment comment = commentQuestionServiceDto.getByKey(commentDto.getId());
         comment.setText(commentDto.getText());
         commentQuestionServiceDto.update(comment);
-        return ResponseEntity.ok().body(commentDto);
+        return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
     }
 
     @PutMapping("/answer/comment")
     public ResponseEntity<CommentDto> updateCommentAnswer(@RequestBody @NonNull CommentDto commentDto) {
-
         Comment comment = commentAnswerServiceDto.getByKey(commentDto.getId());
         comment.setText(commentDto.getText());
         commentAnswerServiceDto.update(comment);
-        return ResponseEntity.ok().body(commentDto);
+        return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
     }
 
     @GetMapping("/comment/{id}")
     public ResponseEntity<CommentDto> getCommentQuestion(@PathVariable @NonNull Long id) {
-
         Comment comment = commentQuestionServiceDto.getByKey(id);
         return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
     }
 
     @GetMapping("/question/{id}")
     public ResponseEntity<CommentDto> getCommentAnswer(@PathVariable @NonNull Long id) {
-
         Comment comment = commentAnswerServiceDto.getByKey(id);
         return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
     }

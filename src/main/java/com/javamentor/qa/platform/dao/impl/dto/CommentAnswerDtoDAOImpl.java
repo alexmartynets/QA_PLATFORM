@@ -23,7 +23,7 @@ public class CommentAnswerDtoDAOImpl extends ReadWriteDAOImpl<Comment, Long> imp
 
     @SuppressWarnings("unchecked")
     public List<CommentDto> getCommentsToAnswer(Long answerId) {
-        String hql = "select " +
+        String hql = "SELECT " +
                 "c.id, " +
                 "c.text, " +
                 "c.commentType," +
@@ -31,7 +31,7 @@ public class CommentAnswerDtoDAOImpl extends ReadWriteDAOImpl<Comment, Long> imp
                 "c.lastUpdateDateTime, " +
                 "c.user.id, " +
                 "c.user.fullName " +
-                "from Comment as c join CommentAnswer as ca on c.id = ca.id where ca.answer.id = :answerId";
+                "FROM Comment as c JOIN CommentAnswer as ca ON c.id = ca.id WHERE ca.answer.id = :answerId";
         List<CommentDto> list = entityManager.createQuery(hql)
                 .unwrap(Query.class)
                 .setParameter("answerId", answerId)
