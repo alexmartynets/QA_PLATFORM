@@ -13,5 +13,5 @@ public interface UserDtoDAO {
 
     Long countUser();
 
-    List<UserDto> paginationUser(Long count, Long page);
+    List<UserDto> ListPaginationUser(Long count, Long page);
 }

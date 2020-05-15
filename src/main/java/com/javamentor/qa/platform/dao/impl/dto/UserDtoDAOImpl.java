@@ -87,9 +87,33 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
-
+    @SuppressWarnings("unchecked")
     @Override
-    public List<UserDto> paginationUser(Long count, Long page) {
-        return null;
+    public List<UserDto> ListPaginationUser(Long count, Long page) {
+        String hql = "SELECT u.id, u.fullName, u.email, u.password, u.role.name from User u";
+        List<UserDto> listUsers = entityManager.createQuery(hql)
+                .setFirstResult(10)
+                .setMaxResults(10)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return new UserDto.Builder()
+                                .withId(((Number) objects[0]).longValue())
+                                .withFullName((String) objects[1])
+                                .withEmail((String) objects[2])
+                                .withPassword((String) objects[3])
+                                .withRole((String) objects[4])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+
+        return listUsers.isEmpty()? Collections.emptyList(): listUsers;
     }
 }
