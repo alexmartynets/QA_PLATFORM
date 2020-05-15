@@ -147,7 +147,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkGitHub, " +
                 "u.linkSite, " +
                 "u.linkVk " +
-                "FROM User u ";
+                "FROM User u ORDER BY u.id";
         List<UserDto> listUsers = entityManager.createQuery(hql)
                 .setFirstResult(countInt*(pageInt - 1))
                 .setMaxResults(countInt)

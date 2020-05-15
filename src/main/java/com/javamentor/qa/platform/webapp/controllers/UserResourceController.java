@@ -58,7 +58,6 @@ public class UserResourceController {
                                                                                @PathVariable @NotNull Long count) {
         Long numberUsers = userDtoService.getNumberUsers();
         List<UserDto> usersList = userDtoService.getListUsersForPagination(page, count);
-
         return ResponseEntity.ok().body(new Pair<>(usersList, numberUsers));
     }
 }
