@@ -1,5 +1,5 @@
 
-function getQuestionName(id) {
+function getQuestion(id) {
 
     $.ajax({
         url: '/api/user/question/' + id,

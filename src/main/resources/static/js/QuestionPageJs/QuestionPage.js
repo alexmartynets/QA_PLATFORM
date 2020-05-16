@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 function getNameQuestion(id) {
     id = 1;
-    getQuestionName(id);
+    getQuestion(id);
     getTextOfQuestion(id);
 }
 
