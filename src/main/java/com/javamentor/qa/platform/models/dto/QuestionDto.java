@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +25,5 @@ public class QuestionDto {
     private Integer countValuable;
     private LocalDateTime persistDateTime;
     private Boolean isHelpful;
+    private Map<String, String> lastAnswerNameAndDate;
 }

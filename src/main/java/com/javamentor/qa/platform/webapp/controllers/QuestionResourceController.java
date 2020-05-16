@@ -18,7 +18,7 @@ public class QuestionResourceController {
     private QuestionDtoService questionDtoService;
 
     @GetMapping
-    public ResponseEntity<List<QuestionDto>> allQuestions (){
+    public ResponseEntity< List<QuestionDto>> allQuestions (){
         return ResponseEntity.ok(questionDtoService.getAll());
     }
 }

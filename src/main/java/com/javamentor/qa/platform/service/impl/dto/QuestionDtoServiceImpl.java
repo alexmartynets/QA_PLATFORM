@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -17,5 +18,10 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     @Override
     public List<QuestionDto> getAll() {
         return questionDtoDao.getQuestionDtoList();
+    }
+
+    @Override
+    public Map<Long, List<QuestionDto>> getPage(int page, int size) {
+        return questionDtoDao.getPaginationQuestion(page, size);
     }
 }
