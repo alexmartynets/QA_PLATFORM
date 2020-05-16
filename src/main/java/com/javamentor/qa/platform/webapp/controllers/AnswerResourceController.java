@@ -14,40 +14,47 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/user/question/{questionId}/answer")
+@RequestMapping("/api/user/question/{questionId}/answer")
 public class AnswerResourceController {
 
-    @Autowired
-    private  AnswerConverter answerConverter;
-    @Autowired
-    private  AnswerService answerService;
-    @Autowired
-    private  AnswerDtoService answerDtoService;
+
+    private final AnswerConverter answerConverter;
+    private final AnswerService answerService;
+    private final AnswerDtoService answerDtoService;
+    private final UserConverter userConverter;
 
     @Autowired
-    private UserConverter userConverter;
-
-
+    public AnswerResourceController(AnswerConverter answerConverter, AnswerService answerService, AnswerDtoService answerDtoService, UserConverter userConverter) {
+        this.answerConverter = answerConverter;
+        this.answerService = answerService;
+        this.answerDtoService = answerDtoService;
+        this.userConverter = userConverter;
+    }
 
     @GetMapping
     public ResponseEntity<List<AnswerDto>> getAnswersDto(@PathVariable Long questionId) {
-
         return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionId(questionId));
     }
 
     @PostMapping
     public ResponseEntity<AnswerDto> addAnswer(@RequestBody AnswerDto answerDTO, @PathVariable Long questionId) {
         answerDTO.setQuestionId(questionId);
-        answerService.persist(answerConverter.dtoToEntity(answerDTO));
+        Answer answer = answerConverter.dtoToAnswer(answerDTO);
+        answerService.persist(answer);
         return ResponseEntity.ok(answerDTO);
     }
 
     @PutMapping("/{answerId}")
-    public ResponseEntity<AnswerDto> updateAnswer(@RequestBody AnswerDto answerDTO, @PathVariable Long answerId) {
-        Answer answer = answerConverter.dtoToEntity(answerDTO);
+    public ResponseEntity<AnswerDto> updateAnswer(@RequestBody AnswerDto answerDTO, @PathVariable Long answerId, @PathVariable Long questionId) {
+        Answer answer = answerConverter.dtoToAnswer(answerDTO);
         answer.setId(answerId);
+        answer.getQuestion().setId(questionId);
+        if(answer.getIsHelpful() && answerService.getByKey(answerId).getIsHelpful()){
+            answerService.update(answer);
+        }
+        answerService.resetIsHelpful(questionId);
         answerService.update(answer);
-        return ResponseEntity.ok(answerConverter.entityToDto(answer));
+        return ResponseEntity.ok(answerConverter.answerToDto(answer));
     }
 
     @DeleteMapping("/{answerId}")

@@ -97,7 +97,7 @@ public class AnswerDtoDaoImpl implements AnswerDtoDao {
 
         UserDto userDto = UserDto.builder()
                 .fullName(String.valueOf(tuple[5]))
-                .imageUser((Blob) tuple[6])
+                .imageUser((byte[]) tuple[6])
                 .reputationCount((Integer) tuple[7])
                 .id(((Number)tuple[9]).longValue())
                 .build();

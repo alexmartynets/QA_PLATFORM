@@ -1,8 +1,5 @@
 package com.javamentor.qa.platform.models.dto;
 
-import java.sql.Blob;
-
-import com.javamentor.qa.platform.models.entity.question.Question;
 import lombok.*;
 import java.time.LocalDateTime;
 
