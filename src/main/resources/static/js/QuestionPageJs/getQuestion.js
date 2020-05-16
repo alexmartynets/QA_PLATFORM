@@ -14,6 +14,7 @@ function getQuestion(id) {
             document.getElementById("countAnswer").innerHTML = data.countAnswer;
             document.getElementById("tblQuestionText").innerHTML = data.description;
             document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
+            document.getElementById("tags").innerHTML = data.tags;
         },
         error: function () {
             alert("Ошибка загрузки question");
