@@ -9,14 +9,14 @@ function getQuestionName(id) {
         success: function (data) {
 
             document.getElementById("NameAnswer").innerHTML = data.title;
-
-          //   document.getElementById("Test").innerHTML = data.persistDateTime;
-            // document.getElementById("repCount").innerHTML = data.reputationCount;
-
-
+            document.getElementById("persistDateTime").innerHTML = data.persistDateTime;
+            document.getElementById("viewCount").innerHTML = data.viewCount;
+            document.getElementById("countAnswer").innerHTML = data.countAnswer;
+            document.getElementById("tblQuestionText").innerHTML = data.description;
+            document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
         },
         error: function () {
-            alert("Текст название вопроса не загружен");
+            alert("Ошибка загрузки question");
         }
     })
 }
