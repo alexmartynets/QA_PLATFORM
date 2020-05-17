@@ -10,12 +10,11 @@ function putCountValuableMinus(id) {
             count--;
             data.countValuable = count;
             let newCountValuable = data;
-            let countObj = JSON.stringify(newCountValuable);
 
             $.ajax({
                 url: '/api/user/question/' + id,
                 method: 'PUT',
-                data: countObj,
+                data: newCountValuable,
                 contentType: 'application/json; charset=utf-8',
                 success:function () {
                     alert("сработало");
