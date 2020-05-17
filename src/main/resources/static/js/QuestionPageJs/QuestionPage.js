@@ -4,13 +4,15 @@ $(document).ready(function () {
         newAnswer .text = $('#summernote').val();
         let answerObj = JSON.stringify(newAnswer);
         putNewAnswer(answerObj , id);
-    })
-    $('#btnUpCount').click(function (id) {
-        let countValuable = document.get("countValuableQuestion");
-        countValuable ++;
-        let countObj = JSON.stringify(countValuable);
-        putCountValuable(countObj , id);
-    })
+    });
+    $('#btnUpCountPlus').click(function (id) {
+        id = 1;
+        putCountValuablePlus(id);
+    });
+    $('#btnDownCountMinus').click(function (id) {
+        id = 1;
+        putCountValuableMinus(id);
+    });
 });
 
 
