@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function (id) {
     let newAnswer  = {};
     $('#btnSendAnswer').click(function (id) {
         newAnswer .text = $('#summernote').val();

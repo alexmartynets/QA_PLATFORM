@@ -8,11 +8,13 @@ function putCountValuablePlus(id) {
 
             let count = data.countValuable;
             count++;
-            let countObj = JSON.stringify(count);
+            data.countValuable = count;
+            let newCountValuable = data;
+            let countObj = JSON.stringify(newCountValuable);
 
             $.ajax({
                 url: '/api/user/question/' + id,
-                method: "PUT",
+                method: 'PUT',
                 data: countObj,
                 contentType: 'application/json; charset=utf-8',
                 success:function () {
