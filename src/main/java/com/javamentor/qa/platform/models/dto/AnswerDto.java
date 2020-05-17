@@ -18,5 +18,5 @@ public class AnswerDto {
     private String htmlBody;
     private Integer countValuable;
     private Boolean isHelpful;
-    private UserDto userDto;
+    private UserDto userDto ;
 }
