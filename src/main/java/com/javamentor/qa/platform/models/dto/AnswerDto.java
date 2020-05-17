@@ -19,5 +19,4 @@ public class AnswerDto {
     private Integer countValuable;
     private Boolean isHelpful;
     private UserDto userDto;
-
 }
