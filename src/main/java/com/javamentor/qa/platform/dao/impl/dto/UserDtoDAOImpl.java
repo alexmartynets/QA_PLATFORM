@@ -124,7 +124,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @Override
     public Long getNumberUsers() {
-        return entityManager.createQuery("select count(*) from  User ", Long.class)
+        return entityManager.createQuery("select count(u.id) from  User as u", Long.class)
                 .getSingleResult();
     }
 
