@@ -92,6 +92,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "q.title, " +
                     "q.user.fullName, " +
                     "q.user.reputationCount, " +
+                    "q.user.id, " +
                     "q.viewCount, " +
                     "q.countValuable, " +
                     "q.persistDateTime, " +
@@ -105,9 +106,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                         @Override
                         public Object transformTuple(Object[] objects, String[] strings) {
                             TagDto tagDto = TagDto.builder()
-                                    .id((Long) objects[8])
-                                    .name((String) objects[9])
-                                    .description((String) objects[10])
+                                    .id((Long) objects[9])
+                                    .name((String) objects[10])
+                                    .description((String) objects[11])
                                     .build();
                             List<TagDto> tagDtoList = new ArrayList<>();
                             tagDtoList.add(tagDto);
@@ -116,11 +117,14 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .title((String) objects[1])
                                     .username((String) objects[2])
                                     .reputationCount((Integer) objects[3])
-                                    .viewCount((Integer) objects[4])
-                                    .countValuable((Integer) objects[5])
-                                    .persistDateTime((LocalDateTime) objects[6])
-                                    .description((String) objects[7])
+                                    .userId((Long) objects[4])
+                                    .viewCount((Integer) objects[5])
+                                    .countValuable((Integer) objects[6])
+                                    .persistDateTime((LocalDateTime) objects[7])
+                                    .description((String) objects[8])
                                     .tags(tagDtoList)
+//                                    .countAnswer(((Number) objects[10]).intValue())
+//                                    .isHelpful((Boolean) objects[11])
                                     .build();
                         }
 
