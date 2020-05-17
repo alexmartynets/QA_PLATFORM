@@ -6,6 +6,8 @@ import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implements AnswerService {
 
@@ -16,4 +18,22 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
         super(answerDAO);
         this.answerDAO = answerDAO;
     }
+
+    @Override
+    public void deleteById(Long answerId) {
+        answerDao.deleteById(answerId);
+    }
+
+    @Override
+    public void resetIsHelpful(Long questionId) {
+        Answer answer = answerDao.getHelpfulAnswerByQuestionId(questionId);
+
+            if (answer != null) {
+                answer.setIsHelpful(false);
+                answerDao.update(answer);
+            }
+
+    }
+
+
 }

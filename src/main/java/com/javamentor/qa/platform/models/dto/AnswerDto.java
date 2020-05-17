@@ -1,19 +1,22 @@
 package com.javamentor.qa.platform.models.dto;
 
-import lombok.Data;
-
-import java.sql.Blob;
+import lombok.*;
 import java.time.LocalDateTime;
 
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+@Builder
 public class AnswerDto {
     private Long id;
-    private String htmlBody;
+    private Long questionId;
     private LocalDateTime persistDateTime;
+    private String htmlBody;
     private Integer countValuable;
     private Boolean isHelpful;
-    private String fullName;
-    private Blob imageUser;
-    private Integer reputationCount;
+    private UserDto userDto ;
 }

@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.sql.Blob;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +17,6 @@ import javax.validation.constraints.Null;
 @ToString
 @Builder
 public class UserDto {
-
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
     @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     private Long id;
@@ -29,5 +30,16 @@ public class UserDto {
     @NotNull
     private String password;
 
+    @NotNull
     private String role;
+
+    private byte[] imageUser;
+    private String about;
+    private String city;
+    private String linkSite;
+    private String linkGitHub;
+    private String linkVk;
+    private Integer reputationCount;
+    private LocalDateTime persistDateTime;
+    private LocalDateTime lastUpdateDateTime;
 }
