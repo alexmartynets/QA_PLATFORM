@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .csrf().disable();
 
+
         http
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
