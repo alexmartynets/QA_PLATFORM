@@ -4,7 +4,7 @@ function putCountValuableMinus(id) {
         method: 'GET',
         dataType: 'json',
 
-        success: function (data) {
+        success: function (data,id) {
 
             let count = data.countValuable;
             count--;
@@ -12,11 +12,11 @@ function putCountValuableMinus(id) {
 
             $.ajax({
                 url: '/api/user/question/' + id,
-                method: "POST",
+                method: "PUT",
                 data: countObj,
                 contentType: 'application/json; charset=utf-8',
                 success:function () {
-
+                    alert("сработало");
                 },
                 error: function () {
                     alert("не сработало");
