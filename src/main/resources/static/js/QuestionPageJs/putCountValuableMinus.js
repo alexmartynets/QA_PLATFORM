@@ -14,7 +14,7 @@ function putCountValuableMinus(id) {
             $.ajax({
                 url: '/api/user/question/' + data.id,
                 method: 'PUT',
-                data: newCountValuable,
+                data: questionDto,
                 contentType: 'application/json; charset=utf-8',
                 success:function () {
                     alert("сработало");
