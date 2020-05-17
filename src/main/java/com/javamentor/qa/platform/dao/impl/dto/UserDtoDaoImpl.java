@@ -20,8 +20,6 @@ public class UserDtoDaoImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     public List<UserDto> getUserDtoList() {
         List<UserDto> getAllUsers = new ArrayList<>();
 
-
-
         try {
             getAllUsers = entityManager.createQuery("SELECT " +
                     "u.id, " +
