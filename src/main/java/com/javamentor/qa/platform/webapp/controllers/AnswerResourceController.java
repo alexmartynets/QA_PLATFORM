@@ -17,18 +17,15 @@ import java.util.List;
 @RequestMapping("/api/user/question/{questionId}/answer")
 public class AnswerResourceController {
 
-
     private final AnswerConverter answerConverter;
     private final AnswerService answerService;
     private final AnswerDtoService answerDtoService;
-    private final UserConverter userConverter;
 
     @Autowired
-    public AnswerResourceController(AnswerConverter answerConverter, AnswerService answerService, AnswerDtoService answerDtoService, UserConverter userConverter) {
+    public AnswerResourceController(AnswerConverter answerConverter, AnswerService answerService, AnswerDtoService answerDtoService) {
         this.answerConverter = answerConverter;
         this.answerService = answerService;
         this.answerDtoService = answerDtoService;
-        this.userConverter = userConverter;
     }
 
     @GetMapping
@@ -47,12 +44,9 @@ public class AnswerResourceController {
     @PutMapping("/{answerId}")
     public ResponseEntity<AnswerDto> updateAnswer(@RequestBody AnswerDto answerDTO, @PathVariable Long answerId, @PathVariable Long questionId) {
         Answer answer = answerConverter.dtoToAnswer(answerDTO);
-        answer.setId(answerId);
-        answer.getQuestion().setId(questionId);
-        if(answer.getIsHelpful() && answerService.getByKey(answerId).getIsHelpful()){
-            answerService.update(answer);
+        if(answer.getIsHelpful()){
+            answerService.resetIsHelpful(questionId);
         }
-        answerService.resetIsHelpful(questionId);
         answerService.update(answer);
         return ResponseEntity.ok(answerConverter.answerToDto(answer));
     }

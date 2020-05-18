@@ -58,40 +58,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .getResultList();
     }
 
-    @Override
-    public AnswerDto getAnswerDtoById(Long answerId) {
-        return (AnswerDto) entityManager
-                .createQuery("select " +
-                        "a.id, " +
-                        "a.htmlBody, " +
-                        "a.persistDateTime, " +
-                        "a.countValuable, " +
-                        "a.isHelpful, " +
-                        "a.user.fullName, " +
-                        "a.user.imageUser, " +
-                        "a.user.reputationCount, " +
-                        "a.question.id, " +
-                        "a.user.id " +
-                        "from " +
-                        "Answer a " +
-                        "where " +
-                        "a.id = :answerId" +
-                        "")
-                .setParameter("answerId", answerId)
-                .unwrap(org.hibernate.query.Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] tuple, String[] aliases) {
-                        return getObject(tuple);
-                    }
 
-                    @Override
-                    public List transformList(List list) {
-                        return list;
-                    }
-                })
-                .getSingleResult();
-    }
     private Object getObject (Object[] tuple){
 
         UserDto userDto = UserDto.builder()
