@@ -22,8 +22,8 @@ public abstract class UserConverter {
 
     @Mappings({
             @Mapping (target = "role.name", source = "role"),
-            @Mapping (target = "imageUser", source = "imageUser", qualifiedByName = "toBlob")
-            @Mapping(target = "password", expression = "")}
+            @Mapping (target = "imageUser", source = "imageUser", qualifiedByName = "toBlob"),
+            @Mapping(target = "password", expression = "java(passwordEncoder.encode(userDto.getPassword()))")}
             )
     public abstract User toEntity(UserDto userDto);
 
