@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
@@ -15,15 +17,20 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public abstract class UserConverter {
 
+    @Autowired
+    protected PasswordEncoder passwordEncoder;
+
     @Mappings({
             @Mapping (target = "role.name", source = "role"),
-            @Mapping (target = "imageUser", source = "imageUser", qualifiedByName = "toBlob")}
+            @Mapping (target = "imageUser", source = "imageUser", qualifiedByName = "toBlob")
+            @Mapping(target = "password", expression = "")}
             )
     public abstract User toEntity(UserDto userDto);
 
     @Mappings({
             @Mapping (target = "role", source = "role.name"),
-            @Mapping(target = "imageUser", source = "imageUser", qualifiedByName = "toArray")}
+            @Mapping(target = "imageUser", source = "imageUser", qualifiedByName = "toArray"),
+            @Mapping(target = "password", ignore = true)}
     )
     public abstract UserDto toDto(User user);
 
