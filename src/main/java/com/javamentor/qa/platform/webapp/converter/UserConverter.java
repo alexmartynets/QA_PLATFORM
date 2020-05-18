@@ -1,6 +1,7 @@
 package com.javamentor.qa.platform.webapp.converter;
 
 import com.javamentor.qa.platform.models.dto.UserDto;
+import com.javamentor.qa.platform.models.entity.user.Role;
 import com.javamentor.qa.platform.models.entity.user.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,7 +22,7 @@ public abstract class UserConverter {
     protected PasswordEncoder passwordEncoder;
 
     @Mappings({
-            @Mapping (target = "role.name", source = "role"),
+            @Mapping (target = "role", source = "role", qualifiedByName = "roleSetter"),
             @Mapping (target = "imageUser", source = "imageUser", qualifiedByName = "toBlob"),
             @Mapping(target = "password", expression = "java(passwordEncoder.encode(userDto.getPassword()))")}
             )
@@ -46,5 +47,22 @@ public abstract class UserConverter {
     @Named("toArray")
     protected byte[] array (Blob imageUser) throws SQLException {
         return imageUser.getBytes(1, (int) imageUser.length());
+    }
+
+    @Named("roleSetter")
+    protected Role roleSetter (String role){
+
+        if (role.equals("") || role.equals("USER")){
+            role = "USER";
+            return Role.builder()
+                    .id(2L)
+                    .name(role)
+                    .build();
+        } else {
+            return Role.builder()
+                    .id(1L)
+                    .name(role)
+                    .build();
+        }
     }
 }
