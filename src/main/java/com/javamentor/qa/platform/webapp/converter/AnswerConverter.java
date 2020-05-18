@@ -48,7 +48,7 @@ public abstract class AnswerConverter {
         try {
             if (blob != null)
                 return blob.getBytes(1, (int) blob.length());
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             return null;
         }
         return null;
@@ -59,7 +59,7 @@ public abstract class AnswerConverter {
         try {
             if (bytes != null)
                 return new SerialBlob(bytes);
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             return null;
         }
         return null;

@@ -1,6 +1,6 @@
 package com.javamentor.qa.platform.dao.impl.dto;
 
-import com.javamentor.qa.platform.dao.abstracts.dto.AnswerDtoDao;
+import com.javamentor.qa.platform.dao.abstracts.dto.AnswerDtoDAO;
 import com.javamentor.qa.platform.models.dto.AnswerDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class AnswerDtoDaoImpl implements AnswerDtoDao {
+public class AnswerDtoDAOImpl implements AnswerDtoDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
