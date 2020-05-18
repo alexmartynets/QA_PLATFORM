@@ -21,7 +21,6 @@ public class AnswerResourceController {
     private final AnswerService answerService;
     private final AnswerDtoService answerDtoService;
 
-    @Autowired
     public AnswerResourceController(AnswerConverter answerConverter, AnswerService answerService, AnswerDtoService answerDtoService) {
         this.answerConverter = answerConverter;
         this.answerService = answerService;
@@ -44,7 +43,7 @@ public class AnswerResourceController {
     @PutMapping("/{answerId}")
     public ResponseEntity<AnswerDto> updateAnswer(@RequestBody AnswerDto answerDTO, @PathVariable Long answerId, @PathVariable Long questionId) {
         Answer answer = answerConverter.dtoToAnswer(answerDTO);
-        if(answer.getIsHelpful()){
+        if (answer.getIsHelpful()) {
             answerService.resetIsHelpful(questionId);
         }
         answerService.update(answer);
