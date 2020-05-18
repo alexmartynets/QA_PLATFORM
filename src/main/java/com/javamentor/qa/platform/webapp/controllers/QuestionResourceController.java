@@ -25,7 +25,7 @@ public class QuestionResourceController {
     private QuestionConverter questionConverter;
 
     @GetMapping
-    public ResponseEntity<List<QuestionDto>> allQuestions (){
+    public ResponseEntity< List<QuestionDto>> allQuestions (){
         return ResponseEntity.ok(questionDtoService.getAll());
     }
 
