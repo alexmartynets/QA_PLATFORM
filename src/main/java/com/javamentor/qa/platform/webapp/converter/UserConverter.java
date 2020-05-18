@@ -7,19 +7,20 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class UserConverter {
 
-    @Autowired
-    protected PasswordEncoder passwordEncoder;
+    protected final PasswordEncoder passwordEncoder;
+
+    protected UserConverter(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Mappings({
             @Mapping (target = "role", source = "role", qualifiedByName = "roleSetter"),
@@ -34,10 +35,6 @@ public abstract class UserConverter {
             @Mapping(target = "password", ignore = true)}
     )
     public abstract UserDto toDto(User user);
-
-    public abstract List<User> toEntityList(List<UserDto> entityList);
-
-    public abstract List<UserDto> toDtoList(List<User> dtoList);
 
     @Named("toBlob")
     protected Blob blob (byte[] imageUser) throws SQLException {

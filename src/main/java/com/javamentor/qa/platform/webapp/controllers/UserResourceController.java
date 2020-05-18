@@ -7,7 +7,6 @@ import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +19,15 @@ import java.util.Optional;
 @RequestMapping("/api/user")
 public class UserResourceController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final UserDtoService userDtoService;
+    private final UserConverter userConverter;
 
-    @Autowired
-    private UserDtoService userDtoService;
-
-    @Autowired
-    private UserConverter userConverter;
+    public UserResourceController(UserService userService, UserDtoService userDtoService, UserConverter userConverter) {
+        this.userService = userService;
+        this.userDtoService = userDtoService;
+        this.userConverter = userConverter;
+    }
 
     @PostMapping
     @Validated(OnCreate.class)
@@ -43,7 +43,7 @@ public class UserResourceController {
 
     @PutMapping("/{id}")
     @Validated(OnUpdate.class)
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserDto userDto) throws Exception {
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserDto userDto) {
         User user = userConverter.toEntity(userDto);
         user.setId(id);
         userService.update(user);

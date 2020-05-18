@@ -2,7 +2,6 @@ package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/user/question")
 public class QuestionResourceController {
 
-    @Autowired
-    private QuestionDtoService questionDtoService;
+    private final QuestionDtoService questionDtoService;
+
+    public QuestionResourceController(QuestionDtoService questionDtoService) {
+        this.questionDtoService = questionDtoService;
+    }
 
     @GetMapping
     public ResponseEntity< List<QuestionDto>> allQuestions (){
