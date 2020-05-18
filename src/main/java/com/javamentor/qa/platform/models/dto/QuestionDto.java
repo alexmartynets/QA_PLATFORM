@@ -22,19 +22,22 @@ public class QuestionDto {
     private String title;
 
     @NotNull
-    private Long userId;
+    private UserDto userDto;
 
-    @NotNull
-    private String username;
+//    @NotNull
+//    private Long userId;
+
+//    @NotNull
+//    private String username;
+
+//    @NotNull
+//    private Integer reputationCount;
 
     @NotNull
     private String description;
 
     @NotNull
     private List<TagDto> tags = new ArrayList<>();
-
-    @NotNull
-    private Integer reputationCount;
 
     @NotNull
     private Integer viewCount;

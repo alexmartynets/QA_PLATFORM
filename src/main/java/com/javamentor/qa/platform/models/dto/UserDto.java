@@ -29,5 +29,8 @@ public class UserDto {
     @NotNull
     private String password;
 
+    @NotNull
+    private Integer reputationCount;
+
     private String role;
 }

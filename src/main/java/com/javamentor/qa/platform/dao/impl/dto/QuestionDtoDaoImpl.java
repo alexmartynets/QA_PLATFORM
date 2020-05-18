@@ -8,6 +8,7 @@ import com.javamentor.qa.platform.models.entity.question.Tag;
 import com.javamentor.qa.platform.models.entity.user.Role;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,9 @@ import java.util.*;
 
 @Repository
 public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> implements QuestionDtoDao {
+
+    @Autowired
+    private UserDtoDaoImpl userDtoDao;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -50,8 +54,8 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                             return QuestionDto.builder()
                                     .id((Long) objects[0])
                                     .title((String) objects[1])
-                                    .username((String) objects[2])
-                                    .reputationCount((Integer) objects[3])
+//                                    .username((String) objects[2])
+//                                    .reputationCount((Integer) objects[3])
                                     .viewCount((Integer) objects[4])
                                     .countValuable((Integer) objects[5])
                                     .persistDateTime((LocalDateTime) objects[6])
@@ -90,8 +94,8 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
             questionDto = (QuestionDto) entityManager.createQuery("SELECT " +
                     "q.id, " +
                     "q.title, " +
-                    "q.user.fullName, " +
-                    "q.user.reputationCount, " +
+                    "q.user.id, " +
+//                    "q.user.reputationCount, " +
                     "q.viewCount, " +
                     "q.countValuable, " +
                     "q.persistDateTime, " +
@@ -105,21 +109,20 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                         @Override
                         public Object transformTuple(Object[] objects, String[] strings) {
                             TagDto tagDto = TagDto.builder()
-                                    .id((Long) objects[8])
-                                    .name((String) objects[9])
-                                    .description((String) objects[10])
+                                    .id((Long) objects[7])
+                                    .name((String) objects[8])
+                                    .description((String) objects[9])
                                     .build();
                             List<TagDto> tagDtoList = new ArrayList<>();
                             tagDtoList.add(tagDto);
                             return QuestionDto.builder()
                                     .id((Long) objects[0])
                                     .title((String) objects[1])
-                                    .username((String) objects[2])
-                                    .reputationCount((Integer) objects[3])
-                                    .viewCount((Integer) objects[4])
-                                    .countValuable((Integer) objects[5])
-                                    .persistDateTime((LocalDateTime) objects[6])
-                                    .description((String) objects[7])
+                                    .userDto(userDtoDao.getByKey((Long) objects[2]))
+                                    .viewCount((Integer) objects[3])
+                                    .countValuable((Integer) objects[4])
+                                    .persistDateTime((LocalDateTime) objects[5])
+                                    .description((String) objects[6])
                                     .tags(tagDtoList)
                                     .build();
                         }
