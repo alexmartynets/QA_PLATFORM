@@ -16,7 +16,8 @@ function putCountValuableMinus(id) {
                 method: 'PUT',
                 data: questionDto,
                 contentType: 'application/json; charset=utf-8',
-                success:function () {
+                success:function (data) {
+                    document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
                     alert("сработало");
                 },
                 error: function () {
