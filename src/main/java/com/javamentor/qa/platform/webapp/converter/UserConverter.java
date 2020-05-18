@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -16,9 +17,10 @@ import java.sql.SQLException;
 @Mapper(componentModel = "spring")
 public abstract class UserConverter {
 
-    protected final PasswordEncoder passwordEncoder;
+    protected PasswordEncoder passwordEncoder;
 
-    protected UserConverter(PasswordEncoder passwordEncoder) {
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
