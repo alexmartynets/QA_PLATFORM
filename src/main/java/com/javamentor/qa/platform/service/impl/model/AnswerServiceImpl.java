@@ -21,16 +21,16 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
 
     @Override
     public void deleteById(Long answerId) {
-        answerDao.deleteById(answerId);
+        answerDAO.deleteById(answerId);
     }
 
     @Override
     public void resetIsHelpful(Long questionId) {
-        Answer answer = answerDao.getHelpfulAnswerByQuestionId(questionId);
+        Answer answer = answerDAO.getHelpfulAnswerByQuestionId(questionId);
 
             if (answer != null) {
                 answer.setIsHelpful(false);
-                answerDao.update(answer);
+                answerDAO.update(answer);
             }
 
     }
