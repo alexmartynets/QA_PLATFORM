@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,10 +23,7 @@ public class QuestionDto {
     private String title;
 
     @NotNull
-    private Long userId;
-
-    @NotNull
-    private String username;
+    private UserDto userDto;
 
     @NotNull
     private String description;
@@ -34,12 +32,8 @@ public class QuestionDto {
     private List<TagDto> tags = new ArrayList<>();
 
     @NotNull
-    private Integer reputationCount;
-
-    @NotNull
     private Integer viewCount;
 
-    @NotNull
     private Integer countAnswer;
 
     @NotNull
@@ -49,4 +43,6 @@ public class QuestionDto {
     private LocalDateTime persistDateTime;
 
     private Boolean isHelpful;
+
+    private Map<String, String> lastAnswerNameAndDate;
 }

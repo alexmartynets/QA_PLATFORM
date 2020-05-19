@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 
+import java.util.List;
+
 @Repository
 public class AnswerDAOImpl extends ReadWriteDAOImpl<Answer, Long> implements AnswerDAO {
 

@@ -1,6 +1,8 @@
 package com.javamentor.qa.platform.models.dto;
 
 import lombok.*;
+
+import java.sql.Blob;
 import java.time.LocalDateTime;
 
 
