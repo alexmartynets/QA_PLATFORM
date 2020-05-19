@@ -4,6 +4,7 @@ import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.dto.UserDto;
+import javafx.util.Pair;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
@@ -122,18 +123,14 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     }
 
 
-    @Override
-    public Long getNumberUsers() {
-        return entityManager.createQuery("select count(u.id) from  User as u", Long.class)
-                .getSingleResult();
-    }
-
     @SuppressWarnings("unchecked")
     @Override
-    public List<UserDto> getListUsersForPagination(Long page, Long count) {
-        int countInt = count.intValue();
-        int pageInt = page.intValue();
-        String hql = "SELECT " +
+    public Pair<List<UserDto>, Long> getListUsersForPagination(int page, int count) {
+
+        Long userCount = entityManager.createQuery("select count(*) from  User as u", Long.class)
+                .getSingleResult();
+
+        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "u.id, " +
                 "u.fullName, " +
                 "u.email, " +
@@ -147,10 +144,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkGitHub, " +
                 "u.linkSite, " +
                 "u.linkVk " +
-                "FROM User u ORDER BY u.id";
-        List<UserDto> listUsers = entityManager.createQuery(hql)
-                .setFirstResult(countInt*(pageInt - 1))
-                .setMaxResults(countInt)
+                "FROM User u ORDER BY u.id")
+                .setFirstResult(count*(page - 1))
+                .setMaxResults(count)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
@@ -179,6 +175,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 })
                 .getResultList();
 
-        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
+        return new Pair<>(listUsers, userCount);
     }
 }
