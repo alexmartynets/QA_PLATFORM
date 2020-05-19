@@ -60,6 +60,6 @@ public class UserResourceController {
     @GetMapping("/{count}/page/{page}")
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersForPagination(@PathVariable @NonNull Long page,
                                                                                @PathVariable @NonNull Long count) {
-        return ResponseEntity.ok().body(userDtoService.getListUsersForPagination(page, count));
+        return ResponseEntity.ok().body(userDtoService.getListUsersForPagination(page.intValue(), count.intValue()));
     }
 }

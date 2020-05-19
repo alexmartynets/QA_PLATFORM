@@ -23,5 +23,4 @@ public class QuestionResourceController {
     public ResponseEntity< List<QuestionDto>> allQuestions (){
         return ResponseEntity.ok(questionDtoService.getAll());
     }
-
 }

@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.service.impl.dto;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,7 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Long getNumberUsers() {
-        return userDtoDao.getNumberUsers();
-    }
-
-    @Override
-    public List<UserDto> getListUsersForPagination(Long count, Long page) {
+    public Pair<List<UserDto>, Long> getListUsersForPagination(int count, int page) {
         return userDtoDao.getListUsersForPagination(count, page);
     }
 }

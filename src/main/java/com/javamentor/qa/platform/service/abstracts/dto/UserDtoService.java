@@ -12,5 +12,5 @@ public interface UserDtoService {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Pair<List<UserDto>, Long> getListUsersForPagination(Long count, Long page);
+    Pair<List<UserDto>, Long> getListUsersForPagination(int page, int count);
 }
