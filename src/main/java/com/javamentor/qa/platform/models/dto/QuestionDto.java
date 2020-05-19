@@ -25,15 +25,6 @@ public class QuestionDto {
     @NotNull
     private UserDto userDto;
 
-//    @NotNull
-//    private Long userId;
-
-//    @NotNull
-//    private String username;
-
-//    @NotNull
-//    private Integer reputationCount;
-
     @NotNull
     private String description;
 
@@ -43,7 +34,6 @@ public class QuestionDto {
     @NotNull
     private Integer viewCount;
 
-    @NotNull
     private Integer countAnswer;
 
     @NotNull
@@ -53,5 +43,6 @@ public class QuestionDto {
     private LocalDateTime persistDateTime;
 
     private Boolean isHelpful;
+
     private Map<String, String> lastAnswerNameAndDate;
 }
