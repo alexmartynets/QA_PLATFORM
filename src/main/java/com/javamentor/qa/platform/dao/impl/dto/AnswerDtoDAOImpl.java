@@ -59,13 +59,13 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     }
 
 
-    private Object getObject (Object[] tuple){
+    private Object getObject(Object[] tuple) {
 
         UserDto userDto = UserDto.builder()
                 .fullName(String.valueOf(tuple[5]))
                 .imageUser((byte[]) tuple[6])
                 .reputationCount((Integer) tuple[7])
-                .id(((Number)tuple[9]).longValue())
+                .id(((Number) tuple[9]).longValue())
                 .build();
 
         return AnswerDto.builder()
