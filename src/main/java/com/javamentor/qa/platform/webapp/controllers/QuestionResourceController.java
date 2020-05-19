@@ -27,9 +27,6 @@ public class QuestionResourceController {
     @Autowired
     private QuestionConverter questionConverter;
 
-    @Autowired
-    private UserConverter userConverter;
-
     @GetMapping
     public ResponseEntity< List<QuestionDto>> allQuestions (){
         return ResponseEntity.ok(questionDtoService.getAll());
@@ -43,8 +40,6 @@ public class QuestionResourceController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateQuestion(@PathVariable Long id, @RequestBody QuestionDto questionDto){
         Question question = questionConverter.toEntity(questionDto);
-        question.setUser(userConverter.toEntity(questionDto.getUserDto()));
-        question.setId(id);
         questionService.update(question);
         return ResponseEntity.ok(questionConverter.toDto(question));
     }
