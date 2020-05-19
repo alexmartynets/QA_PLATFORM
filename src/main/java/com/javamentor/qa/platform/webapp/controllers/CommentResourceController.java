@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/user")
 public class CommentResourceController {
@@ -31,6 +30,22 @@ public class CommentResourceController {
     private final CommentConverter commentConverter;
     private final CommentAnswerConverter answerConverter;
     private final CommentQuestionConverter questionConverter;
+
+    public CommentResourceController(CommentQuestionServiceDto commentQuestionServiceDto,
+                                     CommentAnswerServiceDto commentAnswerServiceDto,
+                                     CommentQuestionService commentQuestionService,
+                                     CommentAnswerService commentAnswerService,
+                                     CommentConverter commentConverter,
+                                     CommentAnswerConverter answerConverter,
+                                     CommentQuestionConverter questionConverter) {
+        this.commentQuestionServiceDto = commentQuestionServiceDto;
+        this.commentAnswerServiceDto = commentAnswerServiceDto;
+        this.commentQuestionService = commentQuestionService;
+        this.commentAnswerService = commentAnswerService;
+        this.commentConverter = commentConverter;
+        this.answerConverter = answerConverter;
+        this.questionConverter = questionConverter;
+    }
 
     @GetMapping("/question/{questionId}/comment")
     public ResponseEntity<List<CommentDto>> getCommentsToQuestion(@PathVariable @NonNull Long questionId) {
