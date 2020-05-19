@@ -90,18 +90,6 @@ public class CommentResourceController {
         commentAnswerServiceDto.update(comment);
         return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
     }
-
-    @GetMapping("/comment/{id}")
-    public ResponseEntity<CommentDto> getCommentQuestion(@PathVariable @NonNull Long id) {
-        Comment comment = commentQuestionServiceDto.getByKey(id);
-        return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
-    }
-
-    @GetMapping("/question/{id}")
-    public ResponseEntity<CommentDto> getCommentAnswer(@PathVariable @NonNull Long id) {
-        Comment comment = commentAnswerServiceDto.getByKey(id);
-        return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
-    }
 }
 
 
