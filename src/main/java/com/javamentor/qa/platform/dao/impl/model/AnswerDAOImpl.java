@@ -13,6 +13,11 @@ import java.util.List;
 public class AnswerDAOImpl extends ReadWriteDAOImpl<Answer, Long> implements AnswerDAO {
 
     @Override
+    public List<Answer> getAnswersByQuestionID(Long questionId) {
+        return null;
+    }
+
+    @Override
     @Transactional
     public void deleteById(Long answerId) {
         entityManager.createQuery("delete from Answer a where a.id = :answerId")
