@@ -28,15 +28,16 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
         return entityManager
                 .createQuery("select " +
                         "a.id, " +
+                        "a.question.id, " +
                         "a.htmlBody, " +
                         "a.persistDateTime, " +
+                        "a.dateAcceptTime, " +
                         "a.countValuable, " +
                         "a.isHelpful, " +
+                        "a.user.id, " +
                         "a.user.fullName, " +
                         "a.user.imageUser, " +
-                        "a.user.reputationCount, " +
-                        "a.question.id, " +
-                        "a.user.id " +
+                        "a.user.reputationCount " +
                         "from " +
                         "Answer a " +
                         "where " +
@@ -62,20 +63,21 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     private Object getObject(Object[] tuple) {
 
         UserDto userDto = UserDto.builder()
-                .fullName(String.valueOf(tuple[5]))
-                .imageUser((byte[]) tuple[6])
-                .reputationCount((Integer) tuple[7])
-                .id(((Number) tuple[9]).longValue())
+                .id(((Number) tuple[7]).longValue())
+                .fullName(String.valueOf(tuple[8]))
+                .imageUser((byte[]) tuple[9])
+                .reputationCount((Integer) tuple[10])
                 .build();
 
         return AnswerDto.builder()
                 .id(((Number) tuple[0]).longValue())
-                .htmlBody((String) tuple[1])
-                .persistDateTime((LocalDateTime) tuple[2])
-                .countValuable((Integer) tuple[3])
-                .isHelpful((Boolean) tuple[4])
+                .questionId(((Number) tuple[1]).longValue())
+                .htmlBody((String) tuple[2])
+                .persistDateTime((LocalDateTime) tuple[3])
+                .dateAcceptTime((LocalDateTime) tuple[4])
+                .countValuable((Integer) tuple[5])
+                .isHelpful((Boolean) tuple[6])
                 .userDto(userDto)
-                .questionId(((Number) tuple[8]).longValue())
                 .build();
     }
 }
