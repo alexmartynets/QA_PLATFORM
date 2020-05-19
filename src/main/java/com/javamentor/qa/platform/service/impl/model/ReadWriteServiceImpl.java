@@ -2,11 +2,12 @@ package com.javamentor.qa.platform.service.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDAO;
 import com.javamentor.qa.platform.service.abstracts.model.ReadWriteService;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+@Service
 public abstract class ReadWriteServiceImpl<T, PK> implements ReadWriteService<T, PK> {
 
 
