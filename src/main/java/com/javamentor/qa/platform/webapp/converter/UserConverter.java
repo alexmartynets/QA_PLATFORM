@@ -3,96 +3,71 @@ package com.javamentor.qa.platform.webapp.converter;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.user.Role;
 import com.javamentor.qa.platform.models.entity.user.User;
+import com.javamentor.qa.platform.service.abstracts.model.RoleService;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
-import java.util.List;
+import java.sql.SQLException;
 
 @Mapper(componentModel = "spring")
 public abstract class UserConverter {
 
+    protected PasswordEncoder passwordEncoder;
+    protected RoleService roleService;
+
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    protected void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
-    Role adminRole = Role.builder()
-            .name("ADMIN")
-            .build();
+    @Autowired
+    protected void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
-    Role userRole = Role.builder()
-            .name("USER")
-            .build();
+    @Mappings({
+            @Mapping (target = "role", source = "role", qualifiedByName = "roleSetter"),
+            @Mapping (target = "imageUser", source = "imageUser", qualifiedByName = "toBlob"),
+            @Mapping(target = "password", expression = "java(passwordEncoder.encode(userDto.getPassword()))")}
+    )
+    public abstract User toEntity(UserDto userDto);
 
-    public User toEntity(UserDto userDto) {
+    @Mappings({
+            @Mapping (target = "role", source = "role.name"),
+            @Mapping(target = "imageUser", source = "imageUser", qualifiedByName = "toArray"),
+            @Mapping(target = "password", ignore = true)}
+    )
+    public abstract UserDto toDto(User user);
 
-        if ( userDto == null ) {
-            return null;
-        }
-
-        User user = new User();
-
-        if ((userDto.getRole() == null || userDto.getRole().equals("USER"))) {
-            user.setRole(userRole);
+    @Named("toBlob")
+    protected Blob blob (byte[] imageUser) throws SQLException {
+        if(imageUser != null) {
+            return new SerialBlob(imageUser);
         } else {
-            user.setRole(adminRole);
-        }
-
-        user.setId( userDto.getId() );
-        user.setEmail( userDto.getEmail() );
-        user.setPassword( passwordEncoder.encode(userDto.getPassword()) );
-        user.setFullName( userDto.getFullName() );
-
-        return user;
-    }
-
-    public UserDto toDto(User user) throws Exception {
-
-        if ( user == null ) {
             return null;
         }
-
-        UserDto userDto = new UserDto();
-
-        userDto.setRole( user.getRole().toString() );
-        userDto.setId( user.getId() );
-        userDto.setFullName( user.getFullName() );
-        userDto.setEmail( user.getEmail() );
-        userDto.setImageUser( loadBlob(user) );
-        userDto.setAbout( user.getAbout() );
-        userDto.setCity( user.getCity() );
-        userDto.setLinkSite( user.getLinkSite() );
-        userDto.setLinkGitHub( user.getLinkGitHub() );
-        userDto.setLinkVk( user.getLinkVk() );
-        userDto.setReputationCount( user.getReputationCount() );
-        userDto.setPersistDateTime( user.getPersistDateTime() );
-        userDto.setLastUpdateDateTime( user.getLastUpdateDateTime() );
-
-        return userDto;
     }
 
-    public abstract List<User> toEntityList(List<UserDto> entityList);
-
-    public abstract List<UserDto> toDtoList(List<User> dtoList);
-
-    private synchronized byte[] loadBlob(User user) throws Exception {
-        Blob clob = user.getImageUser();
-        if (clob == null)   return null;
-        ByteArrayOutputStream output=loadInputStream(clob.getBinaryStream());
-        return output.toByteArray();
-    }
-
-    private ByteArrayOutputStream loadInputStream(InputStream input) throws Exception
-    {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        byte[] data = new byte[1024];
-        int available = -1;
-        while ((available = input.read(data)) > -1)
-        {
-            output.write(data, 0, available);
+    @Named("toArray")
+    protected byte[] array (Blob imageUser) throws SQLException {
+        if(imageUser != null) {
+            return imageUser.getBytes(1, (int) imageUser.length());
+        } else {
+            return new byte[0];
         }
-        return output;
+    }
+
+    @Named("roleSetter")
+    protected Role roleSetter (String role){
+        if (role == null){
+            role = "USER";
+        }
+        return roleService.getByRoleName(role).get();
     }
 }

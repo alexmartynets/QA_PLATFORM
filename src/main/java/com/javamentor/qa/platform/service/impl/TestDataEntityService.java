@@ -386,6 +386,9 @@ public class TestDataEntityService {
                 .countValuable(3)
                 .build();
         List<Tag> tagList9 = new ArrayList<>();
+        tagList9.add(tagService.getByKey(3L));
+        question9.setTags(tagList9);
+        questionList1.add(question9);
 
         Question question10 = Question.builder()
                 .title("Question10 title")
@@ -395,6 +398,9 @@ public class TestDataEntityService {
                 .countValuable(3)
                 .build();
         List<Tag> tagList10 = new ArrayList<>();
+        tagList10.add(tagService.getByKey(1L));
+        question10.setTags(tagList10);
+        questionList2.add(question10);
 
         questionService.persist(question1);
         questionService.persist(question2);

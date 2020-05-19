@@ -11,7 +11,6 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "comment_question")
@@ -20,7 +19,7 @@ public class CommentQuestion {
     @Id
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional=false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @MapsId
     private Comment comment = new Comment(CommentType.QUESTION);
 
@@ -34,12 +33,12 @@ public class CommentQuestion {
     }
 
     @PrePersist
-    private void prePersistFunction(){
+    private void prePersistFunction() {
         checkConstraints();
     }
 
     @PreUpdate
-    private void preUpdateFunction(){
+    private void preUpdateFunction() {
         checkConstraints();
     }
 

@@ -1,13 +1,12 @@
 package com.javamentor.qa.platform.dao.util;
 
-import org.hibernate.query.Query;
-
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import java.util.Optional;
 
 public class SingleResultUtil {
 
-    public static <T> Optional<T> getSingleResultOrNull(Query<T> var) {
+    public static <T> Optional<T> getSingleResultOrNull(TypedQuery<T> var) {
         T result;
         try {
             result = var.getSingleResult();
