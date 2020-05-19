@@ -21,6 +21,6 @@ public class RoleServiceImpl extends ReadWriteServiceImpl<Role, Long> implements
 
     @Override
     public Optional<Role> getByRoleName(String roleName) {
-        return Optional.empty();
+        return roleDAO.getByRoleName(roleName);
     }
 }
