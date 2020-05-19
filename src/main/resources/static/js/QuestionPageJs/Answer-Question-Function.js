@@ -40,7 +40,7 @@ function getTextOfQuestion(id) {
             $(data).each(function (index, val) {
                 let questionId = val.questionId;
                 tableBody.append(`<tr>
-        <td width="50" rowspan="2"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId})" class=" btn btn-link- outline-dark"
+        <td width="50" rowspan="2"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -51,7 +51,7 @@ function getTextOfQuestion(id) {
 
                                             <div id="answerCountValuable" class=" ml-3 " >${val.countValuable}</div>
 
-                                            <button onclick="putAnswerCountValuableMinus(${val.id},${questionId})" class="btn btn-link- outline-dark"
+                                            <button onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable})" class="btn btn-link- outline-dark"
                                                     title="Ответ не является полезеным">
                                                 <svg class="bi bi-caret-down-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -89,23 +89,25 @@ function getTextOfQuestion(id) {
     })
 }
 
-function putAnswerCountValuableMinus(id,questionId) {
+function putAnswerCountValuableMinus(id,questionId,countValuable) {
     $.ajax({
         url: '/api/user/question/' + id + '/answer/',
         method: 'GET',
         dataType: 'json',
 
         success: function (data) {
-            $(data).each(function (index, val) {
+            $(data).each(function (index, val) {if(index == id) {
                 val.questionId = questionId;
                 let correctID = id;
                 val.id = correctID;
-                let count = val.countValuable;
-                count--;
-                val.countValuable = count;
-                data = val;
-                });
-            let answerDTO = JSON.stringify(data);
+               // let count = val.countValuable;
+                countValuable--;
+                //count--;
+                val.countValuable = countValuable;
+                let correctData = val;
+
+
+            let answerDTO = JSON.stringify(correctData);
             $.ajax({
                 url: '/api/user/question/' + id + '/answer/' + id,
                 method: 'PUT',
@@ -119,6 +121,7 @@ function putAnswerCountValuableMinus(id,questionId) {
                     alert("не сработало");
                 }
             })
+            }});
         },
         error: function () {
             alert("Не получилось");
@@ -126,23 +129,25 @@ function putAnswerCountValuableMinus(id,questionId) {
     })
 }
 
-function putAnswerCountValuablePlus(id,questionId) {
+function putAnswerCountValuablePlus(id,questionId,countValuable) {
     $.ajax({
         url: '/api/user/question/' + id + '/answer/',
         method: 'GET',
         dataType: 'json',
 
         success: function (data) {
-            $(data).each(function (index, val) {
+            $(data).each(function (index, val) {if(index == id){
                 val.questionId = questionId;
                 let correctID = id;
                 val.id = correctID;
-                let count = val.countValuable;
-                count++;
-                val.countValuable = count;
-                data = val;
-                });
-            let answerDTO = JSON.stringify(data);
+                countValuable++;
+               // let count = val.countValuable;
+                //count++;
+                val.countValuable = countValuable;
+                let correctData = val;
+
+
+            let answerDTO = JSON.stringify(correctData);
             $.ajax({
                 url: '/api/user/question/' + id + '/answer/' + id,
                 method: 'PUT',
@@ -156,6 +161,7 @@ function putAnswerCountValuablePlus(id,questionId) {
                     alert("не сработало");
                 }
             })
+            }});
         },
         error: function () {
             alert("Не получилось");
