@@ -3,10 +3,7 @@ package com.javamentor.qa.platform.models.entity.question.answer;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -16,13 +13,14 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "comment_answer")
 public class CommentAnswer {
 
     @Id
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional=false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @MapsId
     private Comment comment = new Comment(CommentType.ANSWER);
 
@@ -36,17 +34,17 @@ public class CommentAnswer {
     }
 
     @PrePersist
-    private void prePersistFunction(){
+    private void prePersistFunction() {
         checkConstraints();
     }
 
     @PreUpdate
-    private void preUpdateFunction(){
+    private void preUpdateFunction() {
         checkConstraints();
     }
 
     private void checkConstraints() {
-        if (this.comment.getCommentType() != CommentType.QUESTION) {
+        if (this.comment.getCommentType() != CommentType.ANSWER) {
             throw new RuntimeException("У экземпляра Comment, связанного с CommentAnswer, " +
                     "поле commentType должно принимать значение CommentType.ANSWER");
         }

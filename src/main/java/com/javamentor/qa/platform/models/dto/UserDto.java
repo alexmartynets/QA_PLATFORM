@@ -1,21 +1,20 @@
 package com.javamentor.qa.platform.models.dto;
 
-import com.javamentor.qa.platform.models.entity.User;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.time.LocalDateTime;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@Data
+@EqualsAndHashCode
+@ToString
+@Builder
 public class UserDto {
 
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
@@ -23,45 +22,32 @@ public class UserDto {
     private Long id;
 
     @NotNull
+    private String fullName;
+
+    @NotNull
     private String email;
 
     @NotNull
     private String password;
 
+    @NotNull
     private String role;
 
-    public static class Builder {
-        private final UserDto userDto;
+    private byte[] imageUser;
 
-        public Builder() {
-            userDto = new UserDto();
-        }
+    private String about;
 
-        public Builder withId(Long id){
-            userDto.id = id;
-            return this;
-        }
+    private String city;
 
-        public Builder withEmail(String email){
-            userDto.email = email;
-            return this;
-        }
+    private String linkSite;
 
-        public Builder withPassword(String password){
-            userDto.password = password;
-            return this;
-        }
+    private String linkGitHub;
 
-        public Builder withRole(String role){
-            userDto.role = role;
-            return this;
-        }
+    private String linkVk;
 
+    private Integer reputationCount;
 
-        public UserDto build(){
-            return userDto;
-        }
+    private LocalDateTime persistDateTime;
 
-    }
-
+    private LocalDateTime lastUpdateDateTime;
 }
