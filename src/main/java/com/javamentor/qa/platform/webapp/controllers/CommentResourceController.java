@@ -9,6 +9,7 @@ import com.javamentor.qa.platform.service.abstracts.dto.CommentQuestionServiceDt
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentAnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentQuestionService;
 import com.javamentor.qa.platform.webapp.converter.CommentAnswerConverter;
+import com.javamentor.qa.platform.webapp.converter.CommentConverter;
 import com.javamentor.qa.platform.webapp.converter.CommentQuestionConverter;
 import lombok.NonNull;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class CommentResourceController {
     private final CommentAnswerServiceDto commentAnswerServiceDto;
     private final CommentQuestionService commentQuestionService;
     private final CommentAnswerService commentAnswerService;
+    private final CommentConverter commentConverter;
     private final CommentAnswerConverter answerConverter;
     private final CommentQuestionConverter questionConverter;
 
@@ -32,12 +34,14 @@ public class CommentResourceController {
                                      CommentAnswerServiceDto commentAnswerServiceDto,
                                      CommentQuestionService commentQuestionService,
                                      CommentAnswerService commentAnswerService,
+                                     CommentConverter commentConverter,
                                      CommentAnswerConverter answerConverter,
                                      CommentQuestionConverter questionConverter) {
         this.commentQuestionServiceDto = commentQuestionServiceDto;
         this.commentAnswerServiceDto = commentAnswerServiceDto;
         this.commentQuestionService = commentQuestionService;
         this.commentAnswerService = commentAnswerService;
+        this.commentConverter = commentConverter;
         this.answerConverter = answerConverter;
         this.questionConverter = questionConverter;
     }
@@ -75,7 +79,7 @@ public class CommentResourceController {
         Comment comment = commentQuestionServiceDto.getByKey(commentDto.getId());
         comment.setText(commentDto.getText());
         commentQuestionServiceDto.update(comment);
-        return ResponseEntity.ok().body(commentDto);
+        return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
     }
 
     @PutMapping("/answer/comment")
@@ -83,8 +87,9 @@ public class CommentResourceController {
         Comment comment = commentAnswerServiceDto.getByKey(commentDto.getId());
         comment.setText(commentDto.getText());
         commentAnswerServiceDto.update(comment);
-        return ResponseEntity.ok().body(commentDto);
+        return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
     }
 }
+
 
 
