@@ -5,12 +5,11 @@ import lombok.*;
 import java.sql.Blob;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class AnswerDto {
     private Long id;
