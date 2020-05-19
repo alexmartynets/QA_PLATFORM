@@ -1,14 +1,19 @@
-function putAnswerCountValuablePlus(id) {
+function putAnswerCountValuablePlus(id,questionId) {
     $.ajax({
         url: '/api/user/question/' + id + '/answer/',
         method: 'GET',
         dataType: 'json',
 
         success: function (data) {
-            $(data).each(function (index, val) {if(val.id == id){
+            $(data).each(function (index, val) {
+                val.questionId = questionId;
+                let correctID = id;
+                val.id = correctID;
+                if(val.id === id){
             let count = val.countValuable;
             count++;
             val.countValuable = count;
+
             data = val;
             }});
             let answerDTO = JSON.stringify(data);

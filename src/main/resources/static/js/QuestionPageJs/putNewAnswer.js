@@ -1,8 +1,8 @@
-function putNewAnswer(answerObj,id) {
+function putNewAnswer(answerDTO,id) {
     $.ajax({
-        url: '/api/user/question/'+ id +'/answer/'+ id,
+        url: '/api/user/question/'+ id +'/answer/',
         method: "POST",
-        data: answerObj,
+        data: answerDTO,
         contentType: 'application/json; charset=utf-8',
         success:function () {
 

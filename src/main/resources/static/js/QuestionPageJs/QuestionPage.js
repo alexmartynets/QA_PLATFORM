@@ -1,9 +1,11 @@
 $(document).ready(function (id) {
     let newAnswer  = {};
+
     $('#btnSendAnswer').click(function (id) {
+        id = 1;
         newAnswer .text = $('#summernote').val();
-        let answerObj = JSON.stringify(newAnswer);
-        putNewAnswer(answerObj , id);
+        let answerDTO = JSON.stringify(newAnswer);
+        putNewAnswer(answerDTO , id);
     });
     $('#btnUpCountPlus').click(function (id) {
         id = 1;

@@ -19,10 +19,9 @@ function putCountValuablePlus(id) {
                 contentType: 'application/json; charset=utf-8',
                 success:function (data) {
                     document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
-                    alert("сработало");
                 },
-                error: function (questionDto) {
-                    alert(questionDto);
+                error: function (error) {
+                    alert(error);
                 }
             })
         },

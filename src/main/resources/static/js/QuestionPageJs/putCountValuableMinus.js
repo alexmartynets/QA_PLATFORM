@@ -18,10 +18,10 @@ function putCountValuableMinus(id) {
                 contentType: 'application/json; charset=utf-8',
                 success:function (data) {
                     document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
-                    alert("сработало");
+
                 },
-                error: function () {
-                    alert("не сработало");
+                error: function (error) {
+                    alert(error);
                 }
             })
         },
