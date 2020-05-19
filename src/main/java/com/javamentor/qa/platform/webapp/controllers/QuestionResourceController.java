@@ -8,6 +8,7 @@ import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +52,7 @@ public class QuestionResourceController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable Long id){
         questionService.delete(questionService.getByKey(id));
-        return ResponseEntity.ok(getQuestionById(id));
+        return ResponseEntity.ok().build();
     }
 
 }
