@@ -16,6 +16,7 @@ public class AnswerDto {
     private Long questionId;
     private String htmlBody;
     private LocalDateTime persistDateTime;
+    private LocalDateTime dateAcceptTime;
     private Integer countValuable;
     private Boolean isHelpful;
     private UserDto userDto;
