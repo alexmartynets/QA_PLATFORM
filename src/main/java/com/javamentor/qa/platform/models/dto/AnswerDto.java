@@ -18,13 +18,14 @@ import java.time.LocalDateTime;
 public class AnswerDto {
 
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
+    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     private Long id;
 
-    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
-    @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
+//    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
+//    @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
     private Long questionId;
 
-    @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
+//    @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
     private String htmlBody;
 
     private LocalDateTime persistDateTime;
@@ -32,7 +33,7 @@ public class AnswerDto {
     private Integer countValuable;
     private Boolean isHelpful;
 
-    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
-    @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
+//    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
+//    @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
     private UserDto userDto;
 }
