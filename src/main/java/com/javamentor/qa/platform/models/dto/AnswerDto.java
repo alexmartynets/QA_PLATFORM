@@ -4,16 +4,20 @@ import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import lombok.*;
 
+import java.sql.Blob;
+
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Builder
 public class AnswerDto {
 

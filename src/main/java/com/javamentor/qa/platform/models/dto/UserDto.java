@@ -4,6 +4,7 @@ import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.sql.Blob;
@@ -34,12 +35,20 @@ public class UserDto {
     private String role;
 
     private byte[] imageUser;
+
     private String about;
+
     private String city;
+
     private String linkSite;
+
     private String linkGitHub;
+
     private String linkVk;
+
     private Integer reputationCount;
+
     private LocalDateTime persistDateTime;
+
     private LocalDateTime lastUpdateDateTime;
 }
