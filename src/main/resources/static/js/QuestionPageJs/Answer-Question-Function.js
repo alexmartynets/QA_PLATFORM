@@ -90,32 +90,33 @@ function getTextOfQuestion(id) {
 }
 
 function putAnswerCountValuableMinus(id,questionId,countValuable,isHelpful) {
+    let answerIdMinus = id;
     $.ajax({
-        url: '/api/user/question/' + id + '/answer/',
+        url: '/api/user/question/' + questionId + '/answer/',
         method: 'GET',
         dataType: 'json',
 
         success: function (data) {
-            $(data).each(function (index, val) {if(index == id) {
+            $(data).each(function (index, val) {if(index + 1 == answerIdMinus) {
                 val.questionId = questionId;
                 let correctID = id;
                 val.id = correctID;
                 val.isHelpful = isHelpful;
-               // let count = val.countValuable;
                 countValuable--;
-                //count--;
+
                 val.countValuable = countValuable;
                 let correctData = val;
 
 
             let answerDTO = JSON.stringify(correctData);
             $.ajax({
-                url: '/api/user/question/' + id + '/answer/' + id,
+                url: '/api/user/question/' + questionId + '/answer/' + answerIdMinus,
                 method: 'PUT',
                 data: answerDTO,
                 contentType: 'application/json; charset=utf-8',
                 success:function (data) {
                     document.getElementById("answerCountValuable").innerHTML = data.countValuable;
+                    getTextOfQuestion(questionId);
                     alert("сработало");
                 },
                 error: function () {
@@ -131,32 +132,33 @@ function putAnswerCountValuableMinus(id,questionId,countValuable,isHelpful) {
 }
 
 function putAnswerCountValuablePlus(id,questionId,countValuable,isHelpful) {
+    let answerIdPlus = id;
     $.ajax({
-        url: '/api/user/question/' + id + '/answer/',
+        url: '/api/user/question/' + questionId + '/answer/',
         method: 'GET',
         dataType: 'json',
 
         success: function (data) {
-            $(data).each(function (index, val) {if(index == id){
+            $(data).each(function (index, val) {if(index + 1 == answerIdPlus){
                 val.questionId = questionId;
                 let correctID = id;
                 val.id = correctID;
                 val.isHelpful = isHelpful;
                 countValuable++;
-               // let count = val.countValuable;
-                //count++;
+
                 val.countValuable = countValuable;
                 let correctData = val;
 
 
             let answerDTO = JSON.stringify(correctData);
             $.ajax({
-                url: '/api/user/question/' + id + '/answer/' + id,
+                url: '/api/user/question/' + questionId + '/answer/' + answerIdPlus,
                 method: 'PUT',
                 data: answerDTO,
                 contentType: 'application/json; charset=utf-8',
                 success:function (data) {
                     document.getElementById("answerCountValuable").innerHTML = data.countValuable;
+                    getTextOfQuestion(questionId);
                     alert("сработало");
                 },
                 error: function () {
