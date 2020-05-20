@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,13 +34,12 @@ public class AnswerResourceController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AnswerDto>> getAnswersDto(@PathVariable Long questionId) {
+    public ResponseEntity<List<AnswerDto>> getAnswersDto(@PathVariable @NotNull Long questionId) {
         return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionId(questionId));
     }
 
     @PostMapping
-    @Validated(OnCreate.class)
-    public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Valid AnswerDto answerDTO, @PathVariable Long questionId) {
+    public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Validated(OnCreate.class) AnswerDto answerDTO, @PathVariable @NotNull Long questionId) {
         answerDTO.setQuestionId(questionId);
         Answer answer = answerConverter.dtoToAnswer(answerDTO);
         answerService.persist(answer);
@@ -47,9 +47,9 @@ public class AnswerResourceController {
     }
 
     @PutMapping("/{answerId}")
-    @Validated(OnUpdate.class)
-    public ResponseEntity<AnswerDto> updateAnswer(@RequestBody @Valid AnswerDto answerDTO, @PathVariable Long answerId, @PathVariable Long questionId) {
+    public ResponseEntity<AnswerDto> updateAnswer(@RequestBody @Validated(OnUpdate.class) AnswerDto answerDTO, @PathVariable @NotNull Long answerId, @PathVariable @NotNull Long questionId) {
         Answer answer = answerConverter.dtoToAnswer(answerDTO);
+        answer.setId(answerId);
         if (answer.getIsHelpful()) {
             answerService.resetIsHelpful(questionId);
             answer.setDateAcceptTime(LocalDateTime.now());
@@ -59,7 +59,7 @@ public class AnswerResourceController {
     }
 
     @DeleteMapping("/{answerId}")
-    public ResponseEntity<AnswerDto> deleteAnswer(@PathVariable Long answerId) {
+    public ResponseEntity<AnswerDto> deleteAnswer(@PathVariable @NotNull Long answerId) {
         answerService.deleteById(answerId);
         return ResponseEntity.ok().build();
     }
