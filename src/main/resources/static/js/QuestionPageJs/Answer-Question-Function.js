@@ -40,7 +40,7 @@ function getTextOfQuestion(id) {
             $(data).each(function (index, val) {
                 let questionId = val.questionId;
                 tableBody.append(`<tr>
-        <td width="50" rowspan="2"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable})" class=" btn btn-link- outline-dark"
+        <td width="50" rowspan="2"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -51,7 +51,7 @@ function getTextOfQuestion(id) {
 
                                             <div id="answerCountValuable" class=" ml-3 " >${val.countValuable}</div>
 
-                                            <button onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable})" class="btn btn-link- outline-dark"
+                                            <button onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class="btn btn-link- outline-dark"
                                                     title="Ответ не является полезеным">
                                                 <svg class="bi bi-caret-down-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -89,7 +89,7 @@ function getTextOfQuestion(id) {
     })
 }
 
-function putAnswerCountValuableMinus(id,questionId,countValuable) {
+function putAnswerCountValuableMinus(id,questionId,countValuable,isHelpful) {
     $.ajax({
         url: '/api/user/question/' + id + '/answer/',
         method: 'GET',
@@ -100,6 +100,7 @@ function putAnswerCountValuableMinus(id,questionId,countValuable) {
                 val.questionId = questionId;
                 let correctID = id;
                 val.id = correctID;
+                val.isHelpful = isHelpful;
                // let count = val.countValuable;
                 countValuable--;
                 //count--;
@@ -129,7 +130,7 @@ function putAnswerCountValuableMinus(id,questionId,countValuable) {
     })
 }
 
-function putAnswerCountValuablePlus(id,questionId,countValuable) {
+function putAnswerCountValuablePlus(id,questionId,countValuable,isHelpful) {
     $.ajax({
         url: '/api/user/question/' + id + '/answer/',
         method: 'GET',
@@ -140,6 +141,7 @@ function putAnswerCountValuablePlus(id,questionId,countValuable) {
                 val.questionId = questionId;
                 let correctID = id;
                 val.id = correctID;
+                val.isHelpful = isHelpful;
                 countValuable++;
                // let count = val.countValuable;
                 //count++;
