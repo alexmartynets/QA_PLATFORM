@@ -8,6 +8,10 @@ function getQuestion(id) {
 
         success: function (data) {
 
+            $(data).each(function (index, val) {
+                let userInfoDto = val.userDto
+
+
             document.getElementById("NameAnswer").innerHTML = data.title;
             document.getElementById("persistDateTime").innerHTML = data.persistDateTime;
             document.getElementById("viewCount").innerHTML = data.viewCount;
@@ -15,9 +19,9 @@ function getQuestion(id) {
             document.getElementById("tblQuestionText").innerHTML = data.description;
             document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
             document.getElementById("tags").innerHTML = data.tags;
-            document.getElementById("persistDateTimeUser").innerHTML = data.persistDateTime;
-            document.getElementById("InfoUser").innerHTML = data.username;
-
+            document.getElementById("persistDateTimeUser").innerHTML = userInfoDto.persistDateTime;
+            document.getElementById("InfoUser").innerHTML = userInfoDto.fullName;
+            })
         },
         error: function () {
             alert("Ошибка загрузки question");
@@ -38,6 +42,9 @@ function getTextOfQuestion(id) {
             let tableBody = $('#tblTextOfQuestion tbody');
             tableBody.empty();
             $(data).each(function (index, val) {
+                if(val.isHelpful == true){
+                    document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png'>";
+                }
                 let questionId = val.questionId;
                 tableBody.append(`<tr>
         <td width="50" rowspan="2"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
@@ -58,6 +65,8 @@ function getTextOfQuestion(id) {
                                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
                                                 </svg>
+                                                
+                                             <div id="checkMark" class="pb-3"></div>
                                             </button></td>
         <td>${val.htmlBody}</td>
     </tr>
@@ -103,7 +112,6 @@ function putAnswerCountValuableMinus(id,questionId,countValuable,isHelpful) {
                 val.id = correctID;
                 val.isHelpful = isHelpful;
                 countValuable--;
-
                 val.countValuable = countValuable;
                 let correctData = val;
 
@@ -117,7 +125,6 @@ function putAnswerCountValuableMinus(id,questionId,countValuable,isHelpful) {
                 success:function (data) {
                     document.getElementById("answerCountValuable").innerHTML = data.countValuable;
                     getTextOfQuestion(questionId);
-                    alert("сработало");
                 },
                 error: function () {
                     alert("не сработало");
@@ -159,7 +166,6 @@ function putAnswerCountValuablePlus(id,questionId,countValuable,isHelpful) {
                 success:function (data) {
                     document.getElementById("answerCountValuable").innerHTML = data.countValuable;
                     getTextOfQuestion(questionId);
-                    alert("сработало");
                 },
                 error: function () {
                     alert("не сработало");
