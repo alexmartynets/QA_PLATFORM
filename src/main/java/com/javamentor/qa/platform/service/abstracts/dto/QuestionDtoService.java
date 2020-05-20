@@ -5,8 +5,8 @@ import com.javamentor.qa.platform.models.dto.QuestionDto;
 import java.util.List;
 
 public interface QuestionDtoService {
-    List<QuestionDto> getAll();
+
+    List<QuestionDto> getAllQuestionDto();
 
     QuestionDto getQuestionDtoById(Long id);
-
 }

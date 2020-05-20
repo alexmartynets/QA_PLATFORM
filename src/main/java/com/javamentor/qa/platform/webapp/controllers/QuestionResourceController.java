@@ -2,13 +2,10 @@ package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
-import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
-import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +25,8 @@ public class QuestionResourceController {
     private QuestionConverter questionConverter;
 
     @GetMapping
-    public ResponseEntity< List<QuestionDto>> allQuestions (){
-        return ResponseEntity.ok(questionDtoService.getAll());
+    public ResponseEntity< List<QuestionDto>> getAllQuestions(){
+        return ResponseEntity.ok(questionDtoService.getAllQuestionDto());
     }
 
     @GetMapping("/{id}")
