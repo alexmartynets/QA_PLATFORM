@@ -12,7 +12,6 @@ import com.javamentor.qa.platform.webapp.converter.CommentAnswerConverter;
 import com.javamentor.qa.platform.webapp.converter.CommentConverter;
 import com.javamentor.qa.platform.webapp.converter.CommentQuestionConverter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -88,12 +87,6 @@ public class CommentResourceController {
         Comment comment = commentAnswerServiceDto.getByKey(commentDto.getId());
         comment.setText(commentDto.getText());
         commentAnswerServiceDto.update(comment);
-        return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
-    }
-
-    @GetMapping("/comment/{id}")
-    public ResponseEntity<CommentDto> getCommentQuestion(@PathVariable @NonNull Long id) {
-        Comment comment = commentQuestionServiceDto.getByKey(id);
         return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
     }
 }
