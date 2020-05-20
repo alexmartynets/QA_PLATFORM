@@ -126,7 +126,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     @Override
     public Pair<List<UserDto>, Long> getListUsersForPagination(int page, int count) {
 
-        Long userCount = entityManager.createQuery("select count(*) from  User as u", Long.class)
+        Long countUsers = entityManager.createQuery("select count(*) from  User as u", Long.class)
                 .getSingleResult();
 
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
@@ -174,6 +174,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 })
                 .getResultList();
 
-        return new Pair<>(listUsers, userCount);
+        return new Pair<>(listUsers, countUsers);
     }
 }
