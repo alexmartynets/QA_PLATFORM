@@ -58,6 +58,20 @@
             <version>1.3.1.Final</version>
         </dependency>
 
+        <!-- jquery -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
+        <!-- bootstrap -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+
         <dependency>
             <groupId>com.github.rozidan</groupId>
             <artifactId>modelmapper-spring-boot-starter</artifactId>

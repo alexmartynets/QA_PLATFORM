@@ -11,9 +11,9 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "comment_question")
 public class CommentQuestion {
 
