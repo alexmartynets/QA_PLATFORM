@@ -26,3 +26,4 @@ public abstract class CommentConverter {
     @Mapping(source = "comment.user.fullName", target = "fullName")
     public abstract CommentDto toCommentDto(Comment comment);
 }
+
