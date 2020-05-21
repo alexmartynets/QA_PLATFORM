@@ -149,7 +149,7 @@
                                         <div class="mr16 mb8 pl-sm-2" title="2020-05-07 16:38:10Z">
                                             <span class="fc-light mr2">Последняя активность</span>
                                             <a class="s-link"
-                                               title="2020-05-07 08:01:24Z">?</a>
+                                               title="2020-05-07 08:01:24Z" id="lastUpdateDateTime"></a>
                                         </div>
                                         <div class="mb8 pl-sm-2" title="Viewed 20 times">
                                             <span class="fc-light mr2">Просмотрен <h id="viewCount"></h></span>
@@ -183,7 +183,9 @@
                                         </div>
                                         <div class="col-10">
                                             <h id="tblQuestionText"></h>
-                                            <div class="my-2" id="tags"></div>
+                                            <div class="my-2"><table  id="tags" class="table table table-responsive-md">
+                                                <tbody></tbody>
+                                            </table></div>
                                         </div>
 
                                     </div>
@@ -197,12 +199,12 @@
                                     </button>
                                     <span style="text-align:right;float:right; background-color: #e1ecf4"
                                           class="badge badge"><h>задан</h><h class=" ml-1 "
-                                                                             id="persistDateTimeUser"></h><div><svg
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" width="12"
-                                            height="16"><path fill-rule="evenodd"
-                                                              d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
+                                                                             id="persistDateTimeUser"></h><div><svg style="text-align: left;float: left"
+                                                                                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" width="12"
+                                                                                                                    height="16"><path fill-rule="evenodd"
+                                                                                                                                      d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
                                             class=" ml-1 "
-                                            id="InfoUser"></h></div></span>
+                                            id="InfoUser"></h><h class=" ml-3 " id="InfoUserReputation" title="уровень репутации"></h></div></span>
                                 </div>
                                 <div class="container-fluid">
                                     <div class="row">
