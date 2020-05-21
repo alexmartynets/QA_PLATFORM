@@ -1,0 +1,95 @@
+2020-05-21 12:17:02,396 INFO  [main] com.javamentor.qa.platform.webapp.configs.Application : Starting Application on Alexs-iMac.local with PID 7944 (/Users/alex/Documents/MyProjects/QA_JM/target/classes started by alex in /Users/alex/Documents/MyProjects/QA_JM)
+2020-05-21 12:17:02,408 INFO  [main] com.javamentor.qa.platform.webapp.configs.Application : No active profile set, falling back to default profiles: default
+2020-05-21 12:17:03,297 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-05-21 12:17:03,311 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9ms. Found 0 JPA repository interfaces.
+2020-05-21 12:17:03,532 INFO  [main] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 12:17:03,682 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 5557 (http)
+2020-05-21 12:17:03,688 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2020-05-21 12:17:03,688 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.33]
+2020-05-21 12:17:03,760 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
+2020-05-21 12:17:03,761 INFO  [main] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 1255 ms
+2020-05-21 12:17:03,869 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-05-21 12:17:03,904 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.12.Final
+2020-05-21 12:17:03,970 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-05-21 12:17:04,029 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
+2020-05-21 12:17:04,111 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
+2020-05-21 12:17:04,119 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-05-21 12:17:04,858 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-05-21 12:17:04,862 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-05-21 12:17:05,209 INFO  [main] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener : Session Metrics {
+    27777 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    14046368 nanoseconds spent preparing 45 JDBC statements;
+    35756670 nanoseconds spent executing 41 JDBC statements;
+    8299859 nanoseconds spent executing 4 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    13989776 nanoseconds spent executing 1 flushes (flushing a total of 44 entities and 13 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2020-05-21 12:17:05,247 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-05-21 12:17:05,636 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5e25085, org.springframework.security.web.context.SecurityContextPersistenceFilter@5ab06829, org.springframework.security.web.header.HeaderWriterFilter@19bbb216, org.springframework.security.web.authentication.logout.LogoutFilter@35630ee8, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6e80de85, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5b0d480c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2bbaf983, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@758655a9, org.springframework.security.web.session.SessionManagementFilter@549debdb, org.springframework.security.web.access.ExceptionTranslationFilter@3976910, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1d51b6a8]
+2020-05-21 12:17:05,648 INFO  [main] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 12:17:05,722 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor : Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 12:17:05,747 INFO  [main] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping : Adding welcome page template: index
+2020-05-21 12:17:05,838 INFO  [main] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper : Context refreshed
+2020-05-21 12:17:05,849 INFO  [main] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-05-21 12:17:05,873 INFO  [main] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner : Scanning for api listing references
+2020-05-21 12:17:06,034 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 5557 (http) with context path ''
+2020-05-21 12:17:06,037 INFO  [main] com.javamentor.qa.platform.webapp.configs.Application : Started Application in 3.967 seconds (JVM running for 4.664)
+2020-05-21 12:17:20,311 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-21 12:17:20,314 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-05-21 12:17:20,314 INFO  [SpringContextShutdownHook] org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2020-05-21 12:17:20,355 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
+2020-05-21 12:17:20,359 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
+2020-05-21 12:17:22,322 INFO  [main] com.javamentor.qa.platform.webapp.configs.Application : Starting Application on Alexs-iMac.local with PID 7949 (/Users/alex/Documents/MyProjects/QA_JM/target/classes started by alex in /Users/alex/Documents/MyProjects/QA_JM)
+2020-05-21 12:17:22,325 INFO  [main] com.javamentor.qa.platform.webapp.configs.Application : No active profile set, falling back to default profiles: default
+2020-05-21 12:17:23,334 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-05-21 12:17:23,348 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9ms. Found 0 JPA repository interfaces.
+2020-05-21 12:17:23,580 INFO  [main] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 12:17:23,738 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 5557 (http)
+2020-05-21 12:17:23,745 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2020-05-21 12:17:23,745 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.33]
+2020-05-21 12:17:23,824 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
+2020-05-21 12:17:23,825 INFO  [main] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 1449 ms
+2020-05-21 12:17:23,946 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-05-21 12:17:23,985 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.12.Final
+2020-05-21 12:17:24,059 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-05-21 12:17:24,114 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
+2020-05-21 12:17:24,191 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
+2020-05-21 12:17:24,199 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-05-21 12:17:24,935 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-05-21 12:17:24,940 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-05-21 12:17:25,267 INFO  [main] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener : Session Metrics {
+    26322 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    12821663 nanoseconds spent preparing 45 JDBC statements;
+    31965333 nanoseconds spent executing 41 JDBC statements;
+    7984670 nanoseconds spent executing 4 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    13688685 nanoseconds spent executing 1 flushes (flushing a total of 44 entities and 13 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2020-05-21 12:17:25,309 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-05-21 12:17:25,696 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3f267e1b, org.springframework.security.web.context.SecurityContextPersistenceFilter@6c3884f5, org.springframework.security.web.header.HeaderWriterFilter@f6e3b67, org.springframework.security.web.authentication.logout.LogoutFilter@6689bf04, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2b9615cb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2dbf8cfc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5c28009f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@f245168, org.springframework.security.web.session.SessionManagementFilter@579ee82, org.springframework.security.web.access.ExceptionTranslationFilter@469bd719, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@42095996]
+2020-05-21 12:17:25,710 INFO  [main] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 12:17:25,777 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor : Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 12:17:25,808 INFO  [main] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping : Adding welcome page template: index
+2020-05-21 12:17:25,892 INFO  [main] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper : Context refreshed
+2020-05-21 12:17:25,902 INFO  [main] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-05-21 12:17:25,927 INFO  [main] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner : Scanning for api listing references
+2020-05-21 12:17:26,094 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 5557 (http) with context path ''
+2020-05-21 12:17:26,097 INFO  [main] com.javamentor.qa.platform.webapp.configs.Application : Started Application in 4.341 seconds (JVM running for 5.045)
+2020-05-21 12:20:09,484 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-21 12:20:09,487 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-05-21 12:20:09,487 INFO  [SpringContextShutdownHook] org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2020-05-21 12:20:09,529 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
+2020-05-21 12:20:09,532 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
+2020-05-21 12:20:13,157 INFO  [main] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 1308 ms
+2020-05-21 12:20:14,600 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-05-21 12:21:08,022 INFO  [http-nio-5557-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
+2020-05-21 12:21:08,028 INFO  [http-nio-5557-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 6 ms
+2020-05-21 14:20:08,547 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m24s400ms).
