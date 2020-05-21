@@ -1,10 +1,8 @@
 package com.javamentor.qa.platform.models.entity.question.answer;
 
 import com.javamentor.qa.platform.models.entity.question.Question;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.javamentor.qa.platform.models.entity.user.User;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
@@ -18,6 +16,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "answer")
 public class Answer {
 
@@ -26,7 +25,6 @@ public class Answer {
     private Long id;
 
     @CreationTimestamp
-    @NotNull
     @Column(name = "persist_date", updatable = false)
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
@@ -34,6 +32,10 @@ public class Answer {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "question_id")
     private Question question;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Lob
     @NotNull
