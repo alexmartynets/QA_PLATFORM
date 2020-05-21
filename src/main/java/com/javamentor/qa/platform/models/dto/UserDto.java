@@ -25,16 +25,16 @@ public class UserDto {
     private Long id;
 
     @NotNull (groups = OnCreate.class, message = "Поле не должно быть пустым")
-    @ApiModelProperty(notes = "Полное имя пользователя, поле не должно быть пустым")
+    @ApiModelProperty(notes = "Полное имя пользователя, поле не должно быть пустым", required = true)
     private String fullName;
 
     @NotNull
-    @ApiModelProperty(notes = "Email должен быть корректным, смотрите пример")
+    @ApiModelProperty(notes = "Email должен быть корректным, смотрите пример", required = true)
     @Email(regexp=".@.\\..*", message = "Email должен быть корректным, смотрите пример")
     private String email;
 
     @NotNull
-    @ApiModelProperty(notes = "Должен содержать минимум 8 символов, 1 заглавную букву и 1 цифру")
+    @ApiModelProperty(notes = "Должен содержать минимум 8 символов, 1 заглавную букву и 1 цифру", required = true)
     private String password;
 
     @NotNull(groups = OnCreate.class, message = "Автоматически назначается при создании всем пользователям, явно указывать не нужно")
