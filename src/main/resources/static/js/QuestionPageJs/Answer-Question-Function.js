@@ -1,4 +1,3 @@
-
 function getQuestion(id) {
 
     $.ajax({
@@ -12,15 +11,15 @@ function getQuestion(id) {
                 let userInfoDto = val.userDto
 
 
-            document.getElementById("NameAnswer").innerHTML = data.title;
-            document.getElementById("persistDateTime").innerHTML = data.persistDateTime;
-            document.getElementById("viewCount").innerHTML = data.viewCount;
-            document.getElementById("countAnswer").innerHTML = data.countAnswer;
-            document.getElementById("tblQuestionText").innerHTML = data.description;
-            document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
-            document.getElementById("tags").innerHTML = data.tags;
-            document.getElementById("persistDateTimeUser").innerHTML = userInfoDto.persistDateTime;
-            document.getElementById("InfoUser").innerHTML = userInfoDto.fullName;
+                document.getElementById("NameAnswer").innerHTML = data.title;
+                document.getElementById("persistDateTime").innerHTML = data.persistDateTime;
+                document.getElementById("viewCount").innerHTML = data.viewCount;
+                document.getElementById("countAnswer").innerHTML = data.countAnswer;
+                document.getElementById("tblQuestionText").innerHTML = data.description;
+                document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
+                document.getElementById("tags").innerHTML = data.tags;
+                document.getElementById("persistDateTimeUser").innerHTML = userInfoDto.persistDateTime;
+                document.getElementById("InfoUser").innerHTML = userInfoDto.fullName;
             })
         },
         error: function () {
@@ -42,9 +41,6 @@ function getTextOfQuestion(id) {
             let tableBody = $('#tblTextOfQuestion tbody');
             tableBody.empty();
             $(data).each(function (index, val) {
-                if(val.isHelpful == true){
-                    document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png'>";
-                }
                 let questionId = val.questionId;
                 tableBody.append(`<tr>
         <td width="50" rowspan="2"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
@@ -64,10 +60,9 @@ function getTextOfQuestion(id) {
                                                      viewBox="0 0 16 16"
                                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
-                                                </svg>
-                                                
-                                             <div id="checkMark" class="pb-3"></div>
-                                            </button></td>
+                                                </svg>                                                                      
+                                            </button>
+                                            <div id="checkMark" class="pb-3  ml-1"></div></td>
         <td>${val.htmlBody}</td>
     </tr>
     <tr>
@@ -89,6 +84,9 @@ function getTextOfQuestion(id) {
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
                                             class=" ml-1 ">${val.userDto}</h></div></span></td>
     </tr>`);
+                if (val.isHelpful == true) {
+                    document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
+                }
             });
         },
         error: function () {
@@ -98,7 +96,7 @@ function getTextOfQuestion(id) {
     })
 }
 
-function putAnswerCountValuableMinus(id,questionId,countValuable,isHelpful) {
+function putAnswerCountValuableMinus(id, questionId, countValuable, isHelpful) {
     let answerIdMinus = id;
     $.ajax({
         url: '/api/user/question/' + questionId + '/answer/',
@@ -106,31 +104,33 @@ function putAnswerCountValuableMinus(id,questionId,countValuable,isHelpful) {
         dataType: 'json',
 
         success: function (data) {
-            $(data).each(function (index, val) {if(index + 1 == answerIdMinus) {
-                val.questionId = questionId;
-                let correctID = id;
-                val.id = correctID;
-                val.isHelpful = isHelpful;
-                countValuable--;
-                val.countValuable = countValuable;
-                let correctData = val;
+            $(data).each(function (index, val) {
+                if (index + 1 == answerIdMinus) {
+                    val.questionId = questionId;
+                    let correctID = id;
+                    val.id = correctID;
+                    val.isHelpful = isHelpful;
+                    countValuable--;
+                    val.countValuable = countValuable;
+                    let correctData = val;
 
 
-            let answerDTO = JSON.stringify(correctData);
-            $.ajax({
-                url: '/api/user/question/' + questionId + '/answer/' + answerIdMinus,
-                method: 'PUT',
-                data: answerDTO,
-                contentType: 'application/json; charset=utf-8',
-                success:function (data) {
-                    document.getElementById("answerCountValuable").innerHTML = data.countValuable;
-                    getTextOfQuestion(questionId);
-                },
-                error: function () {
-                    alert("не сработало");
+                    let answerDTO = JSON.stringify(correctData);
+                    $.ajax({
+                        url: '/api/user/question/' + questionId + '/answer/' + answerIdMinus,
+                        method: 'PUT',
+                        data: answerDTO,
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            document.getElementById("answerCountValuable").innerHTML = data.countValuable;
+                            getTextOfQuestion(questionId);
+                        },
+                        error: function () {
+                            alert("не сработало");
+                        }
+                    })
                 }
-            })
-            }});
+            });
         },
         error: function () {
             alert("Не получилось");
@@ -138,7 +138,7 @@ function putAnswerCountValuableMinus(id,questionId,countValuable,isHelpful) {
     })
 }
 
-function putAnswerCountValuablePlus(id,questionId,countValuable,isHelpful) {
+function putAnswerCountValuablePlus(id, questionId, countValuable, isHelpful) {
     let answerIdPlus = id;
     $.ajax({
         url: '/api/user/question/' + questionId + '/answer/',
@@ -146,32 +146,34 @@ function putAnswerCountValuablePlus(id,questionId,countValuable,isHelpful) {
         dataType: 'json',
 
         success: function (data) {
-            $(data).each(function (index, val) {if(index + 1 == answerIdPlus){
-                val.questionId = questionId;
-                let correctID = id;
-                val.id = correctID;
-                val.isHelpful = isHelpful;
-                countValuable++;
+            $(data).each(function (index, val) {
+                if (index + 1 == answerIdPlus) {
+                    val.questionId = questionId;
+                    let correctID = id;
+                    val.id = correctID;
+                    val.isHelpful = isHelpful;
+                    countValuable++;
 
-                val.countValuable = countValuable;
-                let correctData = val;
+                    val.countValuable = countValuable;
+                    let correctData = val;
 
 
-            let answerDTO = JSON.stringify(correctData);
-            $.ajax({
-                url: '/api/user/question/' + questionId + '/answer/' + answerIdPlus,
-                method: 'PUT',
-                data: answerDTO,
-                contentType: 'application/json; charset=utf-8',
-                success:function (data) {
-                    document.getElementById("answerCountValuable").innerHTML = data.countValuable;
-                    getTextOfQuestion(questionId);
-                },
-                error: function () {
-                    alert("не сработало");
+                    let answerDTO = JSON.stringify(correctData);
+                    $.ajax({
+                        url: '/api/user/question/' + questionId + '/answer/' + answerIdPlus,
+                        method: 'PUT',
+                        data: answerDTO,
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            document.getElementById("answerCountValuable").innerHTML = data.countValuable;
+                            getTextOfQuestion(questionId);
+                        },
+                        error: function () {
+                            alert("не сработало");
+                        }
+                    })
                 }
-            })
-            }});
+            });
         },
         error: function () {
             alert("Не получилось");
@@ -197,7 +199,7 @@ function putCountValuableMinus(id) {
                 method: 'PUT',
                 data: questionDto,
                 contentType: 'application/json; charset=utf-8',
-                success:function (data) {
+                success: function (data) {
                     document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
 
                 },
@@ -231,7 +233,7 @@ function putCountValuablePlus(id) {
                 data: questionDto,
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
-                success:function (data) {
+                success: function (data) {
                     document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
                 },
                 error: function (error) {
@@ -245,13 +247,13 @@ function putCountValuablePlus(id) {
     })
 }
 
-function putNewAnswer(answerDTO,id) {
+function putNewAnswer(answerDTO, id) {
     $.ajax({
-        url: '/api/user/question/'+ id +'/answer/',
+        url: '/api/user/question/' + id + '/answer/',
         method: "POST",
         data: answerDTO,
         contentType: 'application/json; charset=utf-8',
-        success:function () {
+        success: function () {
 
         },
         error: function (error) {
