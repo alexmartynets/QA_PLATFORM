@@ -27,4 +27,3 @@ public abstract class CommentConverter {
     public abstract CommentDto toCommentDto(Comment comment);
 }
 
-
