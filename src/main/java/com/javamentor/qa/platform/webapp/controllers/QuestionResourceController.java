@@ -5,7 +5,9 @@ import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +21,9 @@ public class QuestionResourceController {
     private final QuestionService questionService;
     private final QuestionConverter questionConverter;
 
-    public QuestionResourceController(QuestionDtoService questionDtoService, QuestionService questionService, QuestionConverter questionConverter) {
+    public QuestionResourceController(QuestionDtoService questionDtoService,
+                                      QuestionService questionService,
+                                      QuestionConverter questionConverter) {
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
         this.questionConverter = questionConverter;
@@ -36,7 +40,7 @@ public class QuestionResourceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateQuestion(@PathVariable Long id, @RequestBody QuestionDto questionDto){
+    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDto questionDto){
         Question question = questionConverter.toEntity(questionDto);
         questionService.update(question);
         return ResponseEntity.ok(questionConverter.toDto(question));
