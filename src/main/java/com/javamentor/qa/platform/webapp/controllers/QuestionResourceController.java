@@ -15,14 +15,15 @@ import java.util.List;
 @RequestMapping("/api/user/question/")
 public class QuestionResourceController {
 
-    @Autowired
-    private QuestionDtoService questionDtoService;
+    private final QuestionDtoService questionDtoService;
+    private final QuestionService questionService;
+    private final QuestionConverter questionConverter;
 
-    @Autowired
-    private QuestionService questionService;
-
-    @Autowired
-    private QuestionConverter questionConverter;
+    public QuestionResourceController(QuestionDtoService questionDtoService, QuestionService questionService, QuestionConverter questionConverter) {
+        this.questionDtoService = questionDtoService;
+        this.questionService = questionService;
+        this.questionConverter = questionConverter;
+    }
 
     @GetMapping
     public ResponseEntity< List<QuestionDto>> getAllQuestions(){
