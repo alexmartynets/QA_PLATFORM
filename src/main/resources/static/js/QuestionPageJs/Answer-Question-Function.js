@@ -6,10 +6,16 @@ function getQuestion(id) {
         dataType: 'json',
 
         success: function (data) {
+            let tableBody = $('#tags tbody');
+            tableBody.empty();
 
             $(data).each(function (index, val) {
-                let userInfoDto = val.userDto
+                let userInfoDto = val.userDto;
+                let tags = val.tags;
 
+                $(tags).each(function (index, val) {
+                    tableBody.append(`<h class=" ml-1 ">${val.name}</h>`);
+                });
 
                 document.getElementById("NameAnswer").innerHTML = data.title;
                 document.getElementById("persistDateTime").innerHTML = data.persistDateTime;
@@ -17,9 +23,10 @@ function getQuestion(id) {
                 document.getElementById("countAnswer").innerHTML = data.countAnswer;
                 document.getElementById("tblQuestionText").innerHTML = data.description;
                 document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
-                document.getElementById("tags").innerHTML = data.tags;
                 document.getElementById("persistDateTimeUser").innerHTML = userInfoDto.persistDateTime;
                 document.getElementById("InfoUser").innerHTML = userInfoDto.fullName;
+                document.getElementById("InfoUserReputation").innerHTML = userInfoDto.reputationCount;
+
             })
         },
         error: function () {
