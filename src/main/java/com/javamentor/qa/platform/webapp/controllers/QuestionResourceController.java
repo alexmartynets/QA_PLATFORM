@@ -5,9 +5,6 @@ import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
-import org.hibernate.sql.Update;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,24 +27,24 @@ public class QuestionResourceController {
     }
 
     @GetMapping
-    public ResponseEntity< List<QuestionDto>> getAllQuestions(){
+    public ResponseEntity<List<QuestionDto>> getAllQuestions() {
         return ResponseEntity.ok(questionDtoService.getAllQuestionDto());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getQuestionById(@PathVariable Long id){
+    public ResponseEntity<?> getQuestionById(@PathVariable Long id) {
         return ResponseEntity.ok(questionDtoService.getQuestionDtoById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDto questionDto){
+    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDto questionDto) {
         Question question = questionConverter.toEntity(questionDto);
         questionService.update(question);
         return ResponseEntity.ok(questionConverter.toDto(question));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteQuestion(@PathVariable Long id){
+    public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
         questionService.delete(questionService.getByKey(id));
         return ResponseEntity.ok().build();
     }
