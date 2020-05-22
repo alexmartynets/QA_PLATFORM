@@ -20,12 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@RestControllerAdvice
 @RestController
 @RequestMapping("/api/user")
 @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Успех"),
-        @ApiResponse(code = 404, message = "Ресурс не найден, проверьте правильность пути"),
-        @ApiResponse(code = 500, message = "Внутренняя ошибка сервера. Смотрим в логи, если не помогло - побежали к бэку за хелпой :)")
+        @ApiResponse(code = 404, message = "Ресурс не найден, проверьте правильность пути")
 })
 @Api(value="UserApi", description = "Операции с пользователем (создание, изменение, получение списка, получение пользователя по ID)")
 public class UserResourceController {
@@ -44,6 +43,7 @@ public class UserResourceController {
     @ApiOperation(value = "Добавление пользователя")
     @PostMapping(produces = "application/json")
     @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь добавлен"),
             @ApiResponse(code = 401, message = "Вы не авторизованы, пожалуйста авторизуйтесь"),
             @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен, недостаточно прав для доступа")
     })
@@ -55,6 +55,7 @@ public class UserResourceController {
 
     @ApiOperation(value = "получение списка доступных пользователей")
     @GetMapping(produces = "application/json")
+    @ApiResponse(code = 200, message = "Список пользователей получен")
     public ResponseEntity<List<UserDto>> findAllUsers() {
         return ResponseEntity.ok(userDtoService.getUserDtoList());
     }
@@ -62,6 +63,7 @@ public class UserResourceController {
     @ApiOperation(value = "Изменение пользователя (параметр ID обязателен)")
     @PutMapping(path = "/{id}", produces = "application/json")
     @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Данные пользователя обновлены"),
             @ApiResponse(code = 401, message = "Вы не авторизованы, пожалуйста авторизуйтесь"),
             @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен, недостаточно прав для доступа")
     })
@@ -76,6 +78,7 @@ public class UserResourceController {
     @ApiOperation(value = "Поиск пользователя по ID")
     @GetMapping(path = "/{id}", produces = "application/json")
     @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь найден по id"),
             @ApiResponse(code = 401, message = "Вы не авторизованы, пожалуйста авторизуйтесь"),
             @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен, недостаточно прав для доступа")
     })
