@@ -28,6 +28,8 @@ public class UserDtoServiceImpl implements UserDtoService {
 
     @Override
     public Pair<List<UserDto>, Long> getListUsersForPagination(int page, int count) {
-        return userDtoDao.getListUsersForPagination(page, count);
+        List<UserDto> listUsersDto = userDtoDao.getListUsersForPagination(page, count);
+        Long countUsers = userDtoDao.getCountUsers();
+        return new Pair<>(listUsersDto, countUsers);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,14 +122,16 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 }));
     }
 
+    @Override
+    public Long getCountUsers() {
+        return entityManager.createQuery("select count(u.id) from  User as u", Long.class)
+                .getSingleResult();
+    }
+
 
     @SuppressWarnings("unchecked")
     @Override
-    public Pair<List<UserDto>, Long> getListUsersForPagination(int page, int count) {
-
-        Long countUsers = entityManager.createQuery("select count(*) from  User as u", Long.class)
-                .getSingleResult();
-
+    public List<UserDto> getListUsersForPagination(int page, int count) {
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "u.id, " +
                 "u.fullName, " +
@@ -143,7 +146,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkGitHub, " +
                 "u.linkSite, " +
                 "u.linkVk " +
-                "FROM User u ORDER BY u.id")
+                "FROM User u ORDER BY u.reputationCount DESC")
                 .setFirstResult(count*(page - 1))
                 .setMaxResults(count)
                 .unwrap(Query.class)
@@ -174,6 +177,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 })
                 .getResultList();
 
-        return new Pair<>(listUsers, countUsers);
+        return listUsers.isEmpty()? Collections.emptyList():listUsers;
     }
 }
