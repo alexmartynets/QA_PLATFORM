@@ -16,4 +16,11 @@ public class TagServiceImpl extends ReadWriteServiceImpl<Tag, Long> implements T
         super(tagDAO);
         this.tagDAO = tagDAO;
     }
+
+
+    @Override
+    public void persist(Tag tag) {
+        if(tagDAO.getTagByName(tag.getName()) == null)
+        super.persist(tag);
+    }
 }

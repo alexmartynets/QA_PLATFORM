@@ -1,8 +1,10 @@
 package com.javamentor.qa.platform.models.dto;
 
+import com.javamentor.qa.platform.models.entity.question.Question;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,4 +24,5 @@ public class TagDto {
     private String description;
 
     private Integer questionCount;
+
 }

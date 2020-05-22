@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.dao.impl.dto;
 import com.javamentor.qa.platform.dao.abstracts.dto.TagDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.models.dto.TagDto;
+import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.Tag;
 import lombok.SneakyThrows;
 import org.hibernate.transform.ResultTransformer;
@@ -21,17 +22,13 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
     @SuppressWarnings("unchecked")
     @Override
     public Map<Integer, List<TagDto>> findAllTagsDtoPagination(int pageSize, int pageNumber) {
-        List<TagDto> list = entityManager.createNativeQuery("SELECT " +
-                "tag.id, " +
-                "tag.description, " +
-                "tag.name, " +
-                "COUNT(question_has_tag.question_id) " +
-                "FROM question_has_tag " +
-                "INNER JOIN question " +
-                "ON question.id = qa_platform.question_has_tag.question_id " +
-                "INNER JOIN tag " +
-                "ON question_has_tag.tag_id = qa_platform.tag.id " +
-                "GROUP BY tag.id")
+
+        List<TagDto> list = entityManager.createQuery("select " +
+                        "t.id, " +
+                        "t.name, " +
+                        "t.description, " +
+                        "t.questions.size " +
+                        "from Tag t")
                 .setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize)
                 .unwrap(Query.class)
@@ -41,7 +38,7 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return TagDto.builder()
                                 .id(((Number) objects[0]).longValue())
-                                .name((String)objects[1])
+                                .name((String) objects[1])
                                 .description((String) objects[2])
                                 .questionCount(((Number) objects[3]).intValue())
                                 .build();
