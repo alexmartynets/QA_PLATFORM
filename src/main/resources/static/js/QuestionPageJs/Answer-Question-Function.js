@@ -27,6 +27,11 @@ function getQuestion(id) {
                 document.getElementById("InfoUser").innerHTML = userInfoDto.fullName;
                 document.getElementById("InfoUserReputation").innerHTML = userInfoDto.reputationCount;
                 document.getElementById("lastUpdateDateTime").innerHTML = userInfoDto.lastUpdateDateTime;
+                document.getElementById("persistDateTimeTitle").title = data.persistDateTime;
+                document.getElementById("persistDateTime").title = data.persistDateTime;
+                document.getElementById("lastUpdateDateTime").title = userInfoDto.lastUpdateDateTime;
+                document.getElementById("lastUpdateDateTime2").title = userInfoDto.lastUpdateDateTime;
+                document.getElementById("viewCountTitle").title = data.viewCount;
 
             })
         },
