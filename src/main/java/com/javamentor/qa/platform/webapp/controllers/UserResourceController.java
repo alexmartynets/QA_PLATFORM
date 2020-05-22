@@ -22,6 +22,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
+@ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Успех"),
+        @ApiResponse(code = 404, message = "Ресурс не найден, проверьте правильность пути"),
+        @ApiResponse(code = 500, message = "Внутренняя ошибка сервера. Смотрим в логи, если не помогло - побежали к бэку за хелпой :)")
+})
 @Api(value="UserApi", description = "Операции с пользователем (создание, изменение, получение списка, получение пользователя по ID)")
 public class UserResourceController {
 
@@ -37,46 +42,51 @@ public class UserResourceController {
     }
 
     @ApiOperation(value = "Добавление пользователя")
-    @PostMapping
+    @PostMapping(produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Вы не авторизованы, пожалуйста авторизуйтесь"),
+            @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен, недостаточно прав для доступа")
+    })
     public ResponseEntity<UserDto> addUser(@Validated(OnCreate.class) @RequestBody UserDto userDto) {
-        logger.info("enter to addUser method Post");
         userService.persist(userConverter.toEntity(userDto));
         logger.info(userDto.toString() + " saved into database successfully");
         return ResponseEntity.ok().body(userDto);
     }
 
     @ApiOperation(value = "получение списка доступных пользователей")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Успех"),
-            @ApiResponse(code = 401, message = "Вы не авторизованы для просмотра ресурса"),
-            @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен"),
-            @ApiResponse(code = 404, message = "Ресурс не найден")
-    }
-    )
-
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<UserDto>> findAllUsers() {
-        logger.info("enter to findAllUsers method Get and return all users from database");
         return ResponseEntity.ok(userDtoService.getUserDtoList());
     }
 
     @ApiOperation(value = "Изменение пользователя (параметр ID обязателен)")
-    @PutMapping("/{id}")
+    @PutMapping(path = "/{id}", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Вы не авторизованы, пожалуйста авторизуйтесь"),
+            @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен, недостаточно прав для доступа")
+    })
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody UserDto userDto) {
-        logger.info("enter to updateUser method Put and try to convert userDTO to User");
         User user = userConverter.toEntity(userDto);
-        logger.info(user.toString() + " converted successfully");
         user.setId(id);
-        logger.info("try to update user");
         userService.update(user);
         logger.info("user updated successfully");
         return ResponseEntity.ok().body(userConverter.toDto(user));
     }
 
     @ApiOperation(value = "Поиск пользователя по ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<UserDto>> findUser (@PathVariable Long id) {
-        logger.info("enter to findUser by id: " + id);
-        return ResponseEntity.ok(userDtoService.getUserDtoById(id));
+    @GetMapping(path = "/{id}", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Вы не авторизованы, пожалуйста авторизуйтесь"),
+            @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен, недостаточно прав для доступа")
+    })
+    public ResponseEntity<UserDto> findUser(@PathVariable Long id) {
+        Optional<UserDto> optionalUserDto = userDtoService.getUserDtoById(id);
+        if (optionalUserDto.isPresent()) {
+            UserDto userDto = optionalUserDto.get();
+            return ResponseEntity.ok(userDto);
+        } else {
+            logger.error("Пользователь с указанным ID: " + id + " не найден!");
+            return ResponseEntity.notFound().build();
+        }
     }
 }

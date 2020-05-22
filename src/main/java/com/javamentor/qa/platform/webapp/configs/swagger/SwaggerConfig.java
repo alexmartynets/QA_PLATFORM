@@ -18,8 +18,9 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.javamentor.qa.platform.webapp.controllers"))
                 .paths(PathSelectors.any())
                 .build();
     }
