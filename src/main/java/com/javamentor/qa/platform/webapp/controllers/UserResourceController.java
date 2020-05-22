@@ -55,7 +55,9 @@ public class UserResourceController {
 
     @ApiOperation(value = "получение списка доступных пользователей")
     @GetMapping(produces = "application/json")
-    @ApiResponse(code = 200, message = "Список пользователей получен")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+    })
     public ResponseEntity<List<UserDto>> findAllUsers() {
         return ResponseEntity.ok(userDtoService.getUserDtoList());
     }

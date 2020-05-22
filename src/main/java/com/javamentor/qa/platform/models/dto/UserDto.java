@@ -30,7 +30,7 @@ public class UserDto {
 
     @NotNull
     @ApiModelProperty(notes = "Email должен быть корректным, смотрите пример", required = true)
-    @Email(regexp=".@.\\..*", message = "Email должен быть корректным, смотрите пример")
+    @Email(regexp=".@.\\..*", message = "Email должен быть корректным")
     private String email;
 
     @NotNull
