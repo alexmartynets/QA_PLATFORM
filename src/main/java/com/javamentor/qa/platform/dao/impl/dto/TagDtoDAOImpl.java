@@ -21,13 +21,17 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
     @SuppressWarnings("unchecked")
     @Override
     public Map<Integer, List<TagDto>> findAllTagsDtoPagination(int pageSize, int pageNumber) {
-        List<TagDto> list = entityManager.createQuery
-                ("select " +
-                        "t.id, " +
-                        "t.name, " +
-//                        "t.description, " +
-                        "(select count (q) from Tag t, Question q where t.id = t.id ) " +
-                        " from Tag t")
+        List<TagDto> list = entityManager.createNativeQuery("SELECT " +
+                "tag.id, " +
+                "tag.description, " +
+                "tag.name, " +
+                "COUNT(question_has_tag.question_id) " +
+                "FROM question_has_tag " +
+                "INNER JOIN question " +
+                "ON question.id = qa_platform.question_has_tag.question_id " +
+                "INNER JOIN tag " +
+                "ON question_has_tag.tag_id = qa_platform.tag.id " +
+                "GROUP BY tag.id")
                 .setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize)
                 .unwrap(Query.class)
@@ -35,25 +39,23 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
 
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-
                         return TagDto.builder()
                                 .id(((Number) objects[0]).longValue())
                                 .name((String)objects[1])
-//                                .description((String) objects[2])
-                                .questionCount((Integer) objects[2])
+                                .description((String) objects[2])
+                                .questionCount(((Number) objects[3]).intValue())
                                 .build();
                     }
 
                     @Override
                     public List transformList(List list) {
-
                         return list;
                     }
                 })
                 .getResultList();
 
-        int totalCount = (Integer) entityManager.createQuery
-                ("select count(t) from Tag t").getSingleResult();
+        int totalCount = ((Number) entityManager.createQuery
+                ("select count(t) from Tag t").getSingleResult()).intValue();
         Integer finalPage = (totalCount / pageSize) + 1;
         Map<Integer, List<TagDto>> map = new HashMap<>();
         map.put(finalPage, list);
