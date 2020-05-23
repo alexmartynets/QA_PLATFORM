@@ -41,7 +41,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                         "from " +
                         "Answer a " +
                         "where " +
-                        "a.question.id = :questionId" +
+                        "a.question.id = :questionId order by a.isHelpful desc, a.countValuable desc" +
                         "")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
@@ -59,6 +59,80 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .getResultList();
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId) {
+        return entityManager
+                .createQuery("select " +
+                        "a.id, " +
+                        "a.question.id, " +
+                        "a.htmlBody, " +
+                        "a.persistDateTime, " +
+                        "a.dateAcceptTime, " +
+                        "a.countValuable, " +
+                        "a.isHelpful, " +
+                        "a.user.id, " +
+                        "a.user.fullName, " +
+                        "a.user.imageUser, " +
+                        "a.user.reputationCount " +
+                        "from " +
+                        "Answer a " +
+                        "where " +
+                        "a.question.id = :questionId order by a.countValuable desc" +
+                        "")
+                .setParameter("questionId", questionId)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] tuple, String[] aliases) {
+                        return getObject(tuple);
+                    }
+
+                    @Override
+                    public List<AnswerDto> transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+    }
+    @Transactional
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
+        return entityManager
+                .createQuery("select " +
+                        "a.id, " +
+                        "a.question.id, " +
+                        "a.htmlBody, " +
+                        "a.persistDateTime, " +
+                        "a.dateAcceptTime, " +
+                        "a.countValuable, " +
+                        "a.isHelpful, " +
+                        "a.user.id, " +
+                        "a.user.fullName, " +
+                        "a.user.imageUser, " +
+                        "a.user.reputationCount " +
+                        "from " +
+                        "Answer a " +
+                        "where " +
+                        "a.question.id = :questionId order by a.persistDateTime desc" +
+                        "")
+                .setParameter("questionId", questionId)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] tuple, String[] aliases) {
+                        return getObject(tuple);
+                    }
+
+                    @Override
+                    public List<AnswerDto> transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+    }
 
     private Object getObject(Object[] tuple) {
 

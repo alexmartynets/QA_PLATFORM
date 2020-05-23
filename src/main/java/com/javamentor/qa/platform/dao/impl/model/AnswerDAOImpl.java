@@ -1,6 +1,7 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracts.model.AnswerDAO;
+import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,14 +10,6 @@ import javax.persistence.NoResultException;
 
 @Repository
 public class AnswerDAOImpl extends ReadWriteDAOImpl<Answer, Long> implements AnswerDAO {
-
-    @Override
-    @Transactional
-    public void deleteById(Long answerId) {
-        entityManager.createQuery("delete from Answer a where a.id = :answerId")
-                .setParameter("answerId", answerId)
-                .executeUpdate();
-    }
 
     @Override
     @Transactional

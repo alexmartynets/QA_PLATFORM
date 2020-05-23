@@ -24,5 +24,13 @@ public class AnswerDtoServiceImpl implements AnswerDtoService {
         return answerDtoDao.getAnswersDtoByQuestionId(questionId);
     }
 
+    @Override
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId) {
+        return answerDtoDao.getAnswersDtoByQuestionIdSortCount(questionId);
+    }
 
+    @Override
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
+        return answerDtoDao.getAnswersDtoByQuestionIdSortDate(questionId);
+    }
 }

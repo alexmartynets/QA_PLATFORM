@@ -38,6 +38,16 @@ public class AnswerResourceController {
         return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionId(questionId));
     }
 
+    @GetMapping("/sort/count")
+    public ResponseEntity<List<AnswerDto>> getAnswersDtoSortCount(@PathVariable @NotNull Long questionId) {
+        return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionIdSortCount(questionId));
+    }
+
+    @GetMapping("/sort/date")
+    public ResponseEntity<List<AnswerDto>> getAnswersDtoSortDate(@PathVariable @NotNull Long questionId) {
+        return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionIdSortDate(questionId));
+    }
+
     @PostMapping
     public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Validated(OnCreate.class) AnswerDto answerDTO, @PathVariable @NotNull Long questionId) {
         answerDTO.setQuestionId(questionId);
@@ -60,7 +70,7 @@ public class AnswerResourceController {
 
     @DeleteMapping("/{answerId}")
     public ResponseEntity<AnswerDto> deleteAnswer(@PathVariable @NotNull Long answerId) {
-        answerService.deleteById(answerId);
+        answerService.deleteByKeyCascadeEnable(answerId);
         return ResponseEntity.ok().build();
     }
 }
