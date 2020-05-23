@@ -4,4 +4,6 @@ import com.javamentor.qa.platform.models.entity.question.Question;
 
 public interface QuestionDAO extends ReadWriteDAO<Question, Long> {
 
+    int deleteById(Long id);
+
 }

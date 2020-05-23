@@ -49,8 +49,10 @@ public class QuestionResourceController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
-        questionService.delete(questionService.getByKey(id));
-        return ResponseEntity.ok().build();
+        if (questionService.getById(id) != 0) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
-
 }
