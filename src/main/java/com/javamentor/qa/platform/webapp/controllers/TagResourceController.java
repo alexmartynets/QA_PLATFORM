@@ -4,6 +4,7 @@ import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.service.abstracts.dto.TagDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.TagService;
 import com.javamentor.qa.platform.webapp.converter.TagConverter;
+import com.sun.tools.javac.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class TagResourceController {
     }
 
     @GetMapping("{pageSize}/{pageNumber}")
-    public ResponseEntity<Map<Integer, List<TagDto>>> getAllTags(@PathVariable int pageSize, @PathVariable int pageNumber) {
+    public ResponseEntity<Pair<String, List<TagDto>>> getAllTags(@PathVariable int pageSize, @PathVariable int pageNumber) {
         return ResponseEntity.ok(tagDtoService.findAllTagsDtoPagination(pageSize, pageNumber));
     }
 
