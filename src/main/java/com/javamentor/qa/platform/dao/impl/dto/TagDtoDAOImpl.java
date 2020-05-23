@@ -3,32 +3,25 @@ package com.javamentor.qa.platform.dao.impl.dto;
 import com.javamentor.qa.platform.dao.abstracts.dto.TagDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.models.dto.TagDto;
-import com.javamentor.qa.platform.models.entity.question.Question;
-import com.javamentor.qa.platform.models.entity.question.Tag;
-import lombok.SneakyThrows;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
 import org.hibernate.query.Query;
 
-import java.io.Reader;
-import java.sql.Clob;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements TagDtoDAO {
     @SuppressWarnings("unchecked")
     @Override
-    public Map<Integer, List<TagDto>> findAllTagsDtoPagination(int pageSize, int pageNumber) {
+    public List<TagDto> findAllTagsDtoPagination(int pageSize, int pageNumber) {
 
         List<TagDto> list = entityManager.createQuery("select " +
-                        "t.id, " +
-                        "t.name, " +
-                        "t.description, " +
-                        "t.questions.size " +
-                        "from Tag t")
+                "t.id, " +
+                "t.name, " +
+                "t.description, " +
+                "t.questions.size " +
+                "from Tag t")
                 .setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize)
                 .unwrap(Query.class)
@@ -50,12 +43,14 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
                     }
                 })
                 .getResultList();
+        return list;
+    }
 
-        int totalCount = ((Number) entityManager.createQuery
-                ("select count(t) from Tag t").getSingleResult()).intValue();
-        Integer finalPage = (totalCount / pageSize) + 1;
-        Map<Integer, List<TagDto>> map = new HashMap<>();
-        map.put(finalPage, list);
-        return map;
+    @Override
+    public String getFinalPage(int pageSize) {
+        long totalCount = ((Number) entityManager.createQuery
+                ("select count(t) from Tag t").getSingleResult()).longValue();
+        long finalPage = (totalCount / (long) pageSize) + 1;
+        return ((Long)finalPage).toString();
     }
 }

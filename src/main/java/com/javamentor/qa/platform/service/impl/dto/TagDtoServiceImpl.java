@@ -16,7 +16,7 @@ public class TagDtoServiceImpl implements TagDtoService {
     private TagDtoDAO tagDtoDAO;
 
     @Override
-    public Map<Integer, List<TagDto>> findAllTagsDtoPagination(int pageSize, int pageNumber) {
+    public List<TagDto> findAllTagsDtoPagination(int pageSize, int pageNumber) {
         pageSize = pageSize <= 0 ? 1 : pageSize;
         pageNumber = pageNumber <= 0 ? 1 : pageNumber;
         return tagDtoDAO.findAllTagsDtoPagination(pageSize, pageNumber);
