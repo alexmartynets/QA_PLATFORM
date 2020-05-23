@@ -116,7 +116,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                         "from " +
                         "Answer a " +
                         "where " +
-                        "a.question.id = :questionId order by a.persistDateTime desc" +
+                        "a.question.id = :questionId order by a.isHelpful desc, a.persistDateTime asc" +
                         "")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)

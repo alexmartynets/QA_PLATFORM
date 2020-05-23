@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/user/question/{questionId}/answer")
 public class AnswerResourceController {
@@ -48,16 +49,18 @@ public class AnswerResourceController {
         return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionIdSortDate(questionId));
     }
 
+    @Validated(OnCreate.class)
     @PostMapping
-    public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Validated(OnCreate.class) AnswerDto answerDTO, @PathVariable @NotNull Long questionId) {
+    public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Valid AnswerDto answerDTO, @PathVariable @NotNull Long questionId) {
         answerDTO.setQuestionId(questionId);
         Answer answer = answerConverter.dtoToAnswer(answerDTO);
         answerService.persist(answer);
         return ResponseEntity.ok(answerDTO);
     }
 
+    @Validated(OnUpdate.class)
     @PutMapping("/{answerId}")
-    public ResponseEntity<AnswerDto> updateAnswer(@RequestBody @Validated(OnUpdate.class) AnswerDto answerDTO, @PathVariable @NotNull Long answerId, @PathVariable @NotNull Long questionId) {
+    public ResponseEntity<AnswerDto> updateAnswer(@RequestBody @Valid AnswerDto answerDTO, @PathVariable @NotNull Long answerId, @PathVariable @NotNull Long questionId) {
         Answer answer = answerConverter.dtoToAnswer(answerDTO);
         answer.setId(answerId);
         if (answer.getIsHelpful()) {
