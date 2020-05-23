@@ -99,6 +99,12 @@
             <artifactId>spring-tx</artifactId>
             <version>5.2.3.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>19.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

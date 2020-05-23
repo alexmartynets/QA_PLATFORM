@@ -37,10 +37,14 @@ public class QuestionResourceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDto questionDto) {
-        Question question = questionConverter.toEntity(questionDto);
-        questionService.update(question);
-        return ResponseEntity.ok(questionConverter.toDto(question));
+    public ResponseEntity<?> updateQuestion(@PathVariable Long id, @RequestBody QuestionDto questionDto) {
+        if (questionDto.getId().equals(id) && questionService.existsById(id)) {
+            Question question = questionConverter.toEntity(questionDto);
+            questionService.update(question);
+            return ResponseEntity.ok(questionConverter.toDto(question));
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/{id}")

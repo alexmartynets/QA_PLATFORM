@@ -56,6 +56,23 @@ public class Question {
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
+    @PrePersist
+    private void prePersistFunction() {
+        checkConstraints();
+    }
+
+    @PreUpdate
+    private void preUpdateFunction() {
+        checkConstraints();
+    }
+
+    private void checkConstraints() {
+        if (this.tags == null || this.tags.isEmpty()) {
+            throw new RuntimeException("У экземпляра Question, поле tags должно быть заполненно");
+            //todo написать своё исключение, и на isEmpty
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
