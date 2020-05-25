@@ -14,7 +14,7 @@
     <div class="container">
         <a href="#" class="navbar-brand">Home</a>
 
-        <div class="input-group input-group-sm mb-3">
+        <div class="input-group input-group-sm mb-3 search-users">
             <input type="text" class="form-control" aria-label="Sizing example input"
                    aria-describedby="inputGroup-sizing-sm" style="left: 120px;top: 8px;" placeholder="Поиск...">
         </div>
@@ -54,25 +54,17 @@
             <div class="row align-items-start py-2">
                 <div class="col">
                     <div class="panel">
-                        <div
-                                class="btn-toolbar justify-content-between"
+                        <div class="btn-toolbar justify-content-between"
                                 role="toolbar"
-                                aria-label="Toolbar with button groups"
-                        >
+                                aria-label="Toolbar with button groups">
+
                             <div class="input-group input-group-sm md-3 flex-nowrap">
-                                <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Фильтрация по участникам"
-                                        aria-describedby="addon-wrapping"
-                                />
+                                <input type="text" class="form-control"
+                                       placeholder="Фильтрация по участникам"
+                                       aria-describedby="addon-wrapping" style="left: -15px;"/>
                             </div>
 
-                            <div
-                                    class="btn-group btn-group-sm panel-button"
-                                    role="group"
-                                    aria-label="First group"
-                            >
+                            <div>
                                 <button type="button" class="btn btn-light text-dark">
                                     Репутация
                                 </button>
@@ -89,6 +81,7 @@
                                     Модераторы
                                 </button>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -97,8 +90,7 @@
             <div class="row align-items-start py-2">
                 <div class="col">
                     <div class="panel">
-                        <div
-                                class="btn-group text-dark float-right panel-button-small"
+                        <div class="btn-group text-dark float-right panel-button-small"
                                 role="group"
                                 aria-label="First group"
                         >

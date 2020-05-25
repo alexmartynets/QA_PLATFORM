@@ -13,6 +13,9 @@ body {
     background: #f7f7fafa;
     opacity: 0.8;
 }
+.search-users {
+    width:500px; /* ширина блока */
+}
 
 .left-panel-blok a {
     text-align: left;
