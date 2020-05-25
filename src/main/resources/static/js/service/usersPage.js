@@ -21,7 +21,7 @@ class DataList {
             const name = document.createElement("a");
             name.href = "/user/" + user.id;
             name.className = "mt-0 user-name";
-            name.innerText = user.name;
+            name.innerText = user.fullName;
 
             const city = document.createElement("div");
             city.className = "user-location";
@@ -29,12 +29,12 @@ class DataList {
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = user.rating;
+            ratings.innerText = user.reputationCount;
 
             const tags = document.createElement("a");
-            tags.href = "/tags/" + user.tag;
+            tags.href = "/tags/" + user.about;
             tags.className = "user-tags";
-            tags.innerText = user.tag;
+            tags.innerText = user.about;
 
             divs.appendChild(name);
             divs.appendChild(city);
@@ -110,11 +110,12 @@ class DataList {
             cache: false,
             async: false,
             success: function (data) {
+                console.log(data);
                 for (let field in data) {
                     map.set("list", data.key);
                     map.set("count", data.value);
                 }
-                // console.log(map);
+                console.log(map);
             },
             error: function (xhr, status, error) {
                 if (xhr.status === 500 || xhr.status === 204) {
@@ -134,7 +135,7 @@ $(document).ready(function () {
     // начальная страница
     let currentPage = 1;
     // количество карточек на странице
-    let numberMedia = 15;
+    let numberMedia = 5;
     // получаем list users и количество users в базе
     let dadaArray = data.getListUsersForPagination(numberMedia, currentPage);
 
