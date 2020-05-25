@@ -19,7 +19,7 @@ public class QuestionResourceController {
         this.questionDtoService = questionDtoService;
     }
 
-    @GetMapping
+    @GetMapping("/question")
     public ResponseEntity< List<QuestionDto>> allQuestions (){
         return ResponseEntity.ok(questionDtoService.getAll());
     }
