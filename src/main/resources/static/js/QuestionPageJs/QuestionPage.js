@@ -1,11 +1,20 @@
 $(document).ready(function (id) {
-    let newAnswer  = {};
+    let newAnswer = {};
+
+    $('[data-toggle="popover"]').popover({});
+
+    $("[data-toggle=popover]")
+        .popover({html: true});
+
+    $('#btnPopover').click(function (id) {
+        putHref(id);
+    });
 
     $('#btnSendAnswer').click(function (id) {
         id = 1;
-        newAnswer .text = $('#summernote').val();
+        newAnswer.text = $('#summernote').val();
         let answerDTO = JSON.stringify(newAnswer);
-        putNewAnswer(answerDTO , id);
+        putNewAnswer(answerDTO, id);
     });
     $('#btnUpCountPlus').click(function (id) {
         id = 1;

@@ -32,7 +32,7 @@ function getQuestion(id) {
                 document.getElementById("lastUpdateDateTime").title = userInfoDto.lastUpdateDateTime;
                 document.getElementById("lastUpdateDateTime2").title = userInfoDto.lastUpdateDateTime;
                 document.getElementById("viewCountTitle").title = data.viewCount;
-
+                document.getElementById("btnPopover").title = "короткая постоянна ссылка на этот вопрос";
             })
         },
         error: function () {
@@ -57,7 +57,7 @@ function getTextOfQuestion(id) {
 
                     $(val).each(function (index, value) {
                         let userInfoDto = value.userDto;
-
+                        let href = window.location.href;
                         let questionId = val.questionId;
                         tableBody.append(`<tr>
         <td width="50" rowspan="2"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
@@ -86,9 +86,11 @@ function getTextOfQuestion(id) {
          <td  style="background-color: gainsboro">ответ</td>
     </tr>
     <tr>
-        <td colspan="2"><button type="button" class="btn btn-link" data-container="body"
-                                            data-toggle="popover" data-placement="bottom" data-content="Поделиться"
-                                            title="короткая постоянна ссылка на этот ответ">
+        <td colspan="2"> <button type="button" class="btn btn-link" data-container="body"                          
+                                            data-toggle="popover" data-placement="bottom"
+                                            data-content="<a>${href}</a>"
+                                            data-html="true"
+                                            title="Поделиться ссылкой на ответ">
                                         Поделиться
                                     </button>
                                     <button href="#" class="btn btn-link ">
@@ -104,6 +106,11 @@ function getTextOfQuestion(id) {
                         if (true === val.isHelpful) {
                             document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
                         }
+                        $('[data-toggle="popover"]').popover();
+
+                        $("[data-toggle=popover]")
+                            .popover({html: true});
+
                     });
             });
         },
@@ -278,4 +285,10 @@ function putNewAnswer(answerDTO, id) {
             alert(error);
         }
     })
+}
+
+function putHref(id) {
+
+    let href = window.location.href;
+    document.getElementById("hrefPage").innerHTML = href;
 }
