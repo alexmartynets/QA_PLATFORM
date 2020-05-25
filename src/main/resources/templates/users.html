@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/usersPage.css"/>
+    <title>Участники</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-sm navbar-light fixed-top">
+    <div class="container">
+        <a href="#" class="navbar-brand">Home</a>
+
+        <div class="input-group input-group-sm mb-3">
+            <input type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-sm" style="left: 120px;top: 8px;" placeholder="Поиск...">
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="#" class="btn btn-primary btn-block">Log in</a>
+                </li>
+                <label class="interval-label"></label>
+                <li class="nav-item">
+                    <a href="#" class="btn btn-primary btn-block">Sign up</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HOME SECTION -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 left-panel" style="border-right-width: 1px;border-right-style: solid;">
+            <div class="btn-group-vertical left-panel-blok" >
+                <a href="#" class="btn btn-link text-dark">Главная</a>
+                <a href="#" class="btn btn-link text-dark">Вопросы</a>
+                <a href="#" class="btn btn-link text-dark">Метки</a>
+                <a href="#" class="btn btn-link text-dark">Участники</a>
+                <a href="#" class="btn btn-link text-dark">Неотвеченные</a>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+
+            <div id="user-title">Участники</div>
+
+            <div class="row align-items-start py-2">
+                <div class="col">
+                    <div class="panel">
+                        <div
+                                class="btn-toolbar justify-content-between"
+                                role="toolbar"
+                                aria-label="Toolbar with button groups"
+                        >
+                            <div class="input-group input-group-sm md-3 flex-nowrap">
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Фильтрация по участникам"
+                                        aria-describedby="addon-wrapping"
+                                />
+                            </div>
+
+                            <div
+                                    class="btn-group btn-group-sm panel-button"
+                                    role="group"
+                                    aria-label="First group"
+                            >
+                                <button type="button" class="btn btn-light text-dark">
+                                    Репутация
+                                </button>
+                                <button type="button" class="btn btn-light text-dark">
+                                    Новые участники
+                                </button>
+                                <button type="button" class="btn btn-light text-dark">
+                                    Голосующие
+                                </button>
+                                <button type="button" class="btn btn-light text-dark">
+                                    Редакторы
+                                </button>
+                                <button type="button" class="btn btn-light text-dark">
+                                    Модераторы
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-start py-2">
+                <div class="col">
+                    <div class="panel">
+                        <div
+                                class="btn-group text-dark float-right panel-button-small"
+                                role="group"
+                                aria-label="First group"
+                        >
+                            <a
+                                    href="#"
+                                    class="btn btn-link text-dark"
+                            >за неделю</a
+                            >
+                            <a
+                                    href="#"
+                                    class="btn btn-link text-dark"
+                            >за месяц</a
+                            >
+                            <a
+                                    href="#"
+                                    class="btn btn-link text-dark"
+                            >квартал</a
+                            >
+                            <a
+                                    href="#"
+                                    class="btn btn-link text-dark"
+                            >год</a
+                            >
+                            <a
+                                    href="#"
+                                    class="btn btn-link text-dark"
+                            >все</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users -->
+            <div id="users" class="row row-cols-3" style="padding-left: 15px;">
+                <!-- List Users -->
+            </div>
+
+            <!-- pagination -->
+            <div class="row">
+                <div class="col">
+                    <ul id="pagination" class="pagination panel justify-content-end">
+                        <!-- List pagination -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/service/usersPage.js"></script>
+</body>
+</html>
+
