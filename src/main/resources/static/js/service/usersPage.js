@@ -105,7 +105,7 @@ class DataList {
         let map = new Map();
         $.ajax({
             type: "GET",
-            url: "/api/user/" + numbersMedia + "/" + currentPage,
+            url: "/api/user/" + numbersMedia + "/page/" + currentPage,
             xhrFields: {withCredentials: true},
             cache: false,
             async: false,
