@@ -10,4 +10,6 @@ public interface QuestionDtoDao {
     List<QuestionDto> getQuestionDtoList();
 
     Optional<QuestionDto> getQuestionDtoById(Long id);
+
+    List<QuestionDto> getQuestionDtoListByUserId(Long userId);
 }

@@ -73,6 +73,10 @@ public class Question {
         }
     }
 
+    //todo добавить update data time
+
+    //todo подумать над временем helpful
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionDtoServiceImpl implements QuestionDtoService {
@@ -20,8 +21,12 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     }
 
     @Override
-    public QuestionDto getQuestionDtoById(Long id) {
+    public Optional<QuestionDto> getQuestionDtoById(Long id) {
         return questionDtoDao.getQuestionDtoById(id);
     }
 
+    @Override
+    public List<QuestionDto> getQuestionDtoListByUserId(Long userId) {
+        return questionDtoDao.getQuestionDtoListByUserId(userId);
+    }
 }
