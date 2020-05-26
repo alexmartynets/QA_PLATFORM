@@ -31,8 +31,8 @@ body {
     font-size: 28px;
 }
 
-.panel-button {
-    font-size: 14px;
+.btn-toolbar{
+    font-size: 10px;
 }
 
 .panel-button-small a {
