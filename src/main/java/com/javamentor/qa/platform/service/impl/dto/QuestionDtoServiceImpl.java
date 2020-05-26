@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,8 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
 
     @Override
     public Map<Long, List<QuestionDto>> getPage(int page, int size) {
-        return questionDtoDao.getPaginationQuestion(page, size);
+        Map<Long, List<QuestionDto>> result = new HashMap<>();
+        result.put(questionDtoDao.getCount(), questionDtoDao.getPaginationQuestion(page, size));
+        return result;
     }
 }
