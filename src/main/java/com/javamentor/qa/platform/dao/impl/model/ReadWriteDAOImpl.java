@@ -26,7 +26,6 @@ public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
                 .getActualTypeArguments()[0];
     }
 
-
     @Override
     @Transactional
     public void persist(T t) {
