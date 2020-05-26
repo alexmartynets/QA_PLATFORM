@@ -118,8 +118,8 @@ class DataUsersPagination {
                 console.log(map);
             },
             error: function (xhr, status, error) {
-                if (xhr.status === 500 || xhr.status === 204) {
-                    alert('Not list users ...');
+                if (xhr.status === 404) {
+                    alert('User list not found...');
                 } else {
                     alert('Error - ' + xhr.status + ': ' + xhr.statusText + error);
                 }
