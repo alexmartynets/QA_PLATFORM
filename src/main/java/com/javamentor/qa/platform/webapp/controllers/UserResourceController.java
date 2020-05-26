@@ -7,6 +7,8 @@ import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
+import javafx.util.Pair;
+import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -50,5 +52,11 @@ public class UserResourceController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<UserDto>> findUser (@PathVariable Long id) {
         return ResponseEntity.ok(userDtoService.getUserDtoById(id));
+    }
+
+    @GetMapping("/{count}/page/{page}")
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersForPagination(@PathVariable @NonNull Long page,
+                                                                               @PathVariable @NonNull Long count) {
+        return ResponseEntity.ok().body(userDtoService.getListUsersForPagination(page.intValue(), count.intValue()));
     }
 }
