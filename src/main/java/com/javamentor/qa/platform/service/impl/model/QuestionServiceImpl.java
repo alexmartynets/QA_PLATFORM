@@ -16,9 +16,4 @@ public class QuestionServiceImpl extends ReadWriteServiceImpl<Question, Long> im
         super(questionDAO);
         this.questionDAO = questionDAO;
     }
-
-    @Override
-    public int getById(Long id) {
-        return questionDAO.deleteById(id);
-    }
 }
