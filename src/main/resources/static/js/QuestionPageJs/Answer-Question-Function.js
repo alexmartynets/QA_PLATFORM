@@ -26,7 +26,7 @@ function getQuestion(id) {
                 document.getElementById("NameAnswer").innerHTML = data.title;
                 document.getElementById("persistDateTime").innerHTML = newResultDate;
                 document.getElementById("viewCount").innerHTML = data.viewCount;
-                document.getElementById("countAnswer").innerHTML = data.countAnswer;
+              //  document.getElementById("countAnswer").innerHTML = data.countAnswer;
                 document.getElementById("tblQuestionText").innerHTML = data.description;
                 document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
                 document.getElementById("persistDateTimeUser").innerHTML = userInfoDto.persistDateTime;
@@ -62,6 +62,7 @@ function getTextOfQuestion(id) {
             $(data).each(function (index, val) {
 
                 $(val).each(function (index, value) {
+                    document.getElementById("countAnswer").innerHTML = val.id;
                     let userInfoDto = value.userDto;
                     let href = window.location.href;
                     let questionId = val.questionId;
