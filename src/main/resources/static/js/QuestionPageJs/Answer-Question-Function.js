@@ -13,12 +13,18 @@ function getQuestion(id) {
                 let userInfoDto = val.userDto;
                 let tags = val.tags;
 
+                let date = new Date();
+                let newDateQuestionIsAsked = new Date(data.persistDateTime);
+                let newLastActivityDate = new Date(userInfoDto.lastUpdateDateTime);
+                let newResultDate = convertDate(date, newDateQuestionIsAsked);
+                let newResultLastActivity = convertDate(date, newLastActivityDate);
+
                 $(tags).each(function (index, val) {
                     tableBody.append(`<small class=" ml-2 " style="background-color: #e1ecf4">${val.name}</small>`);
                 });
 
                 document.getElementById("NameAnswer").innerHTML = data.title;
-                document.getElementById("persistDateTime").innerHTML = data.persistDateTime;
+                document.getElementById("persistDateTime").innerHTML = newResultDate;
                 document.getElementById("viewCount").innerHTML = data.viewCount;
                 document.getElementById("countAnswer").innerHTML = data.countAnswer;
                 document.getElementById("tblQuestionText").innerHTML = data.description;
@@ -26,7 +32,7 @@ function getQuestion(id) {
                 document.getElementById("persistDateTimeUser").innerHTML = userInfoDto.persistDateTime;
                 document.getElementById("InfoUser").innerHTML = userInfoDto.fullName;
                 document.getElementById("InfoUserReputation").innerHTML = userInfoDto.reputationCount;
-                document.getElementById("lastUpdateDateTime").innerHTML = userInfoDto.lastUpdateDateTime;
+                document.getElementById("lastUpdateDateTime").innerHTML = newResultLastActivity;
                 document.getElementById("persistDateTimeTitle").title = data.persistDateTime;
                 document.getElementById("persistDateTime").title = data.persistDateTime;
                 document.getElementById("lastUpdateDateTime").title = userInfoDto.lastUpdateDateTime;
@@ -55,11 +61,11 @@ function getTextOfQuestion(id) {
             tableBody.empty();
             $(data).each(function (index, val) {
 
-                    $(val).each(function (index, value) {
-                        let userInfoDto = value.userDto;
-                        let href = window.location.href;
-                        let questionId = val.questionId;
-                        tableBody.append(`<tr>
+                $(val).each(function (index, value) {
+                    let userInfoDto = value.userDto;
+                    let href = window.location.href;
+                    let questionId = val.questionId;
+                    tableBody.append(`<tr>
         <td width="50" rowspan="2"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
@@ -103,15 +109,15 @@ function getTextOfQuestion(id) {
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
                                             class=" ml-1 ">${userInfoDto.fullName}</h><h class=" ml-3 " title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>`);
-                        if (true === val.isHelpful) {
-                            document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
-                        }
-                        $('[data-toggle="popover"]').popover();
+                    if (true === val.isHelpful) {
+                        document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
+                    }
+                    $('[data-toggle="popover"]').popover();
 
-                        $("[data-toggle=popover]")
-                            .popover({html: true});
+                    $("[data-toggle=popover]")
+                        .popover({html: true});
 
-                    });
+                });
             });
         },
         error: function () {
@@ -291,4 +297,32 @@ function putHref(id) {
 
     let href = window.location.href;
     document.getElementById("hrefPage").innerHTML = href;
+}
+
+function convertDate(date1, date2) {
+    let diff = Math.floor((Date.parse(date1) - Date.parse(date2)) / 86400000);
+    let result = "";
+    if (diff === 0) {
+        result = "сегодня";
+    } else if (diff === 1 && diff < 2) {
+        result = "вчера";
+    } else if (diff === 2 && diff < 3) {
+        result = "позавчера";
+    } else if (diff > 2 && diff < 31) {
+        result = diff + " " + "дней назад";
+    } else if (diff > 31 && diff < 58) {
+        result = "месяц назад";
+    } else if (diff > 31 && diff < 360) {
+        let month1 = date1.getMonth();
+        let month = date2.getMonth();
+        let resultMonth = month1 - month;
+        result = resultMonth + " " + "месяца назад";
+    } else if (diff > 360 && diff < 720) {
+        result = "год назад";
+    } else if (diff > 720 && diff < 1080) {
+        result = "несколько лет назад";
+    } else if (diff > 1080) {
+        result = "много лет назад";
+    }
+    return result;
 }
