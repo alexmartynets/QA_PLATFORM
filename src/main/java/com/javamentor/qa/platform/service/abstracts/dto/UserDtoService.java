@@ -12,5 +12,7 @@ public interface UserDtoService {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Pair<List<UserDto>, Long> getListUsersForPagination(int page, int count);
+    Pair<List<UserDto>, Long> getListUsersToPagination(int page, int count);
+
+    Pair<List<UserDto>, Long> getListUsersByNameToSearch(String name);
 }
