@@ -134,10 +134,17 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "u.id, " +
                 "u.fullName, " +
+                "u.email, " +
+                "u.role.name, " +
+                "u.persistDateTime, " +
                 "u.reputationCount, " +
                 "u.about, " +
                 "u.city, " +
-                "u.imageUser " +
+                "u.imageUser, " +
+                "u.lastUpdateDateTime, " +
+                "u.linkGitHub, " +
+                "u.linkSite, " +
+                "u.linkVk " +
                 "FROM User u ORDER BY u.reputationCount DESC")
                 .setFirstResult(count*(page - 1))
                 .setMaxResults(count)
@@ -148,10 +155,17 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                         return UserDto.builder()
                                 .id(((Number) objects[0]).longValue())
                                 .fullName((String) objects[1])
-                                .reputationCount((Integer) objects[2])
-                                .about((String) objects[3])
-                                .city((String) objects[4])
-                                .imageUser((byte[]) objects[5])
+                                .email((String) objects[2])
+                                .role((String) objects[3])
+                                .persistDateTime((LocalDateTime) objects[4])
+                                .reputationCount((Integer) objects[5])
+                                .about((String) objects[6])
+                                .city((String) objects[7])
+                                .imageUser((byte[]) objects[8])
+                                .lastUpdateDateTime((LocalDateTime) objects[9])
+                                .linkGitHub((String) objects[10])
+                                .linkSite((String) objects[11])
+                                .linkVk((String) objects[12])
                                 .build();
                     }
 

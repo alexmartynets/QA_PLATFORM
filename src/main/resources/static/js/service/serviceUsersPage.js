@@ -1,4 +1,4 @@
-class DataList {
+class DataUsersPagination {
 
     constructor() {
     }
@@ -74,7 +74,7 @@ class DataList {
         return Math.ceil(countOnUsers / numberItemsOnPage);
     }
 
-    // геренатор пагинации
+    // геренатор pagination
     generateRangePagination(currentPage, countOfPages) {
         let pagesToShow = 3,
             page = currentPage - pagesToShow > 0 ? currentPage - pagesToShow : 1,
@@ -100,7 +100,7 @@ class DataList {
         return listPagination;
     }
 
-    // запрос в базу
+    // запрос в базу для получения данных для страницы
     getListUsersForPagination(numbersMedia, currentPage) {
         let map = new Map();
         $.ajax({
@@ -130,43 +130,41 @@ class DataList {
 }
 
 $(document).ready(function () {
-
-    let data = new DataList();
-    // начальная страница
-    let currentPage = 1;
-    // количество карточек на странице
-    let numberMedia = 5;
-    // получаем list users и количество users в базе
-    let dadaArray = data.getListUsersForPagination(numberMedia, currentPage);
-
-
-    let countOfPages = data.getNumberOfPages(dadaArray.get("count"), numberMedia);
-    let listUsersForPage = dadaArray.get("list");
-    let listCartsUsers = data.mapperMediaUsers(listUsersForPage);
-    $("#users").html($(listCartsUsers));
-
-    // получаем кнопоки pagination
-    let listPagination = data.generateRangePagination(currentPage, countOfPages);
-    let listLi = data.mapperMediaPagination(listPagination);
-    $("#pagination").html($(listLi));
-
-    // блок для динамического изменения данных
-    $("body").on("click", ".page-link", function () {
-        let page = $(this).text();
-        // console.log("страница:  " + page);
-
-        let dadaArray = data.getListUsersForPagination(numberMedia, page);
-
-        let listUsersForPage = dadaArray.get("list");
-        let listCartsUsers = data.mapperMediaUsers(listUsersForPage);
-        $("#users").html($(listCartsUsers));
-
-
-        let countOfPages = data.getNumberOfPages(dadaArray.get("count"), numberMedia);
-        let listPagination = data.generateRangePagination(page, countOfPages);
-        let listLi = data.mapperMediaPagination(listPagination);
-        $("#pagination").html($(listLi));
-    });
+    //
+    // let data = new DataUsersPagination();
+    // // начальная страница
+    // let currentPage = 1;
+    // // количество карточек на странице
+    // let numberMedia = 5;
+    //
+    // /*блок кода для первой страницы*/
+    // let dadaMap = data.getListUsersForPagination(numberMedia, currentPage);
+    //
+    // let countOfPages = data.getNumberOfPages(dadaMap.get("count"), numberMedia);
+    // let listUsersForPage = dadaMap.get("list");
+    // let listMediaUsers = data.mapperMediaUsers(listUsersForPage);
+    // $("#users").html($(listMediaUsers));
+    //
+    // let listButtonPagination = data.generateRangePagination(currentPage, countOfPages);
+    // let listLi = data.mapperMediaPagination(listButtonPagination);
+    // $("#pagination").html($(listLi));
+    //
+    // /*блок кода для динамического изменения данных*/
+    // $("body").on("click", ".page-link", function () {
+    //     let page = $(this).text();
+    //     // console.log("страница:  " + page);
+    //
+    //     let dadaMap = data.getListUsersForPagination(numberMedia, page);
+    //
+    //     let listUsersForPage = dadaMap.get("list");
+    //     let listMediaUsers = data.mapperMediaUsers(listUsersForPage);
+    //     $("#users").html($(listMediaUsers));
+    //
+    //     let countOfPages = data.getNumberOfPages(dadaMap.get("count"), numberMedia);
+    //     let listButtonPagination = data.generateRangePagination(page, countOfPages);
+    //     let listLi = data.mapperMediaPagination(listButtonPagination);
+    //     $("#pagination").html($(listLi));
+    // });
 });
 
 
