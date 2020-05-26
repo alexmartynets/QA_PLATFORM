@@ -4,7 +4,7 @@ import com.javamentor.qa.platform.dao.abstracts.dto.TagDtoDAO;
 import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.service.abstracts.dto.TagDtoService;
 
-import com.sun.tools.javac.util.Pair;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +17,34 @@ public class TagDtoServiceImpl implements TagDtoService {
     private TagDtoDAO tagDtoDAO;
 
     @Override
-    public Pair<String, List<TagDto>> findAllTagsDtoPagination(int pageSize, int pageNumber) {
+    public Pair<Long, List<TagDto>> findAllTagsDtoPagination(int pageSize, int pageNumber) {
         pageSize = pageSize <= 0 ? 1 : pageSize;
         pageNumber = pageNumber <= 0 ? 1 : pageNumber;
-        List<TagDto> list = tagDtoDAO.findAllTagsDtoPagination(pageSize, pageNumber);
-        String finalPage = tagDtoDAO.getFinalPage(pageSize);
+        List<TagDto> list = tagDtoDAO.findAllTagsDtoPaginationPopular(pageSize, pageNumber);
+        Long finalPage = tagDtoDAO.getFinalPage(pageSize);
         return new Pair<>(finalPage, list);
+    }
+
+    @Override
+    public Pair<Long, List<TagDto>> findAllTagsDtoPaginationName(int pageSize, int pageNumber) {
+        pageSize = pageSize <= 0 ? 1 : pageSize;
+        pageNumber = pageNumber <= 0 ? 1 : pageNumber;
+        List<TagDto> list = tagDtoDAO.findAllTagsDtoPaginationName(pageSize, pageNumber);
+        Long finalPage = tagDtoDAO.getFinalPage(pageSize);
+        return new Pair<>(finalPage, list);
+    }
+
+    @Override
+    public Pair<Long, List<TagDto>> findAllTagsDtoPaginationDate(int pageSize, int pageNumber) {
+        pageSize = pageSize <= 0 ? 1 : pageSize;
+        pageNumber = pageNumber <= 0 ? 1 : pageNumber;
+        List<TagDto> list = tagDtoDAO.findAllTagsDtoPaginationDate(pageSize, pageNumber);
+        Long finalPage = tagDtoDAO.getFinalPage(pageSize);
+        return new Pair<>(finalPage, list);
+    }
+
+    @Override
+    public List<TagDto> findAllTagsSearch(String word) {
+        return tagDtoDAO.findAllTagsSearch(word);
     }
 }

@@ -4,7 +4,7 @@ import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.service.abstracts.dto.TagDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.TagService;
 import com.javamentor.qa.platform.webapp.converter.TagConverter;
-import com.sun.tools.javac.util.Pair;
+import javafx.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +26,23 @@ public class TagResourceController {
     }
 
     @GetMapping("{pageSize}/{pageNumber}")
-    public ResponseEntity<Pair<String, List<TagDto>>> getAllTags(@PathVariable int pageSize, @PathVariable int pageNumber) {
+    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsByPopular(@PathVariable int pageSize, @PathVariable int pageNumber) {
         return ResponseEntity.ok(tagDtoService.findAllTagsDtoPagination(pageSize, pageNumber));
+    }
+
+    @GetMapping("/name/{pageSize}/{pageNumber}")
+    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsByName(@PathVariable int pageSize, @PathVariable int pageNumber) {
+        return ResponseEntity.ok(tagDtoService.findAllTagsDtoPaginationName(pageSize, pageNumber));
+    }
+
+    @GetMapping("/new/{pageSize}/{pageNumber}")
+    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsByDate(@PathVariable int pageSize, @PathVariable int pageNumber) {
+        return ResponseEntity.ok(tagDtoService.findAllTagsDtoPaginationDate(pageSize, pageNumber));
+    }
+
+    @GetMapping("/search/{word}")
+    public ResponseEntity <List<TagDto>> getAllTagsSearch(@PathVariable String word) {
+        return ResponseEntity.ok(tagDtoService.findAllTagsSearch(word));
     }
 
     @PostMapping

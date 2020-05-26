@@ -5,7 +5,10 @@ import com.javamentor.qa.platform.models.dto.TagDto;
 import java.util.List;
 
 public interface TagDtoDAO {
-    List<TagDto> findAllTagsDtoPagination(int pageSize, int pageNumber);
-    String getFinalPage (int pageSize);
+    List<TagDto> findAllTagsDtoPaginationPopular(int pageSize, int pageNumber);
+    List<TagDto> findAllTagsDtoPaginationName(int pageSize, int pageNumber);
+    List<TagDto> findAllTagsDtoPaginationDate(int pageSize, int pageNumber);
+    List<TagDto> findAllTagsSearch(String word);
+    Long getFinalPage (int pageSize);
 
 }
