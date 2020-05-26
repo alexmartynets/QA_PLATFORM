@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.models.entity.question.answer;
 
+import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
@@ -53,6 +54,22 @@ public class Answer {
     @NotNull
     @Column(name = "count_valuable")
     private Integer countValuable = 0;
+
+    @PrePersist
+    private void prePersistFunction() {
+        checkConstraints();
+    }
+
+    @PreUpdate
+    private void preUpdateFunction() {
+        checkConstraints();
+    }
+
+    private void checkConstraints() {
+        if (this.htmlBody.isEmpty()) {
+            throw new RuntimeException("Поле htmlBody должно быть заполнено");
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

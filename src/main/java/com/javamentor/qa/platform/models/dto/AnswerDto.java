@@ -26,6 +26,7 @@ public class AnswerDto {
     private Long questionId;
 
     @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
+    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     private String htmlBody;
 
     private LocalDateTime persistDateTime;

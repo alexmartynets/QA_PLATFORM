@@ -10,9 +10,11 @@ import com.javamentor.qa.platform.webapp.converter.AnswerConverter;
 
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -51,7 +53,8 @@ public class AnswerResourceController {
 
     @Validated(OnCreate.class)
     @PostMapping
-    public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Valid AnswerDto answerDTO, @PathVariable @NotNull Long questionId) {
+    public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Valid AnswerDto answerDTO,
+                                               @PathVariable @NotNull Long questionId) {
         answerDTO.setQuestionId(questionId);
         Answer answer = answerConverter.dtoToAnswer(answerDTO);
         answerService.persist(answer);
@@ -60,7 +63,9 @@ public class AnswerResourceController {
 
     @Validated(OnUpdate.class)
     @PutMapping("/{answerId}")
-    public ResponseEntity<AnswerDto> updateAnswer(@RequestBody @Valid AnswerDto answerDTO, @PathVariable @NotNull Long answerId, @PathVariable @NotNull Long questionId) {
+    public ResponseEntity<AnswerDto> updateAnswer(@RequestBody @Valid AnswerDto answerDTO,
+                                                  @PathVariable @NotNull Long answerId,
+                                                  @PathVariable @NotNull Long questionId) {
         Answer answer = answerConverter.dtoToAnswer(answerDTO);
         answer.setId(answerId);
         if (answer.getIsHelpful()) {
@@ -72,8 +77,10 @@ public class AnswerResourceController {
     }
 
     @DeleteMapping("/{answerId}")
-    public ResponseEntity<AnswerDto> deleteAnswer(@PathVariable @NotNull Long answerId) {
-        answerService.deleteByKeyCascadeEnable(answerId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> deleteAnswer(@PathVariable @NotNull Long answerId) {
+        if(answerService.getByKey(answerId) != null) {
+            answerService.deleteByKeyCascadeEnable(answerId);
+            return ResponseEntity.ok().build();
+        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Answer with id-"+answerId+" dont exists");
     }
 }
