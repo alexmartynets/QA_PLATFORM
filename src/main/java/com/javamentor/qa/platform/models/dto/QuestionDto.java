@@ -28,13 +28,15 @@ public class QuestionDto {
     private String title;
 
     @NotNull
-    private String username;
+    private UserDto userDto;
 
     @NotNull
     private List<TagDto> tags = new ArrayList<>();
 
     @NotNull
     private Integer reputationCount;
+
+    private String description;
 
     @NotNull
     private Integer viewCount;
@@ -49,5 +51,6 @@ public class QuestionDto {
     private LocalDateTime persistDateTime;
 
     private Boolean isHelpful;
+
     private Map<String, String> lastAnswerNameAndDate;
 }
