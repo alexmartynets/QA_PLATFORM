@@ -4,7 +4,4 @@ import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 
 public interface AnswerDAO extends ReadWriteDAO<Answer, Long> {
     Answer getHelpfulAnswerByQuestionId(Long questionId);
-
-    void deleteById(Long answerId);
-    Answer getHelpfulAnswerByQuestionId(Long questionId);
 }
