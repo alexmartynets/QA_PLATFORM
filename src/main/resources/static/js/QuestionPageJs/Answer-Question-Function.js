@@ -26,7 +26,6 @@ function getQuestion(id) {
                 document.getElementById("NameAnswer").innerHTML = data.title;
                 document.getElementById("persistDateTime").innerHTML = newResultDate;
                 document.getElementById("viewCount").innerHTML = data.viewCount;
-              //  document.getElementById("countAnswer").innerHTML = data.countAnswer;
                 document.getElementById("tblQuestionText").innerHTML = data.description;
                 document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
                 document.getElementById("persistDateTimeUser").innerHTML = userInfoDto.persistDateTime;
@@ -294,7 +293,7 @@ function putNewAnswer(answerDTO, id) {
     })
 }
 
-function putHref(id) {
+function putHref() {
 
     let href = window.location.href;
     document.getElementById("hrefPage").innerHTML = href;

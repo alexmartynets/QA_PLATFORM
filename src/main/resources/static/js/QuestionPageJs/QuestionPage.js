@@ -1,13 +1,14 @@
 $(document).ready(function (id) {
     let newAnswer = {};
+    id = 1;
 
     $('[data-toggle="popover"]').popover({});
 
     $("[data-toggle=popover]")
         .popover({html: true});
 
-    $('#btnPopover').click(function (id) {
-        putHref(id);
+    $('#btnPopover').click(function () {
+        putHref();
     });
 
     $('#btnSendAnswer').click(function (id) {
@@ -24,13 +25,9 @@ $(document).ready(function (id) {
         id = 1;
         putCountValuableMinus(id);
     });
-});
-
-
-function getNameQuestion(id) {
-    id = 1;
     getQuestion(id);
     getTextOfQuestion(id);
-}
+});
+
 
 
