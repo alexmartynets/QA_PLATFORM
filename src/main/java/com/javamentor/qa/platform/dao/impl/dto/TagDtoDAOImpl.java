@@ -72,55 +72,18 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
     @SuppressWarnings("unchecked")
     @Override
     public List<TagDto> findAllTagsSearch(String word) {
+        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery("select " +
+                "t.id, " +
+                "t.name, " +
+                "t.description, " +
+                "t.questions.size, " +
+                "t.persistDateTime, " +
+                "(select count (q.id) from t.questions q where q.persistDateTime >= :day), " +
+                "(select count (q.id) from t.questions q where q.persistDateTime >= :month), " +
+                "(select count (q.id) from t.questions q where q.persistDateTime >= :year) " +
+                "from Tag t order by t.questions.size desc");
 
-        FullTextEntityManager fullTextEntityManager =
-                Search.getFullTextEntityManager(entityManager);
-        entityManager.getTransaction().begin();
-
-        QueryBuilder qb = fullTextEntityManager.getSearchFactory()
-                .buildQueryBuilder().forEntity(Tag.class).get();
-        org.apache.lucene.search.Query query = qb
-
-                .keyword()
-                .wildcard()
-                .onField("name")
-                .matching(word + "** ")
-
-                .createQuery();
-
-        javax.persistence.Query persistenceQuery =
-                fullTextEntityManager.createFullTextQuery(query, Tag.class);
-//        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery("select " +
-//                "t.id, " +
-//                "t.name, " +
-//                "t.description, " +
-//                "t.questions.size, " +
-//                "t.persistDateTime " +
-//                "from Tag t where t.name having 'Phone' order by t.questions.size desc");
-        return persistenceQuery
-                .setFirstResult(0)
-                .setMaxResults(36)
-                .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-
-                    @Override
-                    public Object transformTuple(Object[] objects, String[] strings) {
-                        return TagDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .name((String) objects[1])
-                                .description((String) objects[2])
-                                .questionCount(((Number) objects[3]).intValue())
-                                .persistDateTime((LocalDateTime) objects[4])
-                                .questionTodayCount(((Number) objects[5]).intValue())
-                                .build();
-                    }
-
-                    @Override
-                    public List<TagDto> transformList(List list) {
-                        return list;
-                    }
-                })
-                .getResultList();
+        return getTags(query, 36, 1);
     }
 
     @Override
