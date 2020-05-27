@@ -1,7 +1,7 @@
 package com.javamentor.qa.platform.dao.impl.dto;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
-import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDao;
+import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
@@ -19,7 +19,7 @@ import java.util.*;
 public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> implements QuestionDtoDao {
 
     @Autowired
-    private UserDtoDao userDtoDao;
+    private UserDtoDAO userDtoDao;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -105,7 +105,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        UserDto userDto = userDtoDao.getUserDtoById((Long) objects[2]).get();
+                        UserDto userDto = UserDto.builder()
+                                .id((Long) objects[2])
+                                .build();
                         TagDto tagDto = TagDto.builder()
                                 .id((Long) objects[7])
                                 .name((String) objects[8])

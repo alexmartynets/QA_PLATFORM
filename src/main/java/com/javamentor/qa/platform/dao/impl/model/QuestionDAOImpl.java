@@ -7,11 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class QuestionDAOImpl extends ReadWriteDAOImpl<Question, Long> implements QuestionDAO {
 
-    @Override
-    @Transactional
-    public int deleteById(Long id) {
-        return entityManager.createQuery("DELETE FROM Question q WHERE q.id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
-    }
 }
