@@ -34,9 +34,9 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Pair<List<UserDto>, Long> getListUsersByNameToSearch(String name) {
-        List<UserDto> listUsersDto = userDtoDao.getListUsersByNameToSearch(name);
-        int countUsers = listUsersDto.size();
-        return new Pair<>(listUsersDto, (long)countUsers);
+    public Pair<List<UserDto>, Long> getListUsersByNameToSearch(String name, int page, int count) {
+        List<UserDto> listUsersDto = userDtoDao.getListUsersByNameToSearch(name, page, count);
+        Long countUsers = userDtoDao.getCountUsersByName(name);
+        return new Pair<>(listUsersDto, countUsers);
     }
 }

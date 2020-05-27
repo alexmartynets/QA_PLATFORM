@@ -50,18 +50,20 @@ public class UserResourceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<UserDto>> findUser (@PathVariable Long id) {
+    public ResponseEntity<Optional<UserDto>> findUser(@PathVariable Long id) {
         return ResponseEntity.ok(userDtoService.getUserDtoById(id));
     }
 
     @GetMapping("/{count}/page/{page}")
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@PathVariable @NonNull Long page,
-                                                                               @PathVariable @NonNull Long count) {
+                                                                              @PathVariable @NonNull Long count) {
         return ResponseEntity.ok().body(userDtoService.getListUsersToPagination(page.intValue(), count.intValue()));
     }
 
-    @GetMapping("/name")   // ?name=Андрей
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@RequestParam @NonNull String name) {
-        return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name));
+    @GetMapping("/name")   // ?name=Андрей&count=1&page=1
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@RequestParam @NonNull String name,
+                                                                              @RequestParam @NonNull Long page,
+                                                                              @RequestParam @NonNull Long count) {
+        return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue()));
     }
 }

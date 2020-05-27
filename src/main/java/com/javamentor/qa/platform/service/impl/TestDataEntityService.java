@@ -104,7 +104,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user2")
                 .fullName("Петр Алексеевич Петров")
-                .reputationCount(3)
+                .reputationCount(1)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
@@ -119,7 +119,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user3")
                 .fullName("Василий Дмитрьевич Петров")
-                .reputationCount(13)
+                .reputationCount(19)
                 .city("SPB")
                 .linkSite("site.user3.ru")
                 .linkGitHub("github.user3.ru")
@@ -179,7 +179,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user7")
                 .fullName("Роман Игоривич Смышляев")
-                .reputationCount(33)
+                .reputationCount(35)
                 .city("SPB")
                 .linkSite("site.user7.ru")
                 .linkGitHub("github.user7.ru")
@@ -383,6 +383,321 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user20);
+
+        User user21 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(73)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user21);
+
+        User user22 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(76)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user22);
+
+        User user23 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(71)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user23);
+
+        User user24 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(76)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user24);
+
+        User user25 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(78)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user25);
+
+        User user26 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(79)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user26);
+
+        User user27 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(81)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user27);
+
+        User user28 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(83)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user28);
+
+        User user41 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(85)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user41);
+
+        User user29 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(88)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user29);
+
+        User user30 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(90)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user30);
+
+        User user31 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(103)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user31);
+
+        User user32 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(113)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user32);
+
+        User user33 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(133)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user33);
+
+        User user34 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(47)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user34);
+
+        User user35 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(333)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user35);
+
+        User user36 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(163)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user36);
+
+        User user37 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(603)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user37);
+
+        User user38 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(11)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user38);
+
+        User user39 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(121)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user39);
+
+        User user40 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(101)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user40);
 
     }
 

@@ -19,7 +19,7 @@ class DataUsersPagination {
             divs.className = "media-body";
 
             const name = document.createElement("a");
-            name.href = "/user/" + user.id;
+            name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = user.fullName;
 
@@ -48,6 +48,7 @@ class DataUsersPagination {
 
             listMedia.push(media);
         }
+        // console.log(listMedia);
         return listMedia;
     }
 
@@ -101,21 +102,21 @@ class DataUsersPagination {
     }
 
     // запрос в базу для получения данных для страницы
-    getListUsersForPagination(numbersMedia, currentPage) {
+    getListUsers(url) {
         let map = new Map();
         $.ajax({
             type: "GET",
-            url: "http://localhost:5557/api/user/" + numbersMedia + "/page/" + currentPage,
+            url: url,
             xhrFields: {withCredentials: true},
             cache: false,
             async: false,
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 for (let field in data) {
                     map.set("list", data.key);
                     map.set("count", data.value);
                 }
-                console.log(map);
+                // console.log(map);
             },
             error: function (xhr, status, error) {
                 if (xhr.status === 404) {
@@ -127,38 +128,7 @@ class DataUsersPagination {
         });
         return map;
     }
-    // /api/user/name?name=Андрей
-    getListUsersByNameToSearch(name){
-        let map = new Map();
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:5557/api/user/name?name=' + name,
-            cache: false,
-            async: false,
-            xhrFields: {withCredentials: true},
-            success: function (data) {
-                console.log(data);
-                for (let field in data) {
-                    map.set("list", data.key);
-                    map.set("count", data.value);
-                }
-                console.log(map);
-            },
-            error: function (xhr, status, error) {
-                if (xhr.status === 404) {
-                    alert('User not found...');
-                } else {
-                    alert('Error - ' + xhr.status + ': ' + xhr.statusText + error);
-                }
-            }
-        });
-        if(map.get('count') === 1){
-            location.assign("http://localhost:5557/profile");
-        }else {
-            console.log(map);
-            return map;
-        }
-    }
+
 }
 
 

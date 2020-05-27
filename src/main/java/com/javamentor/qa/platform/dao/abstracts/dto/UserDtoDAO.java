@@ -14,7 +14,9 @@ public interface UserDtoDAO {
 
     Long getCountUsers();
 
+    Long getCountUsersByName(String name);
+
     List<UserDto> getListUsersToPagination(int page, int count);
 
-    List<UserDto> getListUsersByNameToSearch(String name);
+    List<UserDto> getListUsersByNameToSearch(String name, int page, int count);
 }

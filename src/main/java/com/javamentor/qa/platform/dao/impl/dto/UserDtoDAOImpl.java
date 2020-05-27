@@ -123,10 +123,16 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @Override
     public Long getCountUsers() {
-        return entityManager.createQuery("select count(u.id) from  User as u", Long.class)
+        return entityManager.createQuery("SELECT COUNT(u.id) FROM User as u", Long.class)
                 .getSingleResult();
     }
 
+    @Override
+    public Long getCountUsersByName(String name) {
+        return entityManager.createQuery("SELECT COUNT(u.id) FROM User as u WHERE u.fullName LIKE CONCAT(:searchKeyword, '%')", Long.class)
+                .setParameter("searchKeyword", name.toLowerCase())
+                .getSingleResult();
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -181,7 +187,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<UserDto> getListUsersByNameToSearch(String name) {
+    public List<UserDto> getListUsersByNameToSearch(String name, int page, int count) {
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "u.id, " +
                 "u.fullName, " +
@@ -198,6 +204,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkVk " +
                 "FROM User u WHERE u.fullName LIKE CONCAT(:searchKeyword, '%') ORDER BY u.reputationCount DESC")
                 .setParameter("searchKeyword", name.toLowerCase())
+                .setFirstResult(count * (page - 1))
+                .setMaxResults(count)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
