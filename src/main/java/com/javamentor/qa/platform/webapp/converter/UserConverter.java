@@ -32,22 +32,22 @@ public abstract class UserConverter {
     }
 
     @Mappings({
-            @Mapping (target = "role", source = "role", qualifiedByName = "roleSetter"),
-            @Mapping (target = "imageUser", source = "imageUser", qualifiedByName = "toBlob"),
+            @Mapping(target = "role", source = "role", qualifiedByName = "roleSetter"),
+            @Mapping(target = "imageUser", source = "imageUser", qualifiedByName = "toBlob"),
             @Mapping(target = "password", expression = "java(passwordEncoder.encode(userDto.getPassword()))")}
     )
     public abstract User toEntity(UserDto userDto);
 
     @Mappings({
-            @Mapping (target = "role", source = "role.name"),
+            @Mapping(target = "role", source = "role.name"),
             @Mapping(target = "imageUser", source = "imageUser", qualifiedByName = "toArray"),
             @Mapping(target = "password", ignore = true)}
     )
     public abstract UserDto toDto(User user);
 
     @Named("toBlob")
-    protected Blob blob (byte[] imageUser) throws SQLException {
-        if(imageUser != null) {
+    protected Blob blob(byte[] imageUser) throws SQLException {
+        if (imageUser != null) {
             return new SerialBlob(imageUser);
         } else {
             return null;
@@ -55,8 +55,8 @@ public abstract class UserConverter {
     }
 
     @Named("toArray")
-    protected byte[] array (Blob imageUser) throws SQLException {
-        if(imageUser != null) {
+    protected byte[] array(Blob imageUser) throws SQLException {
+        if (imageUser != null) {
             return imageUser.getBytes(1, (int) imageUser.length());
         } else {
             return new byte[0];
@@ -64,8 +64,8 @@ public abstract class UserConverter {
     }
 
     @Named("roleSetter")
-    protected Role roleSetter (String role){
-        if (role == null){
+    protected Role roleSetter(String role) {
+        if (role == null) {
             role = "USER";
         }
         return roleService.getByRoleName(role).get();
