@@ -19,10 +19,6 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
         this.answerDAO = answerDAO;
     }
 
-    @Override
-    public void deleteById(Long answerId) {
-        answerDAO.deleteById(answerId);
-    }
 
     @Override
     public void resetIsHelpful(Long questionId) {

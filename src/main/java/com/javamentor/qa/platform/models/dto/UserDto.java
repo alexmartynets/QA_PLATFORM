@@ -4,10 +4,8 @@ import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import lombok.*;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -18,6 +16,7 @@ import java.time.LocalDateTime;
 @ToString
 @Builder
 public class UserDto {
+
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
     @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     private Long id;

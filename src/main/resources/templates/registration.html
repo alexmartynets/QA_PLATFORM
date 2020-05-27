@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/registration.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css"/>
+
+    <title>Sign up</title>
+</head>
+<body id="home">
+<nav class="navbar navbar-expand-sm navbar-light fixed-top">
+    <div class="container">
+        <a href="#" class="navbar-brand">Home</a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="#" class="btn btn-primary btn-block">Log in</a>
+                </li>
+                <label class="interval-label"></label>
+                <li class="nav-item">
+                    <a href="#" class="btn btn-primary btn-block">Sign up</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HOME SECTION -->
+<div id="home-section">
+    <div class="light-overlay">
+        <div class="home-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 d-none d-lg-block" style="padding-top: 50px;">
+                        <h3 class="display-4">Присоединиться к сообществу JM</h3>
+                        <div class="d-flex flex-row">
+                            <div class="p-4 align-self-start">
+                                <i class="fa fa-check"></i>
+                            </div>
+                            <div class="p-4 align-self-end">
+                                Отвечайте на вопросы
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <div class="p-4 align-self-start">
+                                <i class="fa fa-check"></i>
+                            </div>
+                            <div class="p-4 align-self-end">
+                                Задайте вопросы
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <div class="p-4 align-self-start">
+                                <i class="fa fa-check"></i>
+                            </div>
+                            <div class="p-4 align-self-end">
+                                Заработайте репутацию и получите подарки
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card bg-light text-center card-form">
+                            <div class="card-body">
+                                <form id="registration" th:action="@{/api/user}" method="post">
+                                    <div class="form-group">
+                                        <label for="username" class="control-label">Name</label>
+                                        <input name="username" type="text" class="form-control" placeholder="username"
+                                               id="username"
+                                               data-toggle="tooltip"
+                                               data-placement="right"
+                                               title="Введенно не корректное Имя"/></div>
+                                    <div class="form-group">
+                                        <label for="email" class="control-label">Email</label>
+                                        <input name="email" type="email" class="form-control" placeholder="email"
+                                               id="email"
+                                               data-toggle="tooltip"
+                                               data-placement="right"
+                                               title="Введен не корректный Email"/></div>
+                                    <div class="form-group">
+                                        <label for="password" class="control-label">Password</label>
+                                        <input name="password" type="password" class="form-control"
+                                               placeholder="password"
+                                               id="password"
+                                               data-toggle="tooltip"
+                                               data-placement="right"
+                                               title="Введен не корректный Password"/></div>
+                                    <small class="form-text text-muted">Должен содержать 1 цифру, 1 букву и быть не
+                                        мение 8 символов.</small>
+                                    <label  class="interval-label"></label>
+                                    <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+                                    <button type="submit" class="btn btn-primary btn-block" id="sign_up">
+                                        Sign up
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/init/registration.js"></script>
+<script type="text/javascript" src="/js/service/serviceRegistration.js"></script>
+</body>
+</html>

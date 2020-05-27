@@ -4,20 +4,16 @@ import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import lombok.*;
 
-import java.sql.Blob;
-
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class AnswerDto {
 
@@ -30,6 +26,7 @@ public class AnswerDto {
     private Long questionId;
 
     @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
+    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     private String htmlBody;
 
     private LocalDateTime persistDateTime;

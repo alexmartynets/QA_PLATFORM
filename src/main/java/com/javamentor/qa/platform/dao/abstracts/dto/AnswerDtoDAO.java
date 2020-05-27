@@ -4,7 +4,8 @@ import com.javamentor.qa.platform.models.dto.AnswerDto;
 
 import java.util.List;
 
-public interface AnswerDtoDao {
+public interface AnswerDtoDAO {
     List<AnswerDto> getAnswersDtoByQuestionId(Long questionId);
-    AnswerDto getAnswerDtoById(Long answerId);
+    List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId);
+    List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId);
 }
