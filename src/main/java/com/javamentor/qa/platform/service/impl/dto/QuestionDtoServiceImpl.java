@@ -25,7 +25,9 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     @Override
     public Map<Long, List<QuestionDto>> getPage(int page, int size) {
         Map<Long, List<QuestionDto>> result = new HashMap<>();
-        result.put(questionDtoDao.getCount(), questionDtoDao.getPaginationQuestion(page, size));
+        List<QuestionDto> list = questionDtoDao.getPaginationQuestion(page, size);
+        list.forEach(f -> f.setTags(questionDtoDao.getTag(f.getId())));
+        result.put(questionDtoDao.getCount(), list);
         return result;
     }
 }

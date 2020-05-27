@@ -134,43 +134,24 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
     public List<TagDto> getTag(long q_id) {
         List<TagDto> result = entityManager.createQuery(
                 "SELECT t.id, t.name, t.description " +
-                "FROM Question q JOIN q.tags t WHERE q.id = 1")
+                        "FROM Question q JOIN q.tags t WHERE q.id = :q_id")
+                .setParameter("q_id", q_id)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
-            @Override
-            public Object transformTuple(Object[] objects, String[] strings) {
-                return TagDto.builder()
-                        .id((Long) objects[0])
-                        .name((String) objects[1])
-                        .description((String) objects[2])
-                        .build();
-            }
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return TagDto.builder()
+                                .id((Long) objects[0])
+                                .name((String) objects[1])
+                                .description((String) objects[2])
+                                .build();
+                    }
 
-            @Override
-            public List transformList(List list) {
-                return list;
-            }
-        }).getResultList();
-        for(TagDto a : result){
-            System.out.println( a.getId() +" "+ a.getName() + " " + a.getDescription());
-        }
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, String> getLastAnswerNameAndDate(long q_id) {
-        Map<String, String> result = new HashMap<>();
-        List<Object[]> listFromEM = entityManager.createNativeQuery("SELECT u.full_name, a.date_accept_time " +
-                "FROM users u" +
-                " INNER JOIN answer a" +
-                " ON u.id = a.user_id" +
-                " INNER JOIN question q" +
-                " ON a.question_id = q.id" +
-                " WHERE a.date_accept_time=(SELECT MAX(a.date_accept_time) from answer)" +
-                " AND q.id = :q_id" +
-                " LIMIT 1").setParameter("q_id", q_id).getResultList();
-        listFromEM.forEach(obj -> result.put(obj[0].toString(), obj[1].toString()));
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                }).getResultList();
         return result;
     }
-
 }
