@@ -1,11 +1,9 @@
 package com.javamentor.qa.platform.models.dto;
 
-import com.javamentor.qa.platform.models.entity.question.Question;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor

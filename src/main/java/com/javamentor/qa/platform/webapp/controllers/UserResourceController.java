@@ -7,11 +7,12 @@ import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
+import javafx.util.Pair;
+import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +31,7 @@ public class UserResourceController {
     }
 
     @PostMapping
-    @Validated(OnCreate.class)
-    public ResponseEntity<UserDto> addUser(@RequestBody @Valid UserDto userDto) {
+    public ResponseEntity<UserDto> addUser(@Validated(OnCreate.class) @RequestBody UserDto userDto) {
         userService.persist(userConverter.toEntity(userDto));
         return ResponseEntity.ok().body(userDto);
     }
@@ -42,8 +42,7 @@ public class UserResourceController {
     }
 
     @PutMapping("/{id}")
-    @Validated(OnUpdate.class)
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserDto userDto) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody UserDto userDto) {
         User user = userConverter.toEntity(userDto);
         user.setId(id);
         userService.update(user);
@@ -53,5 +52,11 @@ public class UserResourceController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<UserDto>> findUser (@PathVariable Long id) {
         return ResponseEntity.ok(userDtoService.getUserDtoById(id));
+    }
+
+    @GetMapping("/{count}/page/{page}")
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersForPagination(@PathVariable @NonNull Long page,
+                                                                               @PathVariable @NonNull Long count) {
+        return ResponseEntity.ok().body(userDtoService.getListUsersForPagination(page.intValue(), count.intValue()));
     }
 }
