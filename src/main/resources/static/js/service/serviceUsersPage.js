@@ -3,7 +3,6 @@ class DataUsersPagination {
     constructor() {
     }
 
-    // получить медия с users
     mapperMediaUsers(listUsers) {
         let listMedia = [];
 
@@ -52,7 +51,6 @@ class DataUsersPagination {
         return listMedia;
     }
 
-    // получить медия с pagination
     mapperMediaPagination(listPagination) {
         let listMediaPagination = [];
 
@@ -70,7 +68,6 @@ class DataUsersPagination {
         return listMediaPagination;
     }
 
-    // получить число страниц
     getNumberOfPages(countOnUsers, numberItemsOnPage) {
         return Math.ceil(countOnUsers / numberItemsOnPage);
     }
@@ -101,7 +98,6 @@ class DataUsersPagination {
         return listPagination;
     }
 
-    // запрос в базу для получения данных для страницы
     getListUsers(url) {
         let map = new Map();
         $.ajax({
@@ -116,7 +112,6 @@ class DataUsersPagination {
                     map.set("list", data.key);
                     map.set("count", data.value);
                 }
-                // console.log(map);
             },
             error: function (xhr, status, error) {
                 if (xhr.status === 404) {
@@ -126,6 +121,7 @@ class DataUsersPagination {
                 }
             }
         });
+        // console.log(map);
         return map;
     }
 
