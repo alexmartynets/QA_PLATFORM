@@ -35,4 +35,17 @@ jQuery(document).ready(function ($) {
         $("#pagination").html($(listLi));
     });
 
+    // обработка search users
+    let input = document.querySelector("#search");
+    input.addEventListener("input", function (e) {
+        let res = e.target.value;
+        console.log(res);
+    });
+
 });
+
+// добавить URL в имя пользователя для перехода на другую страницу
+// если поле пустое выводим всех, не чистим поле + пагинация для найденых
+// ели не нашли надпись нет пользователей
+// $("#creat")[0].reset();
+// document.getElementById("textInput").value = "";

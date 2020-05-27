@@ -58,6 +58,7 @@ body {
     width: 300px;
     height: 120px;
     font-size: 14px;
+    /*overflow: hidden;*/
 }
 
 .page-item .page-link {

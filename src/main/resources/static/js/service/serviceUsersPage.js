@@ -105,7 +105,7 @@ class DataUsersPagination {
         let map = new Map();
         $.ajax({
             type: "GET",
-            url: "/api/user/" + numbersMedia + "/page/" + currentPage,
+            url: "http://localhost:5557/api/user/" + numbersMedia + "/page/" + currentPage,
             xhrFields: {withCredentials: true},
             cache: false,
             async: false,
@@ -119,13 +119,45 @@ class DataUsersPagination {
             },
             error: function (xhr, status, error) {
                 if (xhr.status === 404) {
-                    alert('User list not found...');
+                    alert('list User not found...');
                 } else {
                     alert('Error - ' + xhr.status + ': ' + xhr.statusText + error);
                 }
             }
         });
         return map;
+    }
+    // /api/user/name?name=Андрей
+    getListUsersByNameToSearch(name){
+        let map = new Map();
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:5557/api/user/name?name=' + name,
+            cache: false,
+            async: false,
+            xhrFields: {withCredentials: true},
+            success: function (data) {
+                console.log(data);
+                for (let field in data) {
+                    map.set("list", data.key);
+                    map.set("count", data.value);
+                }
+                console.log(map);
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 404) {
+                    alert('User not found...');
+                } else {
+                    alert('Error - ' + xhr.status + ': ' + xhr.statusText + error);
+                }
+            }
+        });
+        if(map.get('count') === 1){
+            location.assign("http://localhost:5557/profile");
+        }else {
+            console.log(map);
+            return map;
+        }
     }
 }
 

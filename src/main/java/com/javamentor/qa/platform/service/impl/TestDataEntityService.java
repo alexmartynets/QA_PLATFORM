@@ -103,7 +103,7 @@ public class TestDataEntityService {
                 .email("user2@user.ru")
                 .isEnabled(true)
                 .password("user2")
-                .fullName("Петр2 Петрович2 Петров2")
+                .fullName("Петр Алексеевич Петров")
                 .reputationCount(3)
                 .city("SPB")
                 .linkSite("site.user2.ru")
@@ -118,8 +118,8 @@ public class TestDataEntityService {
                 .email("user3@user.ru")
                 .isEnabled(true)
                 .password("user3")
-                .fullName("Петр3 Петрович3 Петров3")
-                .reputationCount(3)
+                .fullName("Василий Дмитрьевич Петров")
+                .reputationCount(13)
                 .city("SPB")
                 .linkSite("site.user3.ru")
                 .linkGitHub("github.user3.ru")
@@ -133,8 +133,8 @@ public class TestDataEntityService {
                 .email("user4@user.ru")
                 .isEnabled(true)
                 .password("user4")
-                .fullName("Петр4 Петрович4 Петров4")
-                .reputationCount(3)
+                .fullName("Евгений Петрович Суздальцев")
+                .reputationCount(6)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
@@ -148,8 +148,8 @@ public class TestDataEntityService {
                 .email("user5@user.ru")
                 .isEnabled(true)
                 .password("user5")
-                .fullName("Петр5 Петрович5 Петров5")
-                .reputationCount(3)
+                .fullName("Василий Петрович Гром")
+                .reputationCount(21)
                 .city("SPB")
                 .linkSite("site.user5.ru")
                 .linkGitHub("github.user5.ru")
@@ -163,8 +163,8 @@ public class TestDataEntityService {
                 .email("user6@user.ru")
                 .isEnabled(true)
                 .password("user6")
-                .fullName("Петр6 Петрович6 Петров6")
-                .reputationCount(3)
+                .fullName("Георгий Андреевич Дымов")
+                .reputationCount(13)
                 .city("SPB")
                 .linkSite("site.user6.ru")
                 .linkGitHub("github.user6.ru")
@@ -178,8 +178,8 @@ public class TestDataEntityService {
                 .email("user7@user.ru")
                 .isEnabled(true)
                 .password("user7")
-                .fullName("Петр7 Петрович7 Петров7")
-                .reputationCount(3)
+                .fullName("Роман Игоривич Смышляев")
+                .reputationCount(33)
                 .city("SPB")
                 .linkSite("site.user7.ru")
                 .linkGitHub("github.user7.ru")
@@ -193,8 +193,8 @@ public class TestDataEntityService {
                 .email("user8@user.ru")
                 .isEnabled(true)
                 .password("user8")
-                .fullName("Петр8 Петрович8 Петров8")
-                .reputationCount(3)
+                .fullName("Алексей Петрович Пережёг")
+                .reputationCount(2)
                 .city("SPB")
                 .linkSite("site.user8.ru")
                 .linkGitHub("github.user8.ru")
@@ -208,8 +208,8 @@ public class TestDataEntityService {
                 .email("user9@user.ru")
                 .isEnabled(true)
                 .password("user9")
-                .fullName("Петр9 Петрович9 Петров9")
-                .reputationCount(3)
+                .fullName("Андрей Евгеньевич Городилов")
+                .reputationCount(33)
                 .city("SPB")
                 .linkSite("site.user9.ru")
                 .linkGitHub("github.user9.ru")
@@ -223,8 +223,8 @@ public class TestDataEntityService {
                 .email("user10@user.ru")
                 .isEnabled(true)
                 .password("user10")
-                .fullName("Петр10 Петрович10 Петров10")
-                .reputationCount(3)
+                .fullName("Давид Антонович Чехов")
+                .reputationCount(43)
                 .city("SPB")
                 .linkSite("site.user10.ru")
                 .linkGitHub("github.user10.ru")
@@ -234,23 +234,173 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user10);
 
+        User user11 = User.builder()
+                .email("user11@user.ru")
+                .isEnabled(true)
+                .password("user11")
+                .fullName("Семён Павлович Слепаков")
+                .reputationCount(23)
+                .city("SPB")
+                .linkSite("site.user11.ru")
+                .linkGitHub("github.user11.ru")
+                .linkVk("vk.user11.ru")
+                .about("about user11")
+                .role(userRole)
+                .build();
+        userService.persist(user11);
+
+        User user12 = User.builder()
+                .email("user12@user.ru")
+                .isEnabled(true)
+                .password("user12")
+                .fullName("Иван Дмитревич Кузмин")
+                .reputationCount(14)
+                .city("SPB")
+                .linkSite("site.user12.ru")
+                .linkGitHub("github.user12.ru")
+                .linkVk("vk.user12.ru")
+                .about("about user12")
+                .role(userRole)
+                .build();
+        userService.persist(user12);
+
+        User user13 = User.builder()
+                .email("user13@user.ru")
+                .isEnabled(true)
+                .password("user13")
+                .fullName("Владимер Романович Кержаков")
+                .reputationCount(9)
+                .city("SPB")
+                .linkSite("site.user13.ru")
+                .linkGitHub("github.user13.ru")
+                .linkVk("vk.user13.ru")
+                .about("about user13")
+                .role(userRole)
+                .build();
+        userService.persist(user13);
+
+        User user14 = User.builder()
+                .email("user14@user.ru")
+                .isEnabled(true)
+                .password("user14")
+                .fullName("Иван Николаевич Курочкин")
+                .reputationCount(11)
+                .city("SPB")
+                .linkSite("site.user14.ru")
+                .linkGitHub("github.user14.ru")
+                .linkVk("vk.user14.ru")
+                .about("about user14")
+                .role(userRole)
+                .build();
+        userService.persist(user14);
+
+        User user15 = User.builder()
+                .email("user15@user.ru")
+                .isEnabled(true)
+                .password("user15")
+                .fullName("Андрей Александрович Яращук")
+                .reputationCount(17)
+                .city("SPB")
+                .linkSite("site.user15.ru")
+                .linkGitHub("github.user15.ru")
+                .linkVk("vk.user15.ru")
+                .about("about user15")
+                .role(userRole)
+                .build();
+        userService.persist(user15);
+
+        User user16 = User.builder()
+                .email("user16@user.ru")
+                .isEnabled(true)
+                .password("user16")
+                .fullName("Алексей Борисович Огородов")
+                .reputationCount(18)
+                .city("SPB")
+                .linkSite("site.user16.ru")
+                .linkGitHub("github.user16.ru")
+                .linkVk("vk.user16.ru")
+                .about("about user16")
+                .role(userRole)
+                .build();
+        userService.persist(user16);
+
+        User user17 = User.builder()
+                .email("user17@user.ru")
+                .isEnabled(true)
+                .password("user17")
+                .fullName("Артем Романович Туборг")
+                .reputationCount(36)
+                .city("SPB")
+                .linkSite("site.user17.ru")
+                .linkGitHub("github.user17.ru")
+                .linkVk("vk.user17.ru")
+                .about("about user17")
+                .role(userRole)
+                .build();
+        userService.persist(user17);
+
+        User user18 = User.builder()
+                .email("user18@user.ru")
+                .isEnabled(true)
+                .password("user18")
+                .fullName("Алексей Алексеевич Мышкин")
+                .reputationCount(39)
+                .city("SPB")
+                .linkSite("site.user18.ru")
+                .linkGitHub("github.user18.ru")
+                .linkVk("vk.user18.ru")
+                .about("about user18")
+                .role(userRole)
+                .build();
+        userService.persist(user18);
+
+        User user19 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user19")
+                .fullName("Сергей Петрович Старадуб")
+                .reputationCount(53)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user19")
+                .role(userRole)
+                .build();
+        userService.persist(user19);
+
+        User user20 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Никокай Олегович Жук")
+                .reputationCount(63)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user20.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user20);
+
     }
 
     private void creatTagEntity() {
         Tag tag1 = Tag.builder()
-                .name("Main tag1")
+                .name("Java")
                 .description("Description tag1")
                 .build();
         tagService.persist(tag1);
 
         Tag tag2 = Tag.builder()
-                .name("Child tag1")
+                .name("Python")
                 .description("Description tag2")
                 .build();
         tagService.persist(tag2);
 
         Tag tag3 = Tag.builder()
-                .name("Main tag3")
+                .name("SQL")
                 .description("Description tag3")
                 .build();
         tagService.persist(tag3);

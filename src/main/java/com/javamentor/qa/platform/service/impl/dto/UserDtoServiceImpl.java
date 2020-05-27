@@ -37,7 +37,6 @@ public class UserDtoServiceImpl implements UserDtoService {
     public Pair<List<UserDto>, Long> getListUsersByNameToSearch(String name) {
         List<UserDto> listUsersDto = userDtoDao.getListUsersByNameToSearch(name);
         int countUsers = listUsersDto.size();
-
         return new Pair<>(listUsersDto, (long)countUsers);
     }
 }

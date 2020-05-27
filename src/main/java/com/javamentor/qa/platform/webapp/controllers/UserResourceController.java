@@ -60,10 +60,8 @@ public class UserResourceController {
         return ResponseEntity.ok().body(userDtoService.getListUsersToPagination(page.intValue(), count.intValue()));
     }
 
-    @GetMapping("/name")
-//    ?name=Amy
+    @GetMapping("/name")   // ?name=Андрей
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@RequestParam @NonNull String name) {
-        System.out.println(String.format("Hello %s!", name));
         return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name));
     }
 }
