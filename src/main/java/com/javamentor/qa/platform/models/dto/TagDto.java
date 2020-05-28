@@ -1,9 +1,11 @@
 package com.javamentor.qa.platform.models.dto;
 
 import com.javamentor.qa.platform.models.util.action.OnCreate;
+import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -15,13 +17,16 @@ import java.time.LocalDateTime;
 @Builder
 public class TagDto {
 
-    @NotNull(OnCreate.class)
+    @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
+    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     private Long id;
 
-    @NotNull
+    @NotNull(groups = {OnUpdate.class, OnCreate.class},
+            message = "Не должно принимать null значение при создании или обновлении")
     private String name;
 
-    @NotNull
+    @NotNull(groups = {OnUpdate.class, OnCreate.class},
+            message = "Не должно принимать null значение при создании или обновлении")
     private String description;
 
     private Integer questionCount;

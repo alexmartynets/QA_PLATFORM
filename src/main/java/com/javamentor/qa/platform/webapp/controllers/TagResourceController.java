@@ -1,6 +1,7 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.TagDto;
+import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.service.abstracts.dto.TagDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.TagService;
 import com.javamentor.qa.platform.webapp.converter.TagConverter;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +49,7 @@ public class TagResourceController {
     }
 
     @PostMapping
-    public ResponseEntity<TagDto> addTag(@RequestBody TagDto tagDto) {
+    public ResponseEntity<TagDto> addTag(@RequestBody @Null(groups = OnCreate.class) TagDto tagDto) {
         tagService.persist(tagConverter.dtoToTag(tagDto));
         return ResponseEntity.ok(tagDto);
     }

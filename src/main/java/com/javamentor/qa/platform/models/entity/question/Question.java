@@ -4,7 +4,6 @@ import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,7 +18,6 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Table(name = "question")
-@Indexed
 public class Question {
 
     @Id
@@ -28,30 +26,24 @@ public class Question {
 
     @Column
     @NotNull
-    @Field
     private String title;
 
     @NotNull
     @Column(name = "view_count")
-    @Field
     private Integer viewCount = 0;
 
     @Lob
     @NotNull
     @Column
-    @Field
     private String description;
 
     @CreationTimestamp
     @Column(name = "persist_date", updatable = false)
     @Type(type = "org.hibernate.type.LocalDateTimeType")
-    @Field
-    @DateBridge(resolution = Resolution.DAY)
     private LocalDateTime persistDateTime;
 
     @NotNull
     @Column(name = "count_valuable")
-    @Field
     private Integer countValuable = 0;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
