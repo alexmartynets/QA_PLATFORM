@@ -58,7 +58,7 @@ public class QuestionResourceController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
         if (questionService.existsById(id)){
-            questionService.deleteByKeyCascadeEnable(id);
+            questionService.deleteByKeyCascadeIgnore(id);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().body("Вопроса с таким id не существует");

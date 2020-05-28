@@ -18,9 +18,6 @@ import java.util.*;
 @Repository
 public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> implements QuestionDtoDao {
 
-    @Autowired
-    private UserDtoDAO userDtoDao;
-
     @SuppressWarnings("unchecked")
     @Override
     public List<QuestionDto> getQuestionDtoList() {
@@ -43,7 +40,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     .setResultTransformer(new ResultTransformer() {
                         @Override
                         public Object transformTuple(Object[] objects, String[] strings) {
-                            UserDto userDto = userDtoDao.getUserDtoById((Long) objects[2]).get();
+                            UserDto userDto = UserDto.builder()
+                                    .id((Long) objects[2])
+                                    .build();
                             TagDto tagDto = TagDto.builder()
                                     .id((Long) objects[6])
                                     .name((String) objects[7])
@@ -166,7 +165,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     .setResultTransformer(new ResultTransformer() {
                         @Override
                         public Object transformTuple(Object[] objects, String[] strings) {
-                            UserDto userDto = userDtoDao.getUserDtoById((Long) objects[2]).get();
+                            UserDto userDto = UserDto.builder()
+                                    .id((Long) objects[2])
+                                    .build();
                             TagDto tagDto = TagDto.builder()
                                     .id((Long) objects[7])
                                     .name((String) objects[8])

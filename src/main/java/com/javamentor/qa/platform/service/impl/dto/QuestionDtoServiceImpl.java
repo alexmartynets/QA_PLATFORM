@@ -24,8 +24,10 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     @Override
     public List<QuestionDto> getAllQuestionDto() {
         List<QuestionDto> questionDtoList = questionDtoDao.getQuestionDtoList();
-        questionDtoList
-                .forEach(x -> x.setUserDto(userDtoService.getUserDtoById(x.getUserDto().getId()).get()));
+        if (!questionDtoList.isEmpty()){
+            questionDtoList
+                    .forEach(x -> x.setUserDto(userDtoService.getUserDtoById(x.getUserDto().getId()).get()));
+        }
         return questionDtoList;
     }
 
