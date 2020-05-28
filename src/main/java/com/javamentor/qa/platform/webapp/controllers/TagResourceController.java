@@ -49,13 +49,13 @@ public class TagResourceController {
     }
 
     @PostMapping
-    public ResponseEntity<TagDto> addTag(@RequestBody @Null(groups = OnCreate.class) TagDto tagDto) {
+    public ResponseEntity<TagDto> addTag(@RequestBody @Null TagDto tagDto) {
         tagService.persist(tagConverter.dtoToTag(tagDto));
         return ResponseEntity.ok(tagDto);
     }
 
     @PutMapping
-    public ResponseEntity<TagDto> updateTag(@RequestBody TagDto tagDto) {
+    public ResponseEntity<TagDto> updateTag(@RequestBody @NotNull TagDto tagDto) {
         tagService.update(tagConverter.dtoToTag(tagDto));
         return ResponseEntity.ok(tagDto);
     }
