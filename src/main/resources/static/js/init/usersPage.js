@@ -1,41 +1,30 @@
 jQuery(document).ready(function ($) {
 
-    let data = new DataUsersPagination();
+    let data = new DataUsersPage();
+    let service = new DataUsersService();
     // количество карточек на странице
-    let numberMedia = 5;
-    // URL запроса page
+    let numberMedia = 6;
+
     let url_list = "http://localhost:5557/api/user/" + numberMedia + "/page/";
 
     // получаем даннные для 1 страницы
-    let dadaMap = data.getListUsers(url_list + 1);
-
-    let countOfPages = data.getNumberOfPages(dadaMap.get("count"), numberMedia);
-    let listButtonPagination = data.generateRangePagination(1, countOfPages);
-    let listLi = data.mapperMediaPagination(listButtonPagination);
-    $("#pagination").html($(listLi));
-
-    let listUsersForPage = dadaMap.get("list");
-    let listMediaUsers = data.mapperMediaUsers(listUsersForPage);
-    $("#users").html($(listMediaUsers));
+    let dataMap = data.getListUsers(url_list + 1);
+    let currentPage = 1;
+    service.showUsers(data, dataMap);
+    service.showPagination(data, dataMap, numberMedia, currentPage);
 
     /*блок кода для динамического изменения данных*/
     $("body").on("click", ".page-link", function () {
         let currentPage = $(this).text();
 
         // получаем даннные для текущей страницы
-        let dadaMap = data.getListUsers(url_list + currentPage);
+        let dataMap = data.getListUsers(url_list + currentPage);
 
-        let listUsersForPage = dadaMap.get("list");
-        let listMediaUsers = data.mapperMediaUsers(listUsersForPage);
-        $("#users").html($(listMediaUsers));
-
-        let countOfPages = data.getNumberOfPages(dadaMap.get("count"), numberMedia);
-        let listButtonPagination = data.generateRangePagination(currentPage, countOfPages);
-        let listLi = data.mapperMediaPagination(listButtonPagination);
-        $("#pagination").html($(listLi));
+        service.showUsers(data, dataMap);
+        service.showPagination(data, dataMap, numberMedia, currentPage);
     });
 
-//<---------------------------------------------------------------------------------------------->//
+//-----------------------------------------------------------------------//
 
     // обработка search на странице users
     let input = document.querySelector("#search");
@@ -46,44 +35,34 @@ jQuery(document).ready(function ($) {
         let url_search = "http://localhost:5557/api/user/name?name=" + name + "&count=" + numberMedia + "&page=" + 1;
 
         // получаем даннные для 1 страницы
-        let dadaMap = data.getListUsers(url_search);
+        let dataMap = data.getListUsers(url_search);
+        let currentPage = 1;
 
-        if (dadaMap.get("list").length === 1){
+        if (dataMap.get("list").length === 1) {
             location.assign("http://localhost:5557/profile");
         }
 
-        if (dadaMap.get("list").length === 0){
+        if (dataMap.get("list").length === 0) {
             let message = document.createElement("div");
             message.textContent = "Участник с таким именем не наден";
             $("#users").html($(message));
             $("#pagination").hide();
-        }else {
-
-            let countOfPages = data.getNumberOfPages(dadaMap.get("count"), numberMedia);
-            let listButtonPagination = data.generateRangePagination(1, countOfPages);
-            let listLi = data.mapperMediaPagination(listButtonPagination);
-            $("#pagination").html($(listLi));
-
-            let listUsersForPage = dadaMap.get("list");
-            let listMediaUsers = data.mapperMediaUsers(listUsersForPage);
-            $("#users").html($(listMediaUsers));
+        } else {
+            // если пользователи найдены
+            service.showPagination(data, dataMap, numberMedia, currentPage);
+            service.showUsers(data, dataMap);
         }
 
         /*блок кода для динамического изменения данных для search*/
         $("body").on("click", ".page-link", function () {
             let currentPage = $(this).text();
             let url_search = "http://localhost:5557/api/user/name?name=" + name + "&count=" + numberMedia + "&page=" + currentPage;
+
             // получаем даннные для текущей страницы
-            let dadaMap = data.getListUsers(url_search);
+            let dataMap = data.getListUsers(url_search);
 
-            let listUsersForPage = dadaMap.get("list");
-            let listMediaUsers = data.mapperMediaUsers(listUsersForPage);
-            $("#users").html($(listMediaUsers));
-
-            let countOfPages = data.getNumberOfPages(dadaMap.get("count"), numberMedia);
-            let listButtonPagination = data.generateRangePagination(currentPage, countOfPages);
-            let listLi = data.mapperMediaPagination(listButtonPagination);
-            $("#pagination").html($(listLi));
+            service.showUsers(data, dataMap);
+            service.showPagination(data, dataMap, numberMedia, currentPage);
         });
     });
 

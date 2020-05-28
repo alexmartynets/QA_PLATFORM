@@ -1,4 +1,4 @@
-class DataUsersPagination {
+class DataUsersPage {
 
     constructor() {
     }
@@ -127,7 +127,24 @@ class DataUsersPagination {
 
 }
 
+class DataUsersService {
 
+    constructor() {
+    }
+
+    showPagination(data, dataMap, numberMedia, currentPage) {
+        let countOfPages = data.getNumberOfPages(dataMap.get("count"), numberMedia);
+        let listButtonPagination = data.generateRangePagination(currentPage, countOfPages);
+        let listLi = data.mapperMediaPagination(listButtonPagination);
+        $("#pagination").html($(listLi));
+    }
+
+    showUsers(data, dataMap) {
+        let listUsersForPage = dataMap.get("list");
+        let listMediaUsers = data.mapperMediaUsers(listUsersForPage);
+        $("#users").html($(listMediaUsers));
+    }
+}
 
 
 
