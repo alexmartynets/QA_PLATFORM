@@ -62,8 +62,8 @@ public class UserResourceController {
 
     @GetMapping("/name")   // ?name=Андрей&count=1&page=1
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@RequestParam @NonNull String name,
-                                                                              @RequestParam @NonNull Long page,
-                                                                              @RequestParam @NonNull Long count) {
+                                                                              @RequestParam @NonNull Long count,
+                                                                              @RequestParam @NonNull Long page) {
         return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue()));
     }
 }

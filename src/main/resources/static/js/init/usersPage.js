@@ -6,10 +6,11 @@ jQuery(document).ready(function ($) {
     let numberMedia = 6;
 
     let url_list = "http://localhost:5557/api/user/" + numberMedia + "/page/";
+    let currentPage = 1;
 
     // получаем даннные для 1 страницы
-    let dataMap = data.getListUsers(url_list + 1);
-    let currentPage = 1;
+    let dataMap = data.getListUsers(url_list + currentPage);
+
     service.showUsers(data, dataMap);
     service.showPagination(data, dataMap, numberMedia, currentPage);
 
@@ -32,11 +33,13 @@ jQuery(document).ready(function ($) {
         let name = e.target.value;
         $("#pagination").show();
 
-        let url_search = "http://localhost:5557/api/user/name?name=" + name + "&count=" + numberMedia + "&page=" + 1;
+
+        let url_search = "http://localhost:5557/api/user/name?name=" + name + "&count=" + numberMedia + "&page=";
+        let currentPage = 1;
 
         // получаем даннные для 1 страницы
-        let dataMap = data.getListUsers(url_search);
-        let currentPage = 1;
+        let dataMap = data.getListUsers(url_search + currentPage);
+
 
         if (dataMap.get("list").length === 1) {
             location.assign("http://localhost:5557/profile");

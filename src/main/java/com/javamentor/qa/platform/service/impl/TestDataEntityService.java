@@ -87,7 +87,7 @@ public class TestDataEntityService {
         User user1 = User.builder()
                 .email("user1@user.ru")
                 .password("user1")
-                .fullName("Иван Иванович Иванов")
+                .fullName("Jon Smits")
                 .reputationCount(4)
                 .city("Moscow")
                 .linkSite("site.user1.ru")
