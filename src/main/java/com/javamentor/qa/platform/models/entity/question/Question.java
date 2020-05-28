@@ -50,11 +50,16 @@ public class Question {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotNull
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "question_has_tag",
             joinColumns = @JoinColumn(name = "question_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
+
+    @NotNull
+    @Column(name = "question_hide")
+    private Boolean isQuestionHide;
 
     @PrePersist
     private void prePersistFunction() {
@@ -68,7 +73,7 @@ public class Question {
 
     private void checkConstraints() {
         if (this.tags == null || this.tags.isEmpty()) {
-            throw new RuntimeException("У экземпляра Question, поле tags должно быть заполненно");
+            throw new RuntimeException("Экземпляр Question должен иметь поле tags хотя бы один элемент");
             //todo написать своё исключение, и на isEmpty
         }
     }
@@ -80,18 +85,21 @@ public class Question {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Question)) return false;
         Question question = (Question) o;
         return Objects.equals(id, question.id) &&
                 Objects.equals(title, question.title) &&
                 Objects.equals(viewCount, question.viewCount) &&
                 Objects.equals(description, question.description) &&
                 Objects.equals(persistDateTime, question.persistDateTime) &&
-                Objects.equals(countValuable, question.countValuable);
+                Objects.equals(countValuable, question.countValuable) &&
+                Objects.equals(user, question.user) &&
+                Objects.equals(tags, question.tags) &&
+                Objects.equals(isQuestionHide, question.isQuestionHide);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, viewCount, description, persistDateTime, countValuable);
+        return Objects.hash(id, title, viewCount, description, persistDateTime, countValuable, user, tags, isQuestionHide);
     }
 }
