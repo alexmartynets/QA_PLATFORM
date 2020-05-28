@@ -2,18 +2,20 @@ package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
+import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.TagDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.TagService;
 import com.javamentor.qa.platform.webapp.converter.TagConverter;
 import javafx.util.Pair;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.util.List;
-import java.util.Map;
 
+@Validated
 @RestController
 @RequestMapping("/api/user/tag")
 public class TagResourceController {
@@ -47,13 +49,14 @@ public class TagResourceController {
     public ResponseEntity<List<TagDto>> getAllTagsSearch(@RequestParam("tagName") String word) {
         return ResponseEntity.ok(tagDtoService.findAllTagsSearch(word));
     }
-
+    @Validated(OnCreate.class)
     @PostMapping
     public ResponseEntity<TagDto> addTag(@RequestBody @Null TagDto tagDto) {
         tagService.persist(tagConverter.dtoToTag(tagDto));
         return ResponseEntity.ok(tagDto);
     }
 
+    @Validated(OnUpdate.class)
     @PutMapping
     public ResponseEntity<TagDto> updateTag(@RequestBody @NotNull TagDto tagDto) {
         tagService.update(tagConverter.dtoToTag(tagDto));
