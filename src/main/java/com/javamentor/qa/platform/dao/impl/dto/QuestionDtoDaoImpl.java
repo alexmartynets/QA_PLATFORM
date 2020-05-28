@@ -91,7 +91,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.countValuable, " +
                 "q.persistDateTime, " +
                 "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id), " +
+                "(SELECT a.user.fullName FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)), " +
+                "(SELECT a.persistDateTime FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)) " +
                 "FROM Question q ")
                 .setFirstResult((page - 1) * size)
                 .setMaxResults(size)
@@ -109,6 +111,8 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .persistDateTime((LocalDateTime) objects[6])
                                 .countAnswer(((Number) objects[7]).intValue())
                                 .isHelpful((Boolean) objects[8])
+                                .lastAnswerName((String) objects[9])
+                                .lastAnswerDate((LocalDateTime) objects[10])
                                 .build();
                     }
 
