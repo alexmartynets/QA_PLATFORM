@@ -8,6 +8,7 @@ import javafx.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -40,14 +41,21 @@ public class TagResourceController {
         return ResponseEntity.ok(tagDtoService.findAllTagsDtoPaginationDate(pageSize, pageNumber));
     }
 
-    @GetMapping("/search/{word}")
-    public ResponseEntity <List<TagDto>> getAllTagsSearch(@PathVariable String word) {
+    @GetMapping("/search")
+    public ResponseEntity<List<TagDto>> getAllTagsSearch(@RequestParam("tagName") String word) {
         return ResponseEntity.ok(tagDtoService.findAllTagsSearch(word));
     }
 
     @PostMapping
-    public ResponseEntity<TagDto> addTag(@RequestBody TagDto tagDto){
+    public ResponseEntity<TagDto> addTag(@RequestBody TagDto tagDto) {
         tagService.persist(tagConverter.dtoToTag(tagDto));
         return ResponseEntity.ok(tagDto);
     }
+
+    @PutMapping
+    public ResponseEntity<TagDto> updateTag(@RequestBody TagDto tagDto) {
+        tagService.update(tagConverter.dtoToTag(tagDto));
+        return ResponseEntity.ok(tagDto);
+    }
+
 }

@@ -45,6 +45,7 @@ public class TagDtoServiceImpl implements TagDtoService {
 
     @Override
     public List<TagDto> findAllTagsSearch(String word) {
-        return tagDtoDAO.findAllTagsSearch(word);
+        word = word.trim();
+        return word.isEmpty()? tagDtoDAO.findAllTagsDtoPaginationPopular(10,1):tagDtoDAO.findAllTagsSearch(word);
     }
 }

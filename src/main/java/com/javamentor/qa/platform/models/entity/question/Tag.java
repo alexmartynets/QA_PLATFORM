@@ -3,7 +3,6 @@ package com.javamentor.qa.platform.models.entity.question;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,7 +17,6 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Table(name = "tag")
-@Indexed
 public class Tag {
 
     @Id
@@ -27,22 +25,17 @@ public class Tag {
 
     @NotNull
     @Column
-    @Field
     private String name;
 
     @Lob
     @Column
-    @Field
     private String description;
 
     @CreationTimestamp
     @Column(name = "persist_date", updatable = false)
     @Type(type = "org.hibernate.type.LocalDateTimeType")
-    @Field
-    @DateBridge(resolution = Resolution.DAY)
     private LocalDateTime persistDateTime;
 
-    @IndexedEmbedded
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private List<Question> questions;
 

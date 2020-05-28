@@ -81,7 +81,8 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
                 "(select count (q.id) from t.questions q where q.persistDateTime >= :day), " +
                 "(select count (q.id) from t.questions q where q.persistDateTime >= :month), " +
                 "(select count (q.id) from t.questions q where q.persistDateTime >= :year) " +
-                "from Tag t order by t.questions.size desc");
+                "from Tag t where t.name like :search order by t.questions.size desc")
+                .setParameter("search", "%" + word + "%");
 
         return getTags(query, 36, 1);
     }

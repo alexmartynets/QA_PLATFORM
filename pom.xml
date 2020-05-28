@@ -99,12 +99,6 @@
             <artifactId>spring-tx</artifactId>
             <version>5.2.3.RELEASE</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-search-orm -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-orm</artifactId>
-            <version>5.11.5.Final</version>
-        </dependency>
 
     </dependencies>
 

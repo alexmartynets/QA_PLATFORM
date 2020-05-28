@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.models.dto;
 
+import com.javamentor.qa.platform.models.util.action.OnCreate;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class TagDto {
 
+    @NotNull(OnCreate.class)
     private Long id;
 
     @NotNull
