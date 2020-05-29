@@ -25,6 +25,18 @@ $(document).ready(function (id) {
         id = 1;
         putCountValuableMinus(id);
     });
+    $('#SortCurrentTextOfQuestion').click(function (id) {
+        id = 1;
+        getSortCurrentTextOfQuestion(id);
+    });
+    $('#SortDateTextOfQuestion').click(function (id) {
+        id = 1;
+        getSortDateTextOfQuestion(id);
+    });
+    $('#SortReputationTextOfQuestion').click(function (id) {
+        id = 1;
+        getSortReputationTextOfQuestion(id);
+    });
     getQuestion(id);
     getTextOfQuestion(id);
 });
