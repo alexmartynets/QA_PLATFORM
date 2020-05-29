@@ -16,4 +16,9 @@ public class RelatedTagServiceImpl extends ReadWriteServiceImpl<RelatedTag, Long
         super(relatedTagDAO);
         this.relatedTagDAO = relatedTagDAO;
     }
+
+    @Override
+    public void deleteRelTagsByTagId(Long tagId) {
+        relatedTagDAO.deleteRelTagsByTagId(tagId);
+    }
 }
