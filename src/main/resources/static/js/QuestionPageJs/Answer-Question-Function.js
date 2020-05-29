@@ -58,15 +58,16 @@ function getTextOfQuestion(id) {
 
             let tableBody = $('#tblTextOfQuestion tbody');
             tableBody.empty();
+            let num = 0;
             $(data).each(function (index, val) {
-
                 $(val).each(function (index, value) {
-                    document.getElementById("countAnswer").innerHTML = val.id;
+                    num ++;
+                    document.getElementById("countAnswer").innerHTML = num;
                     let userInfoDto = value.userDto;
                     let href = window.location.href;
                     let questionId = val.questionId;
                     tableBody.append(`<tr>
-        <td width="50" rowspan="2"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
+        <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -87,9 +88,6 @@ function getTextOfQuestion(id) {
                                             </button>
                                             <div id="checkMark" class="pb-3  ml-1"></div></td>
         <td>${val.htmlBody}</td>
-    </tr>
-    <tr>
-         <td  style="background-color: gainsboro">ответ</td>
     </tr>
     <tr>
         <td colspan="2"> <button type="button" class="btn btn-link" data-container="body"                          
