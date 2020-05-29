@@ -12,30 +12,29 @@ function getQuestion(id) {
             $(data).each(function (index, val) {
                 let userInfoDto = val.userDto;
                 let tags = val.tags;
-
-                let date = new Date();
-                let newDateQuestionIsAsked = new Date(data.persistDateTime);
-                let newLastActivityDate = new Date(userInfoDto.lastUpdateDateTime);
-                let newResultDate = convertDate(date, newDateQuestionIsAsked);
-                let newResultLastActivity = convertDate(date, newLastActivityDate);
+                let convertPersistDateTime = convertDate(data.persistDateTime);
+                let convertLastUpdateDateTime = convertDate(userInfoDto.lastUpdateDateTime);
+                let convertUserLastUpdateDateTimeToString = convertDateToString(userInfoDto.lastUpdateDateTime);
+                let convertUserPersistDateTimeToString = convertDateToString(userInfoDto.persistDateTime);
+                let convertPersistDateTimeToString = convertDateToString(data.persistDateTime);
 
                 $(tags).each(function (index, val) {
                     tableBody.append(`<small class=" ml-2 " style="background-color: #e1ecf4">${val.name}</small>`);
                 });
 
                 document.getElementById("NameAnswer").innerHTML = data.title;
-                document.getElementById("persistDateTime").innerHTML = newResultDate;
+                document.getElementById("persistDateTime").innerHTML = convertPersistDateTime;
                 document.getElementById("viewCount").innerHTML = data.viewCount;
                 document.getElementById("tblQuestionText").innerHTML = data.description;
                 document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
-                document.getElementById("persistDateTimeUser").innerHTML = userInfoDto.persistDateTime;
+                document.getElementById("persistDateTimeUser").innerHTML = convertUserPersistDateTimeToString;
                 document.getElementById("InfoUser").innerHTML = userInfoDto.fullName;
                 document.getElementById("InfoUserReputation").innerHTML = userInfoDto.reputationCount;
-                document.getElementById("lastUpdateDateTime").innerHTML = newResultLastActivity;
-                document.getElementById("persistDateTimeTitle").title = data.persistDateTime;
-                document.getElementById("persistDateTime").title = data.persistDateTime;
-                document.getElementById("lastUpdateDateTime").title = userInfoDto.lastUpdateDateTime;
-                document.getElementById("lastUpdateDateTime2").title = userInfoDto.lastUpdateDateTime;
+                document.getElementById("lastUpdateDateTime").innerHTML = convertLastUpdateDateTime;
+                document.getElementById("persistDateTimeTitle").title = convertPersistDateTimeToString;
+                document.getElementById("persistDateTime").title = convertPersistDateTimeToString;
+                document.getElementById("lastUpdateDateTime").title = convertUserLastUpdateDateTimeToString;
+                document.getElementById("lastUpdateDateTime2").title = convertUserLastUpdateDateTimeToString;
                 document.getElementById("viewCountTitle").title = data.viewCount;
                 document.getElementById("btnPopover").title = "короткая постоянна ссылка на этот вопрос";
             })
@@ -218,7 +217,9 @@ function putHref() {
     document.getElementById("hrefPage").innerHTML = href;
 }
 
-function convertDate(date1, date2) {
+function convertDate(date) {
+    let date1 = new Date();
+    let date2 = new Date(date);
     let diff = Math.floor((Date.parse(date1) - Date.parse(date2)) / 86400000);
     let result = "";
     if (diff === 0) {
@@ -266,6 +267,7 @@ function getTextOfQuestion(id) {
                     let userInfoDto = value.userDto;
                     let href = window.location.href;
                     let questionId = val.questionId;
+                    let persistDateTime = convertDateToString(val.persistDateTime);
                     tableBody.append(`<tr>
         <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
@@ -301,7 +303,7 @@ function getTextOfQuestion(id) {
                                         улучшить этот ответ
                                     </button>
                                     <span style="text-align:right;float:right; background-color: #e1ecf4"
-                                          class="badge badge"><h style="text-align: left;float: left;">ответ дан</h><h class=" ml-1 ">${val.persistDateTime}</h><div><svg style="text-align: left;float: left"
+                                          class="badge badge"><h style="text-align: left;float: left;">ответ дан</h><h class=" ml-1 ">${persistDateTime}</h><div><svg style="text-align: left;float: left"
                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" width="12"
                                             height="16"><path fill-rule="evenodd"
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
@@ -338,6 +340,7 @@ function getSortCurrentTextOfQuestion(id) {
                     let userInfoDto = value.userDto;
                     let href = window.location.href;
                     let questionId = val.questionId;
+                    let persistDateTime = convertDateToString(val.persistDateTime);
                     tableBody.append(`<tr>
         <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
@@ -373,7 +376,7 @@ function getSortCurrentTextOfQuestion(id) {
                                         улучшить этот ответ
                                     </button>
                                     <span style="text-align:right;float:right; background-color: #e1ecf4"
-                                          class="badge badge"><h style="text-align: left;float: left;">ответ дан</h><h class=" ml-1 ">${val.persistDateTime}</h><div><svg style="text-align: left;float: left"
+                                          class="badge badge"><h style="text-align: left;float: left;">ответ дан</h><h class=" ml-1 ">${persistDateTime}</h><div><svg style="text-align: left;float: left"
                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" width="12"
                                             height="16"><path fill-rule="evenodd"
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
@@ -410,6 +413,7 @@ function getSortDateTextOfQuestion(id) {
                     let userInfoDto = value.userDto;
                     let href = window.location.href;
                     let questionId = val.questionId;
+                    let persistDateTime = convertDateToString(val.persistDateTime);
                     tableBody.append(`<tr>
         <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
@@ -445,7 +449,7 @@ function getSortDateTextOfQuestion(id) {
                                         улучшить этот ответ
                                     </button>
                                     <span style="text-align:right;float:right; background-color: #e1ecf4"
-                                          class="badge badge"><h style="text-align: left;float: left;">ответ дан</h><h class=" ml-1 ">${val.persistDateTime}</h><div><svg style="text-align: left;float: left"
+                                          class="badge badge"><h style="text-align: left;float: left;">ответ дан</h><h class=" ml-1 ">${persistDateTime}</h><div><svg style="text-align: left;float: left"
                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" width="12"
                                             height="16"><path fill-rule="evenodd"
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
@@ -482,6 +486,7 @@ function getSortReputationTextOfQuestion(id) {
                     let userInfoDto = value.userDto;
                     let href = window.location.href;
                     let questionId = val.questionId;
+                    let persistDateTime = convertDateToString(val.persistDateTime);
                     tableBody.append(`<tr>
         <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
@@ -517,7 +522,7 @@ function getSortReputationTextOfQuestion(id) {
                                         улучшить этот ответ
                                     </button>
                                     <span style="text-align:right;float:right; background-color: #e1ecf4"
-                                          class="badge badge"><h style="text-align: left;float: left;">ответ дан</h><h class=" ml-1 ">${val.persistDateTime}</h><div><svg style="text-align: left;float: left"
+                                          class="badge badge"><h style="text-align: left;float: left;">ответ дан</h><h class=" ml-1 ">${persistDateTime}</h><div><svg style="text-align: left;float: left"
                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" width="12"
                                             height="16"><path fill-rule="evenodd"
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
@@ -546,4 +551,10 @@ function popover() {
     $('[data-toggle="popover"]').popover();
     $("[data-toggle=popover]")
         .popover({html: true});
+}
+
+function convertDateToString(date) {
+    let newDate = new Date(date);
+    let convertDate = newDate.toDateString();
+    return convertDate;
 }
