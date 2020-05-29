@@ -21,6 +21,7 @@ target/
 platform/platform.iml
 data
 logs
+platform.iml
 
 ### NetBeans ###
 /nbproject/private/

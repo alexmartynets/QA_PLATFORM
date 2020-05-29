@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javafx.util.Pair;
+import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -85,5 +87,11 @@ public class UserResourceController {
             logger.error(String.format("Пользователь с указанным ID: %d не найден!", id));
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{count}/page/{page}")
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersForPagination(@PathVariable @NonNull Long page,
+                                                                               @PathVariable @NonNull Long count) {
+        return ResponseEntity.ok().body(userDtoService.getListUsersForPagination(page.intValue(), count.intValue()));
     }
 }
