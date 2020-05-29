@@ -286,7 +286,7 @@ function getTextOfQuestion(id) {
                                                     <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
                                                 </svg>                                                                      
                                             </button>
-                                            <div id="checkMark" class="pb-3  ml-1"></div></td>
+                                            <div class="pb-3  ml-1">${isHelpful(val.isHelpful)}</div></td>
         <td>${val.htmlBody}</td>
     </tr>
     <tr>
@@ -307,14 +307,7 @@ function getTextOfQuestion(id) {
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
                                             class=" ml-1 ">${userInfoDto.fullName}</h><h class=" ml-3 " title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>`);
-                    if (val.isHelpful === true) {
-                        document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
-                    }
-                    $('[data-toggle="popover"]').popover();
-
-                    $("[data-toggle=popover]")
-                        .popover({html: true});
-
+                    $(popover());
                 });
             });
         },
@@ -365,7 +358,7 @@ function getSortCurrentTextOfQuestion(id) {
                                                     <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
                                                 </svg>                                                                      
                                             </button>
-                                            <div id="checkMark" class="pb-3  ml-1"></div></td>
+                                            <div class="pb-3  ml-1">${isHelpful(val.isHelpful)}</div></td>
         <td>${val.htmlBody}</td>
     </tr>
     <tr>
@@ -386,14 +379,7 @@ function getSortCurrentTextOfQuestion(id) {
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
                                             class=" ml-1 ">${userInfoDto.fullName}</h><h class=" ml-3 " title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>`);
-                    if (val.isHelpful === true) {
-                        document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
-                    }
-                    $('[data-toggle="popover"]').popover();
-
-                    $("[data-toggle=popover]")
-                        .popover({html: true});
-
+                    $(popover());
                 });
             });
         },
@@ -444,7 +430,7 @@ function getSortDateTextOfQuestion(id) {
                                                     <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
                                                 </svg>                                                                      
                                             </button>
-                                            <div id="checkMark" class="pb-3  ml-1"></div></td>
+                                            <div class="pb-3  ml-1">${isHelpful(val.isHelpful)}</div></td>
         <td>${val.htmlBody}</td>
     </tr>
     <tr>
@@ -465,14 +451,7 @@ function getSortDateTextOfQuestion(id) {
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
                                             class=" ml-1 ">${userInfoDto.fullName}</h><h class=" ml-3 " title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>`);
-                    if (val.isHelpful === true) {
-                        document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
-                    }
-                    $('[data-toggle="popover"]').popover();
-
-                    $("[data-toggle=popover]")
-                        .popover({html: true});
-
+                    $(popover());
                 });
             });
         },
@@ -523,7 +502,7 @@ function getSortReputationTextOfQuestion(id) {
                                                     <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
                                                 </svg>                                                                      
                                             </button>
-                                            <div id="checkMark" class="pb-3  ml-1"></div></td>
+                                            <div class="pb-3  ml-1">${isHelpful(val.isHelpful)}</div></td>
         <td>${val.htmlBody}</td>
     </tr>
     <tr>
@@ -544,14 +523,7 @@ function getSortReputationTextOfQuestion(id) {
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
                                             class=" ml-1 ">${userInfoDto.fullName}</h><h class=" ml-3 " title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>`);
-                    if (val.isHelpful === true) {
-                        document.getElementById("checkMark").innerHTML = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
-                    }
-                    $('[data-toggle="popover"]').popover();
-
-                    $("[data-toggle=popover]")
-                        .popover({html: true});
-
+                    $(popover());
                 });
             });
         },
@@ -560,4 +532,18 @@ function getSortReputationTextOfQuestion(id) {
         }
 
     })
+}
+
+function isHelpful(isHelpful) {
+    let x = "";
+    if (isHelpful === true) {
+       x = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
+        return x;
+    } else {return x;}
+}
+
+function popover() {
+    $('[data-toggle="popover"]').popover();
+    $("[data-toggle=popover]")
+        .popover({html: true});
 }
