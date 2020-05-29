@@ -23,9 +23,9 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
     @Override
     public void resetIsHelpful(Long questionId) {
         Answer answer = answerDAO.getHelpfulAnswerByQuestionId(questionId);
-
             if (answer != null) {
                 answer.setIsHelpful(false);
+                answer.setDateAcceptTime(null);
                 answerDAO.update(answer);
             }
 

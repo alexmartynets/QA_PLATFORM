@@ -30,6 +30,10 @@ public class Answer {
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
 
+    @Column(name = "update_date")
+    @Type(type = "org.hibernate.type.LocalDateTimeType")
+    private LocalDateTime updateDateTime;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "question_id")
     private Question question;
@@ -46,6 +50,10 @@ public class Answer {
     @NotNull
     @Column(name = "is_helpful")
     private Boolean isHelpful = false;
+
+    @NotNull
+    @Column(name = "is_hidden")
+    private Boolean isHidden;
 
     @Column(name = "date_accept_time")
     @Type(type = "org.hibernate.type.LocalDateTimeType")
