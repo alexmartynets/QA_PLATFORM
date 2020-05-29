@@ -1,18 +1,17 @@
 package com.javamentor.qa.platform.dao.impl.dto;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
+import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
+import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
-import com.javamentor.qa.platform.models.entity.question.Tag;
-import com.javamentor.qa.platform.models.entity.user.Role;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -20,7 +19,7 @@ import java.util.*;
 public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> implements QuestionDtoDao {
 
     @Autowired
-    private UserDtoDaoImpl userDtoDao;
+    private UserDtoDAO userDtoDao;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -70,9 +69,11 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                             Map<Long, QuestionDto> result = new TreeMap<>(Comparator.reverseOrder());
                             for (Object obj : list) {
                                 QuestionDto questionDto = (QuestionDto) obj;
-                                if (result.containsKey(questionDto.getId()))
+                                if (result.containsKey(questionDto.getId())) {
                                     result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
-                                else result.put(questionDto.getId(), questionDto);
+                                } else {
+                                    result.put(questionDto.getId(), questionDto);
+                                }
                             }
                             return new ArrayList<>(result.values());
                         }
@@ -84,11 +85,71 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
         return questionDto;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public QuestionDto getQuestionDtoById(Long id) {
-        QuestionDto questionDto = null;
+    public Optional<QuestionDto> getQuestionDtoById(Long id) {
+        return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("SELECT " +
+                "q.id, " +
+                "q.title, " +
+                "q.user.id, " +
+                "q.viewCount, " +
+                "q.countValuable, " +
+                "q.persistDateTime, " +
+                "q.description," +
+                "t.id, " +
+                "t.name, " +
+                "t.description " +
+                "FROM Question q JOIN q.tags t WHERE q.id =: id ")
+                .unwrap(Query.class)
+                .setParameter("id", id)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        UserDto userDto = UserDto.builder()
+                                .id((Long) objects[2])
+                                .build();
+                        TagDto tagDto = TagDto.builder()
+                                .id((Long) objects[7])
+                                .name((String) objects[8])
+                                .description((String) objects[9])
+                                .build();
+                        List<TagDto> tagDtoList = new ArrayList<>();
+                        tagDtoList.add(tagDto);
+                        return QuestionDto.builder()
+                                .id((Long) objects[0])
+                                .title((String) objects[1])
+                                .userDto(userDto)
+                                .viewCount((Integer) objects[3])
+                                .countValuable((Integer) objects[4])
+                                .persistDateTime((LocalDateTime) objects[5])
+                                .description((String) objects[6])
+                                .tags(tagDtoList)
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        Map<Long, QuestionDto> result = new TreeMap<>(Comparator.reverseOrder());
+                        for (Object obj : list) {
+                            QuestionDto questionDto = (QuestionDto) obj;
+                            if (result.containsKey(questionDto.getId())) {
+                                result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
+                            } else {
+                                result.put(questionDto.getId(), questionDto);
+                            }
+                        }
+                        return new ArrayList<>(result.values());
+                    }
+                })
+        );
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<QuestionDto> getQuestionDtoListByUserId(Long userId) {//todo настроить
+        List <QuestionDto> questionDtoList = new ArrayList<>();
         try {
-            questionDto = (QuestionDto) entityManager.createQuery("SELECT " +
+            questionDtoList = entityManager.createQuery("SELECT " +
                     "q.id, " +
                     "q.title, " +
                     "q.user.id, " +
@@ -99,8 +160,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "t.id, " +
                     "t.name, " +
                     "t.description " +
-                    "FROM Question q JOIN q.tags t WHERE q.id = " + id)
+                    "FROM Question q JOIN q.tags t WHERE q.id =: id ")
                     .unwrap(Query.class)
+                    .setParameter("id", userId)
                     .setResultTransformer(new ResultTransformer() {
                         @Override
                         public Object transformTuple(Object[] objects, String[] strings) {
@@ -138,10 +200,10 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                             return new ArrayList<>(result.values());
                         }
                     })
-                    .getSingleResult();
+                    .getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return questionDto;
+        return questionDtoList;
     }
 }

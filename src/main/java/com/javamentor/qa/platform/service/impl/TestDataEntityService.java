@@ -503,7 +503,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(3L))
                 .dateAcceptTime(LocalDateTime.now())
                 .isHelpful(true)
-                .htmlBody("Don't helpful answer for question 3")
+                .htmlBody("Helpful answer for question 3")
                 .build();
         answerService.persist(answer3_2);
 

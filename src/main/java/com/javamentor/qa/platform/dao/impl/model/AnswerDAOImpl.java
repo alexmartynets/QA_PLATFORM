@@ -7,23 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 
-import java.util.List;
 
 @Repository
 public class AnswerDAOImpl extends ReadWriteDAOImpl<Answer, Long> implements AnswerDAO {
-
-    @Override
-    public List<Answer> getAnswersByQuestionID(Long questionId) {
-        return null;
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(Long answerId) {
-        entityManager.createQuery("delete from Answer a where a.id = :answerId")
-                .setParameter("answerId", answerId)
-                .executeUpdate();
-    }
 
     @Override
     @Transactional
@@ -37,4 +23,5 @@ public class AnswerDAOImpl extends ReadWriteDAOImpl<Answer, Long> implements Ans
             return null;
         }
     }
+
 }

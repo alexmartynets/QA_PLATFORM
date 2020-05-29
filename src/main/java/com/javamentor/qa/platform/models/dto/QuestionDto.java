@@ -1,8 +1,11 @@
 package com.javamentor.qa.platform.models.dto;
 
+import com.javamentor.qa.platform.models.util.action.OnCreate;
+import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,8 @@ import java.util.Map;
 @Builder
 public class QuestionDto {
 
+    @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
+    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     private Long id;
 
     @NotNull
@@ -26,14 +31,17 @@ public class QuestionDto {
     private UserDto userDto;
 
     @NotNull
-    private String description;
+    private List<TagDto> tags = new ArrayList<>();
 
     @NotNull
-    private List<TagDto> tags = new ArrayList<>();
+    private Integer reputationCount;
+
+    private String description;
 
     @NotNull
     private Integer viewCount;
 
+    @NotNull
     private Integer countAnswer;
 
     @NotNull
