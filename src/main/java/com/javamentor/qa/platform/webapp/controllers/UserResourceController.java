@@ -22,10 +22,7 @@ import java.util.Optional;
 
 @RestControllerAdvice
 @RestController
-@RequestMapping("/api/user")
-@ApiResponses(value = {
-        @ApiResponse(code = 404, message = "Ресурс не найден, проверьте правильность пути")
-})
+@RequestMapping(value = "/api/user", produces = "application/json")
 @Api(value="UserApi", description = "Операции с пользователем (создание, изменение, получение списка, получение пользователя по ID)")
 public class UserResourceController {
 
@@ -41,48 +38,43 @@ public class UserResourceController {
     }
 
     @ApiOperation(value = "Добавление пользователя")
-    @PostMapping(produces = "application/json")
+    @PostMapping
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Пользователь добавлен"),
-            @ApiResponse(code = 401, message = "Вы не авторизованы, пожалуйста авторизуйтесь"),
-            @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен, недостаточно прав для доступа")
+            @ApiResponse(code = 200, message = "Пользователь добавлен")
     })
     public ResponseEntity<UserDto> addUser(@Validated(OnCreate.class) @RequestBody UserDto userDto) {
         userService.persist(userConverter.toEntity(userDto));
-        logger.info(userDto.toString() + " saved into database successfully");
+        logger.info(String.format("Пользователь с email: %s добавлен в базу данных", userDto.getEmail()));
         return ResponseEntity.ok().body(userDto);
     }
 
     @ApiOperation(value = "получение списка доступных пользователей")
-    @GetMapping(produces = "application/json")
+    @GetMapping
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен"),
+            @ApiResponse(code = 200, message = "Список пользователей получен")
     })
     public ResponseEntity<List<UserDto>> findAllUsers() {
         return ResponseEntity.ok(userDtoService.getUserDtoList());
     }
 
     @ApiOperation(value = "Изменение пользователя (параметр ID обязателен)")
-    @PutMapping(path = "/{id}", produces = "application/json")
+    @PutMapping(path = "/{id}")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Данные пользователя обновлены"),
-            @ApiResponse(code = 401, message = "Вы не авторизованы, пожалуйста авторизуйтесь"),
-            @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен, недостаточно прав для доступа")
+            @ApiResponse(code = 200, message = "Данные пользователя обновлены")
     })
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody UserDto userDto) {
         User user = userConverter.toEntity(userDto);
         user.setId(id);
         userService.update(user);
-        logger.info("user updated successfully");
+        logger.info(String.format("user с ID: %d updated successfully", userDto.getId()));
         return ResponseEntity.ok().body(userConverter.toDto(user));
     }
 
     @ApiOperation(value = "Поиск пользователя по ID")
-    @GetMapping(path = "/{id}", produces = "application/json")
+    @GetMapping(path = "/{id}")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Пользователь найден по id"),
-            @ApiResponse(code = 401, message = "Вы не авторизованы, пожалуйста авторизуйтесь"),
-            @ApiResponse(code = 403, message = "Доступ к ресурсу запрещен, недостаточно прав для доступа")
+            @ApiResponse(code = 404, message = "Пользователь не найден по id")
     })
     public ResponseEntity<UserDto> findUser(@PathVariable Long id) {
         Optional<UserDto> optionalUserDto = userDtoService.getUserDtoById(id);
@@ -90,7 +82,7 @@ public class UserResourceController {
             UserDto userDto = optionalUserDto.get();
             return ResponseEntity.ok(userDto);
         } else {
-            logger.error("Пользователь с указанным ID: " + id + " не найден!");
+            logger.error(String.format("Пользователь с указанным ID: %d не найден!", id));
             return ResponseEntity.notFound().build();
         }
     }
