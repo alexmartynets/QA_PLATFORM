@@ -18,6 +18,7 @@ import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,6 +90,7 @@ public class UserResourceController {
         }
     }
 
+    @ApiIgnore
     @GetMapping("/{count}/page/{page}")
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersForPagination(@PathVariable @NonNull Long page,
                                                                                @PathVariable @NonNull Long count) {

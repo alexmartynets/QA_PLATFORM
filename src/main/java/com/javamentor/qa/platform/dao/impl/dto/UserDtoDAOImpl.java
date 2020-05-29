@@ -121,9 +121,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     }
                 }));
     }
-<<<<<<< HEAD:src/main/java/com/javamentor/qa/platform/dao/impl/dto/UserDtoDaoImpl.java
-}
-=======
 
     @Override
     public Long getCountUsers() {
@@ -183,4 +180,3 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty()? Collections.emptyList():listUsers;
     }
 }
->>>>>>> origin/master:src/main/java/com/javamentor/qa/platform/dao/impl/dto/UserDtoDAOImpl.java
