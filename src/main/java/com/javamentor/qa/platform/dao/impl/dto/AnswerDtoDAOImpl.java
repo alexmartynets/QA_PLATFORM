@@ -18,6 +18,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnswerDtoDAOImpl implements AnswerDtoDAO {
 
+    private final String HQL = "select " +
+            "a.id, " +
+            "a.question.id, " +
+            "a.htmlBody, " +
+            "a.persistDateTime, " +
+            "a.dateAcceptTime, " +
+            "a.countValuable, " +
+            "a.isHelpful, " +
+            "a.isHidden, " +
+            "a.user.id, " +
+            "a.user.fullName, " +
+            "a.user.imageUser, " +
+            "a.user.reputationCount " +
+            "from " +
+            "Answer a " +
+            "where ";
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -26,22 +43,8 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionId(Long questionId) {
         return entityManager
-                .createQuery("select " +
-                        "a.id, " +
-                        "a.question.id, " +
-                        "a.htmlBody, " +
-                        "a.persistDateTime, " +
-                        "a.dateAcceptTime, " +
-                        "a.countValuable, " +
-                        "a.isHelpful, " +
-                        "a.user.id, " +
-                        "a.user.fullName, " +
-                        "a.user.imageUser, " +
-                        "a.user.reputationCount " +
-                        "from " +
-                        "Answer a " +
-                        "where " +
-                        "a.question.id = :questionId order by a.isHelpful desc, a.countValuable desc" +
+                .createQuery( HQL +
+                        "a.question.id = :questionId order by a.isHelpful desc, a.updateDateTime desc, a.persistDateTime desc " +
                         "")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
@@ -64,21 +67,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId) {
         return entityManager
-                .createQuery("select " +
-                        "a.id, " +
-                        "a.question.id, " +
-                        "a.htmlBody, " +
-                        "a.persistDateTime, " +
-                        "a.dateAcceptTime, " +
-                        "a.countValuable, " +
-                        "a.isHelpful, " +
-                        "a.user.id, " +
-                        "a.user.fullName, " +
-                        "a.user.imageUser, " +
-                        "a.user.reputationCount " +
-                        "from " +
-                        "Answer a " +
-                        "where " +
+                .createQuery(HQL +
                         "a.question.id = :questionId order by a.countValuable desc" +
                         "")
                 .setParameter("questionId", questionId)
@@ -101,21 +90,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
         return entityManager
-                .createQuery("select " +
-                        "a.id, " +
-                        "a.question.id, " +
-                        "a.htmlBody, " +
-                        "a.persistDateTime, " +
-                        "a.dateAcceptTime, " +
-                        "a.countValuable, " +
-                        "a.isHelpful, " +
-                        "a.user.id, " +
-                        "a.user.fullName, " +
-                        "a.user.imageUser, " +
-                        "a.user.reputationCount " +
-                        "from " +
-                        "Answer a " +
-                        "where " +
+                .createQuery(HQL +
                         "a.question.id = :questionId order by a.isHelpful desc, a.persistDateTime asc" +
                         "")
                 .setParameter("questionId", questionId)
@@ -137,10 +112,10 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     private Object getObject(Object[] tuple) {
 
         UserDto userDto = UserDto.builder()
-                .id(((Number) tuple[7]).longValue())
-                .fullName(String.valueOf(tuple[8]))
-                .imageUser((byte[]) tuple[9])
-                .reputationCount((Integer) tuple[10])
+                .id(((Number) tuple[8]).longValue())
+                .fullName(String.valueOf(tuple[9]))
+                .imageUser((byte[]) tuple[10])
+                .reputationCount((Integer) tuple[11])
                 .build();
 
         return AnswerDto.builder()
@@ -151,6 +126,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .dateAcceptTime((LocalDateTime) tuple[4])
                 .countValuable((Integer) tuple[5])
                 .isHelpful((Boolean) tuple[6])
+                .isHidden((Boolean) tuple[7])
                 .userDto(userDto)
                 .build();
     }

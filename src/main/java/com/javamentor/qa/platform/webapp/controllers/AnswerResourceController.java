@@ -48,6 +48,11 @@ public class AnswerResourceController {
         return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionIdSortDate(questionId));
     }
 
+    @GetMapping("/sort/new")
+    public ResponseEntity<List<AnswerDto>> getAnswersDtoSortNew(@PathVariable @NotNull Long questionId) {
+        return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionId(questionId));
+    }
+
     @Validated(OnCreate.class)
     @PostMapping
     public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Valid AnswerDto answerDTO,
@@ -67,7 +72,14 @@ public class AnswerResourceController {
         answer.setId(answerId);
         if (answer.getIsHelpful()) {
             answerService.resetIsHelpful(questionId);
-            answer.setDateAcceptTime(LocalDateTime.now());
+            if(answer.getDateAcceptTime() == null){
+                answer.setDateAcceptTime(LocalDateTime.now());
+            }
+        }else {
+            answer.setDateAcceptTime(null);
+        }
+        if(!answerService.getByKey(answerId).getHtmlBody().equals(answer.getHtmlBody())){
+            answer.setUpdateDateTime(LocalDateTime.now());
         }
         answerService.update(answer);
         return ResponseEntity.ok(answerConverter.answerToDto(answer));
@@ -75,9 +87,13 @@ public class AnswerResourceController {
 
     @DeleteMapping("/{answerId}")
     public ResponseEntity<String> deleteAnswer(@PathVariable @NotNull Long answerId) {
-        if(answerService.getByKey(answerId) != null) {
-            answerService.deleteByKeyCascadeEnable(answerId);
+        Answer answer = answerService.getByKey(answerId);
+        if(answer != null) {
+            answer.setIsHidden(true);
+            answer.setUpdateDateTime(LocalDateTime.now());
+            answerService.update(answer);
             return ResponseEntity.ok().build();
-        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Answer with id-"+answerId+" dont exists");
+        }else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Answer with id-"+answerId+" dont exists");
     }
 }

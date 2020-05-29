@@ -31,12 +31,17 @@ public class AnswerDto {
 
     private LocalDateTime persistDateTime;
     private LocalDateTime dateAcceptTime;
+    private LocalDateTime updateDateTime;
 
     private Integer countValuable;
 
-    @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
+    @NotNull(groups = {OnCreate.class, OnUpdate.class}, message = "Не должно принимать null значение при создании или обновлении")
     @AssertFalse(groups = OnCreate.class, message = "Должно принимать false значение при создании")
     private Boolean isHelpful;
+
+    @NotNull(groups = {OnCreate.class, OnUpdate.class}, message = "Не должно принимать null значение при создании или обновлении")
+    @AssertFalse(groups = OnCreate.class, message = "Должно принимать false значение при создании")
+    private Boolean isHidden;
 
     @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
