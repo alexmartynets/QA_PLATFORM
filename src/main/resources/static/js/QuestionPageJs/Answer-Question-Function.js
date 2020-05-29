@@ -328,7 +328,7 @@ function getTextOfQuestion(id) {
 function getSortCurrentTextOfQuestion(id) {
 
     $.ajax({
-        url: '/api/user/question/' + id + '/answer/sort/date',
+        url: '/api/user/question/' + id + '/answer/sort/new',
         method: 'GET',
         dataType: 'json',
 
