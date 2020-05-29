@@ -1,6 +1,6 @@
 package com.javamentor.qa.platform.webapp.configs;
 
-import com.javamentor.qa.platform.webapp.configs.Application;
+import com.github.database.rider.core.api.dataset.DataSet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,20 +10,20 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.core.StringContains.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest                 //(classes = Application.class) if the directory is different
+@SpringBootTest
 @AutoConfigureMockMvc
 public class QuestionResourceControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @DataSet(cleanBefore = true)
     @Test
     public void testQuestion() throws Exception{
         this.mockMvc.perform(post("/api/question/pagination?page=1&size=3"))
