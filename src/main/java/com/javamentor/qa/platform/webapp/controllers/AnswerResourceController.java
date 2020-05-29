@@ -51,6 +51,11 @@ public class AnswerResourceController {
         return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionIdSortDate(questionId));
     }
 
+    @GetMapping("/sort/new")
+    public ResponseEntity<List<AnswerDto>> getAnswersDtoSortNew(@PathVariable @NotNull Long questionId) {
+        return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionId(questionId));
+    }
+
     @Validated(OnCreate.class)
     @PostMapping
     public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Valid AnswerDto answerDTO,
