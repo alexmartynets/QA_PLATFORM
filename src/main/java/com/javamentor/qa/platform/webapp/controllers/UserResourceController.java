@@ -7,22 +7,32 @@ import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javafx.util.Pair;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Optional;
 
+@RestControllerAdvice
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping(value = "/api/user", produces = "application/json")
+@Api(value="UserApi", description = "Операции с пользователем (создание, изменение, получение списка, получение пользователя по ID)")
 public class UserResourceController {
 
     private final UserService userService;
     private final UserDtoService userDtoService;
     private final UserConverter userConverter;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public UserResourceController(UserService userService, UserDtoService userDtoService, UserConverter userConverter) {
         this.userService = userService;
@@ -30,30 +40,57 @@ public class UserResourceController {
         this.userConverter = userConverter;
     }
 
+    @ApiOperation(value = "Добавление пользователя")
     @PostMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь добавлен")
+    })
     public ResponseEntity<UserDto> addUser(@Validated(OnCreate.class) @RequestBody UserDto userDto) {
         userService.persist(userConverter.toEntity(userDto));
+        logger.info(String.format("Пользователь с email: %s добавлен в базу данных", userDto.getEmail()));
         return ResponseEntity.ok().body(userDto);
     }
 
+    @ApiOperation(value = "получение списка доступных пользователей")
     @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен")
+    })
     public ResponseEntity<List<UserDto>> findAllUsers() {
         return ResponseEntity.ok(userDtoService.getUserDtoList());
     }
 
-    @PutMapping("/{id}")
+    @ApiOperation(value = "Изменение пользователя (параметр ID обязателен)")
+    @PutMapping(path = "/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Данные пользователя обновлены")
+    })
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody UserDto userDto) {
         User user = userConverter.toEntity(userDto);
         user.setId(id);
         userService.update(user);
+        logger.info(String.format("user с ID: %d updated successfully", userDto.getId()));
         return ResponseEntity.ok().body(userConverter.toDto(user));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<UserDto>> findUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userDtoService.getUserDtoById(id));
+    @ApiOperation(value = "Поиск пользователя по ID")
+    @GetMapping(path = "/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь найден по id"),
+            @ApiResponse(code = 404, message = "Пользователь не найден по id")
+    })
+    public ResponseEntity<UserDto> findUser(@PathVariable Long id) {
+        Optional<UserDto> optionalUserDto = userDtoService.getUserDtoById(id);
+        if (optionalUserDto.isPresent()) {
+            UserDto userDto = optionalUserDto.get();
+            return ResponseEntity.ok(userDto);
+        } else {
+            logger.error(String.format("Пользователь с указанным ID: %d не найден!", id));
+            return ResponseEntity.notFound().build();
+        }
     }
 
+    @ApiIgnore
     @GetMapping("/{count}/page/{page}")
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@PathVariable @NonNull Long page,
                                                                               @PathVariable @NonNull Long count) {
