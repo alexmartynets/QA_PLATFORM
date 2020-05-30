@@ -54,7 +54,7 @@ function putAnswerCountValuableMinus(id, questionId, countValuable, isHelpful) {
 
         success: function (data) {
             $(data).each(function (index, val) {
-                if (index + 1 == answerIdMinus) {
+                    if (val.id == id) {
                     val.questionId = questionId;
                     let correctID = id;
                     val.id = correctID;
@@ -96,7 +96,7 @@ function putAnswerCountValuablePlus(id, questionId, countValuable, isHelpful) {
 
         success: function (data) {
             $(data).each(function (index, val) {
-                if (index + 1 == answerIdPlus) {
+                if (val.id == id) {
                     val.questionId = questionId;
                     let correctID = id;
                     val.id = correctID;
