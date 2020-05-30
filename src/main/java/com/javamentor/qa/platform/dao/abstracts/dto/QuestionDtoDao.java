@@ -9,9 +9,9 @@ import java.util.Map;
 public interface QuestionDtoDao {
     List<QuestionDto> getQuestionDtoList();
 
-    List<QuestionDto> getPaginationQuestion(int page, int size);
+    List<QuestionDto> getQuestionList(int page, int size);
+
+    List<TagDto> getTagList(long q_id);
 
     Long getCount();
-
-    List<TagDto> getTag(long q_id);
 }

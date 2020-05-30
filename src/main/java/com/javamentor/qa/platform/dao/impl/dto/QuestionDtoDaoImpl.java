@@ -81,7 +81,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<QuestionDto> getPaginationQuestion(int page, int size) {
+    public List<QuestionDto> getQuestionList(int page, int size) {
         List<QuestionDto> resultList = entityManager.createQuery("SELECT " +
                 "q.id, " +
                 "q.title, " +
@@ -125,17 +125,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
         return resultList;
     }
 
-    @Override
-    public Long getCount() {
-        Long record = Long.parseLong(entityManager.createNativeQuery("SELECT COUNT(*) FROM question")
-                .getSingleResult()
-                .toString());
-        return record;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
-    public List<TagDto> getTag(long q_id) {
+    public List<TagDto> getTagList(long q_id) {
         List<TagDto> result = entityManager.createQuery(
                 "SELECT t.id, t.name, t.description " +
                         "FROM Question q JOIN q.tags t WHERE q.id = :q_id")
@@ -157,5 +149,11 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     }
                 }).getResultList();
         return result;
+    }
+
+    @Override
+    public Long getCount() {
+        return (Long) entityManager.createQuery("SELECT COUNT(q) FROM Question q")
+                .getSingleResult();
     }
 }

@@ -2,23 +2,27 @@ package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import javafx.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/question")
 public class QuestionResourceController {
-    @Autowired
-    private QuestionDtoService questionDtoService;
 
-    @RequestMapping(value = "/pagination", method = RequestMethod.POST)
-    public ResponseEntity<Map<Long, List<QuestionDto>>> getPage(@RequestParam int page,
-                                                                @RequestParam int size) {
-        return ResponseEntity.ok(questionDtoService.getPage(page, size));
+    private final QuestionDtoService questionDtoService;
+
+    public QuestionResourceController( QuestionDtoService questionDtoService) {
+        this.questionDtoService = questionDtoService;
+    }
+
+
+    @PostMapping(value = "/pagination")
+    public ResponseEntity<Pair<Long, List<QuestionDto>>> getPaginationQuestion(@RequestParam int page,
+                                                                               @RequestParam int size) {
+        return ResponseEntity.ok(questionDtoService.getPaginationQuestion(page, size));
     }
 
     @GetMapping
