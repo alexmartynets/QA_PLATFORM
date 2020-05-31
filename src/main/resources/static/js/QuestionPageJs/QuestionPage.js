@@ -27,7 +27,7 @@ $(document).ready(function (id) {
     });
     $('#SortCurrentTextOfQuestion').click(function (id) {
         id = 1;
-        getSortCurrentTextOfQuestion(id);
+        getTextOfQuestion(id);
     });
     $('#SortDateTextOfQuestion').click(function (id) {
         id = 1;
