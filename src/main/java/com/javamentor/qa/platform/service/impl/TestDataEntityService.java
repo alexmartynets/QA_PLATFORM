@@ -426,7 +426,7 @@ public class TestDataEntityService {
                 .dateAcceptTime(LocalDateTime.now())
                 .question(questionService.getByKey(1L))
                 .htmlBody("Helpful answer for question 1")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer1_1);
 
@@ -436,7 +436,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .htmlBody("Don't helpful answer for question 1")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer1_2);
 
@@ -446,7 +446,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .htmlBody("Don't helpful answer for question 1")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer1_3);
 
@@ -456,7 +456,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .htmlBody("Don't helpful answer for question 1")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer1_4);
 
@@ -466,7 +466,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(2L))
                 .isHelpful(false)
                 .htmlBody("Don't helpful answer for question 2")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer2_1);
 
@@ -476,7 +476,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(2L))
                 .isHelpful(true)
                 .htmlBody("Helpful answer for question 2")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer2_2);
 
@@ -486,7 +486,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(2L))
                 .isHelpful(false)
                 .htmlBody("Don't helpful answer for question 2")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer2_3);
 
@@ -496,7 +496,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(3L))
                 .isHelpful(false)
                 .htmlBody("Don't helpful answer for question 3")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer3_1);
 
@@ -506,7 +506,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(3L))
                 .isHelpful(true)
                 .htmlBody("Don't helpful answer for question 3")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer3_2);
 
@@ -516,7 +516,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(4L))
                 .isHelpful(true)
                 .htmlBody("Helpful answer for question 4")
-                .isHidden(false)
+                .isDeleted(false)
                 .build();
         answerService.persist(answer4_1);
 

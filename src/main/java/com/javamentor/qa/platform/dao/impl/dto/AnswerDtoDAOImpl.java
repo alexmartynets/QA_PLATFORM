@@ -26,7 +26,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.dateAcceptTime, " +
             "a.countValuable, " +
             "a.isHelpful, " +
-            "a.isHidden, " +
+            "a.isDeleted, " +
             "a.user.id, " +
             "a.user.fullName, " +
             "a.user.imageUser, " +
@@ -126,7 +126,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .dateAcceptTime((LocalDateTime) tuple[4])
                 .countValuable((Integer) tuple[5])
                 .isHelpful((Boolean) tuple[6])
-                .isHidden((Boolean) tuple[7])
+                .isDeleted((Boolean) tuple[7])
                 .userDto(userDto)
                 .build();
     }

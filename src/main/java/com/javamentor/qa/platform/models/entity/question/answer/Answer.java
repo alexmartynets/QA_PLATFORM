@@ -52,8 +52,8 @@ public class Answer {
     private Boolean isHelpful = false;
 
     @NotNull
-    @Column(name = "is_hidden")
-    private Boolean isHidden;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 
     @Column(name = "date_accept_time")
     @Type(type = "org.hibernate.type.LocalDateTimeType")
@@ -86,14 +86,18 @@ public class Answer {
         Answer answer = (Answer) o;
         return Objects.equals(id, answer.id) &&
                 Objects.equals(persistDateTime, answer.persistDateTime) &&
+                Objects.equals(updateDateTime, answer.updateDateTime) &&
+                Objects.equals(question, answer.question) &&
+                Objects.equals(user, answer.user) &&
                 Objects.equals(htmlBody, answer.htmlBody) &&
                 Objects.equals(isHelpful, answer.isHelpful) &&
+                Objects.equals(isDeleted, answer.isDeleted) &&
                 Objects.equals(dateAcceptTime, answer.dateAcceptTime) &&
                 Objects.equals(countValuable, answer.countValuable);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, persistDateTime, htmlBody, isHelpful, dateAcceptTime, countValuable);
+        return Objects.hash(id, persistDateTime, updateDateTime, question, user, htmlBody, isHelpful, isDeleted, dateAcceptTime, countValuable);
     }
 }
