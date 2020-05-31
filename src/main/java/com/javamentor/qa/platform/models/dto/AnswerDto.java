@@ -64,7 +64,7 @@ public class AnswerDto {
     @AssertFalse(groups = OnCreate.class, message = "Должно принимать false значение при создании")
     private Boolean isDeleted;
 
-    @ApiModelProperty(notes = "Пользователь давший ответ", required = true,
+    @ApiModelProperty(notes = "Пользователь давший ответ, обязательно указывать ID", required = true,
             position = 10)
     @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
     @NotNull(groups = OnCreate.class, message = "Не должно принимать null значение при создании")
