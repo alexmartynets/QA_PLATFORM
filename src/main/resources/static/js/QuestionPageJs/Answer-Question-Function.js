@@ -54,7 +54,7 @@ function putAnswerCountValuableMinus(id, questionId, countValuable, isHelpful) {
 
         success: function (data) {
             $(data).each(function (index, val) {
-                    if (val.id == id) {
+                if (val.id == id) {
                     val.questionId = questionId;
                     let correctID = id;
                     val.id = correctID;
@@ -198,12 +198,11 @@ function putCountValuablePlus(id) {
 
 function putNewAnswer(answerDTO, id) {
     $.ajax({
-        url: '/api/user/question/' + id + '/answer/',
-        method: "POST",
-        data: answerDTO,
+        url: '/api/user/question/' + id + '/answer',
+        method: 'POST',
+        data: JSON.stringify({"text":answerDTO}),id,
         contentType: 'application/json; charset=utf-8',
         success: function () {
-
         },
         error: function (error) {
             alert(error);
@@ -256,13 +255,12 @@ function getTextOfQuestion(id) {
 
         success: function (data) {
 
-
             let tableBody = $('#tblTextOfQuestion tbody');
             tableBody.empty();
             let num = 0;
             $(data).each(function (index, val) {
                 $(val).each(function (index, value) {
-                    num ++;
+                    num++;
                     document.getElementById("countAnswer").innerHTML = num;
                     let userInfoDto = value.userDto;
                     let href = window.location.href;
@@ -310,10 +308,19 @@ function getTextOfQuestion(id) {
                                             class=" ml-1 ">${userInfoDto.fullName}</h><h class=" ml-3 " title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>
  <tr>
-        <td colspan="2"> 
-                                    <button href="#" class="btn btn-link ">
-                                       добавить коментарий
-                                    </button>                                
+        <td colspan="2">
+         <a class="btn btn-link" title="Используйте комментарии для запроса дополнительной информации или предложения улучшений. Избегайте публикации ответа на вопросы в комментариях." data-toggle="collapse" href="#collapseComment" role="button" aria-expanded="false" aria-controls="collapseComment"> 
+               добавить комментарий </a>
+               <div class="collapse" id="collapseComment">
+  <div class="card card-body">
+    <label for="textarea1">Оставьте свой комментарий</label>
+    <textarea class="form-control" id="textarea1" rows="3"></textarea>
+  </div>
+  <button onclick="putComment(${val.id},${questionId})" type="button" class="btn btn-primary mt-3"
+                                            style="text-align:left;float:left;">
+                                        добавить комментарий
+                                    </button>
+</div></td>                                                                          
     </tr>`);
                     $(popover());
                 });
@@ -341,7 +348,7 @@ function getSortDateTextOfQuestion(id) {
             let num = 0;
             $(data).each(function (index, val) {
                 $(val).each(function (index, value) {
-                    num ++;
+                    num++;
                     document.getElementById("countAnswer").innerHTML = num;
                     let userInfoDto = value.userDto;
                     let href = window.location.href;
@@ -414,7 +421,7 @@ function getSortReputationTextOfQuestion(id) {
             let num = 0;
             $(data).each(function (index, val) {
                 $(val).each(function (index, value) {
-                    num ++;
+                    num++;
                     document.getElementById("countAnswer").innerHTML = num;
                     let userInfoDto = value.userDto;
                     let href = window.location.href;
@@ -475,9 +482,11 @@ function getSortReputationTextOfQuestion(id) {
 function isHelpful(isHelpful) {
     let x = "";
     if (isHelpful === true) {
-       x = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
+        x = "<img src='/images/check-mark.png' width='30' height='30' alt=''>";
         return x;
-    } else {return x;}
+    } else {
+        return x;
+    }
 }
 
 function popover() {
@@ -490,6 +499,23 @@ function convertDateToString(date) {
     let newDate = new Date(date);
     let convertTime = newDate.toLocaleTimeString();
     let convertDate = newDate.toDateString();
-    let result = convertDate+" "+convertTime;
+    let result = convertDate + " " + convertTime;
     return result;
+}
+
+function putComment(id) {
+    let commentDto = document.getElementById("textarea1").value;
+    let answerId = id;
+    $.ajax({
+        url: '/api/user/answer/' + id + '/comment',
+        method: 'POST',
+        data: JSON.stringify({"text":commentDto}),answerId,
+        contentType: 'application/json; charset=utf-8',
+        success: function () {
+            alert("отправлен");
+        },
+        error: function () {
+            alert("Не корректно отправлен комментарий");
+        }
+    })
 }

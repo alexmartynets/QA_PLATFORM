@@ -1,5 +1,5 @@
 $(document).ready(function (id) {
-    let newAnswer = {};
+    let answerDTO = {};
     id = 1;
 
     $('[data-toggle="popover"]').popover({});
@@ -13,8 +13,7 @@ $(document).ready(function (id) {
 
     $('#btnSendAnswer').click(function (id) {
         id = 1;
-        newAnswer.text = $('#summernote').val();
-        let answerDTO = JSON.stringify(newAnswer);
+        answerDTO.text = $('#summernote').val();
         putNewAnswer(answerDTO, id);
     });
     $('#btnUpCountPlus').click(function (id) {
