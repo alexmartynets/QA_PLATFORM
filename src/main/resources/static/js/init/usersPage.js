@@ -25,21 +25,17 @@ jQuery(document).ready(function ($) {
         service.showPagination(data, dataMap, numberMedia, currentPage);
     });
 
-//-----------------------------------------------------------------------//
-
     // обработка search на странице users
     let input = document.querySelector("#search");
     input.addEventListener("input", function (e) {
         let name = e.target.value;
         $("#pagination").show();
 
-
-        let url_search = "http://localhost:5557/api/user/name?name=" + name + "&count=" + numberMedia + "&page=";
         let currentPage = 1;
+        let url_search = "http://localhost:5557/api/user/" + numberMedia + "/page/" + currentPage +  "/name?name=" + name;
 
         // получаем даннные для 1 страницы
-        let dataMap = data.getListUsers(url_search + currentPage);
-
+        let dataMap = data.getListUsers(url_search);
 
         if (dataMap.get("list").length === 1) {
             location.assign("http://localhost:5557/profile");
@@ -59,8 +55,8 @@ jQuery(document).ready(function ($) {
         /*блок кода для динамического изменения данных для search*/
         $("body").on("click", ".page-link", function () {
             let currentPage = $(this).text();
-            let url_search = "http://localhost:5557/api/user/name?name=" + name + "&count=" + numberMedia + "&page=" + currentPage;
 
+            let url_search = "http://localhost:5557/api/user/" + numberMedia + "/page/" + currentPage +  "/name?name=" + name;
             // получаем даннные для текущей страницы
             let dataMap = data.getListUsers(url_search);
 

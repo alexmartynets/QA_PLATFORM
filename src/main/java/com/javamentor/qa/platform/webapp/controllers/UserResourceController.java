@@ -60,10 +60,10 @@ public class UserResourceController {
         return ResponseEntity.ok().body(userDtoService.getListUsersToPagination(page.intValue(), count.intValue()));
     }
 
-    @GetMapping("/name")   // ?name=Андрей&count=1&page=1
+    @GetMapping("/{count}/page/{page}/name") // ?name=Андрей
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@RequestParam @NonNull String name,
-                                                                              @RequestParam @NonNull Long count,
-                                                                              @RequestParam @NonNull Long page) {
+                                                                              @PathVariable @NonNull Long count,
+                                                                              @PathVariable @NonNull Long page) {
         return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue()));
     }
 }
