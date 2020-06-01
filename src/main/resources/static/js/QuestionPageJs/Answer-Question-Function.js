@@ -204,8 +204,8 @@ function putNewAnswer(answerDTO, id) {
         contentType: 'application/json; charset=utf-8',
         success: function () {
         },
-        error: function (error) {
-            alert(error);
+        error: function () {
+            alert("Не корректно отправлен ответ");
         }
     })
 }
@@ -512,7 +512,6 @@ function putComment(id) {
         data: JSON.stringify({"text":commentDto}),answerId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
-            alert("отправлен");
         },
         error: function () {
             alert("Не корректно отправлен комментарий");
