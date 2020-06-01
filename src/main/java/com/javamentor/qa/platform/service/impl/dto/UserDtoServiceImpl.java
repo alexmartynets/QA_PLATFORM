@@ -4,7 +4,6 @@ import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import javafx.util.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +12,11 @@ import java.util.Optional;
 @Service
 public class UserDtoServiceImpl implements UserDtoService {
 
-    @Autowired
-    private UserDtoDAO userDtoDao;
+    private final UserDtoDAO userDtoDao;
+
+    public UserDtoServiceImpl(UserDtoDAO userDtoDao) {
+        this.userDtoDao = userDtoDao;
+    }
 
     @Override
     public List<UserDto> getUserDtoList() {

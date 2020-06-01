@@ -3,7 +3,7 @@ jQuery(document).ready(function ($) {
     let data = new DataUsersPage();
     let service = new DataUsersService();
     // количество карточек на странице
-    let numberMedia = 6;
+    let numberMedia = 20;
 
     let url_list = "http://localhost:5557/api/user/" + numberMedia + "/page/";
     let currentPage = 1;
@@ -17,6 +17,10 @@ jQuery(document).ready(function ($) {
     /*блок кода для динамического изменения данных*/
     $("body").on("click", ".page-link", function () {
         let currentPage = $(this).text();
+
+        if(currentPage === '...'){
+            return;
+        }
 
         // получаем даннные для текущей страницы
         let dataMap = data.getListUsers(url_list + currentPage);
@@ -39,6 +43,7 @@ jQuery(document).ready(function ($) {
 
         if (dataMap.get("list").length === 1) {
             location.assign("http://localhost:5557/profile");
+            return;
         }
 
         if (dataMap.get("list").length === 0) {
@@ -55,6 +60,10 @@ jQuery(document).ready(function ($) {
         /*блок кода для динамического изменения данных для search*/
         $("body").on("click", ".page-link", function () {
             let currentPage = $(this).text();
+
+            if(currentPage === '...'){
+                return;
+            }
 
             let url_search = "http://localhost:5557/api/user/" + numberMedia + "/page/" + currentPage +  "/name?name=" + name;
             // получаем даннные для текущей страницы

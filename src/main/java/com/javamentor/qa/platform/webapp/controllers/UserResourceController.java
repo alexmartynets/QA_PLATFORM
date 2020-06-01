@@ -26,7 +26,7 @@ import java.util.Optional;
 @RestControllerAdvice
 @RestController
 @RequestMapping(value = "/api/user", produces = "application/json")
-@Api(value="UserApi", description = "Операции с пользователем (создание, изменение, получение списка, получение пользователя по ID)")
+@Api(value = "UserApi", description = "Операции с пользователем (создание, изменение, получение списка, получение пользователя по ID)")
 public class UserResourceController {
 
     private final UserService userService;
@@ -90,17 +90,25 @@ public class UserResourceController {
         }
     }
 
-    @ApiIgnore
-    @GetMapping("/{count}/page/{page}")
+
+    @ApiOperation(value = "получение списка пользователей для пагинации")
+    @GetMapping(path = "/{count}/page/{page}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен")
+    })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@PathVariable @NonNull Long page,
                                                                               @PathVariable @NonNull Long count) {
         return ResponseEntity.ok().body(userDtoService.getListUsersToPagination(page.intValue(), count.intValue()));
     }
 
-    @GetMapping("/{count}/page/{page}/name") // ?name=Андрей
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@RequestParam @NonNull String name,
-                                                                              @PathVariable @NonNull Long count,
-                                                                              @PathVariable @NonNull Long page) {
+    @ApiOperation(value = "получение списка доступных пользователей для поиска по имяни")
+    @GetMapping(path = "/{count}/page/{page}/name") // ?name=Андрей
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен")
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull String name,
+                                                                                @PathVariable @NonNull Long count,
+                                                                                @PathVariable @NonNull Long page) {
         return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue()));
     }
 }
