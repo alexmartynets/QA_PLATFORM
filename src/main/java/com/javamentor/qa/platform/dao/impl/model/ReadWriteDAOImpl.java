@@ -41,7 +41,7 @@ public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
     @Override
     @Transactional
     public void delete(T t) {
-        entityManager.remove(t);
+        entityManager.remove(entityManager.contains(t) ? t : entityManager.merge(t));
     }
 
     @Override

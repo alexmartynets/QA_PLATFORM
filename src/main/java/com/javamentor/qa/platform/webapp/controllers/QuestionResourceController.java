@@ -39,12 +39,13 @@ public class QuestionResourceController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getQuestionById(@PathVariable Long id) {
         Optional<QuestionDto> questionDto = questionDtoService.getQuestionDtoById(id);
-        return questionDto.isPresent() ? ResponseEntity.ok(questionDto) : ResponseEntity.badRequest().body("Вопроса с таким id не существует");
+        return questionDto.isPresent() ? ResponseEntity.ok(questionDto) :
+                ResponseEntity.badRequest().body("Вопроса с таким id не существует");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateQuestion(@PathVariable Long id, @RequestBody QuestionDto questionDto) {
-        if (!questionDto.getId().equals(id)){
+        if (!questionDto.getId().equals(id)) {
             return ResponseEntity.badRequest().body("id в url не совпадают с переданной questionDto");
         }
         if (!questionService.existsById(id)) {
@@ -56,12 +57,16 @@ public class QuestionResourceController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
-        if (questionService.existsById(id)){
-            questionService.deleteByKeyCascadeIgnore(id);
-            return ResponseEntity.ok().build();
+    public ResponseEntity<?> deleteQuestion(@PathVariable Long id, @RequestBody QuestionDto questionDto) {
+        if (!questionService.existsById(id)) {
+            return ResponseEntity.badRequest().body("Вопроса с таким id не существует");
         }
-        return ResponseEntity.badRequest().body("Вопроса с таким id не существует");
+        if (questionDto.getCountAnswer() > 0){
+            return ResponseEntity.badRequest().body("Нельзя удалить вопрос, на который был дан ответ");
+        }
+        Question question = questionConverter.toEntity(questionDto);
+        questionService.delete(question);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/by-user/{id}")

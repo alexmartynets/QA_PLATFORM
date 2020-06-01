@@ -1,7 +1,6 @@
 package com.javamentor.qa.platform.dao.impl.dto;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
-import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
@@ -9,7 +8,6 @@ import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -27,6 +25,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "q.id, " +
                     "q.title, " +
                     "q.user.id, " +
+                    "q.user.fullName, " +
+                    "q.user.reputationCount, " +
+                    "q.user.imageUser, " +
                     "q.viewCount, " +
                     "q.countValuable, " +
                     "q.persistDateTime,  " +
@@ -42,11 +43,14 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                         public Object transformTuple(Object[] objects, String[] strings) {
                             UserDto userDto = UserDto.builder()
                                     .id((Long) objects[2])
+                                    .fullName((String) objects[3])
+                                    .reputationCount((Integer) objects[4])
+                                    .imageUser((byte[]) objects[5])
                                     .build();
                             TagDto tagDto = TagDto.builder()
-                                    .id((Long) objects[6])
-                                    .name((String) objects[7])
-                                    .description((String) objects[8])
+                                    .id((Long) objects[9])
+                                    .name((String) objects[10])
+                                    .description((String) objects[11])
                                     .build();
                             List<TagDto> tagDtoList = new ArrayList<>();
                             tagDtoList.add(tagDto);
@@ -54,12 +58,12 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .id((Long) objects[0])
                                     .title((String) objects[1])
                                     .userDto(userDto)
-                                    .viewCount((Integer) objects[3])
-                                    .countValuable((Integer) objects[4])
-                                    .persistDateTime((LocalDateTime) objects[5])
+                                    .viewCount((Integer) objects[6])
+                                    .countValuable((Integer) objects[7])
+                                    .persistDateTime((LocalDateTime) objects[8])
                                     .tags(tagDtoList)
-                                    .countAnswer(((Number) objects[9]).intValue())
-                                    .isHelpful((Boolean) objects[10])
+                                    .countAnswer(((Number) objects[12]).intValue())
+                                    .isHelpful((Boolean) objects[13])
                                     .build();
                         }
 
@@ -91,13 +95,27 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.id, " +
                 "q.title, " +
                 "q.user.id, " +
+                "q.user.fullName, " +
+                "q.user.email, " +
+                "q.user.role.name, " +
+                "q.user.persistDateTime, " +
+                "q.user.reputationCount, " +
+                "q.user.about, " +
+                "q.user.city, " +
+                "q.user.imageUser, " +
+                "q.user.lastUpdateDateTime, " +
+                "q.user.linkGitHub, " +
+                "q.user.linkSite, " +
+                "q.user.linkVk, " +
                 "q.viewCount, " +
                 "q.countValuable, " +
                 "q.persistDateTime, " +
-                "q.description," +
+                "q.description, " +
+                "q.isDeleted, " +
                 "t.id, " +
                 "t.name, " +
-                "t.description " +
+                "t.description, " +
+                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) " +
                 "FROM Question q JOIN q.tags t WHERE q.id =: id ")
                 .unwrap(Query.class)
                 .setParameter("id", id)
@@ -105,12 +123,24 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
                         UserDto userDto = UserDto.builder()
-                                .id((Long) objects[2])
+                                .id(((Number) objects[2]).longValue())
+                                .fullName((String) objects[3])
+                                .email((String) objects[4])
+                                .role((String) objects[5])
+                                .persistDateTime((LocalDateTime) objects[6])
+                                .reputationCount((Integer) objects[7])
+                                .about((String) objects[8])
+                                .city((String) objects[9])
+                                .imageUser((byte[]) objects[10])
+                                .lastUpdateDateTime((LocalDateTime) objects[11])
+                                .linkGitHub((String) objects[12])
+                                .linkSite((String) objects[13])
+                                .linkVk((String) objects[14])
                                 .build();
                         TagDto tagDto = TagDto.builder()
-                                .id((Long) objects[7])
-                                .name((String) objects[8])
-                                .description((String) objects[9])
+                                .id((Long) objects[20])
+                                .name((String) objects[21])
+                                .description((String) objects[22])
                                 .build();
                         List<TagDto> tagDtoList = new ArrayList<>();
                         tagDtoList.add(tagDto);
@@ -118,11 +148,13 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .id((Long) objects[0])
                                 .title((String) objects[1])
                                 .userDto(userDto)
-                                .viewCount((Integer) objects[3])
-                                .countValuable((Integer) objects[4])
-                                .persistDateTime((LocalDateTime) objects[5])
-                                .description((String) objects[6])
+                                .viewCount((Integer) objects[15])
+                                .countValuable((Integer) objects[16])
+                                .persistDateTime((LocalDateTime) objects[17])
+                                .description((String) objects[18])
                                 .tags(tagDtoList)
+                                .isDeleted((Boolean) objects[19])
+                                .countAnswer(((Number) objects[23]).intValue())
                                 .build();
                     }
 
@@ -146,7 +178,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
     @SuppressWarnings("unchecked")
     @Override
     public List<QuestionDto> getQuestionDtoListByUserId(Long userId) {//todo настроить
-        List <QuestionDto> questionDtoList = new ArrayList<>();
+        List<QuestionDto> questionDtoList = new ArrayList<>();
         try {
             questionDtoList = entityManager.createQuery("SELECT " +
                     "q.id, " +

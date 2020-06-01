@@ -3,7 +3,9 @@ package com.javamentor.qa.platform.models.entity.question;
 import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,6 +20,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Table(name = "question")
+@SQLDelete(sql = "UPDATE question SET is_deleted=true WHERE id=?")
 public class Question {
 
     @Id
@@ -57,9 +60,14 @@ public class Question {
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
+    @Column(name = "last_redaction_date", nullable = false)
+    @Type(type = "org.hibernate.type.LocalDateTimeType")
+    @UpdateTimestamp
+    private LocalDateTime lastUpdateDateTime;
+
     @NotNull
-    @Column(name = "question_hide")
-    private Boolean isQuestionHide;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     @PrePersist
     private void prePersistFunction() {
@@ -78,8 +86,6 @@ public class Question {
         }
     }
 
-    //todo добавить update data time
-
     //todo подумать над временем helpful
 
     @Override
@@ -95,11 +101,11 @@ public class Question {
                 Objects.equals(countValuable, question.countValuable) &&
                 Objects.equals(user, question.user) &&
                 Objects.equals(tags, question.tags) &&
-                Objects.equals(isQuestionHide, question.isQuestionHide);
+                Objects.equals(isDeleted, question.isDeleted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, viewCount, description, persistDateTime, countValuable, user, tags, isQuestionHide);
+        return Objects.hash(id, title, viewCount, description, persistDateTime, countValuable, user, tags, isDeleted);
     }
 }

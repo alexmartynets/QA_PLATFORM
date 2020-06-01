@@ -275,7 +275,7 @@ public class TestDataEntityService {
                 .description("Question1 description")
                 .user(userService.getByKey(2L))
                 .countValuable(2)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList1 = new ArrayList<>();
         tagList1.add(tagService.getByKey(1L));
@@ -290,7 +290,7 @@ public class TestDataEntityService {
                 .description("Question2 description")
                 .user(userService.getByKey(3L))
                 .countValuable(2)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList2 = new ArrayList<>();
         tagList2.add(tagService.getByKey(2L));
@@ -303,7 +303,7 @@ public class TestDataEntityService {
                 .description("Question3 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList3 = new ArrayList<>();
         tagList3.add(tagService.getByKey(2L));
@@ -318,7 +318,7 @@ public class TestDataEntityService {
                 .description("Question4 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList4 = new ArrayList<>();
         tagList4.add(tagService.getByKey(3L));
@@ -331,7 +331,7 @@ public class TestDataEntityService {
                 .description("Question5 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList5 = new ArrayList<>();
         tagList5.add(tagService.getByKey(3L));
@@ -344,7 +344,7 @@ public class TestDataEntityService {
                 .description("Question6 description")
                 .user(userService.getByKey(3L))
                 .countValuable(6)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList6 = new ArrayList<>();
         tagList6.add(tagService.getByKey(1L));
@@ -361,7 +361,7 @@ public class TestDataEntityService {
                 .description("Question7 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList7 = new ArrayList<>();
         tagList7.add(tagService.getByKey(2L));
@@ -376,7 +376,7 @@ public class TestDataEntityService {
                 .description("Question8 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList8 = new ArrayList<>();
         tagList8.add(tagService.getByKey(3L));
@@ -389,7 +389,7 @@ public class TestDataEntityService {
                 .description("Question9 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList9 = new ArrayList<>();
         tagList9.add(tagService.getByKey(3L));
@@ -402,7 +402,7 @@ public class TestDataEntityService {
                 .description("Question10 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
-                .isQuestionHide(false)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList10 = new ArrayList<>();
         tagList10.add(tagService.getByKey(1L));

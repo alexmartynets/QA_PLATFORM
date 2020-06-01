@@ -47,6 +47,8 @@ public class QuestionDto {
     @NotNull
     private LocalDateTime persistDateTime;
 
+    private Boolean isDeleted;
+
     private Boolean isHelpful;
 
     private Map<String, String> lastAnswerNameAndDate;
