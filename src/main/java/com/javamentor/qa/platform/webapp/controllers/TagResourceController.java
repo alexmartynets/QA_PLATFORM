@@ -33,21 +33,21 @@ public class TagResourceController {
         this.tagConverter = tagConverter;
     }
 
-    @GetMapping("{pageSize}/{pageNumber}")
-    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsByPopular(@PathVariable int pageSize,
-                                                                        @PathVariable int pageNumber) {
+    @GetMapping
+    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsByPopular(@RequestParam("pageSize") int pageSize,
+                                                                        @RequestParam("pageNumber") int pageNumber) {
         return ResponseEntity.ok(tagDtoService.findAllTagsDtoPagination(pageSize, pageNumber));
     }
 
-    @GetMapping("/name/{pageSize}/{pageNumber}")
-    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsByName(@PathVariable int pageSize,
-                                                                     @PathVariable int pageNumber) {
+    @GetMapping("/name")
+    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsByName(@RequestParam("pageSize") int pageSize,
+                                                                     @RequestParam("pageNumber") int pageNumber) {
         return ResponseEntity.ok(tagDtoService.findAllTagsDtoPaginationName(pageSize, pageNumber));
     }
 
-    @GetMapping("/new/{pageSize}/{pageNumber}")
-    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsByDate(@PathVariable int pageSize,
-                                                                     @PathVariable int pageNumber) {
+    @GetMapping("/new")
+    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsByDate(@RequestParam("pageSize") int pageSize,
+                                                                     @RequestParam("pageNumber") int pageNumber) {
         return ResponseEntity.ok(tagDtoService.findAllTagsDtoPaginationDate(pageSize, pageNumber));
     }
 

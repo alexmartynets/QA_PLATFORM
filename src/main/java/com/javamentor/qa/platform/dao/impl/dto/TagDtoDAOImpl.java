@@ -14,18 +14,20 @@ import java.util.List;
 @Repository
 public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements TagDtoDAO {
 
+    private final String HQL = "select " +
+            "t.id, " +
+            "t.name, " +
+            "t.description, " +
+            "t.questions.size, " +
+            "t.persistDateTime, " +
+            "(select count (q.id) from t.questions q where q.persistDateTime >= :day), " +
+            "(select count (q.id) from t.questions q where q.persistDateTime >= :month), " +
+            "(select count (q.id) from t.questions q where q.persistDateTime >= :year) ";
+
     @SuppressWarnings("unchecked")
     @Override
     public List<TagDto> findAllTagsDtoPaginationPopular(int pageSize, int pageNumber) {
-        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery("select " +
-                "t.id, " +
-                "t.name, " +
-                "t.description, " +
-                "t.questions.size, " +
-                "t.persistDateTime, " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :day), " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :month), " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :year) " +
+        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery(HQL +
                 "from Tag t order by t.questions.size desc");
 
         return getTags(query, pageSize, pageNumber);
@@ -34,15 +36,7 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
     @SuppressWarnings("unchecked")
     @Override
     public List<TagDto> findAllTagsDtoPaginationName(int pageSize, int pageNumber) {
-        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery("select " +
-                "t.id, " +
-                "t.name, " +
-                "t.description, " +
-                "t.questions.size, " +
-                "t.persistDateTime, " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :day), " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :month), " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :year) " +
+        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery(HQL +
                 "from Tag t order by t.name asc");
 
         return getTags(query, pageSize, pageNumber);
@@ -51,15 +45,7 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
     @SuppressWarnings("unchecked")
     @Override
     public List<TagDto> findAllTagsDtoPaginationDate(int pageSize, int pageNumber) {
-        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery("select " +
-                "t.id, " +
-                "t.name, " +
-                "t.description, " +
-                "t.questions.size, " +
-                "t.persistDateTime, " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :day), " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :month), " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :year) " +
+        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery(HQL +
                 "from Tag t order by t.persistDateTime desc");
 
         return getTags(query, pageSize, pageNumber);
@@ -68,15 +54,7 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
     @SuppressWarnings("unchecked")
     @Override
     public List<TagDto> findAllTagsSearch(String word) {
-        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery("select " +
-                "t.id, " +
-                "t.name, " +
-                "t.description, " +
-                "t.questions.size, " +
-                "t.persistDateTime, " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :day), " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :month), " +
-                "(select count (q.id) from t.questions q where q.persistDateTime >= :year) " +
+        Query<TagDto> query = (Query<TagDto>) entityManager.createQuery(HQL +
                 "from Tag t where t.name like :search order by t.questions.size desc")
                 .setParameter("search", "%" + word + "%");
 
