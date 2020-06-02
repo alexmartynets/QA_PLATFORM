@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,7 @@ public class TagResourceController {
     private final TagService tagService;
     private final RelatedTagService relatedTagService;
     private final TagConverter tagConverter;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public TagResourceController(TagDtoService tagDtoService, TagService tagService, RelatedTagService relatedTagService, TagConverter tagConverter) {
         this.tagDtoService = tagDtoService;
@@ -96,6 +99,7 @@ public class TagResourceController {
     })
     public ResponseEntity<TagDto> addMainTag(@RequestBody @Valid TagDto tagDto) {
         tagService.persist(tagConverter.dtoToTag(tagDto));
+        logger.info(String.format("Тэг: %s добавлен в базу данных", tagDto.getName()));
         return ResponseEntity.ok(tagDto);
     }
 
@@ -103,11 +107,12 @@ public class TagResourceController {
     @PostMapping("/{mainTagId}")
     @ApiOperation(value = "Добавление тэга-потомка. {mainTagId} - ID тэга-предка")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Тэг добавлен")
+            @ApiResponse(code = 200, message = "Тэг добавлен.")
     })
     public ResponseEntity<TagDto> addChildTag(@RequestBody @Valid TagDto tagDto,
                                               @PathVariable @NotNull Long mainTagId) {
         tagService.persistChildTag(tagConverter.dtoToTag(tagDto), mainTagId);
+        logger.info(String.format("Тэг: %s добавлен в базу данных.", tagDto.getName()));
         return ResponseEntity.ok(tagDto);
     }
 
@@ -115,10 +120,11 @@ public class TagResourceController {
     @PutMapping
     @ApiOperation(value = "Изменение тэга.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Тэг изменен")
+            @ApiResponse(code = 200, message = "Тэг изменен.")
     })
     public ResponseEntity<TagDto> updateTag(@RequestBody @Valid TagDto tagDto) {
         tagService.update(tagConverter.dtoToTag(tagDto));
+        logger.info(String.format("Тэг id: %s name: %s изменен.",tagDto.getId(), tagDto.getName()));
         return ResponseEntity.ok(tagDto);
     }
 
@@ -130,6 +136,7 @@ public class TagResourceController {
     public ResponseEntity<String> deleteTag(@PathVariable @NotNull Long id) {
         tagService.deleteByKeyCascadeIgnore(id);
         relatedTagService.deleteRelTagsByTagId(id);
+        logger.info(String.format("Тэг id: %s удален", id));
         return ResponseEntity.ok().body("Тэг удален");
     }
 
