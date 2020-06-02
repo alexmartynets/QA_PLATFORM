@@ -5,7 +5,6 @@ import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.service.abstracts.dto.TagDtoService;
 
 import javafx.util.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +12,11 @@ import java.util.List;
 @Service
 public class TagDtoServiceImpl implements TagDtoService {
 
-    @Autowired
-    private TagDtoDAO tagDtoDAO;
+    private final TagDtoDAO tagDtoDAO;
+
+    public TagDtoServiceImpl(TagDtoDAO tagDtoDAO) {
+        this.tagDtoDAO = tagDtoDAO;
+    }
 
     @Override
     public Pair<Long, List<TagDto>> findAllTagsDtoPagination(int pageSize, int pageNumber) {
@@ -46,6 +48,6 @@ public class TagDtoServiceImpl implements TagDtoService {
     @Override
     public List<TagDto> findAllTagsSearch(String word) {
         word = word.trim();
-        return word.isEmpty()? tagDtoDAO.findAllTagsDtoPaginationPopular(10,1):tagDtoDAO.findAllTagsSearch(word);
+        return word.isEmpty() ? tagDtoDAO.findAllTagsDtoPaginationPopular(10, 1) : tagDtoDAO.findAllTagsSearch(word);
     }
 }

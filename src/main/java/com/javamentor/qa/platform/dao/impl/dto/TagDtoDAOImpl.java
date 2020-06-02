@@ -65,8 +65,7 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
     public Long getFinalPage(int pageSize) {
         long totalCount = ((Number) entityManager.createQuery
                 ("select count(t.id) from Tag t").getSingleResult()).longValue();
-        long finalPage = (totalCount / (long) pageSize) + 1;
-        return ((Long) finalPage);
+        return ((totalCount / (long) pageSize) + 1);
     }
 
     @SuppressWarnings("unchecked")
