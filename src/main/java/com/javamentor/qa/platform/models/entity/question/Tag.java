@@ -54,6 +54,9 @@ public class Tag {
         if (this.description.isEmpty()) {
             throw new RuntimeException("Поле description не должно быть пустым");
         }
+        if (this.name.isEmpty()) {
+            throw new RuntimeException("Поле name не должно быть пустым");
+        }
     }
 
     @Override
