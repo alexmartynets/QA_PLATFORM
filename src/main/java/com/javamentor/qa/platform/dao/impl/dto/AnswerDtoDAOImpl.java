@@ -26,7 +26,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.dateAcceptTime, " +
             "a.countValuable, " +
             "a.isHelpful, " +
-            "a.isDeleted, " +
+            "a.deleted, " +
             "a.user.id, " +
             "a.user.fullName, " +
             "a.user.imageUser, " +
@@ -43,22 +43,12 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionId(Long questionId) {
         return entityManager
-                .createQuery( HQL +
-                        "a.question.id = :questionId order by a.isHelpful desc, a.updateDateTime desc, a.persistDateTime desc " +
+                .createQuery(HQL +
+                        "a.question.id = :questionId order by a.updateDateTime desc, a.persistDateTime desc " +
                         "")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] tuple, String[] aliases) {
-                        return getObject(tuple);
-                    }
-
-                    @Override
-                    public List<AnswerDto> transformList(List list) {
-                        return list;
-                    }
-                })
+                .setResultTransformer(resultTransformer())
                 .getResultList();
     }
 
@@ -72,41 +62,36 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                         "")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] tuple, String[] aliases) {
-                        return getObject(tuple);
-                    }
-
-                    @Override
-                    public List<AnswerDto> transformList(List list) {
-                        return list;
-                    }
-                })
+                .setResultTransformer(resultTransformer())
                 .getResultList();
     }
+
     @Transactional
     @SuppressWarnings("unchecked")
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
         return entityManager
                 .createQuery(HQL +
-                        "a.question.id = :questionId order by a.isHelpful desc, a.persistDateTime asc" +
+                        "a.question.id = :questionId order by a.persistDateTime asc" +
                         "")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] tuple, String[] aliases) {
-                        return getObject(tuple);
-                    }
-
-                    @Override
-                    public List<AnswerDto> transformList(List list) {
-                        return list;
-                    }
-                })
+                .setResultTransformer(resultTransformer())
                 .getResultList();
+    }
+
+    private ResultTransformer resultTransformer() {
+        return new ResultTransformer() {
+            @Override
+            public Object transformTuple(Object[] tuple, String[] aliases) {
+                return getObject(tuple);
+            }
+
+            @Override
+            public List<AnswerDto> transformList(List list) {
+                return list;
+            }
+        };
     }
 
     private Object getObject(Object[] tuple) {

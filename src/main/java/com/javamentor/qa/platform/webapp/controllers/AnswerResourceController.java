@@ -128,20 +128,12 @@ public class AnswerResourceController {
     @ApiOperation(value = "Удаление ответа по ID вопроса и ID ответа")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Ответ удален"),
-            @ApiResponse(code = 404, message = "Ответ с указанным ID отсутствует в базе")
     })
     @DeleteMapping("/{answerId}")
     public ResponseEntity<String> deleteAnswer(@PathVariable @NotNull Long answerId) {
-        Answer answer = answerService.getByKey(answerId);
-        if (answer != null) {
-            answer.setIsDeleted(true);
-            answer.setUpdateDateTime(LocalDateTime.now());
-            answerService.update(answer);
+        answerService.deleteByKeyCascadeEnable(answerId);
             logger.info(String.format("Ответ с ID: %s удален", answerId));
             return ResponseEntity.ok().build();
-        } else {
-            logger.error(String.format("Ответ с ID: %s отсутствует в базе", answerId));
-            return ResponseEntity.status(404).body("Ответ с id: " + answerId + " отсутствует в базе");
-        }
+
     }
 }

@@ -4,10 +4,12 @@ import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -19,6 +21,18 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Table(name = "answer")
+@SQLDelete(sql =
+        "UPDATE Answer " +
+                "SET isDeleted = true " +
+                "WHERE id = ?", check = ResultCheckStyle.COUNT)
+@Loader(namedQuery = "findAnswerById")
+@NamedQuery(name = "findAnswerById", query =
+        "SELECT a " +
+                "FROM Answer a " +
+                "WHERE " +
+                "a.id = ?1 AND " +
+                "a.isDeleted = false")
+//@Where(clause = "deleted = false")
 public class Answer {
 
     @Id
@@ -49,11 +63,11 @@ public class Answer {
 
     @NotNull
     @Column(name = "is_helpful")
-    private Boolean isHelpful = false;
+    private Boolean isHelpful;
 
     @NotNull
     @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
+    private Boolean isDeleted;
 
     @Column(name = "date_accept_time")
     @Type(type = "org.hibernate.type.LocalDateTimeType")

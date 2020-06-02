@@ -423,10 +423,10 @@ public class TestDataEntityService {
                 .user(userService.getByKey(3L))
                 .countValuable(2)
                 .isHelpful(true)
+                .isDeleted(false)
                 .dateAcceptTime(LocalDateTime.now())
                 .question(questionService.getByKey(1L))
                 .htmlBody("Helpful answer for question 1")
-                .isDeleted(false)
                 .build();
         answerService.persist(answer1_1);
 
@@ -435,8 +435,8 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 1")
                 .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer1_2);
 
@@ -445,8 +445,8 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 1")
                 .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer1_3);
 
@@ -455,8 +455,8 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 1")
                 .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer1_4);
 
@@ -465,8 +465,8 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(2L))
                 .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 2")
                 .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 2")
                 .build();
         answerService.persist(answer2_1);
 
@@ -475,8 +475,8 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(2L))
                 .isHelpful(true)
-                .htmlBody("Helpful answer for question 2")
                 .isDeleted(false)
+                .htmlBody("Helpful answer for question 2")
                 .build();
         answerService.persist(answer2_2);
 
@@ -485,8 +485,8 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(2L))
                 .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 2")
                 .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 2")
                 .build();
         answerService.persist(answer2_3);
 
@@ -495,8 +495,8 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(3L))
                 .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 3")
                 .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer3_1);
 
@@ -505,8 +505,8 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(3L))
                 .isHelpful(true)
-                .htmlBody("Don't helpful answer for question 3")
                 .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer3_2);
 
@@ -515,8 +515,8 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(4L))
                 .isHelpful(true)
-                .htmlBody("Helpful answer for question 4")
                 .isDeleted(false)
+                .htmlBody("Helpful answer for question 4")
                 .build();
         answerService.persist(answer4_1);
 
