@@ -2,12 +2,11 @@ package com.javamentor.qa.platform.models.entity.question;
 
 import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -82,11 +81,8 @@ public class Question {
     private void checkConstraints() {
         if (this.tags == null || this.tags.isEmpty()) {
             throw new RuntimeException("Экземпляр Question должен иметь поле tags хотя бы один элемент");
-            //todo написать своё исключение, и на isEmpty
         }
     }
-
-    //todo подумать над временем helpful
 
     @Override
     public boolean equals(Object o) {
@@ -101,11 +97,12 @@ public class Question {
                 Objects.equals(countValuable, question.countValuable) &&
                 Objects.equals(user, question.user) &&
                 Objects.equals(tags, question.tags) &&
+                Objects.equals(lastUpdateDateTime, question.lastUpdateDateTime) &&
                 Objects.equals(isDeleted, question.isDeleted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, viewCount, description, persistDateTime, countValuable, user, tags, isDeleted);
+        return Objects.hash(id, title, viewCount, description, persistDateTime, countValuable, user, tags, lastUpdateDateTime, isDeleted);
     }
 }

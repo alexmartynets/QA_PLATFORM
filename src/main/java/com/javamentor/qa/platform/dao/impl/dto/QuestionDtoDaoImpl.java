@@ -96,17 +96,8 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.title, " +
                 "q.user.id, " +
                 "q.user.fullName, " +
-                "q.user.email, " +
-                "q.user.role.name, " +
-                "q.user.persistDateTime, " +
                 "q.user.reputationCount, " +
-                "q.user.about, " +
-                "q.user.city, " +
                 "q.user.imageUser, " +
-                "q.user.lastUpdateDateTime, " +
-                "q.user.linkGitHub, " +
-                "q.user.linkSite, " +
-                "q.user.linkVk, " +
                 "q.viewCount, " +
                 "q.countValuable, " +
                 "q.persistDateTime, " +
@@ -125,22 +116,13 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                         UserDto userDto = UserDto.builder()
                                 .id(((Number) objects[2]).longValue())
                                 .fullName((String) objects[3])
-                                .email((String) objects[4])
-                                .role((String) objects[5])
-                                .persistDateTime((LocalDateTime) objects[6])
-                                .reputationCount((Integer) objects[7])
-                                .about((String) objects[8])
-                                .city((String) objects[9])
-                                .imageUser((byte[]) objects[10])
-                                .lastUpdateDateTime((LocalDateTime) objects[11])
-                                .linkGitHub((String) objects[12])
-                                .linkSite((String) objects[13])
-                                .linkVk((String) objects[14])
+                                .reputationCount((Integer) objects[4])
+                                .imageUser((byte[]) objects[5])
                                 .build();
                         TagDto tagDto = TagDto.builder()
-                                .id((Long) objects[20])
-                                .name((String) objects[21])
-                                .description((String) objects[22])
+                                .id((Long) objects[11])
+                                .name((String) objects[12])
+                                .description((String) objects[13])
                                 .build();
                         List<TagDto> tagDtoList = new ArrayList<>();
                         tagDtoList.add(tagDto);
@@ -148,13 +130,13 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .id((Long) objects[0])
                                 .title((String) objects[1])
                                 .userDto(userDto)
-                                .viewCount((Integer) objects[15])
-                                .countValuable((Integer) objects[16])
-                                .persistDateTime((LocalDateTime) objects[17])
-                                .description((String) objects[18])
+                                .viewCount((Integer) objects[6])
+                                .countValuable((Integer) objects[7])
+                                .persistDateTime((LocalDateTime) objects[8])
+                                .description((String) objects[9])
                                 .tags(tagDtoList)
-                                .isDeleted((Boolean) objects[19])
-                                .countAnswer(((Number) objects[23]).intValue())
+                                .isDeleted((Boolean) objects[10])
+                                .countAnswer(((Number) objects[14]).intValue())
                                 .build();
                     }
 
