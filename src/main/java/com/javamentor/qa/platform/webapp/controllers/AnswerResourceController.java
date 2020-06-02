@@ -130,10 +130,10 @@ public class AnswerResourceController {
             @ApiResponse(code = 200, message = "Ответ удален"),
     })
     @DeleteMapping("/{answerId}")
-    public ResponseEntity<String> deleteAnswer(@PathVariable @NotNull Long answerId) {
+    public ResponseEntity<String> deleteAnswer(@PathVariable @NotNull Long answerId, @PathVariable @NotNull Long questionId) {
         answerService.deleteByKeyCascadeEnable(answerId);
-            logger.info(String.format("Ответ с ID: %s удален", answerId));
-            return ResponseEntity.ok().build();
+        logger.info(String.format("Ответ с ID: %s удален", answerId));
+        return ResponseEntity.ok().build();
 
     }
 }

@@ -26,7 +26,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.dateAcceptTime, " +
             "a.countValuable, " +
             "a.isHelpful, " +
-            "a.deleted, " +
+            "a.isDeleted, " +
             "a.user.id, " +
             "a.user.fullName, " +
             "a.user.imageUser, " +

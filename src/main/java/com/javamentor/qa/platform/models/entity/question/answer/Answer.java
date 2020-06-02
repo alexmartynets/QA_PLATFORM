@@ -21,18 +21,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Table(name = "answer")
-@SQLDelete(sql =
-        "UPDATE Answer " +
-                "SET isDeleted = true " +
-                "WHERE id = ?", check = ResultCheckStyle.COUNT)
-@Loader(namedQuery = "findAnswerById")
-@NamedQuery(name = "findAnswerById", query =
-        "SELECT a " +
-                "FROM Answer a " +
-                "WHERE " +
-                "a.id = ?1 AND " +
-                "a.isDeleted = false")
-//@Where(clause = "deleted = false")
+@SQLDelete(sql ="UPDATE answer SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class Answer {
 
     @Id
