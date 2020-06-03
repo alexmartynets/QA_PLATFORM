@@ -18,15 +18,23 @@ body {
     opacity: 0.8;
 }
 
+.section-center{
+    top: 30px;
+}
+
 .search-users {
     width: 500px; /* ширина блока */
 }
 
-.left-panel-blok a {
+.left-panel-blok .btn{
     text-align: left;
-    font-size: 14px;
+    font-size: 16px;
 }
 
+.left-panel-blok{
+    opacity: 0.9;
+    top: 110px;
+}
 .left-panel {
     border-right-width: 1px;
     border-right-color: rgba(190, 178, 178, 0.801);
@@ -36,18 +44,14 @@ body {
     font-size: 28px;
 }
 
-.btn-toolbar {
-    font-size: 10px;
+.btn-toolbar .btn{
+    font-size: 14px;
 }
 
 .panel-button-small a {
     font-size: 12px;
     padding-bottom: 8px;
     margin-top: -20px;
-}
-
-.text-dark {
-    font-size: 16px;
 }
 
 .contents {

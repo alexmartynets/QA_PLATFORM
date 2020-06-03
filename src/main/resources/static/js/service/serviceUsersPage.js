@@ -3,20 +3,6 @@ class DataUsersPage {
     constructor() {
     }
 
-    /*    "key": [
-        {
-            "id": 8,
-            "reputationCount": 35,
-            "voiceCount": 14,
-            "userId": 8,
-            "fullName": "Роман Игоривич Смышляев",
-            "aboutUser": "about user7",
-            "cityUser": "SPB",
-            "imageUser": null
-        }
-    ],
-    "value": 1*/
-
     mapperMediaUsers(listUsers) {
         let listMedia = [];
 
@@ -24,7 +10,7 @@ class DataUsersPage {
             let user = listUsers[i];
 
             const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.id;
+            img.src = "//placehold.it/48x48?text=" + user.userId;
             img.className = "align-self-start mr-3";
             img.alt = "...";
 
@@ -38,16 +24,16 @@ class DataUsersPage {
 
             const city = document.createElement("div");
             city.className = "user-location";
-            city.innerText = user.city;
+            city.innerText = user.cityUser;
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = user.reputationCount;
 
             const tags = document.createElement("a");
-            tags.href = "/tags/" + user.about;
+            tags.href = "/tags/" + user.aboutUser;
             tags.className = "user-tags";
-            tags.innerText = user.about;
+            tags.innerText = user.aboutUser;
 
             divs.appendChild(name);
             divs.appendChild(city);
