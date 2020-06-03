@@ -53,19 +53,18 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TagDto> findAllTagsSearch(String word) {
+    public List<TagDto> findAllTagsSearch(String word, int pageSize, int pageNumber) {
         Query<TagDto> query = (Query<TagDto>) entityManager.createQuery(HQL +
                 "from Tag t where t.name like :search order by t.questions.size desc")
                 .setParameter("search", "%" + word + "%");
 
-        return getTags(query, 36, 1);
+        return getTags(query, pageSize, pageNumber);
     }
 
     @Override
-    public Long getFinalPage(int pageSize) {
-        long totalCount = ((Number) entityManager.createQuery
+    public Long getTotalEntitiesCount() {
+        return ((Number) entityManager.createQuery
                 ("select count(t.id) from Tag t").getSingleResult()).longValue();
-        return ((totalCount / (long) pageSize) + 1);
     }
 
     @SuppressWarnings("unchecked")

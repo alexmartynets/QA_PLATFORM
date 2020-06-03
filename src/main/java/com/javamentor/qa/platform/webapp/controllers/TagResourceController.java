@@ -68,7 +68,7 @@ public class TagResourceController {
     }
 
     @GetMapping("/new")
-    @ApiOperation(value = "Получение количества страниц и списка тэгов на странице отсортированных по дате добавления. " +
+    @ApiOperation(value = "Получение количества всех тэгов в БД и списка тэгов на странице отсортированных по дате добавления. " +
             "Параметры запроса: " +
             "'pageSize'- количество элементов на странице и " +
             "'pageNumber' номер страницы")
@@ -81,14 +81,18 @@ public class TagResourceController {
     }
 
     @GetMapping("/search")
-    @ApiOperation(value = "Получение тэгов по заданномму в параметре имени, отсортированных по популярности. " +
+    @ApiOperation(value = "Получение количества всех тэгов в БД и списка тэгов на странице по заданномму в параметре имени, отсортированных по популярности. " +
             "Параметры запроса: " +
-            "'tagName'- имя искомого тэга")
+            "'tagName'- имя или часть имени искомого тэга" +
+            "'pageSize'- количество элементов на странице и " +
+            "'pageNumber' номер страницы")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список тэгов получен")
     })
-    public ResponseEntity<List<TagDto>> getAllTagsSearch(@RequestParam("tagName") String word) {
-        return ResponseEntity.ok(tagDtoService.findAllTagsSearch(word));
+    public ResponseEntity<Pair<Long, List<TagDto>>> getAllTagsSearch(@RequestParam("tagName") String word,
+                                                         @RequestParam("pageSize") int pageSize,
+                                                         @RequestParam("pageNumber") int pageNumber) {
+        return ResponseEntity.ok(tagDtoService.findAllTagsSearch(word, pageSize, pageNumber));
     }
 
     @Validated(OnCreate.class)
