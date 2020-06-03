@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -119,121 +118,5 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                         return list;
                     }
                 }));
-    }
-
-    @Override
-    public Long getCountUsers() {
-        return entityManager.createQuery("SELECT COUNT(u.id) FROM User as u", Long.class)
-                .getSingleResult();
-    }
-
-    @Override
-    public Long getCountUsersByName(String name) {
-        return entityManager.createQuery("SELECT COUNT(u.id) FROM User as u WHERE u.fullName LIKE CONCAT(:searchKeyword, '%')", Long.class)
-                .setParameter("searchKeyword", name.toLowerCase())
-                .getSingleResult();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<UserDto> getListUsersToPagination(int page, int count) {
-        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "u.id, " +
-                "u.fullName, " +
-                "u.email, " +
-                "u.role.name, " +
-                "u.persistDateTime, " +
-                "u.reputationCount, " +
-                "u.about, " +
-                "u.city, " +
-                "u.imageUser, " +
-                "u.lastUpdateDateTime, " +
-                "u.linkGitHub, " +
-                "u.linkSite, " +
-                "u.linkVk " +
-                "FROM User u ORDER BY u.reputationCount DESC")
-                .setFirstResult(count * (page - 1))
-                .setMaxResults(count)
-                .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] objects, String[] strings) {
-                        return UserDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .fullName((String) objects[1])
-                                .email((String) objects[2])
-                                .role((String) objects[3])
-                                .persistDateTime((LocalDateTime) objects[4])
-                                .reputationCount((Integer) objects[5])
-                                .about((String) objects[6])
-                                .city((String) objects[7])
-                                .imageUser((byte[]) objects[8])
-                                .lastUpdateDateTime((LocalDateTime) objects[9])
-                                .linkGitHub((String) objects[10])
-                                .linkSite((String) objects[11])
-                                .linkVk((String) objects[12])
-                                .build();
-                    }
-
-                    @Override
-                    public List transformList(List list) {
-                        return list;
-                    }
-                })
-                .getResultList();
-
-        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<UserDto> getListUsersByNameToSearch(String name, int page, int count) {
-        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "u.id, " +
-                "u.fullName, " +
-                "u.email, " +
-                "u.role.name, " +
-                "u.persistDateTime, " +
-                "u.reputationCount, " +
-                "u.about, " +
-                "u.city, " +
-                "u.imageUser, " +
-                "u.lastUpdateDateTime, " +
-                "u.linkGitHub, " +
-                "u.linkSite, " +
-                "u.linkVk " +
-                "FROM User u WHERE u.fullName LIKE CONCAT(:searchKeyword, '%') ORDER BY u.reputationCount DESC")
-                .setParameter("searchKeyword", name.toLowerCase())
-                .setFirstResult(count * (page - 1))
-                .setMaxResults(count)
-                .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] objects, String[] strings) {
-                        return UserDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .fullName((String) objects[1])
-                                .email((String) objects[2])
-                                .role((String) objects[3])
-                                .persistDateTime((LocalDateTime) objects[4])
-                                .reputationCount((Integer) objects[5])
-                                .about((String) objects[6])
-                                .city((String) objects[7])
-                                .imageUser((byte[]) objects[8])
-                                .lastUpdateDateTime((LocalDateTime) objects[9])
-                                .linkGitHub((String) objects[10])
-                                .linkSite((String) objects[11])
-                                .linkVk((String) objects[12])
-                                .build();
-                    }
-
-                    @Override
-                    public List transformList(List list) {
-                        return list;
-                    }
-                })
-                .getResultList();
-
-        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 }

@@ -90,28 +90,6 @@ public class UserResourceController {
         }
     }
 
-
-//    @ApiOperation(value = "получение списка пользователей для пагинации")
-//    @GetMapping(path = "/{count}/page/{page}")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Список пользователей получен")
-//    })
-//    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersToPagination(@PathVariable @NonNull Long page,
-//                                                                              @PathVariable @NonNull Long count) {
-//        return ResponseEntity.ok().body(userDtoService.getListUsersToPagination(page.intValue(), count.intValue()));
-//    }
-//
-//    @ApiOperation(value = "получение списка доступных пользователей для поиска по имяни")
-//    @GetMapping(path = "/{count}/page/{page}/name") // ?name=Андрей
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Список пользователей получен")
-//    })
-//    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull String name,
-//                                                                                @PathVariable @NonNull Long count,
-//                                                                                @PathVariable @NonNull Long page) {
-//        return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue()));
-//    }
-
     @ApiOperation(value = "получение списка пользователей для пагинации")
     @GetMapping(path = "/{count}/page/{page}")
     @ApiResponses(value = {
