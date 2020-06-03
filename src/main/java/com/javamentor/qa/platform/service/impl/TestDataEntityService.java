@@ -2,6 +2,7 @@ package com.javamentor.qa.platform.service.impl;
 
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
+import com.javamentor.qa.platform.models.entity.Reputation;
 import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.RelatedTag;
@@ -50,6 +51,9 @@ public class TestDataEntityService {
     @Autowired
     private RelatedTagService relatedTagService;
 
+    @Autowired
+    private ReputationService reputationService;
+
     public void createEntity() {
         creatUserEntity();
         creatTagEntity();
@@ -84,6 +88,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(admin);
 
+        Reputation reputation = Reputation.builder()
+                .reputationCount(5)
+                .voiceCount(2)
+                .user(admin)
+                .build();
+        reputationService.persist(reputation);
+
         User user1 = User.builder()
                 .email("user1@user.ru")
                 .password("user1")
@@ -98,6 +109,13 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .build();
         userService.persist(user1);
+
+        Reputation reputation1 = Reputation.builder()
+                .reputationCount(4)
+                .voiceCount(1)
+                .user(user1)
+                .build();
+        reputationService.persist(reputation1);
 
         User user2 = User.builder()
                 .email("user2@user.ru")
@@ -114,6 +132,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user2);
 
+        Reputation reputation2 = Reputation.builder()
+                .reputationCount(1)
+                .voiceCount(0)
+                .user(user2)
+                .build();
+        reputationService.persist(reputation2);
+
         User user3 = User.builder()
                 .email("user3@user.ru")
                 .isEnabled(true)
@@ -128,6 +153,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user3);
+
+        Reputation reputation3 = Reputation.builder()
+                .reputationCount(19)
+                .voiceCount(6)
+                .user(user3)
+                .build();
+        reputationService.persist(reputation3);
 
         User user4 = User.builder()
                 .email("user4@user.ru")
@@ -144,6 +176,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user4);
 
+        Reputation reputation4 = Reputation.builder()
+                .reputationCount(6)
+                .voiceCount(2)
+                .user(user4)
+                .build();
+        reputationService.persist(reputation4);
+
         User user5 = User.builder()
                 .email("user5@user.ru")
                 .isEnabled(true)
@@ -158,6 +197,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user5);
+
+        Reputation reputation5 = Reputation.builder()
+                .reputationCount(21)
+                .voiceCount(8)
+                .user(user5)
+                .build();
+        reputationService.persist(reputation5);
 
         User user6 = User.builder()
                 .email("user6@user.ru")
@@ -174,6 +220,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user6);
 
+        Reputation reputation6 = Reputation.builder()
+                .reputationCount(13)
+                .voiceCount(3)
+                .user(user6)
+                .build();
+        reputationService.persist(reputation6);
+
         User user7 = User.builder()
                 .email("user7@user.ru")
                 .isEnabled(true)
@@ -188,6 +241,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user7);
+
+        Reputation reputation7 = Reputation.builder()
+                .reputationCount(35)
+                .voiceCount(14)
+                .user(user7)
+                .build();
+        reputationService.persist(reputation7);
 
         User user8 = User.builder()
                 .email("user8@user.ru")
@@ -204,6 +264,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user8);
 
+        Reputation reputation8 = Reputation.builder()
+                .reputationCount(2)
+                .voiceCount(0)
+                .user(user8)
+                .build();
+        reputationService.persist(reputation8);
+
         User user9 = User.builder()
                 .email("user9@user.ru")
                 .isEnabled(true)
@@ -218,6 +285,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user9);
+
+        Reputation reputation9 = Reputation.builder()
+                .reputationCount(33)
+                .voiceCount(10)
+                .user(user9)
+                .build();
+        reputationService.persist(reputation9);
 
         User user10 = User.builder()
                 .email("user10@user.ru")
@@ -234,6 +308,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user10);
 
+        Reputation reputation10 = Reputation.builder()
+                .reputationCount(43)
+                .voiceCount(15)
+                .user(user10)
+                .build();
+        reputationService.persist(reputation10);
+
         User user11 = User.builder()
                 .email("user11@user.ru")
                 .isEnabled(true)
@@ -248,6 +329,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user11);
+
+        Reputation reputation11 = Reputation.builder()
+                .reputationCount(23)
+                .voiceCount(7)
+                .user(user11)
+                .build();
+        reputationService.persist(reputation11);
 
         User user12 = User.builder()
                 .email("user12@user.ru")
@@ -264,6 +352,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user12);
 
+        Reputation reputation12 = Reputation.builder()
+                .reputationCount(14)
+                .voiceCount(5)
+                .user(user12)
+                .build();
+        reputationService.persist(reputation12);
+
         User user13 = User.builder()
                 .email("user13@user.ru")
                 .isEnabled(true)
@@ -278,6 +373,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user13);
+
+        Reputation reputation13 = Reputation.builder()
+                .reputationCount(9)
+                .voiceCount(3)
+                .user(user13)
+                .build();
+        reputationService.persist(reputation13);
 
         User user14 = User.builder()
                 .email("user14@user.ru")
@@ -294,6 +396,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user14);
 
+        Reputation reputation14 = Reputation.builder()
+                .reputationCount(11)
+                .voiceCount(4)
+                .user(user14)
+                .build();
+        reputationService.persist(reputation14);
+
         User user15 = User.builder()
                 .email("user15@user.ru")
                 .isEnabled(true)
@@ -308,6 +417,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user15);
+
+        Reputation reputation15 = Reputation.builder()
+                .reputationCount(17)
+                .voiceCount(9)
+                .user(user15)
+                .build();
+        reputationService.persist(reputation15);
 
         User user16 = User.builder()
                 .email("user16@user.ru")
@@ -324,6 +440,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user16);
 
+        Reputation reputation16 = Reputation.builder()
+                .reputationCount(18)
+                .voiceCount(8)
+                .user(user16)
+                .build();
+        reputationService.persist(reputation16);
+
         User user17 = User.builder()
                 .email("user17@user.ru")
                 .isEnabled(true)
@@ -338,6 +461,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user17);
+
+        Reputation reputation17 = Reputation.builder()
+                .reputationCount(36)
+                .voiceCount(13)
+                .user(user17)
+                .build();
+        reputationService.persist(reputation17);
 
         User user18 = User.builder()
                 .email("user18@user.ru")
@@ -354,6 +484,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user18);
 
+        Reputation reputation18 = Reputation.builder()
+                .reputationCount(39)
+                .voiceCount(15)
+                .user(user18)
+                .build();
+        reputationService.persist(reputation18);
+
         User user19 = User.builder()
                 .email("user19@user.ru")
                 .isEnabled(true)
@@ -368,6 +505,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user19);
+
+        Reputation reputation19 = Reputation.builder()
+                .reputationCount(53)
+                .voiceCount(22)
+                .user(user19)
+                .build();
+        reputationService.persist(reputation19);
 
         User user20 = User.builder()
                 .email("user20@user.ru")
@@ -384,6 +528,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user20);
 
+        Reputation reputation20 = Reputation.builder()
+                .reputationCount(63)
+                .voiceCount(13)
+                .user(user20)
+                .build();
+        reputationService.persist(reputation20);
+
         User user21 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -398,6 +549,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user21);
+
+        Reputation reputation21 = Reputation.builder()
+                .reputationCount(73)
+                .voiceCount(17)
+                .user(user21)
+                .build();
+        reputationService.persist(reputation21);
 
         User user22 = User.builder()
                 .email("user20@user.ru")
@@ -414,6 +572,27 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user22);
 
+        Reputation reputation51 = Reputation.builder()
+                .reputationCount(76)
+                .voiceCount(30)
+                .user(user22)
+                .build();
+        reputationService.persist(reputation51);
+
+        Reputation reputation52 = Reputation.builder()
+                .reputationCount(76)
+                .voiceCount(30)
+                .user(user22)
+                .build();
+        reputationService.persist(reputation52);
+
+        Reputation reputation53 = Reputation.builder()
+                .reputationCount(76)
+                .voiceCount(30)
+                .user(user22)
+                .build();
+        reputationService.persist(reputation53);
+
         User user23 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -428,6 +607,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user23);
+
+        Reputation reputation23 = Reputation.builder()
+                .reputationCount(71)
+                .voiceCount(24)
+                .user(user23)
+                .build();
+        reputationService.persist(reputation23);
 
         User user24 = User.builder()
                 .email("user20@user.ru")
@@ -444,6 +630,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user24);
 
+        Reputation reputation24 = Reputation.builder()
+                .reputationCount(76)
+                .voiceCount(31)
+                .user(user24)
+                .build();
+        reputationService.persist(reputation24);
+
         User user25 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -458,6 +651,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user25);
+
+        Reputation reputation25 = Reputation.builder()
+                .reputationCount(78)
+                .voiceCount(35)
+                .user(user25)
+                .build();
+        reputationService.persist(reputation25);
 
         User user26 = User.builder()
                 .email("user20@user.ru")
@@ -474,6 +674,34 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user26);
 
+        Reputation reputation26 = Reputation.builder()
+                .reputationCount(79)
+                .voiceCount(38)
+                .user(user26)
+                .build();
+        reputationService.persist(reputation26);
+
+        Reputation reputation48 = Reputation.builder()
+                .reputationCount(79)
+                .voiceCount(38)
+                .user(user26)
+                .build();
+        reputationService.persist(reputation48);
+
+        Reputation reputation49 = Reputation.builder()
+                .reputationCount(79)
+                .voiceCount(38)
+                .user(user26)
+                .build();
+        reputationService.persist(reputation49);
+
+        Reputation reputation50 = Reputation.builder()
+                .reputationCount(79)
+                .voiceCount(38)
+                .user(user26)
+                .build();
+        reputationService.persist(reputation50);
+
         User user27 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -488,6 +716,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user27);
+
+        Reputation reputation27 = Reputation.builder()
+                .reputationCount(81)
+                .voiceCount(42)
+                .user(user27)
+                .build();
+        reputationService.persist(reputation27);
 
         User user28 = User.builder()
                 .email("user20@user.ru")
@@ -504,6 +739,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user28);
 
+        Reputation reputation28 = Reputation.builder()
+                .reputationCount(83)
+                .voiceCount(45)
+                .user(user28)
+                .build();
+        reputationService.persist(reputation28);
+
         User user41 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -518,6 +760,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user41);
+
+        Reputation reputation41 = Reputation.builder()
+                .reputationCount(85)
+                .voiceCount(43)
+                .user(user41)
+                .build();
+        reputationService.persist(reputation41);
 
         User user29 = User.builder()
                 .email("user20@user.ru")
@@ -534,6 +783,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user29);
 
+        Reputation reputation29 = Reputation.builder()
+                .reputationCount(88)
+                .voiceCount(49)
+                .user(user29)
+                .build();
+        reputationService.persist(reputation29);
+
         User user30 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -548,6 +804,20 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user30);
+
+        Reputation reputation30 = Reputation.builder()
+                .reputationCount(90)
+                .voiceCount(50)
+                .user(user30)
+                .build();
+        reputationService.persist(reputation30);
+
+        Reputation reputation47 = Reputation.builder()
+                .reputationCount(90)
+                .voiceCount(50)
+                .user(user30)
+                .build();
+        reputationService.persist(reputation47);
 
         User user31 = User.builder()
                 .email("user20@user.ru")
@@ -564,6 +834,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user31);
 
+        Reputation reputation31 = Reputation.builder()
+                .reputationCount(103)
+                .voiceCount(60)
+                .user(user31)
+                .build();
+        reputationService.persist(reputation31);
+
         User user32 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -578,6 +855,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user32);
+
+        Reputation reputation32 = Reputation.builder()
+                .reputationCount(113)
+                .voiceCount(63)
+                .user(user32)
+                .build();
+        reputationService.persist(reputation32);
 
         User user33 = User.builder()
                 .email("user20@user.ru")
@@ -594,6 +878,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user33);
 
+        Reputation reputation33 = Reputation.builder()
+                .reputationCount(133)
+                .voiceCount(71)
+                .user(user33)
+                .build();
+        reputationService.persist(reputation33);
+
         User user34 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -608,6 +899,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user34);
+
+        Reputation reputation34 = Reputation.builder()
+                .reputationCount(47)
+                .voiceCount(12)
+                .user(user34)
+                .build();
+        reputationService.persist(reputation34);
 
         User user35 = User.builder()
                 .email("user20@user.ru")
@@ -624,6 +922,28 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user35);
 
+        Reputation reputation35 = Reputation.builder()
+                .reputationCount(333)
+                .voiceCount(154)
+                .user(user35)
+                .build();
+        reputationService.persist(reputation35);
+
+        Reputation reputation45 = Reputation.builder()
+                .reputationCount(333)
+                .voiceCount(154)
+                .user(user35)
+                .build();
+        reputationService.persist(reputation45);
+
+        Reputation reputation46 = Reputation.builder()
+                .reputationCount(333)
+                .voiceCount(154)
+                .user(user35)
+                .build();
+        reputationService.persist(reputation46);
+
+
         User user36 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -638,6 +958,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user36);
+
+        Reputation reputation36 = Reputation.builder()
+                .reputationCount(163)
+                .voiceCount(86)
+                .user(user36)
+                .build();
+        reputationService.persist(reputation36);
 
         User user37 = User.builder()
                 .email("user20@user.ru")
@@ -654,6 +981,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user37);
 
+        Reputation reputation37 = Reputation.builder()
+                .reputationCount(603)
+                .voiceCount(345)
+                .user(user37)
+                .build();
+        reputationService.persist(reputation37);
+
         User user38 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -668,6 +1002,13 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user38);
+
+        Reputation reputation38 = Reputation.builder()
+                .reputationCount(11)
+                .voiceCount(3)
+                .user(user38)
+                .build();
+        reputationService.persist(reputation38);
 
         User user39 = User.builder()
                 .email("user20@user.ru")
@@ -684,6 +1025,13 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user39);
 
+        Reputation reputation39 = Reputation.builder()
+                .reputationCount(121)
+                .voiceCount(77)
+                .user(user39)
+                .build();
+        reputationService.persist(reputation39);
+
         User user40 = User.builder()
                 .email("user20@user.ru")
                 .isEnabled(true)
@@ -698,6 +1046,34 @@ public class TestDataEntityService {
                 .role(userRole)
                 .build();
         userService.persist(user40);
+
+        Reputation reputation40 = Reputation.builder()
+                .reputationCount(101)
+                .voiceCount(54)
+                .user(user40)
+                .build();
+        reputationService.persist(reputation40);
+
+        Reputation reputation44 = Reputation.builder()
+                .reputationCount(12)
+                .voiceCount(4)
+                .user(user40)
+                .build();
+        reputationService.persist(reputation44);
+
+        Reputation reputation42 = Reputation.builder()
+                .reputationCount(21)
+                .voiceCount(8)
+                .user(user40)
+                .build();
+        reputationService.persist(reputation42);
+
+        Reputation reputation43 = Reputation.builder()
+                .reputationCount(10)
+                .voiceCount(4)
+                .user(user40)
+                .build();
+        reputationService.persist(reputation43);
 
     }
 
