@@ -32,7 +32,7 @@ public class QuestionResourceController {
     })
     public ResponseEntity<Pair<Long, List<QuestionDto>>> getPaginationQuestion(@RequestParam(defaultValue = "1") int page,
                                                                                @RequestParam(defaultValue = "5") int size) {
-        if(page < 1 || size < 0 ){
+        if(page < 1 || size < 1 ){
             throw new ApiRequestException("Значения не должны быть отрицательными");
         } else {
             return ResponseEntity.ok(questionDtoService.getPaginationQuestion(page, size));
