@@ -10,9 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EntityScan("com.javamentor.qa.platform.models.entity")
 public class Application {
 
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
 }

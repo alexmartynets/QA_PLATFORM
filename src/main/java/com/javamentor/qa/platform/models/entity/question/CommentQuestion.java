@@ -3,10 +3,7 @@ package com.javamentor.qa.platform.models.entity.question;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -14,6 +11,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "comment_question")
@@ -22,7 +20,7 @@ public class CommentQuestion {
     @Id
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional=false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @MapsId
     private Comment comment = new Comment(CommentType.QUESTION);
 
@@ -36,12 +34,12 @@ public class CommentQuestion {
     }
 
     @PrePersist
-    private void prePersistFunction(){
+    private void prePersistFunction() {
         checkConstraints();
     }
 
     @PreUpdate
-    private void preUpdateFunction(){
+    private void preUpdateFunction() {
         checkConstraints();
     }
 
