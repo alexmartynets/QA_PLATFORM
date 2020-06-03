@@ -21,9 +21,9 @@ public class ReputationDto {
     @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значние при обновлении")
     private Long id;
 
-    private Integer reputationCount;
+    private Long reputationCount;
 
-    private Integer voiceCount;
+    private Long voiceCount;
 
     private Long userId;
 
