@@ -105,9 +105,9 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull String name,
+    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull String name,
                                                                                 @PathVariable @NonNull Long count,
                                                                                 @PathVariable @NonNull Long page) {
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue()));
     }
 }

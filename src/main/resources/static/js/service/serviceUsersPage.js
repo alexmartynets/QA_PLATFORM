@@ -3,6 +3,20 @@ class DataUsersPage {
     constructor() {
     }
 
+    /*    "key": [
+        {
+            "id": 8,
+            "reputationCount": 35,
+            "voiceCount": 14,
+            "userId": 8,
+            "fullName": "Роман Игоривич Смышляев",
+            "aboutUser": "about user7",
+            "cityUser": "SPB",
+            "imageUser": null
+        }
+    ],
+    "value": 1*/
+
     mapperMediaUsers(listUsers) {
         let listMedia = [];
 

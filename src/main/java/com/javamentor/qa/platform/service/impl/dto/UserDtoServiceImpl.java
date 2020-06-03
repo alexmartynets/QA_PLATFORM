@@ -42,6 +42,8 @@ public class UserDtoServiceImpl implements UserDtoService {
 
     @Override
     public Pair<List<ReputationDto>, Long> getListUsersByNameToSearch(String name, int page, int count) {
-        return new Pair<>(null, null);
+        List<ReputationDto> reputationDtoList = reputationDtoDAO.getListUsersByNameToSearch(name, page, count);
+        Long counts = reputationDtoDAO.getCountUsersByName(name);
+        return new Pair<>(reputationDtoList, counts);
     }
 }
