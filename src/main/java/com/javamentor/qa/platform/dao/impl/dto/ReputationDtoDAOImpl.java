@@ -23,10 +23,10 @@ public class ReputationDtoDAOImpl extends ReadWriteDAOImpl<ReputationDto, Long> 
 
     @Override
     public Long getCountUsersByName(String name) {
-//        return entityManager.createQuery("SELECT COUNT(u.id) FROM User as u WHERE u.fullName LIKE CONCAT(:searchKeyword, '%')", Long.class)
-//                .setParameter("searchKeyword", name.toLowerCase())
-//                .getSingleResult();
-        return null;
+        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r WHERE r.user.fullName LIKE CONCAT(:searchKeyword, '%')", Long.class)
+                .setParameter("searchKeyword", name.toLowerCase())
+                .getSingleResult();
+//        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -73,9 +73,45 @@ public class ReputationDtoDAOImpl extends ReadWriteDAOImpl<ReputationDto, Long> 
     @SuppressWarnings("unchecked")
     @Override
     public List<ReputationDto> getListUsersByNameToSearch(String name, int page, int count) {
+//        WHERE u.fullName LIKE CONCAT(:searchKeyword, '%')
 
+        List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
+                "r.id, " +
+                "r.user.id, " +
+                "r.user.fullName, " +
+                "r.user.about, " +
+                "r.user.city, " +
+                "r.user.imageUser, " +
+                "SUM(r.reputationCount)," +
+                "SUM(r.voiceCount) " +
+                "FROM Reputation r WHERE r.user.fullName LIKE CONCAT(:searchKeyword, '%') GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                .setParameter("searchKeyword", name.toLowerCase())
+                .setFirstResult(count * (page - 1))
+                .setMaxResults(count)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return ReputationDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .userId(((Number) objects[1]).longValue())
+                                .fullName((String) objects[2])
+                                .aboutUser((String) objects[3])
+                                .cityUser((String) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .reputationCount(((Number) objects[6]).longValue())
+                                .voiceCount(((Number) objects[7]).longValue())
+                                .build();
+                    }
 
-        return null;
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+
+        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 }
 
