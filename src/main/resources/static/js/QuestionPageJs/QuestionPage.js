@@ -1,5 +1,4 @@
 $(document).ready(function (id) {
-    let answerDTO = {};
     id = 1;
 
     $('[data-toggle="popover"]').popover({});
@@ -13,8 +12,15 @@ $(document).ready(function (id) {
 
     $('#btnSendAnswer').click(function (id) {
         id = 1;
+        let answerDTO = {};
         answerDTO.text = $('#summernote').val();
-        putNewAnswer(answerDTO, id);
+        putNewAnswer(id,answerDTO);
+    });
+    $('#addComment').click(function (id) {
+        id = 1;
+        let commentDto = {};
+        commentDto.text = $('#textarea2').val();
+        addComment(id,commentDto);
     });
     $('#btnUpCountPlus').click(function (id) {
         id = 1;

@@ -196,11 +196,12 @@ function putCountValuablePlus(id) {
     })
 }
 
-function putNewAnswer(answerDTO, id) {
+function putNewAnswer(id,answerDTO) {
+    let questionId = id;
     $.ajax({
-        url: '/api/user/question/' + id + '/answer',
+        url: '/api/user/question/' + questionId + '/answer/',
         method: 'POST',
-        data: JSON.stringify({"text":answerDTO}),id,
+        data: JSON.stringify(answerDTO),questionId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
         },
@@ -541,6 +542,21 @@ function putComment(id) {
         url: '/api/user/answer/' + id + '/comment',
         method: 'POST',
         data: JSON.stringify({"text":commentDto}),answerId,
+        contentType: 'application/json; charset=utf-8',
+        success: function () {
+        },
+        error: function () {
+            alert("Не корректно отправлен комментарий");
+        }
+    })
+}
+
+function addComment(id,commentDto) {
+    let questionId = id;
+    $.ajax({
+        url: '/api/user/question/' + id + '/comment',
+        method: 'POST',
+        data: JSON.stringify(commentDto),questionId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
         },
