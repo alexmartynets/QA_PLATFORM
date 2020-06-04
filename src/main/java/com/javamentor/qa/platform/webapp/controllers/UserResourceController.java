@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,23 +92,25 @@ public class UserResourceController {
     }
 
     @ApiOperation(value = "получение списка пользователей для пагинации")
-    @GetMapping(path = "/{count}/page/{page}")
+    @GetMapping(path = "/{count}/page/{page}/{weeks}")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
     public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersToPagination(@PathVariable @NonNull Long page,
-                                                                                    @PathVariable @NonNull Long count) {
-        return ResponseEntity.ok().body(userDtoService.getListUsersToPagination(page.intValue(), count.intValue()));
+                                                                                    @PathVariable @NonNull Long count,
+                                                                                    @PathVariable @NonNull Long weeks) {
+        return ResponseEntity.ok().body(userDtoService.getListUsersToPagination(page.intValue(), count.intValue(), weeks));
     }
 
     @ApiOperation(value = "получение списка доступных пользователей для поиска по имяни")
-    @GetMapping(path = "/{count}/page/{page}/name") // ?name=Андрей
+    @GetMapping(path = "/{count}/page/{page}/{weeks}/name") // ?name=Андрей
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
     public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull String name,
-                                                                                @PathVariable @NonNull Long count,
-                                                                                @PathVariable @NonNull Long page) {
-        return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue()));
+                                                                                      @PathVariable @NonNull Long count,
+                                                                                      @PathVariable @NonNull Long page,
+                                                                                      @PathVariable @NonNull Long weeks) {
+        return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
     }
 }

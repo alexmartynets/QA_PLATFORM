@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,21 +15,28 @@ import java.util.List;
 public class ReputationDtoDAOImpl extends ReadWriteDAOImpl<ReputationDto, Long> implements ReputationDtoDAO {
 
     @Override
-    public Long getCountUsers() {
-        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r", Long.class)
+    public Long getCountUsers(long weeks) {
+        LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
+        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
+                "WHERE r.persistDateTime > :data", Long.class)
+                .setParameter("data", data)
                 .getSingleResult();
     }
 
     @Override
-    public Long getCountUsersByName(String name) {
-        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r WHERE r.user.fullName LIKE CONCAT(:searchKeyword, '%')", Long.class)
+    public Long getCountUsersByName(String name, long weeks) {
+        LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
+        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
+                "WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%')", Long.class)
+                .setParameter("data", data)
                 .setParameter("searchKeyword", name.toLowerCase())
                 .getSingleResult();
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListUsersToPagination(int page, int count) {
+    public List<ReputationDto> getListUsersToPagination(int page, int count, long weeks) {
+        LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
@@ -38,7 +46,9 @@ public class ReputationDtoDAOImpl extends ReadWriteDAOImpl<ReputationDto, Long> 
                 "r.user.imageUser, " +
                 "SUM(r.reputationCount)," +
                 "SUM(r.voiceCount) " +
-                "FROM Reputation r GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                "FROM Reputation r WHERE r.persistDateTime > :data " +
+                "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
                 .unwrap(Query.class)
@@ -69,7 +79,8 @@ public class ReputationDtoDAOImpl extends ReadWriteDAOImpl<ReputationDto, Long> 
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListUsersByNameToSearch(String name, int page, int count) {
+    public List<ReputationDto> getListUsersByNameToSearch(String name, int page, int count, long weeks) {
+        LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
@@ -79,7 +90,9 @@ public class ReputationDtoDAOImpl extends ReadWriteDAOImpl<ReputationDto, Long> 
                 "r.user.imageUser, " +
                 "SUM(r.reputationCount)," +
                 "SUM(r.voiceCount) " +
-                "FROM Reputation r WHERE r.user.fullName LIKE CONCAT(:searchKeyword, '%') GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                "FROM Reputation r WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%') " +
+                "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                .setParameter("data", data)
                 .setParameter("searchKeyword", name.toLowerCase())
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)

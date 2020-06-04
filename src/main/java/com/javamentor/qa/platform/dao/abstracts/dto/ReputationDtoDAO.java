@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ReputationDtoDAO {
 
-    Long getCountUsers();
+    Long getCountUsers(long weeks);
 
-    Long getCountUsersByName(String name);
+    Long getCountUsersByName(String name, long weeks);
 
-    List<ReputationDto> getListUsersToPagination(int page, int count);
+    List<ReputationDto> getListUsersToPagination(int page, int count, long weeks);
 
-    List<ReputationDto> getListUsersByNameToSearch(String name, int page, int count);
+    List<ReputationDto> getListUsersByNameToSearch(String name, int page, int count, long weeks);
 }
