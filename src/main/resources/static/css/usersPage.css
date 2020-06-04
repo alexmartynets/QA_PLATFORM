@@ -49,9 +49,17 @@ body {
 }
 
 .panel-button-small a {
-    font-size: 12px;
-    padding-bottom: 8px;
+     font-size: 12px;
     margin-top: -20px;
+    padding-bottom: 10px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-radius: 0px;
+}
+
+.colors{
+    border-color: #ea7d2a;
 }
 
 .contents {

@@ -4,12 +4,13 @@ jQuery(document).ready(function ($) {
     let service = new DataUsersService();
     // количество карточек на странице
     let numberMedia = 20;
+    let weeks = 12;
 
     let url_list = "http://localhost:5557/api/user/" + numberMedia + "/page/";
     let currentPage = 1;
 
     // получаем даннные для 1 страницы
-    let dataMap = data.getListUsers(url_list + currentPage);
+    let dataMap = data.getListUsers(url_list + currentPage + "/" + weeks);
 
     service.showUsers(data, dataMap);
     service.showPagination(data, dataMap, numberMedia, currentPage);
@@ -18,16 +19,39 @@ jQuery(document).ready(function ($) {
     $("body").on("click", ".page-link", function () {
         let currentPage = $(this).text();
 
-        if(currentPage === '...'){
+        if (currentPage === '...') {
             return;
         }
 
         // получаем даннные для текущей страницы
-        let dataMap = data.getListUsers(url_list + currentPage);
+        let dataMap = data.getListUsers(url_list + currentPage + "/" + weeks);
 
         service.showUsers(data, dataMap);
         service.showPagination(data, dataMap, numberMedia, currentPage);
     });
+
+    // active button search-users
+    $('.search').click( function() {
+        $('.search').removeClass("active");
+
+        let text = $(this).text();
+        console.log(text);
+
+        $(this).toggleClass("active");
+
+    });
+
+    // colors a search-time users
+    $('.search-time').click( function() {
+        $('.search-time').removeClass("colors");
+
+        let text = $(this).text();
+        console.log(text);
+
+        $(this).toggleClass("colors");
+
+    });
+
 
     // обработка search на странице users
     let input = document.querySelector("#search");
@@ -36,7 +60,7 @@ jQuery(document).ready(function ($) {
         $("#pagination").show();
 
         let currentPage = 1;
-        let url_search = "http://localhost:5557/api/user/" + numberMedia + "/page/" + currentPage +  "/name?name=" + name;
+        let url_search = "http://localhost:5557/api/user/" + numberMedia + "/page/" + currentPage + "/name?name=" + name;
 
         // получаем даннные для 1 страницы
         let dataMap = data.getListUsers(url_search);
@@ -61,11 +85,11 @@ jQuery(document).ready(function ($) {
         $("body").on("click", ".page-link", function () {
             let currentPage = $(this).text();
 
-            if(currentPage === '...'){
+            if (currentPage === '...') {
                 return;
             }
 
-            let url_search = "http://localhost:5557/api/user/" + numberMedia + "/page/" + currentPage +  "/name?name=" + name;
+            let url_search = "http://localhost:5557/api/user/" + numberMedia + "/page/" + currentPage + "/name?name=" + name;
             // получаем даннные для текущей страницы
             let dataMap = data.getListUsers(url_search);
 
