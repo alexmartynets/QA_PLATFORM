@@ -45,6 +45,27 @@ function getQuestion(id) {
     })
 }
 
+function getQuestionComment(id) {
+
+    $.ajax({
+        url: '/api/user/question/' + id + '/comment/',
+        method: 'GET',
+        dataType: 'json',
+
+        success: function (data) {
+            let tableBody = $('#tableComment tbody');
+            tableBody.empty();
+            $(data).each(function (index, val) {
+                let persistDateTime = convertDateToString(val.persistDateTime);
+                tableBody.append(`<tr><td><h>${val.text}</h>–&nbsp;<a href="#" class="comment-user">${val.fullName}</a><h>&nbsp;${persistDateTime}</h></td></tr>`);
+            });
+        },
+        error: function () {
+            alert("Текст ответа не загружен");
+        }
+    })
+}
+
 function putAnswerCountValuableMinus(id, questionId, countValuable, isHelpful) {
     let answerIdMinus = id;
     $.ajax({
@@ -196,12 +217,12 @@ function putCountValuablePlus(id) {
     })
 }
 
-function putNewAnswer(id,answerDTO) {
+function putNewAnswer(id, answerDTO) {
     let questionId = id;
     $.ajax({
         url: '/api/user/question/' + questionId + '/answer/',
         method: 'POST',
-        data: JSON.stringify(answerDTO),questionId,
+        data: JSON.stringify(answerDTO), questionId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
         },
@@ -541,7 +562,7 @@ function putComment(id) {
     $.ajax({
         url: '/api/user/answer/' + id + '/comment',
         method: 'POST',
-        data: JSON.stringify({"text":commentDto}),answerId,
+        data: JSON.stringify({"text": commentDto}), answerId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
         },
@@ -551,12 +572,12 @@ function putComment(id) {
     })
 }
 
-function addComment(id,commentDto) {
+function addComment(id, commentDto) {
     let questionId = id;
     $.ajax({
         url: '/api/user/question/' + id + '/comment',
         method: 'POST',
-        data: JSON.stringify(commentDto),questionId,
+        data: JSON.stringify(commentDto), questionId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
         },

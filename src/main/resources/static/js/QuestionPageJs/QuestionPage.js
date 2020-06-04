@@ -43,6 +43,7 @@ $(document).ready(function (id) {
         getSortReputationTextOfQuestion(id);
     });
     getQuestion(id);
+    getQuestionComment(id);
     getTextOfQuestion(id);
 });
 
