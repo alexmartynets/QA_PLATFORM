@@ -1,3 +1,12 @@
 p {
-     display:block;
- }
+    display: block;
+}
+
+#navigator > div {
+    left: 0;
+    position: fixed;
+    /*background-color: #fbf2d4;*/
+}
+
+
+

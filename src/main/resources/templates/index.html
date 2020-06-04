@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container-">
-    <nav class="navbar navbar-light bg-light justify-content-between">
+    <nav class="navbar sticky-top navbar-light bg-light justify-content-between">
         <a class="navbar-brand" href="#">
             <img src="/images/question.png" width="30" height="30" class="d-inline-block align-top" alt="">StackOverMentor</a>
         ​
@@ -29,8 +29,8 @@
         <button type="button" class="btn btn-outline-primary">Войти</button>
         <button type="button" class="btn btn-outline-primary">Зарегистрироваться</button>
     </nav>
-    <div class="row">
-        <div class="col-lg-2">
+    <div class="row" style="margin-right: -6px;">
+        <div class="col-lg-2" id="navigator">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
                    aria-controls="v-pills-home" aria-selected="true">Главная</a>
@@ -147,7 +147,8 @@
                                             <time id="persistDateTime"></time>
                                         </div>
                                         <div class="mr16 mb8 pl-sm-2" title="" id="lastUpdateDateTime2">
-                                            <span class="fc-light mr2" style="color: #6a89c0 ">Последняя активность</span>
+                                            <span class="fc-light mr2"
+                                                  style="color: #6a89c0 ">Последняя активность</span>
                                             <a class="s-link"
                                                title="" id="lastUpdateDateTime"></a>
                                         </div>
@@ -221,14 +222,17 @@
                                         <div class="col">
                                             <div class="btn-group" role="group" aria-label="Basic example"
                                                  style="text-align:right;float:right;">
-                                                <button id="SortCurrentTextOfQuestion" href="#" type="button" class="btn btn-outline-secondary"
+                                                <button id="SortCurrentTextOfQuestion" href="#" type="button"
+                                                        class="btn btn-outline-secondary"
                                                         title="Сначала недавно обновлённые ответы">Текущие
                                                 </button>
-                                                <button id="SortDateTextOfQuestion" href="#" type="button" class="btn btn-outline-secondary"
+                                                <button id="SortDateTextOfQuestion" href="#" type="button"
+                                                        class="btn btn-outline-secondary"
                                                         title="Ответы отображаются в порядке их публикации">По дате
                                                     публикации
                                                 </button>
-                                                <button  id="SortReputationTextOfQuestion" href="#" type="button" class="btn btn-outline-secondary"
+                                                <button id="SortReputationTextOfQuestion" href="#" type="button"
+                                                        class="btn btn-outline-secondary"
                                                         title="Сначала ответы с наивысшим рейтингом">Голоса
                                                 </button>
                                             </div>
@@ -303,7 +307,213 @@
 
                 </div>
                 <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                    ...
+
+                    <h4 class="fs-headline1 mb16">
+                        Метки
+                    </h4>
+                    <p>
+                        Метка помогает поместить ваш вопрос в одну категорию с другими похожими вопросами.<br>
+                        Таким образом другим участникам будет легче найти ваш вопрос и быстрее ответить на него.
+                    </p>
+                    <div class="row">
+                        <div class="col">
+                            <input id="tag-filter" class="s-input s-input__search h100" autocomplete="off"
+                                   name="tag-filter" type="text" maxlength="35" placeholder="Фильтрация по имени"
+                                   autofocus="">
+                            <svg aria-hidden="true" class="s-input-icon s-input-icon__search svg-icon iconSearch"
+                                 width="18" height="18" viewBox="0 0 18 18">
+                                <path d="M18 16.5l-5.14-5.18h-.35a7 7 0 10-1.19 1.19v.35L16.5 18l1.5-1.5zM12 7A5 5 0 112 7a5 5 0 0110 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="col">
+                            <div class="btn-group" role="group" aria-label="Basic example"
+                                 style="text-align:right;float:right;">
+                                <button href="#" id="MostPopularTags" type="button" class="btn btn-outline-secondary"
+                                        title="самые популярные метки">
+                                    Популярные
+                                </button>
+                                <button href="#" id="TagsInAlphabeticalOrder" type="button"
+                                        class="btn btn-outline-secondary" title="метки по алфавитному порядку">
+                                    Имя
+                                </button>
+                                <button href="#" id="RecentlyCreatedTags" type="button"
+                                        class="btn btn-outline-secondary" title="недавно созданные метки">
+                                    Новые
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="tags-list">
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding-top: 30px">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <h5 class="card-title">Special title treatment</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
                     ...
