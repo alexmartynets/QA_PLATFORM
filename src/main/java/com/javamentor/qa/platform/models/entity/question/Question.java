@@ -50,6 +50,7 @@ public class Question {
     @JoinColumn(name = "user_id")
     private User user;
 
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "question_has_tag",
             joinColumns = @JoinColumn(name = "question_id"),

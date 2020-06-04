@@ -37,7 +37,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "t.name, " +
                     "t.description, " +
                     "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                    "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                    "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
                     "FROM Question q JOIN q.tags t")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
