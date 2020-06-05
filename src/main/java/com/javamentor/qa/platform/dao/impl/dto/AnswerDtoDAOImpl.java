@@ -24,6 +24,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.htmlBody, " +
             "a.persistDateTime, " +
             "a.dateAcceptTime, " +
+            "a.updateDateTime, " +
             "a.countValuable, " +
             "a.isHelpful, " +
             "a.isDeleted, " +
@@ -41,7 +42,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Transactional
     @SuppressWarnings("unchecked")
     @Override
-    public List<AnswerDto> getAnswersDtoByQuestionId(Long questionId) {
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId) {
         return entityManager
                 .createQuery(HQL +
                         "a.question.id = :questionId order by a.updateDateTime desc, a.persistDateTime desc " +
@@ -97,10 +98,10 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     private Object getObject(Object[] tuple) {
 
         UserDto userDto = UserDto.builder()
-                .id(((Number) tuple[8]).longValue())
-                .fullName(String.valueOf(tuple[9]))
-                .imageUser((byte[]) tuple[10])
-                .reputationCount((Integer) tuple[11])
+                .id(((Number) tuple[9]).longValue())
+                .fullName(String.valueOf(tuple[10]))
+                .imageUser((byte[]) tuple[11])
+                .reputationCount((Integer) tuple[12])
                 .build();
 
         return AnswerDto.builder()
@@ -109,9 +110,10 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .htmlBody((String) tuple[2])
                 .persistDateTime((LocalDateTime) tuple[3])
                 .dateAcceptTime((LocalDateTime) tuple[4])
-                .countValuable((Integer) tuple[5])
-                .isHelpful((Boolean) tuple[6])
-                .isDeleted((Boolean) tuple[7])
+                .updateDateTime((LocalDateTime) tuple[5])
+                .countValuable((Integer) tuple[6])
+                .isHelpful((Boolean) tuple[7])
+                .isDeleted((Boolean) tuple[8])
                 .userDto(userDto)
                 .build();
     }

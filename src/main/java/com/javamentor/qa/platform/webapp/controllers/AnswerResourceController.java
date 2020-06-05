@@ -8,25 +8,19 @@ import com.javamentor.qa.platform.service.abstracts.dto.AnswerDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import com.javamentor.qa.platform.webapp.converter.AnswerConverter;
 
-import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.var;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 
 @Validated
@@ -51,7 +45,7 @@ public class AnswerResourceController {
             @ApiResponse(code = 200, message = "Ответы получены")})
     @GetMapping
     public ResponseEntity<List<AnswerDto>> getAnswersDto(@PathVariable @NotNull Long questionId) {
-        return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionId(questionId));
+        return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionIdSortNew(questionId));
     }
 
     @ApiOperation(value = "Получение ответов по ID вопроса с сортировкой по счетчику полезности")
@@ -103,18 +97,10 @@ public class AnswerResourceController {
                                                   @PathVariable @NotNull Long questionId) {
         if (questionId.equals(answerDTO.getQuestionId()) && answerId.equals(answerDTO.getId())) {
             Answer answer = answerConverter.dtoToAnswer(answerDTO);
-            answer.setId(answerId);
             if (answer.getIsHelpful()) {
                 answerService.resetIsHelpful(questionId);
-                if (answer.getDateAcceptTime() == null) {
-                    answer.setDateAcceptTime(LocalDateTime.now());
-                }
-            } else {
-                answer.setDateAcceptTime(null);
-            }
-            if (!answerService.getByKey(answerId).getHtmlBody().equals(answer.getHtmlBody())) {
-                answer.setUpdateDateTime(LocalDateTime.now());
-            }
+                answer.setDateAcceptTime(LocalDateTime.now());
+            }else answer.setDateAcceptTime(null);
             answerService.update(answer);
             logger.info(String.format("Ответ с ID: %s к вопросу с ID: %s изменен", answerDTO.getId(), answerDTO.getQuestionId()));
             return ResponseEntity.ok(answerConverter.answerToDto(answer));
@@ -131,7 +117,7 @@ public class AnswerResourceController {
     })
     @DeleteMapping("/{answerId}")
     public ResponseEntity<String> deleteAnswer(@PathVariable @NotNull Long answerId, @PathVariable @NotNull Long questionId) {
-        answerService.deleteByKeyCascadeEnable(answerId);
+        answerService.setDelete(answerId);
         logger.info(String.format("Ответ с ID: %s удален", answerId));
         return ResponseEntity.ok().build();
 

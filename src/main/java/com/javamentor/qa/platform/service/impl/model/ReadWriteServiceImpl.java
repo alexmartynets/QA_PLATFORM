@@ -37,6 +37,13 @@ public abstract class ReadWriteServiceImpl<T, PK> implements ReadWriteService<T,
 
     @Override
     @Transactional
+    public void setDelete(PK id) {
+
+        readWriteDao.setDelete(id);
+    }
+
+    @Override
+    @Transactional
     public void deleteByKeyCascadeEnable(PK id) {
         readWriteDao.deleteByKeyCascadeEnable(id);
     }
