@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.service.abstracts.dto;
 
+import com.javamentor.qa.platform.models.dto.EditorDto;
 import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import javafx.util.Pair;
@@ -13,11 +14,13 @@ public interface UserDtoService {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Pair<List<UserDto>, Long> getListNewUsersToPagination(int page, int count, long weeks);
+    Pair<List<UserDto>, Long> getListNewUsers(int page, int count, long weeks);
 
-    Pair<List<ReputationDto>, Long> getListUsersByReputationToPagination(int page, int count, long weeks);
+    Pair<List<ReputationDto>, Long> getListUsersByReputation(int page, int count, long weeks);
 
-    Pair<List<ReputationDto>, Long> getListUsersByVoiceToPagination(int page, int count, long weeks);
+    Pair<List<ReputationDto>, Long> getListUsersByVoice(int page, int count, long weeks);
 
     Pair<List<ReputationDto>, Long> getListUsersByNameToSearch(String name, int page, int count, long weeks);
+
+    Pair<List<EditorDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks);
 }

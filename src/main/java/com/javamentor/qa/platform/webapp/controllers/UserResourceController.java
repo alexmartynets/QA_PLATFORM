@@ -1,7 +1,9 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
+import com.javamentor.qa.platform.models.dto.EditorDto;
 import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
+import com.javamentor.qa.platform.models.entity.Editor;
 import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
@@ -96,11 +98,11 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListNewUsersToPagination(@RequestParam @NonNull Long count,
-                                                                                 @RequestParam @NonNull Long page,
-                                                                                 @RequestParam @NonNull Long weeks) {
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListNewUsers(@RequestParam @NonNull Long count,
+                                                                     @RequestParam @NonNull Long page,
+                                                                     @RequestParam @NonNull Long weeks) {
         return ResponseEntity.ok().body(userDtoService
-                .getListNewUsersToPagination(page.intValue(), count.intValue(), weeks));
+                .getListNewUsers(page.intValue(), count.intValue(), weeks));
     }
 
     @ApiOperation(value = "получение списка пользователей по репутации c пагинацией")
@@ -108,11 +110,11 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByReputationToPagination(@PathVariable @NonNull Long count,
+    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByReputation(@PathVariable @NonNull Long count,
                                                                                     @PathVariable @NonNull Long page,
                                                                                     @PathVariable @NonNull Long weeks) {
         return ResponseEntity.ok().body(userDtoService
-                .getListUsersByReputationToPagination(page.intValue(), count.intValue(), weeks));
+                .getListUsersByReputation(page.intValue(), count.intValue(), weeks));
     }
 
     @ApiOperation(value = "получение списка пользователей по голосам с пагинацией")
@@ -120,11 +122,23 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByVoiceToPagination(@PathVariable @NonNull Long count,
-                                                                                                @PathVariable @NonNull Long page,
-                                                                                                @PathVariable @NonNull Long weeks) {
+    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByVoice(@PathVariable @NonNull Long count,
+                                                                               @PathVariable @NonNull Long page,
+                                                                               @PathVariable @NonNull Long weeks) {
         return ResponseEntity.ok().body(userDtoService
-                .getListUsersByVoiceToPagination(page.intValue(), count.intValue(), weeks));
+                .getListUsersByVoice(page.intValue(), count.intValue(), weeks));
+    }
+
+    @ApiOperation(value = "получение списка редакторов с пагинацией")
+    @GetMapping(path = "/editor") // ?count=20&page=1&weeks=12
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список редакторов получен")
+    })
+    public ResponseEntity<Pair<List<EditorDto>, Long>> getListUsersByQuantityEditedText(@PathVariable @NonNull Long count,
+                                                                                        @PathVariable @NonNull Long page,
+                                                                                        @PathVariable @NonNull Long weeks) {
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByQuantityEditedText(page.intValue(), count.intValue(), weeks));
     }
 
     @ApiOperation(value = "получение списка пользователей для поиска по имяни с погинацией")

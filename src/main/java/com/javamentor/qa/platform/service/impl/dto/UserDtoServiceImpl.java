@@ -2,6 +2,7 @@ package com.javamentor.qa.platform.service.impl.dto;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.ReputationDtoDAO;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
+import com.javamentor.qa.platform.models.dto.EditorDto;
 import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
@@ -34,22 +35,22 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Pair<List<UserDto>, Long> getListNewUsersToPagination(int page, int count, long weeks) {
-        List<UserDto> listUsersDto = userDtoDao.getListNewUsersToPagination(page, count, weeks);
+    public Pair<List<UserDto>, Long> getListNewUsers(int page, int count, long weeks) {
+        List<UserDto> listUsersDto = userDtoDao.getListNewUsers(page, count, weeks);
         Long countUsers = userDtoDao.getCountNewUsers(weeks);
         return new Pair<>(listUsersDto, countUsers);
     }
 
     @Override
-    public Pair<List<ReputationDto>, Long> getListUsersByReputationToPagination(int page, int count, long weeks) {
-        List<ReputationDto> reputationDtoList = reputationDtoDAO.getListUsersByReputationToPagination(page, count, weeks);
+    public Pair<List<ReputationDto>, Long> getListUsersByReputation(int page, int count, long weeks) {
+        List<ReputationDto> reputationDtoList = reputationDtoDAO.getListUsersByReputation(page, count, weeks);
         Long counts = reputationDtoDAO.getCountUsers(weeks);
         return new Pair<>(reputationDtoList, counts);
     }
 
     @Override
-    public Pair<List<ReputationDto>, Long> getListUsersByVoiceToPagination(int page, int count, long weeks) {
-        List<ReputationDto> reputationDtoList = reputationDtoDAO.getListUsersByVoiceToPagination(page, count, weeks);
+    public Pair<List<ReputationDto>, Long> getListUsersByVoice(int page, int count, long weeks) {
+        List<ReputationDto> reputationDtoList = reputationDtoDAO.getListUsersByVoice(page, count, weeks);
         Long counts = reputationDtoDAO.getCountUsers(weeks);
         return new Pair<>(reputationDtoList, counts);
     }
@@ -59,5 +60,12 @@ public class UserDtoServiceImpl implements UserDtoService {
         List<ReputationDto> reputationDtoList = reputationDtoDAO.getListUsersByNameToSearch(name, page, count, weeks);
         Long counts = reputationDtoDAO.getCountUsersByName(name, weeks);
         return new Pair<>(reputationDtoList, counts);
+    }
+
+    @Override
+    public Pair<List<EditorDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks) {
+        List<EditorDto> editorDtoList = userDtoDao.getListUsersByQuantityEditedText(page, count, weeks);
+        Long counts = userDtoDao.getCountUsersByQuantityEditedText(weeks);
+        return new Pair<>(editorDtoList, counts);
     }
 }

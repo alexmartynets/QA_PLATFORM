@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.dao.abstracts.dto;
 
+import com.javamentor.qa.platform.models.dto.EditorDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import javafx.util.Pair;
 
@@ -14,5 +15,9 @@ public interface UserDtoDAO {
 
     Long getCountNewUsers(long weeks);
 
-    List<UserDto> getListNewUsersToPagination(int page, int count, long weeks);
+    Long getCountUsersByQuantityEditedText(long weeks);
+
+    List<UserDto> getListNewUsers(int page, int count, long weeks);
+
+    List<EditorDto> getListUsersByQuantityEditedText(int page, int count, long weeks);
 }

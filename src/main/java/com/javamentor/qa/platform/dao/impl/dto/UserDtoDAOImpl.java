@@ -3,6 +3,8 @@ package com.javamentor.qa.platform.dao.impl.dto;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
+import com.javamentor.qa.platform.models.dto.EditorDto;
+import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
@@ -129,9 +131,18 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
+    @Override
+    public Long getCountUsersByQuantityEditedText(long weeks) {
+        LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
+        return entityManager.createQuery("SELECT COUNT(DISTINCT e.user.id) FROM Editor as e " +
+                "WHERE e.persistDateTime > :data", Long.class)
+                .setParameter("data", data)
+                .getSingleResult();
+    }
+
     @SuppressWarnings("unchecked")
     @Override
-    public List<UserDto> getListNewUsersToPagination(int page, int count, long weeks) {
+    public List<UserDto> getListNewUsers(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "u.id, " +
@@ -147,7 +158,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkGitHub, " +
                 "u.linkSite, " +
                 "u.linkVk " +
-                "FROM User u WHERE u.persistDateTime > :data")
+                "FROM User as u WHERE u.persistDateTime > :data")
                 .setParameter("data", data)
                 .setFirstResult(count*(page - 1))
                 .setMaxResults(count)
@@ -180,5 +191,47 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getResultList();
 
         return listUsers.isEmpty()? Collections.emptyList():listUsers;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<EditorDto> getListUsersByQuantityEditedText(int page, int count, long weeks) {
+        LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
+        List<EditorDto> listUsers = entityManager.createQuery("SELECT " +
+                "e.id, " +
+                "e.user.id, " +
+                "e.user.fullName, " +
+                "e.user.about, " +
+                "e.user.city, " +
+                "e.user.imageUser, " +
+                "SUM(e.countChanges)" +
+                "FROM Editor e WHERE e.persistDateTime > :data " +
+                "GROUP BY e.user.id ORDER BY SUM(e.countChanges) DESC")
+                .setParameter("data", data)
+                .setFirstResult(count * (page - 1))
+                .setMaxResults(count)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return EditorDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .editorId(((Number) objects[1]).longValue())
+                                .fullName((String) objects[2])
+                                .about((String) objects[3])
+                                .city((String) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .countChanges(((Number) objects[6]).longValue())
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+
+        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 }

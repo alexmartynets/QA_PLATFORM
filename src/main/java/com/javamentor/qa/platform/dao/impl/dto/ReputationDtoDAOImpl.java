@@ -35,7 +35,7 @@ public class ReputationDtoDAOImpl extends ReadWriteDAOImpl<ReputationDto, Long> 
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListUsersByReputationToPagination(int page, int count, long weeks) {
+    public List<ReputationDto> getListUsersByReputation(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
@@ -79,7 +79,7 @@ public class ReputationDtoDAOImpl extends ReadWriteDAOImpl<ReputationDto, Long> 
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListUsersByVoiceToPagination(int page, int count, long weeks) {
+    public List<ReputationDto> getListUsersByVoice(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +

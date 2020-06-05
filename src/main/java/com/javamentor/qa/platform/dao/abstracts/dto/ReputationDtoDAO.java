@@ -10,9 +10,9 @@ public interface ReputationDtoDAO {
 
     Long getCountUsersByName(String name, long weeks);
 
-    List<ReputationDto> getListUsersByReputationToPagination(int page, int count, long weeks);
+    List<ReputationDto> getListUsersByReputation(int page, int count, long weeks);
 
-    List<ReputationDto> getListUsersByVoiceToPagination(int page, int count, long weeks);
+    List<ReputationDto> getListUsersByVoice(int page, int count, long weeks);
 
     List<ReputationDto> getListUsersByNameToSearch(String name, int page, int count, long weeks);
 }
