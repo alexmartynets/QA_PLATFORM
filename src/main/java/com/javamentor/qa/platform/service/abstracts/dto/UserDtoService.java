@@ -13,7 +13,11 @@ public interface UserDtoService {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Pair<List<ReputationDto>, Long> getListUsersToPagination(int page, int count, long weeks);
+    Pair<List<UserDto>, Long> getListNewUsersToPagination(int page, int count, long weeks);
+
+    Pair<List<ReputationDto>, Long> getListUsersByReputationToPagination(int page, int count, long weeks);
+
+    Pair<List<ReputationDto>, Long> getListUsersByVoiceToPagination(int page, int count, long weeks);
 
     Pair<List<ReputationDto>, Long> getListUsersByNameToSearch(String name, int page, int count, long weeks);
 }

@@ -34,8 +34,22 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Pair<List<ReputationDto>, Long> getListUsersToPagination(int page, int count, long weeks) {
-        List<ReputationDto> reputationDtoList = reputationDtoDAO.getListUsersToPagination(page, count, weeks);
+    public Pair<List<UserDto>, Long> getListNewUsersToPagination(int page, int count, long weeks) {
+        List<UserDto> listUsersDto = userDtoDao.getListNewUsersToPagination(page, count, weeks);
+        Long countUsers = userDtoDao.getCountNewUsers(weeks);
+        return new Pair<>(listUsersDto, countUsers);
+    }
+
+    @Override
+    public Pair<List<ReputationDto>, Long> getListUsersByReputationToPagination(int page, int count, long weeks) {
+        List<ReputationDto> reputationDtoList = reputationDtoDAO.getListUsersByReputationToPagination(page, count, weeks);
+        Long counts = reputationDtoDAO.getCountUsers(weeks);
+        return new Pair<>(reputationDtoList, counts);
+    }
+
+    @Override
+    public Pair<List<ReputationDto>, Long> getListUsersByVoiceToPagination(int page, int count, long weeks) {
+        List<ReputationDto> reputationDtoList = reputationDtoDAO.getListUsersByVoiceToPagination(page, count, weeks);
         Long counts = reputationDtoDAO.getCountUsers(weeks);
         return new Pair<>(reputationDtoList, counts);
     }

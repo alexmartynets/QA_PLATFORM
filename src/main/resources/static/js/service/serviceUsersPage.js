@@ -10,7 +10,7 @@ class DataUsersPage {
             let user = listUsers[i];
 
             const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.src = "//placehold.it/48x48?text=" + user.id;
             img.className = "align-self-start mr-3";
             img.alt = "...";
 
@@ -24,16 +24,16 @@ class DataUsersPage {
 
             const city = document.createElement("div");
             city.className = "user-location";
-            city.innerText = user.cityUser;
+            city.innerText = user.city;
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = user.reputationCount;
 
             const tags = document.createElement("a");
-            tags.href = "/tags/" + user.aboutUser;
+            tags.href = "/tags/" + user.about;
             tags.className = "user-tags";
-            tags.innerText = user.aboutUser;
+            tags.innerText = user.about;
 
             divs.appendChild(name);
             divs.appendChild(city);

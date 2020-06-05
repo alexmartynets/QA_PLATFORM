@@ -11,4 +11,8 @@ public interface UserDtoDAO {
     List<UserDto> getUserDtoList();
 
     Optional<UserDto> getUserDtoById(Long id);
+
+    Long getCountNewUsers(long weeks);
+
+    List<UserDto> getListNewUsersToPagination(int page, int count, long weeks);
 }

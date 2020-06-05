@@ -91,19 +91,44 @@ public class UserResourceController {
         }
     }
 
-    @ApiOperation(value = "получение списка пользователей для пагинации")
-    @GetMapping(path = "/{count}/page/{page}/{weeks}")
+    @ApiOperation(value = "получение списка новых пользователей c пагинацией")
+    @GetMapping(path = "/new")  // ?count=20&page=1&weeks=2
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersToPagination(@PathVariable @NonNull Long page,
-                                                                                    @PathVariable @NonNull Long count,
-                                                                                    @PathVariable @NonNull Long weeks) {
-        return ResponseEntity.ok().body(userDtoService.getListUsersToPagination(page.intValue(), count.intValue(), weeks));
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListNewUsersToPagination(@RequestParam @NonNull Long count,
+                                                                                 @RequestParam @NonNull Long page,
+                                                                                 @RequestParam @NonNull Long weeks) {
+        return ResponseEntity.ok().body(userDtoService
+                .getListNewUsersToPagination(page.intValue(), count.intValue(), weeks));
     }
 
-    @ApiOperation(value = "получение списка доступных пользователей для поиска по имяни")
-    @GetMapping(path = "/{count}/page/{page}/{weeks}/name") // ?name=Андрей
+    @ApiOperation(value = "получение списка пользователей по репутации c пагинацией")
+    @GetMapping(path = "/reputation") // ?count=20&page=1&weeks=12
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен")
+    })
+    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByReputationToPagination(@PathVariable @NonNull Long count,
+                                                                                    @PathVariable @NonNull Long page,
+                                                                                    @PathVariable @NonNull Long weeks) {
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByReputationToPagination(page.intValue(), count.intValue(), weeks));
+    }
+
+    @ApiOperation(value = "получение списка пользователей по голосам с пагинацией")
+    @GetMapping(path = "/voice") // ?count=20&page=1&weeks=12
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен")
+    })
+    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByVoiceToPagination(@PathVariable @NonNull Long count,
+                                                                                                @PathVariable @NonNull Long page,
+                                                                                                @PathVariable @NonNull Long weeks) {
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByVoiceToPagination(page.intValue(), count.intValue(), weeks));
+    }
+
+    @ApiOperation(value = "получение списка пользователей для поиска по имяни с погинацией")
+    @GetMapping(path = "/search") // ?name=Андрей&count=20&page=1&weeks=12
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
@@ -111,6 +136,7 @@ public class UserResourceController {
                                                                                       @PathVariable @NonNull Long count,
                                                                                       @PathVariable @NonNull Long page,
                                                                                       @PathVariable @NonNull Long weeks) {
-        return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
     }
 }

@@ -19,19 +19,19 @@ public class ReputationDto {
 
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
     @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значние при обновлении")
-    private Long id;
+    private Long reputationId;
 
     private Long reputationCount;
 
     private Long voiceCount;
 
-    private Long userId;
+    private Long id;
 
     private String fullName;
 
-    private String aboutUser;
+    private String about;
 
-    private String cityUser;
+    private String city;
 
     private byte[] imageUser;
 }
