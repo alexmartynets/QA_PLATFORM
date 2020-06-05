@@ -5,9 +5,6 @@ import javafx.util.Pair;
 
 import java.util.List;
 
-
-
-
 public interface TagDtoService {
     Pair<Long, List<TagDto>> findAllTagsDtoPagination(int pageSize, int pageNumber);
     Pair<Long, List<TagDto>> findAllTagsDtoPaginationName(int pageSize, int pageNumber);
