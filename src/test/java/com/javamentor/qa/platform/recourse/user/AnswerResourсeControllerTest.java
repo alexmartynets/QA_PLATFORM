@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-public class AnswerResourseControllerTest extends AbstractIntegrationTest {
+public class AnswerResourсeControllerTest extends AbstractIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
