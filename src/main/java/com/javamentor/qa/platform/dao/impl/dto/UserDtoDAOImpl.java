@@ -4,7 +4,6 @@ import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.dto.EditorDto;
-import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
@@ -160,7 +159,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkVk " +
                 "FROM User as u WHERE u.persistDateTime > :data")
                 .setParameter("data", data)
-                .setFirstResult(count*(page - 1))
+                .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
@@ -190,7 +189,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 })
                 .getResultList();
 
-        return listUsers.isEmpty()? Collections.emptyList():listUsers;
+        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
     @SuppressWarnings("unchecked")
