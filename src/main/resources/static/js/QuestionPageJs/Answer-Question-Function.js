@@ -277,18 +277,24 @@ function getTextOfQuestion(id) {
 
         success: function (data) {
 
-            let tableBody = $('#tblTextOfQuestion tbody');
-            tableBody.empty();
-            let num = 0;
-            $(data).each(function (index, val) {
-                $(val).each(function (index, value) {
-                    num++;
-                    document.getElementById("countAnswer").innerHTML = num;
-                    let userInfoDto = value.userDto;
-                    let href = window.location.href;
-                    let questionId = val.questionId;
-                    let persistDateTime = convertDateToString(val.persistDateTime);
-                    tableBody.append(`<tr>
+            $.ajax({
+                url: '/api/user/answer/' + id + '/comment/',
+                method: 'GET',
+                dataType: 'json',
+                success: function (dataAnswerComment) {
+
+                    let tableBody = $('#tblTextOfQuestion tbody');
+                    tableBody.empty();
+                    let num = 0;
+                    $(data).each(function (index, val) {
+                        $(val).each(function (index, value) {
+                            num++;
+                            document.getElementById("countAnswer").innerHTML = num;
+                            let userInfoDto = value.userDto;
+                            let href = window.location.href;
+                            let questionId = val.questionId;
+                            let persistDateTime = convertDateToString(val.persistDateTime);
+                            tableBody.append(`<tr>
         <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
@@ -329,6 +335,10 @@ function getTextOfQuestion(id) {
                                                               d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
                                             class=" ml-1 ">${userInfoDto.fullName}</h><br><h class=" ml-2 " style="text-align: left;float: left;" title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>
+     <tr>
+     <td width="50" rowspan="1"></td>
+            <td>${isAnswerComment(val.id, dataAnswerComment)}</td>
+    </tr>
  <tr>
         <td colspan="2">
          <a class="btn btn-link" title="Используйте комментарии для запроса дополнительной информации или предложения улучшений. Избегайте публикации ответа на вопросы в комментариях." data-toggle="collapse" href="#collapseComment${val.id}" role="button" aria-expanded="false" aria-controls="collapseComment${val.id}"> 
@@ -344,14 +354,20 @@ function getTextOfQuestion(id) {
                                     </button>
 </div></td>                                                                          
     </tr>`);
-                    $(popover());
-                });
-            });
+                            $(popover());
+                        });
+                    });
+                },
+
+                error: function () {
+                    alert("Текст ответа не загружен");
+                }
+
+            })
         },
         error: function () {
-            alert("Текст ответа не загружен");
+            alert("Комментарий ответа не загружен");
         }
-
     })
 }
 
@@ -538,6 +554,18 @@ function isHelpful(isHelpful) {
         return x;
     } else {
         return x;
+    }
+}
+
+function isAnswerComment(id, dataAnswerComment) {
+    let y = "";
+    for (let value of dataAnswerComment) {
+        if (value.id === id) {
+            y = value.text;
+            return y;
+        } else {
+            return y;
+        }
     }
 }
 
