@@ -23,10 +23,8 @@ public class AnswerResourсeControllerTest extends AbstractIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    public void getAllAnswerDtoByQuestionID1SortNew() throws Exception
-    {
-        mockMvc.perform(
-                 get("/api/user/question/1/answer")
+    public void getAllAnswerDtoByQuestionID1SortNew() throws Exception {
+        mockMvc.perform(get("/api/user/question/1/answer")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -49,4 +47,17 @@ public class AnswerResourсeControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.[2].updateDateTime").value("2020-05-27T13:40:00"))
                 .andExpect(jsonPath("$.[3]").doesNotExist());
     }
+
+    @Test
+    public void getAllAnswerDtoByQuestionIDSortCount() throws Exception {
+        mockMvc.perform(get("/api/user/question/1/answer/sort/count")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].countValuable").value(10))
+                .andExpect(jsonPath("$.[1].countValuable").value(9))
+                .andExpect(jsonPath("$.[2].countValuable").value(8))
+                .andExpect(jsonPath("$.[3]").doesNotExist());
+    }
+
 }

@@ -44,7 +44,7 @@ public class AnswerResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Ответы получены")})
     @GetMapping
-    public ResponseEntity<List<AnswerDto>> getAnswersDto(@PathVariable @NotNull Long questionId) {
+    public ResponseEntity<List<AnswerDto>> getAnswersDtoSortNew(@PathVariable @NotNull Long questionId) {
         return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionIdSortNew(questionId));
     }
 
@@ -56,7 +56,7 @@ public class AnswerResourceController {
         return ResponseEntity.ok(answerDtoService.getAnswersDtoByQuestionIdSortCount(questionId));
     }
 
-    @ApiOperation(value = "Получение ответов по ID вопроса с сортировкой по дате")
+    @ApiOperation(value = "Получение ответов по ID вопроса с сортировкой по дате создания")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Ответы получены")})
     @GetMapping("/sort/date")

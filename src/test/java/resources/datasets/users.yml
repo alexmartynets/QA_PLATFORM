@@ -1,12 +1,14 @@
 users:
   - email: "2020-04-04"
     password: "2020-04-04"
-    about: "description 5"
-    full_name: "Teat"
+    about: "description 1"
+    full_name: "first user"
     is_enabled: 1
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-05-28 13:58:56"
     role_id: 1
+    reputationCount: 1
+    imageUser: "path"
 
 
 
