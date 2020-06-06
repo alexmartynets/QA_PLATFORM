@@ -15,11 +15,22 @@ public class ApiExceptionHandler {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @ExceptionHandler(ApiRequestException.class)
+    @ExceptionHandler(value = {ApiRequestException.class})
     public ResponseEntity<Object> handlerApiRequestException(ApiRequestException e) {
         logger.info(e.toString());      // здесь нужно сделать info или warn?
         ApiException apiException = new ApiException(
                 e.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {NumberFormatException.class})
+    public ResponseEntity<Object> handlerNumberFormatExaption(RuntimeException e) {
+        logger.info(e.toString());      // здесь нужно сделать info или warn?
+        ApiException apiException = new ApiException(
+                "Значения не должны быть символьными, только числовые!",
                 HttpStatus.BAD_REQUEST,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );

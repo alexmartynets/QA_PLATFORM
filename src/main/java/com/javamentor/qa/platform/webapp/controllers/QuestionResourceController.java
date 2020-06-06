@@ -26,12 +26,12 @@ public class QuestionResourceController {
     }
 
     @ApiOperation(value = "Получение списка пагинации из QuestionDto (без фильтра)")
-    @PostMapping(value = "/pagination")
+    @GetMapping(value = "/pagination")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список для пагинации из QuestionDto получен")
     })
-    public ResponseEntity<Pair<Long, List<QuestionDto>>> getPaginationQuestion(@RequestParam(defaultValue = "1") int page,
-                                                                               @RequestParam(defaultValue = "5") int size) {
+    public ResponseEntity<Pair<Long, List<QuestionDto>>> getPaginationQuestion(@RequestParam int page,
+                                                                               @RequestParam int size) {
         if(page < 1 || size < 1 ){
             throw new ApiRequestException("Значения не должны быть отрицательными");
         } else {
