@@ -9,17 +9,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"})
+//@DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanBefore = true, cleanAfter = true)
 public class AnswerResourceControllerTest extends AbstractIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-//    @DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanAfter = true)
+    @DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
     public void getAllAnswerDtoByQuestionID1SortNew() throws Exception {
         mockMvc.perform(get("/api/user/question/1/answer")
                 .accept(MediaType.APPLICATION_JSON))
@@ -56,7 +57,7 @@ public class AnswerResourceControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-//    @DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
+    @DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
     public void getAllAnswerDtoByQuestionIDSortCount() throws Exception {
         mockMvc.perform(get("/api/user/question/1/answer/sort/count")
                 .accept(MediaType.APPLICATION_JSON))
@@ -82,7 +83,7 @@ public class AnswerResourceControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-//    @DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
+    @DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
     public void getAllAnswerDtoByQuestionIDSortDate() throws Exception {
         mockMvc.perform(get("/api/user/question/1/answer/sort/date")
                 .accept(MediaType.APPLICATION_JSON))
@@ -105,5 +106,12 @@ public class AnswerResourceControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.[1].persistDateTime").value("2020-05-27T13:30:00"))
                 .andExpect(jsonPath("$.[2].persistDateTime").value("2020-05-28T14:00:00"))
                 .andExpect(jsonPath("$.[3]").doesNotExist());
+    }
+
+    @Test
+    public void putAnswer() throws Exception {
+        mockMvc.perform(post("/api/user/question/{questionId}/answer"));
+
+
     }
 }
