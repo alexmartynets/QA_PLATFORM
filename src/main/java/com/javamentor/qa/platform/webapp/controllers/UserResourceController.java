@@ -139,8 +139,17 @@ public class UserResourceController {
                 .getListUsersByQuantityEditedText(page.intValue(), count.intValue(), weeks));
     }
 
+    @ApiOperation(value = "получение списка пользователей по роли")
+    @GetMapping(path = "/role")  // ?role=admin
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен")
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUserByRole(@RequestParam @NonNull String role) {
+        return ResponseEntity.ok().body(userDtoService.getListUserByRole(role));
+    }
+
     @ApiOperation(value = "получение списка пользователей для поиска по имяни с погинацией")
-    @GetMapping(path = "/search") // ?name=Андрей&count=20&page=1&weeks=12
+    @GetMapping(path = "/search") // ?count=20&page=1&weeks=12&name=Андрей
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
@@ -152,13 +161,5 @@ public class UserResourceController {
                 .getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
     }
 
-    @ApiOperation(value = "получение списка пользователей по роли")
-    @GetMapping(path = "/role")  // ?role=admin
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
-    })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUserByRole(@RequestParam @NonNull String role) {
-        return ResponseEntity.ok().body(userDtoService.getListUserByRole(role));
-    }
 }
 

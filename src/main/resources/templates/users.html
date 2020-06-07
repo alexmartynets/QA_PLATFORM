@@ -38,7 +38,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2 left-panel" style="border-right-width: 1px;border-right-style: solid;">
-            <div class="btn-group-vertical position-fixed left-panel-blok">
+            <div class="col-md-12 btn-group-vertical position-fixed left-panel-blok">
                 <a href="#" class="btn btn-link text-dark">Главная</a>
                 <a href="#" class="btn btn-link text-dark">Вопросы</a>
                 <a href="#" class="btn btn-link text-dark">Метки</a>
@@ -65,11 +65,11 @@
                             </div>
 
                             <div>
-                                <button type="button" class="btn btn-light text-dark search active">Репутация</button>
-                                <button type="button" class="btn btn-light text-dark search">Новые участники</button>
-                                <button type="button" class="btn btn-light text-dark search">Голосующие</button>
-                                <button type="button" class="btn btn-light text-dark search">Редакторы</button>
-                                <button type="button" class="btn btn-light text-dark search">Модераторы</button>
+                                <button type="button" class="btn btn-light text-dark search active" data-search="1">Репутация</button>
+                                <button type="button" class="btn btn-light text-dark search" data-search="2">Новые участники</button>
+                                <button type="button" class="btn btn-light text-dark search" data-search="3">Голосующие</button>
+                                <button type="button" class="btn btn-light text-dark search" data-search="4">Редакторы</button>
+                                <button type="button" class="btn btn-light text-dark search" data-search="5">Модераторы</button>
                             </div>
 
                         </div>
@@ -83,11 +83,11 @@
                         <div class="btn-group text-dark float-right panel-button-small"
                              role="group"
                              aria-label="First group">
-                            <a href="#" class="btn btn-link text-dark search-time" style="text-decoration:none">за неделю</a>
-                            <a href="#" class="btn btn-link text-dark search-time colors" style="text-decoration:none">за месяц</a >
-                            <a href="#" class="btn btn-link text-dark search-time" style="text-decoration:none">квартал</a >
-                            <a href="#" class="btn btn-link text-dark search-time" style="text-decoration:none">год</a>
-                            <a href="#" class="btn btn-link text-dark search-time" style="text-decoration:none">все</a>
+                            <a href="#" class="btn btn-link text-dark search-time" style="text-decoration:none" data-search-weeks="1">за неделю</a>
+                            <a href="#" class="btn btn-link text-dark search-time colors" style="text-decoration:none" data-search-weeks="4">за месяц</a >
+                            <a href="#" class="btn btn-link text-dark search-time" style="text-decoration:none" data-search-weeks="12">квартал</a >
+                            <a href="#" class="btn btn-link text-dark search-time" style="text-decoration:none" data-search-weeks="52">год</a>
+                            <a href="#" class="btn btn-link text-dark search-time" style="text-decoration:none" data-search-weeks="100">все</a>
                         </div>
                     </div>
                 </div>
