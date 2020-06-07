@@ -7,8 +7,9 @@ users:
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-05-28 13:58:56"
     role_id: 1
-    reputationCount: 1
-    imageUser: "path"
+    reputation_count: 5
+
+
 
 
 

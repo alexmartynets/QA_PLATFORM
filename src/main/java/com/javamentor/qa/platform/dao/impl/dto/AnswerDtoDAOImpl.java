@@ -45,7 +45,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId) {
         return entityManager
                 .createQuery(HQL +
-                        "a.question.id = :questionId order by a.updateDateTime desc, a.persistDateTime desc " +
+                        "a.question.id = :questionId order by a.updateDateTime desc " +
                         "")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
