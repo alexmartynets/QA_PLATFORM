@@ -65,19 +65,31 @@ public class Answer {
 
     @NotNull
     @Column(name = "count_valuable")
-    private Integer countValuable = 0;
+    private Integer countValuable;
 
     @PrePersist
     private void prePersistFunction() {
-        checkConstraints();
+        checkConstraintsCreate();
     }
 
     @PreUpdate
     private void preUpdateFunction() {
-        checkConstraints();
+        checkConstraintsUpdate();
     }
 
-    private void checkConstraints() {
+    private void checkConstraintsUpdate() {
+        if (this.htmlBody.isEmpty()) {
+            throw new RuntimeException("Поле htmlBody должно быть заполнено");
+        }
+    }
+
+    private void checkConstraintsCreate() {
+        if (this.countValuable != 0) {
+            throw new RuntimeException("Поле countValuable при создании должно быть равно 0");
+        }
+        if (this.isHelpful) {
+            throw new RuntimeException("Поле isHelpful при создании должно быть равно false");
+        }
         if (this.htmlBody.isEmpty()) {
             throw new RuntimeException("Поле htmlBody должно быть заполнено");
         }

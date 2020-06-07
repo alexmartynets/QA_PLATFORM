@@ -6,6 +6,7 @@ import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.AnswerDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
+import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.AnswerConverter;
 
 import io.swagger.annotations.Api;
@@ -14,10 +15,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -32,12 +35,14 @@ public class AnswerResourceController {
     private final AnswerConverter answerConverter;
     private final AnswerService answerService;
     private final AnswerDtoService answerDtoService;
+    private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public AnswerResourceController(AnswerConverter answerConverter, AnswerService answerService, AnswerDtoService answerDtoService) {
+    public AnswerResourceController(AnswerConverter answerConverter, AnswerService answerService, AnswerDtoService answerDtoService, UserService userService) {
         this.answerConverter = answerConverter;
         this.answerService = answerService;
         this.answerDtoService = answerDtoService;
+        this.userService = userService;
     }
 
     @ApiOperation(value = "Получение ответов по ID вопроса с сортировкой по недавно добавленным/измененным")
@@ -73,11 +78,17 @@ public class AnswerResourceController {
     @PostMapping
     public ResponseEntity<AnswerDto> addAnswer(@RequestBody @Valid AnswerDto answerDTO,
                                                @PathVariable @NotNull Long questionId) {
+        Long userId = answerDTO.getUserDto().getId();
+        if(userId == null || !userService.existsById(userId)){
+            logger.error(String.format("Ответ к вопросу с ID: %s не добавлен в базу данных т.к. пользователь с ID: %s не существует в БД.",
+                    answerDTO.getQuestionId(), userId));
+            throw new EntityNotFoundException(String.format("Юзер с id: %s в БД отсутствует!", userId));
+        }
         if (questionId.equals(answerDTO.getQuestionId())) {
             Answer answer = answerConverter.dtoToAnswer(answerDTO);
             answerService.persist(answer);
             logger.info(String.format("Ответ к вопросу с ID: %s добавлен в базу данных", answerDTO.getQuestionId()));
-            return ResponseEntity.ok(answerDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(answerDTO);
         } else {
             logger.error(String.format("Ответ к вопросу с ID: %s не добавлен в базу данных (в url ID вопроса: %s)",
                     answerDTO.getQuestionId(), questionId));

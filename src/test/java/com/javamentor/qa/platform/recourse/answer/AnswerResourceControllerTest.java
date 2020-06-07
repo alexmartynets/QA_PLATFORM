@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanBefore = true, cleanAfter = true)
 public class AnswerResourceControllerTest extends AbstractIntegrationTest {
@@ -20,7 +20,12 @@ public class AnswerResourceControllerTest extends AbstractIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    @DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
+    @DataSet(value = {"AnswerApiTest/role.yml",
+            "AnswerApiTest/users.yml",
+            "AnswerApiTest/answer.yml",
+            "AnswerApiTest/question.yml",
+            "AnswerApiTest/tag.yml",
+            "AnswerApiTest/question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
     public void getAllAnswerDtoByQuestionID1SortNew() throws Exception {
         mockMvc.perform(get("/api/user/question/1/answer")
                 .accept(MediaType.APPLICATION_JSON))
@@ -57,7 +62,12 @@ public class AnswerResourceControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
+    @DataSet(value = {"AnswerApiTest/role.yml",
+            "AnswerApiTest/users.yml",
+            "AnswerApiTest/answer.yml",
+            "AnswerApiTest/question.yml",
+            "AnswerApiTest/tag.yml",
+            "AnswerApiTest/question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
     public void getAllAnswerDtoByQuestionIDSortCount() throws Exception {
         mockMvc.perform(get("/api/user/question/1/answer/sort/count")
                 .accept(MediaType.APPLICATION_JSON))
@@ -83,8 +93,13 @@ public class AnswerResourceControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DataSet(value = {"role.yml", "users.yml", "answer.yml", "question.yml", "tag.yml", "question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
-    public void getAllAnswerDtoByQuestionIDSortDate() throws Exception {
+    @DataSet(value = {"AnswerApiTest/role.yml",
+            "AnswerApiTest/users.yml",
+            "AnswerApiTest/answer.yml",
+            "AnswerApiTest/question.yml",
+            "AnswerApiTest/tag.yml",
+            "AnswerApiTest/question_has_tag.yml"}, cleanAfter = true, cleanBefore = true)
+   public void getAllAnswerDtoByQuestionIDSortDate() throws Exception {
         mockMvc.perform(get("/api/user/question/1/answer/sort/date")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -110,8 +125,45 @@ public class AnswerResourceControllerTest extends AbstractIntegrationTest {
 
     @Test
     public void putAnswer() throws Exception {
-        mockMvc.perform(post("/api/user/question/{questionId}/answer"));
+        mockMvc.perform(post("/api/user/question/1/answer")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"id\": null," +
+                        "\"questionId\": 1," +
+                        "\"htmlBody\": \"answer for question 1TEST2\"," +
+                        "\"countValuable\": 22," +
+                        "\"isHelpful\": false," +
+                        "\"isDeleted\": false," +
+                        "\"userDto\": {\"id\": 1}}")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(jsonPath("$.questionId").value(1))
+                .andExpect(jsonPath("$.userDto.id").value(1));
 
 
     }
+    @Test
+    public void wrongUserId() throws Exception {
+        mockMvc.perform(post("/api/user/question/1/answer")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"id\": null," +
+                        "\"questionId\": 1," +
+                        "\"htmlBody\": \"answer for question 1TEST2\"," +
+                        "\"countValuable\": 22," +
+                        "\"isHelpful\": false," +
+                        "\"isDeleted\": false," +
+                        "\"userDto\": {\"id\": -1}}")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(jsonPath("$.questionId").value(1))
+                .andExpect(jsonPath("$.userDto.id").value(1))
+                .andExpect(jsonPath("$.userDto.id").value(1));
+
+
+    }
+
+
 }
