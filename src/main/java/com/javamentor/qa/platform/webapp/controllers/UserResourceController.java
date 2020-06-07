@@ -108,9 +108,9 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByReputation(@PathVariable @NonNull Long count,
-                                                                                    @PathVariable @NonNull Long page,
-                                                                                    @PathVariable @NonNull Long weeks) {
+    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByReputation(@RequestParam @NonNull Long count,
+                                                                                    @RequestParam @NonNull Long page,
+                                                                                    @RequestParam @NonNull Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByReputation(page.intValue(), count.intValue(), weeks));
     }
@@ -120,9 +120,9 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByVoice(@PathVariable @NonNull Long count,
-                                                                               @PathVariable @NonNull Long page,
-                                                                               @PathVariable @NonNull Long weeks) {
+    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByVoice(@RequestParam @NonNull Long count,
+                                                                               @RequestParam @NonNull Long page,
+                                                                               @RequestParam @NonNull Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByVoice(page.intValue(), count.intValue(), weeks));
     }
@@ -132,9 +132,9 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список редакторов получен")
     })
-    public ResponseEntity<Pair<List<EditorDto>, Long>> getListUsersByQuantityEditedText(@PathVariable @NonNull Long count,
-                                                                                        @PathVariable @NonNull Long page,
-                                                                                        @PathVariable @NonNull Long weeks) {
+    public ResponseEntity<Pair<List<EditorDto>, Long>> getListUsersByQuantityEditedText(@RequestParam @NonNull Long count,
+                                                                                        @RequestParam @NonNull Long page,
+                                                                                        @RequestParam @NonNull Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByQuantityEditedText(page.intValue(), count.intValue(), weeks));
     }
@@ -145,9 +145,9 @@ public class UserResourceController {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
     public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull String name,
-                                                                                      @PathVariable @NonNull Long count,
-                                                                                      @PathVariable @NonNull Long page,
-                                                                                      @PathVariable @NonNull Long weeks) {
+                                                                                      @RequestParam @NonNull Long count,
+                                                                                      @RequestParam @NonNull Long page,
+                                                                                      @RequestParam @NonNull Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
     }
