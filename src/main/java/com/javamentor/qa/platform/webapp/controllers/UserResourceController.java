@@ -96,11 +96,11 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListNewUsers(@RequestParam @NonNull Long count,
-                                                                     @RequestParam @NonNull Long page,
-                                                                     @RequestParam @NonNull Long weeks) {
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUserByCreationDate(@RequestParam @NonNull Long count,
+                                                                               @RequestParam @NonNull Long page,
+                                                                               @RequestParam @NonNull Long weeks) {
         return ResponseEntity.ok().body(userDtoService
-                .getListNewUsers(page.intValue(), count.intValue(), weeks));
+                .getListUserByCreationDate(page.intValue(), count.intValue(), weeks));
     }
 
     @ApiOperation(value = "получение списка пользователей по репутации c пагинацией")
@@ -151,4 +151,14 @@ public class UserResourceController {
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
     }
+
+    @ApiOperation(value = "получение списка пользователей по роли")
+    @GetMapping(path = "/role")  // ?role=admin
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен")
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUserByRole(@RequestParam @NonNull String role) {
+        return ResponseEntity.ok().body(userDtoService.getListUserByRole(role));
+    }
 }
+

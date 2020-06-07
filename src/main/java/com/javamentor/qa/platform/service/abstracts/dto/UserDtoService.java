@@ -14,7 +14,7 @@ public interface UserDtoService {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Pair<List<UserDto>, Long> getListNewUsers(int page, int count, long weeks);
+    Pair<List<UserDto>, Long> getListUserByCreationDate(int page, int count, long weeks);
 
     Pair<List<ReputationDto>, Long> getListUsersByReputation(int page, int count, long weeks);
 
@@ -23,4 +23,6 @@ public interface UserDtoService {
     Pair<List<ReputationDto>, Long> getListUsersByNameToSearch(String name, int page, int count, long weeks);
 
     Pair<List<EditorDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks);
+
+    Pair<List<UserDto>, Long> getListUserByRole(String role);
 }

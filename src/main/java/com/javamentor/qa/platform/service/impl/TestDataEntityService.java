@@ -54,6 +54,10 @@ public class TestDataEntityService {
     @Autowired
     private ReputationService reputationService;
 
+    @Autowired
+    private EditorService editorService;
+
+
     public void createEntity() {
         creatUserEntity();
         creatTagEntity();
@@ -72,6 +76,11 @@ public class TestDataEntityService {
         Role userRole = Role.builder()
                 .name("USER")
                 .build();
+
+        Role moderatorRole = Role.builder()
+                .name("MODERATOR")
+                .build();
+
 
         User admin = User.builder()
                 .email("admin@admin.ru")
