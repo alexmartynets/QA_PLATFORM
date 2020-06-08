@@ -589,26 +589,25 @@ function isHelpful(isHelpful) {
 }
 
 function isAnswerComment(id, dataAnswerComment) {
-    let newtext = "";
+    let newText = "";
+    let persistDateTime = "";
+    let button = "";
+    let fullName = "";
     dataAnswerComment.forEach(
         dataAnswerComment => {
             if (dataAnswerComment.id === id) {
-                newtext = dataAnswerComment.text;
-                return newtext;
+                newText = dataAnswerComment.text;
+                persistDateTime = dataAnswerComment.persistDateTime;
+                fullName = dataAnswerComment.fullName;
+                return newText+"–"+fullName;
             } else {
-                return newtext;
+                return newText;
             }
         }
     );
-    /*  Object.entries(dataAnswerComment).forEach(([key, value]) =>  {
-          if (value.id === id) {
-              newtext = value.text;
-              return newtext;
-          } else {
-              return newtext;
-          }
-  });*/
-    return newtext;
+    button = "<a href=\"#\" class=\"comment-user\">"+fullName+"</a>";
+    let convertPersistDateTime = convertDateToString(persistDateTime);
+    return newText+"–"+button+" "+convertPersistDateTime;
 }
 
 function popover() {
