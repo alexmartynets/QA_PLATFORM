@@ -12,4 +12,6 @@ public interface QuestionDtoDao {
     Optional<QuestionDto> getQuestionDtoById(Long id);
 
     List<QuestionDto> getQuestionDtoListByUserId(Long userId);
+
+    Optional<QuestionDto> hasQuestionAnswer(Long questionId);
 }

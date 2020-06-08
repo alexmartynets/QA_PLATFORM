@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.webapp.controllers;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
+import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
@@ -33,7 +34,7 @@ public class QuestionResourceController {
     public QuestionResourceController(QuestionDtoService questionDtoService,
                                       QuestionService questionService,
                                       QuestionConverter questionConverter,
-                                      UserService userService) {
+                                      UserService userService){
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
         this.questionConverter = questionConverter;
@@ -96,20 +97,25 @@ public class QuestionResourceController {
             logger.error(String.format("Вопрос с ID: %d не найден", id));
             return ResponseEntity.badRequest().body("Вопроса с таким id не существует");
         }
-        if (questionDto.get().getCountAnswer() > 0) {
+        if (questionDto.get().getCountAnswer() > 0) {//todo заменить на отдельный запрос
             logger.error(String.format("На вопрос был дан ответ, поэтому вопрос с ID: %d не может быть удалён", id));
             return ResponseEntity.badRequest().body("Невозможно удалить вопрос, на который был дан ответ");
         }
-        questionService.delete(questionConverter.toEntity(questionDto.get()));
+        questionService.deleteByFlag(id);
         return ResponseEntity.ok().body(String.format("Удаление вопроса с ID: %d выполнено успешно", id));
     }
 
-    @GetMapping("/by-user/{id}")
+    @ApiOperation(value = "Получение списка вопросов по ID пользователя")
+    @GetMapping(path = "/by-user/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список вопросов выгружен"),
+            @ApiResponse(code = 400, message = "Задан не корректный ID пользователя")
+    })
     public ResponseEntity<?> getQuestionByUserId(@PathVariable Long id) {
         if (userService.existsById(id)) {
             return ResponseEntity.ok(questionDtoService.getQuestionDtoListByUserId(id));
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(String.format("Пользователь по ID: %d не найден", id));
         }
     }
 }

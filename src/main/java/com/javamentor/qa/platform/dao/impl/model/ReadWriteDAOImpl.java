@@ -1,6 +1,7 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDAO;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +58,16 @@ public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
                 "DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public void deleteByFlagById(PK id) {
+        if (tClass.isAnnotationPresent(SQLDelete.class)) {
+            deleteByKeyCascadeEnable(id);
+        } else {
+            throw new RuntimeException("В классе нет признака удаление по флагу");
+        }
     }
 
     @Override

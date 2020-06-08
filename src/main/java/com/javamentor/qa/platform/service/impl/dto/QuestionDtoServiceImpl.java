@@ -31,4 +31,9 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     public List<QuestionDto> getQuestionDtoListByUserId(Long userId) {
         return questionDtoDao.getQuestionDtoListByUserId(userId);
     }
+
+    @Override
+    public Optional<QuestionDto> hasQuestionAnswer(Long questionId) {
+        return questionDtoDao.hasQuestionAnswer(questionId);
+    }
 }

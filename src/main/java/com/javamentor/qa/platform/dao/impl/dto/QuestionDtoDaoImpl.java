@@ -159,7 +159,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<QuestionDto> getQuestionDtoListByUserId(Long userId) {//todo настроить
+    public List<QuestionDto> getQuestionDtoListByUserId(Long userId) {
         List<QuestionDto> questionDtoList = new ArrayList<>();
         try {
             questionDtoList = entityManager.createQuery("SELECT " +
@@ -173,7 +173,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "t.id, " +
                     "t.name, " +
                     "t.description " +
-                    "FROM Question q JOIN q.tags t WHERE q.id =: id ")
+                    "FROM Question q JOIN q.tags t WHERE q.user.id =: id ")
                     .unwrap(Query.class)
                     .setParameter("id", userId)
                     .setResultTransformer(new ResultTransformer() {
@@ -220,5 +220,12 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
             e.printStackTrace();
         }
         return questionDtoList;
+    }
+
+    @Override
+    public Optional<QuestionDto> hasQuestionAnswer(Long questionId) {
+        entityManager.createQuery( "SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id")
+                .setParameter("id", questionId);
+        return null;
     }
 }
