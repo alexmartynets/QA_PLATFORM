@@ -31,25 +31,23 @@ jQuery(document).ready(function ($) {
         service.showPagination(data, dataMap, numberMedia, currentPage);
     });
 
-    let text_attr_d;
-    let text_attr_s;
+    // map url для запроса
+    let mapUrl = new Map([
+        ["new", "http://localhost:5557/api/user/new?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks],
+        ["reputation", "http://localhost:5557/api/user/reputation?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks],
+        ["voice", "http://localhost:5557/api/user/voice?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks],
+        ["editor", "http://localhost:5557/api/user/editor?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks],
+        ["role", "http://localhost:5557/api/user/role?role=MODERATOR"]
+    ]);
+
+    let text_attr_search;
+    let text_attr_weeks;
+
     // active button search-users
     $('.search').click(function () {
         $('.search').removeClass("active");
 
-        // let url_new = "http://localhost:5557/api/user/new?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
-        //
-        // let url_reputation = "http://localhost:5557/api/user/reputation?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
-        //
-        // let url_voice = "http://localhost:5557/api/user/voice?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
-        //
-        // let url_editor = "http://localhost:5557/api/user/editor?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
-        //
-        // let url_role = "http://localhost:5557/api/user/role?role=" + role;
-
-        text_attr_d= $(this).attr("data-search");
-        console.log(text_attr_d);
-
+        text_attr_search = $(this).attr("data-search");
         $(this).toggleClass("active");
 
     });
@@ -58,9 +56,12 @@ jQuery(document).ready(function ($) {
     $('.search-time').click(function () {
         $('.search-time').removeClass("colors");
 
-        text_attr_s = $(this).attr("data-search-weeks");
-        console.log(text_attr_d);
-        console.log(text_attr_s);
+        text_attr_weeks = $(this).attr("data-search-weeks");
+
+        let url = mapUrl.get(text_attr_search);
+
+        console.log(url);
+        console.log(url + text_attr_weeks);
 
         $(this).toggleClass("colors");
 
@@ -113,3 +114,13 @@ jQuery(document).ready(function ($) {
     });
 
 });
+
+// let url_new = "http://localhost:5557/api/user/new?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
+//
+// let url_reputation = "http://localhost:5557/api/user/reputation?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
+//
+// let url_voice = "http://localhost:5557/api/user/voice?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
+//
+// let url_editor = "http://localhost:5557/api/user/editor?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
+//
+// let url_role = "http://localhost:5557/api/user/role?role=" + role;
