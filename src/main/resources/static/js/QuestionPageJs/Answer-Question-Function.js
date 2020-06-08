@@ -592,22 +592,23 @@ function isAnswerComment(id, dataAnswerComment) {
     let newText = "";
     let persistDateTime = "";
     let button = "";
-    let fullName = "";
-    dataAnswerComment.forEach(
+    let result = "";
+    let convertPersistDateTime = "";
+        dataAnswerComment.forEach(
         dataAnswerComment => {
             if (dataAnswerComment.id === id) {
                 newText = dataAnswerComment.text;
                 persistDateTime = dataAnswerComment.persistDateTime;
-                fullName = dataAnswerComment.fullName;
-                return newText+"–"+fullName;
+                button = "<a href=\"#\" class=\"comment-user\">"+dataAnswerComment.fullName+"</a>";
+                convertPersistDateTime = convertDateToString(persistDateTime);
+                result = newText+"–"+button+" "+convertPersistDateTime;
+                return newText+"–"+button+" "+convertPersistDateTime;
             } else {
-                return newText;
+                return result;
             }
         }
     );
-    button = "<a href=\"#\" class=\"comment-user\">"+fullName+"</a>";
-    let convertPersistDateTime = convertDateToString(persistDateTime);
-    return newText+"–"+button+" "+convertPersistDateTime;
+    return result;
 }
 
 function popover() {
