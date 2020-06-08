@@ -3,7 +3,6 @@ package com.javamentor.qa.platform.webapp.controllers;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
-import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
@@ -22,7 +21,7 @@ import java.util.Optional;
 @RestControllerAdvice
 @RestController
 @RequestMapping(value = "/api/user/question/", produces = "application/json")
-@Api(value="QuestionApi", description = "Операции с вопросами (создание, изменение, получение списка, получение вопроса по ID)")
+@Api(value = "QuestionApi", description = "Операции с вопросами (создание, изменение, получение списка, получение вопроса по ID)")
 public class QuestionResourceController {
 
     private final QuestionDtoService questionDtoService;
@@ -34,7 +33,7 @@ public class QuestionResourceController {
     public QuestionResourceController(QuestionDtoService questionDtoService,
                                       QuestionService questionService,
                                       QuestionConverter questionConverter,
-                                      UserService userService){
+                                      UserService userService) {
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
         this.questionConverter = questionConverter;
@@ -58,7 +57,7 @@ public class QuestionResourceController {
     })
     public ResponseEntity<?> getQuestionById(@PathVariable Long id) {
         Optional<QuestionDto> questionDto = questionDtoService.getQuestionDtoById(id);
-        if (questionDto.isPresent()){
+        if (questionDto.isPresent()) {
             return ResponseEntity.ok(questionDto.get());
         }
         logger.error(String.format("Вопрос с указанным ID: %d не найден", id));
@@ -92,12 +91,12 @@ public class QuestionResourceController {
             @ApiResponse(code = 400, message = "Вопрос не может быть удалён")
     })
     public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
-        Optional<QuestionDto> questionDto = questionDtoService.getQuestionDtoById(id);
+        Optional<QuestionDto> questionDto = questionDtoService.hasQuestionAnswer(id);
         if (!questionDto.isPresent()) {
             logger.error(String.format("Вопрос с ID: %d не найден", id));
             return ResponseEntity.badRequest().body("Вопроса с таким id не существует");
         }
-        if (questionDto.get().getCountAnswer() > 0) {//todo заменить на отдельный запрос
+        if (questionDto.get().getCountAnswer() > 0) {
             logger.error(String.format("На вопрос был дан ответ, поэтому вопрос с ID: %d не может быть удалён", id));
             return ResponseEntity.badRequest().body("Невозможно удалить вопрос, на который был дан ответ");
         }

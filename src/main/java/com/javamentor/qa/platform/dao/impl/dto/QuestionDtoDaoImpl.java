@@ -222,10 +222,29 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
         return questionDtoList;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Optional<QuestionDto> hasQuestionAnswer(Long questionId) {
-        entityManager.createQuery( "SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id")
-                .setParameter("id", questionId);
-        return null;
+        return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("SELECT " +
+                "q.id, " +
+                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) " +
+                "FROM Question q WHERE q.id =: id ")
+                .unwrap(Query.class)
+                .setParameter("id", questionId)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return QuestionDto.builder()
+                                .id((Long) objects[0])
+                                .countAnswer(((Number) objects[1]).intValue())
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+        );
     }
 }
