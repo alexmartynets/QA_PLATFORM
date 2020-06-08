@@ -57,7 +57,7 @@ function getQuestionComment(id) {
             tableBody.empty();
             $(data).each(function (index, val) {
                 let persistDateTime = convertDateToString(val.persistDateTime);
-                tableBody.append(`<tr><td><h>${val.text}</h>–&nbsp;<a href="#" class="comment-user">${val.fullName}</a><h>&nbsp;${persistDateTime}</h></td></tr>`);
+                tableBody.append(`<tr><td><h>${val.text}</h>&nbsp;–&nbsp;<a href="#" class="comment-user">${val.fullName}</a><h>&nbsp;${persistDateTime}</h></td></tr>`);
             });
         },
         error: function () {
@@ -601,8 +601,8 @@ function isAnswerComment(id, dataAnswerComment) {
                 persistDateTime = dataAnswerComment.persistDateTime;
                 button = "<a href=\"#\" class=\"comment-user\">"+dataAnswerComment.fullName+"</a>";
                 convertPersistDateTime = convertDateToString(persistDateTime);
-                result = newText+"–"+button+" "+convertPersistDateTime;
-                return newText+"–"+button+" "+convertPersistDateTime;
+                result = newText+" – "+button+" "+convertPersistDateTime;
+                return newText+" – "+button+" "+convertPersistDateTime;
             } else {
                 return result;
             }
