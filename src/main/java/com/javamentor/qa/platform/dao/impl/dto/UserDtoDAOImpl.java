@@ -68,7 +68,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     })
                     .getResultList();
 
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 

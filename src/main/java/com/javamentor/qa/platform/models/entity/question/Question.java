@@ -4,6 +4,10 @@ import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,6 +22,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Table(name = "question")
+@Indexed
 public class Question {
 
     @Id
@@ -26,28 +31,34 @@ public class Question {
 
     @Column
     @NotNull
+    @Field(store = Store.YES)
     private String title;
 
     @NotNull
     @Column(name = "view_count")
+    @Field(store = Store.YES)
     private Integer viewCount = 0;
 
     @Lob
     @NotNull
     @Column
+    @Field(store = Store.YES)
     private String description;
 
     @CreationTimestamp
+    @Field(store = Store.YES)
     @Column(name = "persist_date", updatable = false)
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
 
     @NotNull
+    @Field(store = Store.YES)
     @Column(name = "count_valuable")
     private Integer countValuable = 0;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
+    @IndexedEmbedded(includePaths = {"fullName", "reputationCount"})
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)

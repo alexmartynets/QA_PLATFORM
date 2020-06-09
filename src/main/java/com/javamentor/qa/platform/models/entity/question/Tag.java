@@ -3,6 +3,9 @@ package com.javamentor.qa.platform.models.entity.question;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -37,6 +40,7 @@ public class Tag {
     private LocalDateTime persistDateTime;
 
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    @ContainedIn
     private List<Question> questions;
 
     @Override

@@ -90,6 +90,3 @@ public class CommentResourceController {
         return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
     }
 }
-
-
-

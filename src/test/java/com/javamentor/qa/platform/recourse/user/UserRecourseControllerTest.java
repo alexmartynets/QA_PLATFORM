@@ -12,7 +12,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    @DataSet(value = {"role.yml", "users.yml"}, cleanBefore = true)
+    @DataSet(value = {"roleSearch.yml", "usersSearch.yml"}, cleanBefore = true)
     void getAllDto()  {
 
     }
