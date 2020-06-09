@@ -3,15 +3,76 @@ jQuery(document).ready(function ($) {
     let data = new DataUsersPage();
     let service = new DataUsersService();
     // количество карточек на странице
-    let numberMedia = 20;
-    let weeks = 4;
-
-    //  http://localhost:5557/api/user/reputation?count=20&page=1&weeks=4
-    let url_list = "http://localhost:5557/api/user/reputation?count=" + numberMedia + "&page=";
+    let numberMedia = 5;
+    let weeks;
     let currentPage = 1;
+    let url;
+
+    // map url для запроса
+    let mapUrl = new Map([
+        ["new", "http://localhost:5557/api/user/new?count="],
+        ["reputation", "http://localhost:5557/api/user/reputation?count="],
+        ["voice", "http://localhost:5557/api/user/voice?count="],
+        ["editor", "http://localhost:5557/api/user/editor?count="],
+        ["role", "http://localhost:5557/api/user/role?role=MODERATOR"]
+    ]);
+
+    // todo
+    let attr_search = $('#button-users').attr("data-search");
+    url = mapUrl.get(attr_search);
+    console.log("url при загрузке страницы");
+    console.log(url);
+    // todo
+    weeks = $('#a-time').attr("data-weeks");
+    console.log("weeks при загрузке страницы");
+    console.log(weeks);
+
+    // button search-users
+    $('.search').click(function () {
+        $('.search').removeClass("active");
+
+        attr_search = $(this).attr("data-search");
+        url = mapUrl.get(attr_search);
+
+        // url для запроса
+        console.log("блок search-users при нажатии кнопки");
+        console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+
+        // получаем даннные для текущей страницы
+        let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+        service.showUsers(data, dataMap);
+        service.showPagination(data, dataMap, numberMedia, currentPage);
+
+        $(this).toggleClass("active");
+    });
+
+    // a search-time
+    $('.search-time').click(function () {
+        $('.search-time').removeClass("colors");
+
+        weeks = $(this).attr("data-weeks");
+
+        console.log("блок search-time weeks при нажатии кнопки");
+        console.log(weeks);
+
+        // url для запроса
+        console.log("url для получения данных в блоков search-time");
+        console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+
+        // получаем даннные для текущей страницы
+        let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+        service.showUsers(data, dataMap);
+        service.showPagination(data, dataMap, numberMedia, currentPage);
+
+        $(this).toggleClass("colors");
+    });
+
+
 
     // получаем даннные для 1 страницы
-    let dataMap = data.getListUsers(url_list + currentPage + "&weeks=" + weeks);
+    let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+    console.log("url для получения данных для страницы старт после блоков");
+    console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
     service.showUsers(data, dataMap);
     service.showPagination(data, dataMap, numberMedia, currentPage);
@@ -25,48 +86,16 @@ jQuery(document).ready(function ($) {
         }
 
         // получаем даннные для текущей страницы
-        let dataMap = data.getListUsers(url_list + currentPage + "&weeks=" + weeks);
+        let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+        console.log("url для получения данных для страницы пагинация после блоков");
+        console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         service.showUsers(data, dataMap);
         service.showPagination(data, dataMap, numberMedia, currentPage);
     });
 
-    // map url для запроса
-    let mapUrl = new Map([
-        ["new", "http://localhost:5557/api/user/new?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks],
-        ["reputation", "http://localhost:5557/api/user/reputation?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks],
-        ["voice", "http://localhost:5557/api/user/voice?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks],
-        ["editor", "http://localhost:5557/api/user/editor?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks],
-        ["role", "http://localhost:5557/api/user/role?role=MODERATOR"]
-    ]);
 
-    let text_attr_search;
-    let text_attr_weeks;
-
-    // active button search-users
-    $('.search').click(function () {
-        $('.search').removeClass("active");
-
-        text_attr_search = $(this).attr("data-search");
-        $(this).toggleClass("active");
-
-    });
-
-    // colors a search-time users
-    $('.search-time').click(function () {
-        $('.search-time').removeClass("colors");
-
-        text_attr_weeks = $(this).attr("data-search-weeks");
-
-        let url = mapUrl.get(text_attr_search);
-
-        console.log(url);
-        console.log(url + text_attr_weeks);
-
-        $(this).toggleClass("colors");
-
-    });
-
+//====================================================================================================================//
 
     // обработка search на странице users
     let input = document.querySelector("#search");
@@ -111,16 +140,7 @@ jQuery(document).ready(function ($) {
             service.showUsers(data, dataMap);
             service.showPagination(data, dataMap, numberMedia, currentPage);
         });
+
     });
 
 });
-
-// let url_new = "http://localhost:5557/api/user/new?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
-//
-// let url_reputation = "http://localhost:5557/api/user/reputation?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
-//
-// let url_voice = "http://localhost:5557/api/user/voice?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
-//
-// let url_editor = "http://localhost:5557/api/user/editor?count=" + numberMedia + "&page=" + currentPage + "&weeks=" + weeks;
-//
-// let url_role = "http://localhost:5557/api/user/role?role=" + role;
