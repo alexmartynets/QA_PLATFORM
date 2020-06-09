@@ -4,6 +4,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Store;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -35,6 +37,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column
+    @Field(store = Store.YES)
     private String fullName;
 
     @Column(name = "persist_date", nullable = false, updatable = false)
@@ -47,7 +50,8 @@ public class User implements UserDetails {
     private Boolean isEnabled = true;
 
     @Column(name = "reputation_count")
-    private Integer reputationCount;
+    @Field(store = Store.YES)
+    private Integer reputationCount = 0;
 
     @Column
     private String city;
