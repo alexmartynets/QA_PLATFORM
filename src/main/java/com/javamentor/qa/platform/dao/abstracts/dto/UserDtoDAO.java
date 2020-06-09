@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDtoDAO {
-
     List<UserDto> getUserDtoList();
 
     Optional<UserDto> getUserDtoById(Long id);
