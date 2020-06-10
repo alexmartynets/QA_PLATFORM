@@ -443,7 +443,7 @@ function getSortDateTextOfQuestion(id) {
             <td style="padding: 0">${isAnswerComment(val.id, dataAnswerComment)}</td>
     </tr>
 <tr>
-        <td colspan="2">
+        <td style="padding: 0" colspan="2">
          <a class="btn btn-link" title="Используйте комментарии для запроса дополнительной информации или предложения улучшений. Избегайте публикации ответа на вопросы в комментариях." data-toggle="collapse" href="#collapseComment${val.id}" role="button" aria-expanded="false" aria-controls="collapseComment${val.id}"> 
                добавить комментарий </a>
                <div class="collapse" id="collapseComment${val.id}">
@@ -547,7 +547,7 @@ function getSortReputationTextOfQuestion(id) {
             <td style="padding: 0">${isAnswerComment(val.id, dataAnswerComment)}</td>
     </tr>
 <tr>
-        <td colspan="2">
+        <td style="padding: 0" colspan="2">
          <a class="btn btn-link" title="Используйте комментарии для запроса дополнительной информации или предложения улучшений. Избегайте публикации ответа на вопросы в комментариях." data-toggle="collapse" href="#collapseComment${val.id}" role="button" aria-expanded="false" aria-controls="collapseComment${val.id}"> 
                добавить комментарий </a>
                <div class="collapse" id="collapseComment${val.id}">
