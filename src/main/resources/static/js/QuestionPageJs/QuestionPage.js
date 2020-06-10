@@ -1,5 +1,6 @@
-$(document).ready(function (id) {
-    id = 1;
+$(document).ready(function () {
+    let url = window.location.pathname;
+    let id = url.substring(url.lastIndexOf('/') + 1);
 
     $('[data-toggle="popover"]').popover({});
 
@@ -10,36 +11,29 @@ $(document).ready(function (id) {
         putHref();
     });
 
-    $('#btnSendAnswer').click(function (id) {
-        id = 1;
+    $('#btnSendAnswer').click(function () {
         let answerDTO = {};
         answerDTO.text = $('#summernote').val();
         putNewAnswer(id,answerDTO);
     });
-    $('#addComment').click(function (id) {
-        id = 1;
+    $('#addComment').click(function () {
         let commentDto = {};
         commentDto.text = $('#textarea2').val();
         addComment(id,commentDto);
     });
-    $('#btnUpCountPlus').click(function (id) {
-        id = 1;
+    $('#btnUpCountPlus').click(function () {
         putCountValuablePlus(id);
     });
-    $('#btnDownCountMinus').click(function (id) {
-        id = 1;
+    $('#btnDownCountMinus').click(function () {
         putCountValuableMinus(id);
     });
-    $('#SortCurrentTextOfQuestion').click(function (id) {
-        id = 1;
+    $('#SortCurrentTextOfQuestion').click(function () {
         getTextOfQuestion(id);
     });
-    $('#SortDateTextOfQuestion').click(function (id) {
-        id = 1;
+    $('#SortDateTextOfQuestion').click(function () {
         getSortDateTextOfQuestion(id);
     });
-    $('#SortReputationTextOfQuestion').click(function (id) {
-        id = 1;
+    $('#SortReputationTextOfQuestion').click(function () {
         getSortReputationTextOfQuestion(id);
     });
     getQuestion(id);
