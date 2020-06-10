@@ -57,7 +57,7 @@ function getQuestionComment(id) {
             tableBody.empty();
             $(data).each(function (index, val) {
                 let persistDateTime = convertDateToString(val.persistDateTime);
-                tableBody.append(`<tr><td><h>${val.text}</h>&nbsp;–&nbsp;<a href="#" class="comment-user">${val.fullName}</a><h>&nbsp;${persistDateTime}</h></td></tr>`);
+                tableBody.append(`<tr><td style="padding: 0"><h>${val.text}</h>&nbsp;–&nbsp;<a href="#" class="comment-user">${val.fullName}</a><h>&nbsp;${persistDateTime}</h></td></tr>`);
             });
         },
         error: function () {
@@ -295,7 +295,7 @@ function getTextOfQuestion(id) {
                             let questionId = val.questionId;
                             let persistDateTime = convertDateToString(val.persistDateTime);
                             tableBody.append(`<tr>
-        <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
+        <td  width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -336,11 +336,11 @@ function getTextOfQuestion(id) {
                                             class=" ml-1 ">${userInfoDto.fullName}</h><br><h class=" ml-2 " style="text-align: left;float: left;" title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>
      <tr>
-     <td width="50" rowspan="1"></td>
-            <td>${isAnswerComment(val.id, dataAnswerComment)}</td>
+     <td style="padding: 0" width="50" rowspan="1"></td>
+            <td style="padding: 0">${isAnswerComment(val.id, dataAnswerComment)}</td>
     </tr>
  <tr>
-        <td colspan="2">
+        <td style="padding: 0" colspan="2">
          <a class="btn btn-link" title="Используйте комментарии для запроса дополнительной информации или предложения улучшений. Избегайте публикации ответа на вопросы в комментариях." data-toggle="collapse" href="#collapseComment${val.id}" role="button" aria-expanded="false" aria-controls="collapseComment${val.id}"> 
                добавить комментарий </a>
                <div class="collapse" id="collapseComment${val.id}">
@@ -352,7 +352,7 @@ function getTextOfQuestion(id) {
                                             style="text-align:left;float:left;">
                                         добавить комментарий
                                     </button>
-</div></td>                                                                          
+</div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
                             $(popover());
                         });
@@ -439,8 +439,8 @@ function getSortDateTextOfQuestion(id) {
                                             class=" ml-1 ">${userInfoDto.fullName}</h><br><h class=" ml-2 " style="text-align: left;float: left;" title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>
      <tr>
-     <td width="50" rowspan="1"></td>
-            <td>${isAnswerComment(val.id, dataAnswerComment)}</td>
+     <td style="padding: 0" width="50" rowspan="1"></td>
+            <td style="padding: 0">${isAnswerComment(val.id, dataAnswerComment)}</td>
     </tr>
 <tr>
         <td colspan="2">
@@ -455,7 +455,7 @@ function getSortDateTextOfQuestion(id) {
                                             style="text-align:left;float:left;">
                                         добавить комментарий
                                     </button>
-</div></td>                                                                          
+</div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
                             $(popover());
                         });
@@ -543,8 +543,8 @@ function getSortReputationTextOfQuestion(id) {
                                             class=" ml-1 ">${userInfoDto.fullName}</h><br><h class=" ml-2 " style="text-align: left;float: left;" title="уровень репутации">${userInfoDto.reputationCount}</h></div></span></td>
     </tr>
      <tr>
-     <td width="50" rowspan="1"></td>
-            <td>${isAnswerComment(val.id, dataAnswerComment)}</td>
+     <td style="padding: 0" width="50" rowspan="1"></td>
+            <td style="padding: 0">${isAnswerComment(val.id, dataAnswerComment)}</td>
     </tr>
 <tr>
         <td colspan="2">
@@ -559,7 +559,7 @@ function getSortReputationTextOfQuestion(id) {
                                             style="text-align:left;float:left;">
                                         добавить комментарий
                                     </button>
-</div></td>                                                                          
+</div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
                             $(popover());
                         });
@@ -593,16 +593,18 @@ function isAnswerComment(id, dataAnswerComment) {
     let persistDateTime = "";
     let button = "";
     let result = "";
+    let border = "";
     let convertPersistDateTime = "";
-        dataAnswerComment.forEach(
+    dataAnswerComment.forEach(
         dataAnswerComment => {
             if (dataAnswerComment.id === id) {
                 newText = dataAnswerComment.text;
                 persistDateTime = dataAnswerComment.persistDateTime;
                 button = "<a href=\"#\" class=\"comment-user\">"+dataAnswerComment.fullName+"</a>";
+                border = "<hr class=\"my-0\" color=\"gainsboro\">";
                 convertPersistDateTime = convertDateToString(persistDateTime);
-                result = newText+" – "+button+" "+convertPersistDateTime;
-                return newText+" – "+button+" "+convertPersistDateTime;
+                result = border+newText+" – "+button+" "+convertPersistDateTime+border;
+                return border+newText+" – "+button+" "+convertPersistDateTime+border;
             } else {
                 return result;
             }
