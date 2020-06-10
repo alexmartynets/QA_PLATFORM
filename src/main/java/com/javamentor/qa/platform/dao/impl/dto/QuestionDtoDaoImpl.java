@@ -102,11 +102,11 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.countValuable, " +
                 "q.persistDateTime, " +
                 "q.description, " +
-                "q.isDeleted, " +
                 "t.id, " +
                 "t.name, " +
                 "t.description, " +
-                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) " +
+                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id)" +
                 "FROM Question q JOIN q.tags t WHERE q.id =: id ")
                 .unwrap(Query.class)
                 .setParameter("id", id)
@@ -120,9 +120,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .imageUser((byte[]) objects[5])
                                 .build();
                         TagDto tagDto = TagDto.builder()
-                                .id((Long) objects[11])
-                                .name((String) objects[12])
-                                .description((String) objects[13])
+                                .id((Long) objects[10])
+                                .name((String) objects[11])
+                                .description((String) objects[12])
                                 .build();
                         List<TagDto> tagDtoList = new ArrayList<>();
                         tagDtoList.add(tagDto);
@@ -135,8 +135,8 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .persistDateTime((LocalDateTime) objects[8])
                                 .description((String) objects[9])
                                 .tags(tagDtoList)
-                                .isDeleted((Boolean) objects[10])
-                                .countAnswer(((Number) objects[14]).intValue())
+                                .countAnswer(((Number) objects[13]).intValue())
+                                .isHelpful((Boolean) objects[14])
                                 .build();
                     }
 
@@ -172,7 +172,8 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "q.description," +
                     "t.id, " +
                     "t.name, " +
-                    "t.description " +
+                    "t.description, " +
+                    "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id)" +
                     "FROM Question q JOIN q.tags t WHERE q.user.id =: id ")
                     .unwrap(Query.class)
                     .setParameter("id", userId)
@@ -198,6 +199,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .persistDateTime((LocalDateTime) objects[5])
                                     .description((String) objects[6])
                                     .tags(tagDtoList)
+                                    .isHelpful((Boolean) objects[10])
                                     .build();
                         }
 

@@ -55,9 +55,6 @@ public class QuestionDto {
     @ApiModelProperty(notes = "Дата публикования вопроса")
     private LocalDateTime persistDateTime;
 
-    @ApiModelProperty(notes = "Флаг, который помечает вопрос удалённым")
-    private Boolean isDeleted;
-
     @ApiModelProperty(notes = "Флаг, который помечает вопрос, о наличии ответа, решившего проблему")
     private Boolean isHelpful;
 

@@ -9,6 +9,7 @@ question:
     is_deleted: 0
     last_redaction_date: "2020-01-02 13:58:56"
 
+
   - id: 2
     count_valuable: 3
     description: "some description for second question"
@@ -17,7 +18,7 @@ question:
     user_id: 1
     persist_date: "2020-01-10 13:58:56"
     is_deleted: 0
-    last_redaction_date: "2020-01-02 13:58:56"
+    last_redaction_date: "2020-01-20 13:58:56"
 
   - id: 3
     count_valuable: 2
@@ -27,4 +28,14 @@ question:
     user_id: 2
     persist_date: "2020-01-20 13:58:56"
     is_deleted: 0
-    last_redaction_date: "2020-01-02 13:58:56"
+    last_redaction_date: "2020-02-01 13:58:56"
+
+  - id: 4
+    count_valuable: 5
+    description: "some description for next question number four"
+    title: "Question number four"
+    view_count: 2
+    user_id: 2
+    persist_date: "2020-01-20 13:58:56"
+    is_deleted: 1
+    last_redaction_date: "2020-02-01 13:58:56"
