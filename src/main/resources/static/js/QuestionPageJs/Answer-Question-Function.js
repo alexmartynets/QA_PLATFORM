@@ -19,7 +19,7 @@ function getQuestion(id) {
                 let convertPersistDateTimeToString = convertDateToString(data.persistDateTime);
 
                 $(tags).each(function (index, val) {
-                    tableBody.append(`<small class=" ml-2 " style="background-color: #e1ecf4">${val.name}</small>`);
+                    tableBody.append(`<small class=" ml-2 " style="background-color: #e1ecf4"><a href="#" class="comment-user">${val.name}</a></small>`);
                 });
 
                 document.getElementById("NameAnswer").innerHTML = data.title;
