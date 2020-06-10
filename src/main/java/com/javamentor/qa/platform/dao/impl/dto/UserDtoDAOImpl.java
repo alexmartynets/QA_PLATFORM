@@ -158,7 +158,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkGitHub, " +
                 "u.linkSite, " +
                 "u.linkVk " +
-                "FROM User as u WHERE u.persistDateTime > :data")
+                "FROM User as u WHERE u.persistDateTime > :data ORDER BY u.persistDateTime DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)

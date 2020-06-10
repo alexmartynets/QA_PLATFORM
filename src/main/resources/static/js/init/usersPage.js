@@ -1,5 +1,8 @@
 jQuery(document).ready(function ($) {
 
+    // скрыть кнопки
+    $(".hides").hide();
+
     let data = new DataUsersPage();
     let service = new DataUsersService();
     // количество карточек на странице
@@ -23,7 +26,7 @@ jQuery(document).ready(function ($) {
     console.log("url при загрузке страницы");
     console.log(url);
     // todo
-    weeks = $('#a-time').attr("data-weeks");
+    weeks = $('#all').attr("data-weeks");
     console.log("weeks при загрузке страницы");
     console.log(weeks);
 
@@ -31,8 +34,35 @@ jQuery(document).ready(function ($) {
     $('.search').click(function () {
         $('.search').removeClass("active");
 
-        attr_search = $(this).attr("data-search");
-        url = mapUrl.get(attr_search);
+        let text = $(this).text();
+        if (text === 'Новые участники') {
+            $(".shows").hide();
+            $(".hides").show();
+            // $('#new').toggleClass("colors");
+
+            attr_search = $(this).attr("data-search");
+            url = mapUrl.get(attr_search);
+
+            weeks = $('#new').attr("data-weeks");
+
+            // url для запроса
+            console.log("блок search-users при нажатии кнопки блок if");
+            console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+
+        } else {
+            $('.hides').hide();
+            $('.shows').show();
+
+            attr_search = $(this).attr("data-search");
+            url = mapUrl.get(attr_search);
+
+            weeks = $('#all').attr("data-weeks");
+
+            // url для запроса
+            console.log("блок search-users при нажатии кнопки блок else");
+            console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+
+        }
 
         // url для запроса
         console.log("блок search-users при нажатии кнопки");
@@ -66,7 +96,6 @@ jQuery(document).ready(function ($) {
 
         $(this).toggleClass("colors");
     });
-
 
 
     // получаем даннные для 1 страницы
