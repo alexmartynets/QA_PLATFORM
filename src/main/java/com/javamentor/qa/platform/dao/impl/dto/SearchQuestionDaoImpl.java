@@ -5,6 +5,7 @@ import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.dto.TagDto;
+import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import org.hibernate.query.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -246,8 +247,10 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
                                 .description((String) tuple[1])
                                 .countValuable(((Number) tuple[3]).intValue())
                                 .persistDateTime((LocalDateTime) tuple[4])
-                                .username((String) tuple[5])
-                                .reputationCount(((Number) tuple[6]).intValue())
+                                .userDto(UserDto.builder()
+                                        .fullName((String) tuple[5])
+                                        .reputationCount(((Number) tuple[6]).intValue())
+                                        .build())
                                 .viewCount(((Number) tuple[7]).intValue())
                                 .build();
                     }
@@ -264,6 +267,10 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
         return new ResultTransformer() {
             @Override
             public Object transformTuple(Object[] tuple, String[] aliases) {
+                UserDto userDto = UserDto.builder()
+                        .fullName((String) tuple[4])
+                        .reputationCount(((Number)tuple[6]).intValue())
+                        .build();
                 TagDto tagDto = TagDto.builder()
                         .id((Long) tuple[10])
                         .name((String) tuple[11])
@@ -276,12 +283,11 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
                         .persistDateTime((LocalDateTime) tuple[1])
                         .title((String) tuple[2])
                         .description((String) tuple[3])
-                        .username((String) tuple[4])
+                        .userDto(userDto)
                         .countValuable(((Number) tuple[5]).intValue())
                         .countAnswer(((Number) tuple[8]).intValue())
                         .isHelpful((Boolean) tuple[9])
                         .viewCount(((Number)tuple[7]).intValue())
-                        .reputationCount(((Number)tuple[6]).intValue())
                         .tags(tagDtoList)
                         .build();
             }
