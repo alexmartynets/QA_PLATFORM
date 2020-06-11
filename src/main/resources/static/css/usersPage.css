@@ -26,6 +26,10 @@ body {
     width: 500px; /* ширина блока */
 }
 
+.hides {
+    display: none;
+}
+
 .left-panel-blok .btn{
     text-align: left;
     font-size: 16px;
