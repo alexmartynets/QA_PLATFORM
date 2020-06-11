@@ -96,9 +96,9 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUserByCreationDate(@RequestParam @NonNull Long count,
-                                                                               @RequestParam @NonNull Long page,
-                                                                               @RequestParam @NonNull Long weeks) {
+    public ResponseEntity<Pair<List<ReputationDto>, Long>> getListUserByCreationDate(@RequestParam @NonNull Long count,
+                                                                                     @RequestParam @NonNull Long page,
+                                                                                     @RequestParam @NonNull Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListUserByCreationDate(page.intValue(), count.intValue(), weeks));
     }

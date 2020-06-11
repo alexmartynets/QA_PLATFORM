@@ -17,7 +17,7 @@ public interface UserDtoDAO {
 
     Long getCountUsersByQuantityEditedText(long weeks);
 
-    List<UserDto> getListUserByCreationDate(int page, int count, long weeks);
+    List<ReputationDto> getListUserByCreationDate(int page, int count, long weeks);
 
     List<EditorDto> getListUsersByQuantityEditedText(int page, int count, long weeks);
 

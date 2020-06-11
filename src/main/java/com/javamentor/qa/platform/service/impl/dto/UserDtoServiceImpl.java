@@ -31,8 +31,8 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Pair<List<UserDto>, Long> getListUserByCreationDate(int page, int count, long weeks) {
-        List<UserDto> listUsersDto = userDtoDao.getListUserByCreationDate(page, count, weeks);
+    public Pair<List<ReputationDto>, Long> getListUserByCreationDate(int page, int count, long weeks) {
+        List<ReputationDto> listUsersDto = userDtoDao.getListUserByCreationDate(page, count, weeks);
         Long countUsers = userDtoDao.getCountUserByCreationDate(weeks);
         return new Pair<>(listUsersDto, countUsers);
     }

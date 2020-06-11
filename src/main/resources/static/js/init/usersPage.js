@@ -20,6 +20,11 @@ jQuery(document).ready(function ($) {
         ["role", "http://localhost:5557/api/user/role?role=MODERATOR"]
     ]);
 
+    let mapUrlPlus = new Map([
+        ["new", "new?count="],
+        ["reputation", "reputation?count="]
+    ]);
+
     // todo
     let attr_search = $('#button-users').attr("data-search");
     url = mapUrl.get(attr_search);
@@ -38,15 +43,19 @@ jQuery(document).ready(function ($) {
         if (text === 'Новые участники') {
             $(".shows").hide();
             $(".hides").show();
-            // $('#new').toggleClass("colors");
 
             attr_search = $(this).attr("data-search");
             url = mapUrl.get(attr_search);
 
             weeks = $('#new').attr("data-weeks");
 
+            // urlPlus для запроса
+            let attr_path = $(this).attr("data-path");
+            console.log("data-path при нажатии кнопки поиск в блоке if");
+            console.log(attr_path);
+
             // url для запроса
-            console.log("блок search-users при нажатии кнопки блок if");
+            console.log("блок search-users при нажатии кнопки поиск в блоке if");
             console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         } else {
@@ -59,13 +68,13 @@ jQuery(document).ready(function ($) {
             weeks = $('#all').attr("data-weeks");
 
             // url для запроса
-            console.log("блок search-users при нажатии кнопки блок else");
+            console.log("блок search-users при нажатии кнопки поиск в блоке else");
             console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         }
 
         // url для запроса
-        console.log("блок search-users при нажатии кнопки");
+        console.log("блок search-users при нажатии кнопки search");
         console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         // получаем даннные для текущей страницы
@@ -82,7 +91,7 @@ jQuery(document).ready(function ($) {
 
         weeks = $(this).attr("data-weeks");
 
-        console.log("блок search-time weeks при нажатии кнопки");
+        console.log("блок search-time количество weeks при нажатии кнопки search-time");
         console.log(weeks);
 
         // url для запроса

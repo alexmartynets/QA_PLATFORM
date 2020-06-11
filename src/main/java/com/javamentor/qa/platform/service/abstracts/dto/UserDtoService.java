@@ -14,7 +14,7 @@ public interface UserDtoService {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Pair<List<UserDto>, Long> getListUserByCreationDate(int page, int count, long weeks);
+    Pair<List<ReputationDto>, Long> getListUserByCreationDate(int page, int count, long weeks);
 
     Pair<List<ReputationDto>, Long> getListUsersByReputation(int page, int count, long weeks);
 
