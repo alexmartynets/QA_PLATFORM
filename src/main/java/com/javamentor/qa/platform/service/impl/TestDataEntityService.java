@@ -248,13 +248,13 @@ public class TestDataEntityService {
                 .description("Description tag2")
                 .build();
         tagService.persist(tag2);
-
-        Tag tag3 = Tag.builder()
-                .name("Main tag3")
-                .description("Description tag3")
-                .build();
-        tagService.persist(tag3);
-
+        for (int i = 4; i < 50; i++) {
+            Tag tag3 = Tag.builder()
+                    .name(String.format("Main tag%s", i))
+                    .description(String.format("Description tag%s", i))
+                    .build();
+            tagService.persist(tag3);
+        }
         RelatedTag relatedTag = RelatedTag.builder()
                 .mainTag(tag1)
                 .childTag(tag2)
