@@ -10,7 +10,6 @@ jQuery(document).ready(function ($) {
 
     // map url для запроса todo можно обяденить с mapUrlNewUsers и сделать метод для получения
     let mapUrlAllUsers = new Map([
-        // ["new", "http://localhost:5557/api/user/"],
         ["reputation", "http://localhost:5557/api/user/reputation?count="],
         ["voice", "http://localhost:5557/api/user/voice?count="],
         ["editor", "http://localhost:5557/api/user/editor?count="],
