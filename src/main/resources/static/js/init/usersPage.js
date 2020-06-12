@@ -8,7 +8,7 @@ jQuery(document).ready(function ($) {
     let currentPage = 1;
     let url;
 
-    // map url для запроса
+    // map url для запроса todo можно обяденить с mapUrlNewUsers и сделать метод для получения
     let mapUrlAllUsers = new Map([
         // ["new", "http://localhost:5557/api/user/"],
         ["reputation", "http://localhost:5557/api/user/reputation?count="],
@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
         ["reputation", "http://localhost:5557/api/user/new/reputation?count="]
     ]);
 
-    // todo получения данных для стартовой страницы с кнопки поиска репутация
+    // todo получения данных для стартовой страницы с кнопки поиска "репутация"
     let attr_search = $('#reputation').attr("data-search");
     url = mapUrlAllUsers.get(attr_search);
     console.log("url при загрузке страницы по кнопке репутация");
@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
 
     $('#month').toggleClass("colors");
 
-    // todo получения данных для стартовой страницы с кнопки сортировки месяц
+    // todo получения данных для стартовой страницы с кнопки сортировки "месяц"
     weeks = $('#month').attr("data-weeks");
     console.log("weeks при загрузке страницы по кнопке месяц");
     console.log(weeks);
