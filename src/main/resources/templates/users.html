@@ -65,7 +65,7 @@
                             </div>
 
                             <div>
-                                <button id="button-users" type="button" class="btn btn-light text-dark search active" data-search="reputation">Репутация</button>
+                                <button id="reputation" type="button" class="btn btn-light text-dark search active" data-search="reputation">Репутация</button>
                                 <button type="button" class="btn btn-light text-dark search" data-search="new">Новые участники</button>
                                 <button type="button" class="btn btn-light text-dark search" data-search="voice">Голосующие</button>
                                 <button type="button" class="btn btn-light text-dark search" data-search="editor">Редакторы</button>
@@ -84,15 +84,25 @@
                              role="group"
                              aria-label="First group">
                             <a href="#" class="btn btn-link text-dark sorting-time shows"  data-weeks="1">за неделю</a>
-                            <a href="#" id="all" class="btn btn-link text-dark sorting-time colors shows"  data-weeks="4">за месяц</a >
+                            <a href="#" id="month" class="btn btn-link text-dark sorting-time shows" data-weeks="4">за месяц</a >
                             <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="12">квартал</a >
                             <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="52">год</a>
-                            <a href="#" class="btn btn-link text-dark sorting-time shows"  data-weeks="100">все</a>
-                            <a href="#" id="new" class="btn btn-link text-dark sorting-time colors hides"  data-path="reputation" data-weeks="8">по рейтингу</a>
-                            <a href="#" class="btn btn-link text-dark sorting-time hides"  data-path="new" data-weeks="8">по дате</a>
+                            <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="100">все</a>
+                            <a href="#" id="new" class="btn btn-link text-dark sorting-time hides" data-path="reputation" data-weeks="8">по рейтингу</a>
+                            <a href="#" class="btn btn-link text-dark sorting-time hides" data-path="new" data-weeks="8">по дате</a>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="moderator">
+                <h4>Кто такие модераторы?</h4>
+                <p>
+                    Мы считаем, что модерация зарождается внутри самого сообщества, поэтому в дополнение к <a href="#">привилегиям, полученным за накопленную репутацию</a> мы периодически проводим <a href="#">демократические выборы модераторов</a>.
+                </p>
+                <p>
+                    Пожалуйста, см. <a href="#">«Теорию модерации»</a> для получения дополнительной информации о принципах работы модераторов.
+                </p>
             </div>
 
             <!-- Users -->

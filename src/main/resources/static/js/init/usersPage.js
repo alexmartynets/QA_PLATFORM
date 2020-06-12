@@ -10,7 +10,7 @@ jQuery(document).ready(function ($) {
 
     // map url для запроса
     let mapUrlAllUsers = new Map([
-        // ["new", "http://localhost:5557/api/user/new?count="],
+        // ["new", "http://localhost:5557/api/user/"],
         ["reputation", "http://localhost:5557/api/user/reputation?count="],
         ["voice", "http://localhost:5557/api/user/voice?count="],
         ["editor", "http://localhost:5557/api/user/editor?count="],
@@ -22,26 +22,38 @@ jQuery(document).ready(function ($) {
         ["reputation", "http://localhost:5557/api/user/new/reputation?count="]
     ]);
 
-    // todo получения данных для стартовой страницы с кнопки поиска
-    let attr_search = $('#button-users').attr("data-search");
+    // todo получения данных для стартовой страницы с кнопки поиска репутация
+    let attr_search = $('#reputation').attr("data-search");
     url = mapUrlAllUsers.get(attr_search);
-    console.log("url при загрузке страницы");
+    console.log("url при загрузке страницы по кнопке репутация");
     console.log(url);
-    // todo получения данных для стартовой страницы с кнопки сортировки
-    weeks = $('#all').attr("data-weeks");
-    console.log("weeks при загрузке страницы");
+
+    $('#month').toggleClass("colors");
+    // todo получения данных для стартовой страницы с кнопки сортировки месяц
+    weeks = $('#month').attr("data-weeks");
+    console.log("weeks при загрузке страницы по кнопке месяц");
     console.log(weeks);
 
-    // кнопки в блоке search-users получаем url для запроса
+    // todo кнопки в блоке search-users получаем url для запроса
     $('.search').click(function () {
         $('.search').removeClass("active");
 
+        $('.sorting-time').removeClass("colors");
+        $('#month').toggleClass("colors");
+
+        $('#moderator').hide();
+        $('#sorting-time').show();
+
         let text = $(this).text();
 
-        console.log("text с кнопки поиска");
+        console.log("text с кнопки поиска блока search-users");
         console.log(text);
 
         if (text === 'Новые участники') {
+
+            $('.sorting-time').removeClass("colors");
+            $('#new').toggleClass("colors");
+
             $('.shows').hide();
             $('.hides').show();
 
@@ -51,24 +63,43 @@ jQuery(document).ready(function ($) {
             weeks = $('#new').attr("data-weeks");
 
             // url для запроса
-            console.log("data-path из sorting-time в блок search-users при нажатии кнопки поиск в блоке if");
+            console.log("data-path из sorting-time в блок search-users при нажатии кнопки Новые в блоке if");
             console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
+        } else if (text === 'Модераторы') {
+
+            attr_search = $(this).attr("data-search");
+            url = mapUrlAllUsers.get(attr_search);
+
+            // url для запроса
+            console.log("блок search-users при нажатии кнопки поиск Модераторы в блоке else if");
+            console.log(url);
+
+            // // получаем даннные для страницы
+            // let dataMap = data.getListUsers(url);
+            // service.showUsers(data, dataMap);
+
+            $('#sorting-time').hide();
+            $('#moderator').show();
+            $(this).toggleClass("active");
+
+            return;
+
         } else {
+
             $('.hides').hide();
             $('.shows').show();
 
             attr_search = $(this).attr("data-search");
             url = mapUrlAllUsers.get(attr_search);
 
-            weeks = $('#all').attr("data-weeks");
+            weeks = $('#month').attr("data-weeks");
 
             // url для запроса
             console.log("блок search-users при нажатии кнопки поиск в блоке else");
             console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         }
-        // todo добавить if для модераторов получить url, запрос и зделать return
 
         // url для запроса
         console.log("блок search-users при нажатии кнопки search");
@@ -82,22 +113,33 @@ jQuery(document).ready(function ($) {
         $(this).toggleClass("active");
     });
 
-    // кнопки в блоке sorting-time получаем число недель для запроса
+    // todo кнопки в блоке sorting-time получаем число недель для запроса
     $('.sorting-time').click(function () {
         $('.sorting-time').removeClass("colors");
+
+        let text = $(this).text();
+        console.log("text с кнопки поиска блока sorting-time");
+        console.log(text);
+
+        // todo получаем url запроса для новых пользователей при сортировке
+        if (text === 'по рейтингу' || text === 'по дате') {
+            let attr_path = $(this).attr("data-path");
+            console.log("data-path при нажатии кнопки сортировки в блоке sorting-time");
+            console.log(attr_path);
+
+            url = mapUrlNewUsers.get(attr_path);
+            // url для запроса
+            console.log("url для получения данных в блоков sorting-time при обработке кнопки Новые пользователи");
+            console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+        }
 
         weeks = $(this).attr("data-weeks");
 
         console.log("блок sorting-time количество weeks при нажатии кнопки sorting");
         console.log(weeks);
 
-        // todo придумаль как изменять запрос для новых пользователей при сортировке
-        let attr_path = $(this).attr("data-path");
-        console.log("data-path при нажатии кнопки сортировки в блоке sorting-time");
-        console.log(attr_path);
-
         // url для запроса
-        console.log("url для получения данных в блоков sorting-time");
+        console.log("url для получения данных в конце блока sorting-time");
         console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         // // получаем даннные для текущей страницы
@@ -109,7 +151,7 @@ jQuery(document).ready(function ($) {
     });
 
 
-    // todo получаем даннные для стартовой страницы
+    // todo получаем даннные для стартовой страницы по комбинации кнопок репутация + месяц
     console.log("url для получения данных для страницы старт после блоков");
     console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
