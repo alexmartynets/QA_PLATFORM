@@ -62,7 +62,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
 
                         @Override
                         public List transformList(List list) {
-                            Map<Long, QuestionDto> result = new TreeMap<>(Comparator.reverseOrder());//Comparator.naturalOrder()
+                            Map<Long, QuestionDto> result = new TreeMap<>(Comparator.reverseOrder());
                             for (Object obj : list) {
                                 QuestionDto questionDto = (QuestionDto) obj;
                                 if (result.containsKey(questionDto.getId()))

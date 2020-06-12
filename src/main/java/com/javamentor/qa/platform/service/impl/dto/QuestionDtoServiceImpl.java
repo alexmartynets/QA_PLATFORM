@@ -12,8 +12,12 @@ import java.util.List;
 @Service
 public class QuestionDtoServiceImpl implements QuestionDtoService {
 
+    private final QuestionDtoDao questionDtoDao;
+
     @Autowired
-    private QuestionDtoDao questionDtoDao;
+    public QuestionDtoServiceImpl(QuestionDtoDao questionDtoDao) {
+        this.questionDtoDao = questionDtoDao;
+    }
 
     @Override
     public List<QuestionDto> getAll() {
