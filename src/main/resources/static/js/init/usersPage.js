@@ -32,7 +32,7 @@ jQuery(document).ready(function ($) {
     console.log("weeks при загрузке страницы");
     console.log(weeks);
 
-    // button search-users загрузка данных для стартовых страниц
+    // кнопки в блоке search-users получаем url для запроса
     $('.search').click(function () {
         $('.search').removeClass("active");
 
@@ -82,7 +82,7 @@ jQuery(document).ready(function ($) {
         $(this).toggleClass("active");
     });
 
-    // a sorting-time
+    // кнопки в блоке sorting-time получаем число недель для запроса
     $('.sorting-time').click(function () {
         $('.sorting-time').removeClass("colors");
 
@@ -91,7 +91,7 @@ jQuery(document).ready(function ($) {
         console.log("блок sorting-time количество weeks при нажатии кнопки sorting");
         console.log(weeks);
 
-        // данные для формирования url из mapUrlNewUsers для запроса
+        // todo придумаль как изменять запрос для новых пользователей при сортировке
         let attr_path = $(this).attr("data-path");
         console.log("data-path при нажатии кнопки сортировки в блоке sorting-time");
         console.log(attr_path);
