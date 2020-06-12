@@ -1,0 +1,8 @@
+tag:
+  - description: "Tag1"
+    name: "Tag_1"
+    persist_date: "2020-04-04"
+
+  - description: "Tag2"
+    name: "Tag_2"
+    persist_date: "2020-04-04"
