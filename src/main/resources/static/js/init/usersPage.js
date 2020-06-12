@@ -13,7 +13,7 @@ jQuery(document).ready(function ($) {
         ["reputation", "http://localhost:5557/api/user/reputation?count="],
         ["voice", "http://localhost:5557/api/user/voice?count="],
         ["editor", "http://localhost:5557/api/user/editor?count="],
-        ["role", "http://localhost:5557/api/user/role?role=MODERATOR"]
+        ["moderator", "http://localhost:5557/api/user/moderator"]
     ]);
 
     let mapUrlNewUsers = new Map([
