@@ -29,6 +29,7 @@ jQuery(document).ready(function ($) {
     console.log(url);
 
     $('#month').toggleClass("colors");
+
     // todo получения данных для стартовой страницы с кнопки сортировки месяц
     weeks = $('#month').attr("data-weeks");
     console.log("weeks при загрузке страницы по кнопке месяц");
@@ -134,6 +135,17 @@ jQuery(document).ready(function ($) {
         }
 
         weeks = $(this).attr("data-weeks");
+
+        // todo получаем число недель от даты создания
+        if (weeks === '-1'){
+            // todo сделать ввиде метода
+            let today = new Date();
+            let dateCreation = new Date('2018-01-01');
+            console.log("разница во времяни");
+            console.log(today-dateCreation);
+            let r = (today-dateCreation)/604800000;
+            console.log(Math.ceil(r));
+        }
 
         console.log("блок sorting-time количество weeks при нажатии кнопки sorting");
         console.log(weeks);
