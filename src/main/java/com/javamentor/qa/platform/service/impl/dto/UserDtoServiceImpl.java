@@ -31,9 +31,16 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Pair<List<ReputationDto>, Long> getListUserByCreationDate(int page, int count, long weeks) {
-        List<ReputationDto> listUsersDto = userDtoDao.getListUserByCreationDate(page, count, weeks);
-        Long countUsers = userDtoDao.getCountUserByCreationDate(weeks);
+    public Pair<List<ReputationDto>, Long> getListNewUsersByReputation(int page, int count, long weeks){
+        List<ReputationDto> listUsersDto = userDtoDao.getListNewUsersByReputation(page, count, weeks);
+        Long countUsers = userDtoDao.getCountNewUsersByReputation(weeks);
+        return new Pair<>(listUsersDto, countUsers);
+    };
+
+    @Override
+    public Pair<List<ReputationDto>, Long> getListUsersByCreationDate(int page, int count, long weeks) {
+        List<ReputationDto> listUsersDto = userDtoDao.getListUsersByCreationDate(page, count, weeks);
+        Long countUsers = userDtoDao.getCountUsersByCreationDate(weeks);
         return new Pair<>(listUsersDto, countUsers);
     }
 
@@ -66,8 +73,8 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Pair<List<UserDto>, Long> getListUserByRole(String role) {
-        List<UserDto> listUsersDto = userDtoDao.getListUserByRole(role);
+    public Pair<List<UserDto>, Long> getListUsersByRole(String role) {
+        List<UserDto> listUsersDto = userDtoDao.getListUsersByRole(role);
         long countUsers = listUsersDto.size();
         return new Pair<>(listUsersDto, countUsers);
     }

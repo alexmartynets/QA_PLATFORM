@@ -13,23 +13,27 @@ public interface UserDtoDAO {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Long getCountUserByCreationDate(long weeks);
+    Long getCountNewUsersByReputation(long weeks);
+
+    List<ReputationDto> getListNewUsersByReputation(int page, int count, long weeks);
+
+    Long getCountUsersByCreationDate(long weeks);
+
+    List<ReputationDto> getListUsersByCreationDate(int page, int count, long weeks);
 
     Long getCountUsersByQuantityEditedText(long weeks);
-
-    List<ReputationDto> getListUserByCreationDate(int page, int count, long weeks);
 
     List<EditorDto> getListUsersByQuantityEditedText(int page, int count, long weeks);
 
     Long getCountUsers(long weeks);
 
-    Long getCountUsersByName(String name, long weeks);
-
     List<ReputationDto> getListUsersByReputation(int page, int count, long weeks);
 
     List<ReputationDto> getListUsersByVoice(int page, int count, long weeks);
 
+    Long getCountUsersByName(String name, long weeks);
+
     List<ReputationDto> getListUsersByNameToSearch(String name, int page, int count, long weeks);
 
-    List<UserDto> getListUserByRole(String role);
+    List<UserDto> getListUsersByRole(String role);
 }

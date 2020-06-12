@@ -123,8 +123,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 }));
     }
 
-    @Override
-    public Long getCountUserByCreationDate(long weeks) {
+
+    @Override  // todo повтор с поиском по дате создания
+    public Long getCountNewUsersByReputation(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
                 "WHERE r.user.persistDateTime > :data", Long.class)
@@ -134,7 +135,58 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListUserByCreationDate(int page, int count, long weeks) {
+    public List<ReputationDto> getListNewUsersByReputation(int page, int count, long weeks) {
+        LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
+        List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
+                "r.id, " +
+                "r.user.id, " +
+                "r.user.fullName, " +
+                "r.user.about, " +
+                "r.user.city, " +
+                "r.user.imageUser, " +
+                "SUM(r.reputationCount)" +
+                "FROM Reputation r WHERE r.user.persistDateTime > :data " +
+                "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                .setParameter("data", data)
+                .setFirstResult(count * (page - 1))
+                .setMaxResults(count)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return ReputationDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .reputationId(((Number) objects[1]).longValue())
+                                .fullName((String) objects[2])
+                                .about((String) objects[3])
+                                .city((String) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .reputationCount(((Number) objects[6]).longValue())
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+
+        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
+    }
+
+    @Override // поиск новых пользователей из таблице Reputation
+    public Long getCountUsersByCreationDate(long weeks) {
+        LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
+        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
+                "WHERE r.user.persistDateTime > :data", Long.class)
+                .setParameter("data", data)
+                .getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<ReputationDto> getListUsersByCreationDate(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
@@ -280,7 +332,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    @Override // поиск пользователей в таблице Reputation по времяни
+    @Override // поиск пользователей из таблице Reputation для Reputation и voice
     public Long getCountUsers(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
@@ -375,7 +427,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<UserDto> getListUserByRole(String role) {
+    public List<UserDto> getListUsersByRole(String role) {
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "u.id, " +
                 "u.fullName, " +

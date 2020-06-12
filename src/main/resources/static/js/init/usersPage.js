@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
     let url;
 
     // map url для запроса
-    let mapUrl = new Map([
+    let mapUrlAllUsers = new Map([
         // ["new", "http://localhost:5557/api/user/new?count="],
         ["reputation", "http://localhost:5557/api/user/reputation?count="],
         ["voice", "http://localhost:5557/api/user/voice?count="],
@@ -17,14 +17,14 @@ jQuery(document).ready(function ($) {
         ["role", "http://localhost:5557/api/user/role?role=MODERATOR"]
     ]);
 
-    let mapUrlNew = new Map([
+    let mapUrlNewUsers = new Map([
         ["new", "http://localhost:5557/api/user/new?count="],
-        ["reputation", "http://localhost:5557/api/user/reputation?count="]
+        ["reputation", "http://localhost:5557/api/user/new/reputation?count="]
     ]);
 
     // todo
     let attr_search = $('#button-users').attr("data-search");
-    url = mapUrl.get(attr_search);
+    url = mapUrlAllUsers.get(attr_search);
     console.log("url при загрузке страницы");
     console.log(url);
     // todo
@@ -43,7 +43,7 @@ jQuery(document).ready(function ($) {
             $('.hides').show();
 
             attr_search = $(this).attr("data-search");
-            url = mapUrl.get(attr_search);
+            url = mapUrlAllUsers.get(attr_search);
 
             weeks = $('#new').attr("data-weeks");
 
@@ -61,7 +61,7 @@ jQuery(document).ready(function ($) {
             $('.shows').show();
 
             attr_search = $(this).attr("data-search");
-            url = mapUrl.get(attr_search);
+            url = mapUrlAllUsers.get(attr_search);
 
             weeks = $('#all').attr("data-weeks");
 
