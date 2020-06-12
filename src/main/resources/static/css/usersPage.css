@@ -18,42 +18,61 @@ body {
     opacity: 0.8;
 }
 
-.section-center{
+.section-center {
     top: 30px;
 }
 
 .search-users {
-    width: 500px; /* ширина блока */
+    width: 600px; /* ширина блока */
+}
+
+#input {
+    left: 160px;
+    top: 8px;
 }
 
 .hides {
     display: none;
 }
 
-.left-panel-blok .btn{
+#sorting-time a {
+    text-decoration: none;
+}
+
+.left-panel-blok .btn {
     text-align: left;
     font-size: 16px;
 }
 
-.left-panel-blok{
+.left-panel-blok {
     opacity: 0.9;
     top: 110px;
 }
+
+#left-panel {
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+
 .left-panel {
     border-right-width: 1px;
     border-right-color: rgba(190, 178, 178, 0.801);
+}
+
+#search {
+    left: -15px;
 }
 
 #user-title {
     font-size: 28px;
 }
 
-.btn-toolbar .btn{
+.btn-toolbar .btn {
     font-size: 14px;
 }
 
 .panel-button-small a {
-     font-size: 12px;
+    font-size: 12px;
     margin-top: -20px;
     padding-bottom: 10px;
     border-left-width: 0px;
@@ -62,7 +81,7 @@ body {
     border-radius: 0px;
 }
 
-.colors{
+.colors {
     border-color: #ea7d2a;
 }
 
@@ -91,5 +110,9 @@ body {
     margin-right: 2px;
     border-radius: 0.3rem;
     color: #000;
+}
+
+#users {
+    padding-left: 15px;
 }
 

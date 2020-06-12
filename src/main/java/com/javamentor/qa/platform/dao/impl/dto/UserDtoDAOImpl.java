@@ -175,7 +175,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    @Override // поиск новых пользователей из таблице Reputation
+    @Override // todo поиск новых пользователей из таблице Reputation
     public Long getCountUsersByCreationDate(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
@@ -332,7 +332,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    @Override // поиск пользователей из таблице Reputation для Reputation и voice
+    @Override // todo поиск пользователей из таблице Reputation для Reputation и Voice
     public Long getCountUsers(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +

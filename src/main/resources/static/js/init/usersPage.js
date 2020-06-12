@@ -2,7 +2,7 @@ jQuery(document).ready(function ($) {
 
     let data = new DataUsersPage();
     let service = new DataUsersService();
-    // количество карточек на странице
+    // количество карточек на странице по умолчанию 20
     let numberMedia = 5;
     let weeks;
     let currentPage = 1;
@@ -32,7 +32,7 @@ jQuery(document).ready(function ($) {
     console.log("weeks при загрузке страницы");
     console.log(weeks);
 
-    // button search-users
+    // button search-users загрузка данных для стартовых страниц
     $('.search').click(function () {
         $('.search').removeClass("active");
 
@@ -47,7 +47,7 @@ jQuery(document).ready(function ($) {
 
             weeks = $('#new').attr("data-weeks");
 
-            // urlPlus для запроса
+            // данные для формирования url из mapUrlNewUsers для запроса
             let attr_path = $('#new').attr("data-path");
             console.log("data-path в блоке search-users при нажатии кнопки поиск в блоке if");
             console.log(attr_path);
@@ -84,22 +84,22 @@ jQuery(document).ready(function ($) {
         $(this).toggleClass("active");
     });
 
-    // a search-time
-    $('.search-time').click(function () {
-        $('.search-time').removeClass("colors");
+    // a sorting-time
+    $('.sorting-time').click(function () {
+        $('.sorting-time').removeClass("colors");
 
         weeks = $(this).attr("data-weeks");
 
-        console.log("блок search-time количество weeks при нажатии кнопки search-time");
+        console.log("блок sorting-time количество weeks при нажатии кнопки sorting");
         console.log(weeks);
 
-        // urlPlus для запроса пероначальный
+        // данные для формирования url из mapUrlNewUsers для запроса
         let attr_path = $(this).attr("data-path");
-        console.log("data-path при нажатии кнопки сортировки в блоке search-time");
+        console.log("data-path при нажатии кнопки сортировки в блоке sorting-time");
         console.log(attr_path);
 
         // url для запроса
-        console.log("url для получения данных в блоков search-time");
+        console.log("url для получения данных в блоков sorting-time");
         console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         // // получаем даннные для текущей страницы

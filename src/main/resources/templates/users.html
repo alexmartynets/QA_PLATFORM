@@ -15,8 +15,8 @@
         <a href="#" class="navbar-brand">Home</a>
 
         <div class="input-group input-group-sm mb-3 search-users">
-            <input type="text" class="form-control" aria-label="Sizing example input"
-                   aria-describedby="inputGroup-sizing-sm" style="left: 150px;top: 8px;" placeholder="Поиск...">
+            <input id="input" type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-sm" placeholder="Поиск...">
         </div>
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -37,7 +37,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-2 left-panel" style="border-right-width: 1px;border-right-style: solid;">
+        <div id="left-panel" class="col-md-2 left-panel">
             <div class="col-md-12 btn-group-vertical position-fixed left-panel-blok">
                 <a href="#" class="btn btn-link text-dark">Главная</a>
                 <a href="#" class="btn btn-link text-dark">Вопросы</a>
@@ -61,7 +61,7 @@
                             <div class="input-group input-group-sm md-3 flex-nowrap">
                                 <input id="search" type="text" class="form-control"
                                        placeholder="Фильтрация по участникам"
-                                       aria-describedby="addon-wrapping" style="left: -15px;"/>
+                                       aria-describedby="addon-wrapping"/>
                             </div>
 
                             <div>
@@ -80,23 +80,23 @@
             <div class="row align-items-start py-2">
                 <div class="col">
                     <div class="panel">
-                        <div class="btn-group text-dark float-right panel-button-small"
+                        <div id="sorting-time" class="btn-group text-dark float-right panel-button-small"
                              role="group"
                              aria-label="First group">
-                            <a href="#" class="btn btn-link text-dark search-time shows" style="text-decoration:none" data-weeks="1">за неделю</a>
-                            <a href="#" id="all" class="btn btn-link text-dark search-time colors shows" style="text-decoration:none" data-weeks="4">за месяц</a >
-                            <a href="#" class="btn btn-link text-dark search-time shows" style="text-decoration:none" data-weeks="12">квартал</a >
-                            <a href="#" class="btn btn-link text-dark search-time shows" style="text-decoration:none" data-weeks="52">год</a>
-                            <a href="#" class="btn btn-link text-dark search-time shows" style="text-decoration:none" data-weeks="100">все</a>
-                            <a href="#" id="new" class="btn btn-link text-dark search-time colors hides" style="text-decoration:none" data-path="reputation" data-weeks="8">по рейтингу</a>
-                            <a href="#" class="btn btn-link text-dark search-time hides" style="text-decoration:none" data-path="new" data-weeks="8">по дате</a>
+                            <a href="#" class="btn btn-link text-dark sorting-time shows"  data-weeks="1">за неделю</a>
+                            <a href="#" id="all" class="btn btn-link text-dark sorting-time colors shows"  data-weeks="4">за месяц</a >
+                            <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="12">квартал</a >
+                            <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="52">год</a>
+                            <a href="#" class="btn btn-link text-dark sorting-time shows"  data-weeks="100">все</a>
+                            <a href="#" id="new" class="btn btn-link text-dark sorting-time colors hides"  data-path="reputation" data-weeks="8">по рейтингу</a>
+                            <a href="#" class="btn btn-link text-dark sorting-time hides"  data-path="new" data-weeks="8">по дате</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Users -->
-            <div id="users" class="row row-cols-3" style="padding-left: 15px;">
+            <div id="users" class="row row-cols-3">
                 <!-- List Users -->
             </div>
 
