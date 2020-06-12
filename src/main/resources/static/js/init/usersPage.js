@@ -22,12 +22,12 @@ jQuery(document).ready(function ($) {
         ["reputation", "http://localhost:5557/api/user/new/reputation?count="]
     ]);
 
-    // todo
+    // todo получения данных для стартовой страницы с кнопки поиска
     let attr_search = $('#button-users').attr("data-search");
     url = mapUrlAllUsers.get(attr_search);
     console.log("url при загрузке страницы");
     console.log(url);
-    // todo
+    // todo получения данных для стартовой страницы с кнопки сортировки
     weeks = $('#all').attr("data-weeks");
     console.log("weeks при загрузке страницы");
     console.log(weeks);
@@ -38,22 +38,20 @@ jQuery(document).ready(function ($) {
 
         let text = $(this).text();
 
+        console.log("text с кнопки поиска");
+        console.log(text);
+
         if (text === 'Новые участники') {
             $('.shows').hide();
             $('.hides').show();
 
-            attr_search = $(this).attr("data-search");
-            url = mapUrlAllUsers.get(attr_search);
+            let attr_path = $('#new').attr("data-path");
+            url = mapUrlNewUsers.get(attr_path);
 
             weeks = $('#new').attr("data-weeks");
 
-            // данные для формирования url из mapUrlNewUsers для запроса
-            let attr_path = $('#new').attr("data-path");
-            console.log("data-path в блоке search-users при нажатии кнопки поиск в блоке if");
-            console.log(attr_path);
-
             // url для запроса
-            console.log("блок search-users при нажатии кнопки поиск в блоке if");
+            console.log("data-path из sorting-time в блок search-users при нажатии кнопки поиск в блоке if");
             console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         } else {
@@ -111,11 +109,11 @@ jQuery(document).ready(function ($) {
     });
 
 
-    // получаем даннные для 1 страницы
-    let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+    // todo получаем даннные для стартовой страницы
     console.log("url для получения данных для страницы старт после блоков");
     console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
+    // let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
     // service.showUsers(data, dataMap);
     // service.showPagination(data, dataMap, numberMedia, currentPage);
 
@@ -128,10 +126,10 @@ jQuery(document).ready(function ($) {
         }
 
         // получаем даннные для текущей страницы
-        let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         console.log("url для получения данных для страницы пагинация после блоков");
         console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
+        // let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         // service.showUsers(data, dataMap);
         // service.showPagination(data, dataMap, numberMedia, currentPage);
     });
