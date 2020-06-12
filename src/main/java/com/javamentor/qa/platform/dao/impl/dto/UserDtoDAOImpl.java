@@ -4,6 +4,7 @@ import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.dto.EditorDto;
+import com.javamentor.qa.platform.models.dto.ModeratorDto;
 import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import org.hibernate.query.Query;
@@ -123,8 +124,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 }));
     }
 
-
-    @Override  // todo повтор с поиском по дате создания
+    @Override
     public Long getCountNewUsersByReputation(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
@@ -140,11 +140,13 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
+                "r.user.persistDateTime, " +
                 "r.user.fullName, " +
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)" +
+                "SUM(r.reputationCount)," +
+                "SUM(r.voiceCount) " +
                 "FROM Reputation r WHERE r.user.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
                 .setParameter("data", data)
@@ -156,12 +158,14 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return ReputationDto.builder()
                                 .id(((Number) objects[0]).longValue())
-                                .reputationId(((Number) objects[1]).longValue())
-                                .fullName((String) objects[2])
-                                .about((String) objects[3])
-                                .city((String) objects[4])
-                                .imageUser((byte[]) objects[5])
-                                .reputationCount(((Number) objects[6]).longValue())
+                                .userId(((Number) objects[1]).longValue())
+                                .persistDateTimeUser((LocalDateTime) objects[2])
+                                .fullNameUser((String) objects[3])
+                                .aboutUser((String) objects[4])
+                                .cityUser((String) objects[5])
+                                .imageUser((byte[]) objects[6])
+                                .voiceCount(((Number) objects[7]).longValue())
+                                .reputationCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -191,11 +195,13 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
+                "r.user.persistDateTime, " +
                 "r.user.fullName, " +
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)" +
+                "SUM(r.reputationCount)," +
+                "SUM(r.voiceCount) " +
                 "FROM Reputation r WHERE r.user.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY r.user.persistDateTime DESC")
                 .setParameter("data", data)
@@ -207,12 +213,14 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return ReputationDto.builder()
                                 .id(((Number) objects[0]).longValue())
-                                .reputationId(((Number) objects[1]).longValue())
-                                .fullName((String) objects[2])
-                                .about((String) objects[3])
-                                .city((String) objects[4])
-                                .imageUser((byte[]) objects[5])
-                                .reputationCount(((Number) objects[6]).longValue())
+                                .userId(((Number) objects[1]).longValue())
+                                .persistDateTimeUser((LocalDateTime) objects[2])
+                                .fullNameUser((String) objects[3])
+                                .aboutUser((String) objects[4])
+                                .cityUser((String) objects[5])
+                                .imageUser((byte[]) objects[6])
+                                .voiceCount(((Number) objects[7]).longValue())
+                                .reputationCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -246,9 +254,10 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "e.user.about, " +
                 "e.user.city, " +
                 "e.user.imageUser, " +
-                "SUM(e.countChanges)" +
-                "FROM Editor e WHERE e.persistDateTime > :data " +
-                "GROUP BY e.user.id ORDER BY SUM(e.countChanges) DESC")
+                "SUM(e.countChanges)," +
+                "SUM(r.reputationCount)" +
+                "FROM Editor e JOIN Reputation r ON e.user.id = r.user.id WHERE r.persistDateTime > :data and " +
+                "e.persistDateTime > :data GROUP BY r.user.id, e.user.id ORDER BY SUM(e.countChanges) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -258,12 +267,13 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return EditorDto.builder()
                                 .id(((Number) objects[0]).longValue())
-                                .editorId(((Number) objects[1]).longValue())
-                                .fullName((String) objects[2])
-                                .about((String) objects[3])
-                                .city((String) objects[4])
+                                .userId(((Number) objects[1]).longValue())
+                                .fullNameUser((String) objects[2])
+                                .aboutUser((String) objects[3])
+                                .cityUser((String) objects[4])
                                 .imageUser((byte[]) objects[5])
                                 .countChanges(((Number) objects[6]).longValue())
+                                .reputationCount(((Number) objects[7]).longValue())
                                 .build();
                     }
 
@@ -294,6 +304,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
+                "r.user.persistDateTime, " +
                 "r.user.fullName, " +
                 "r.user.about, " +
                 "r.user.city, " +
@@ -312,13 +323,14 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return ReputationDto.builder()
                                 .id(((Number) objects[0]).longValue())
-                                .reputationId(((Number) objects[1]).longValue())
-                                .fullName((String) objects[2])
-                                .about((String) objects[3])
-                                .city((String) objects[4])
-                                .imageUser((byte[]) objects[5])
-                                .reputationCount(((Number) objects[6]).longValue())
+                                .userId(((Number) objects[1]).longValue())
+                                .persistDateTimeUser((LocalDateTime) objects[2])
+                                .fullNameUser((String) objects[3])
+                                .aboutUser((String) objects[4])
+                                .cityUser((String) objects[5])
+                                .imageUser((byte[]) objects[6])
                                 .voiceCount(((Number) objects[7]).longValue())
+                                .reputationCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -348,11 +360,13 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
+                "r.user.persistDateTime, " +
                 "r.user.fullName, " +
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)" +
+                "SUM(r.reputationCount)," +
+                "SUM(r.voiceCount) " +
                 "FROM Reputation r WHERE r.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
                 .setParameter("data", data)
@@ -364,12 +378,14 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return ReputationDto.builder()
                                 .id(((Number) objects[0]).longValue())
-                                .reputationId(((Number) objects[1]).longValue())
-                                .fullName((String) objects[2])
-                                .about((String) objects[3])
-                                .city((String) objects[4])
-                                .imageUser((byte[]) objects[5])
-                                .reputationCount(((Number) objects[6]).longValue())
+                                .userId(((Number) objects[1]).longValue())
+                                .persistDateTimeUser((LocalDateTime) objects[2])
+                                .fullNameUser((String) objects[3])
+                                .aboutUser((String) objects[4])
+                                .cityUser((String) objects[5])
+                                .imageUser((byte[]) objects[6])
+                                .voiceCount(((Number) objects[7]).longValue())
+                                .reputationCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -399,10 +415,12 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
+                "r.user.persistDateTime, " +
                 "r.user.fullName, " +
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
+                "SUM(r.reputationCount)," +
                 "SUM(r.voiceCount) " +
                 "FROM Reputation r WHERE r.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.voiceCount) DESC")
@@ -415,12 +433,14 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return ReputationDto.builder()
                                 .id(((Number) objects[0]).longValue())
-                                .reputationId(((Number) objects[1]).longValue())
-                                .fullName((String) objects[2])
-                                .about((String) objects[3])
-                                .city((String) objects[4])
-                                .imageUser((byte[]) objects[5])
-                                .voiceCount(((Number) objects[6]).longValue())
+                                .userId(((Number) objects[1]).longValue())
+                                .persistDateTimeUser((LocalDateTime) objects[2])
+                                .fullNameUser((String) objects[3])
+                                .aboutUser((String) objects[4])
+                                .cityUser((String) objects[5])
+                                .imageUser((byte[]) objects[6])
+                                .voiceCount(((Number) objects[7]).longValue())
+                                .reputationCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -436,33 +456,27 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<UserDto> getListUsersByRole(String role) {
-        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "u.id, " +
-                "u.fullName, " +
-                "u.email, " +
-                "u.role.name, " +
-                "u.persistDateTime, " +
-                "u.reputationCount, " +
-                "u.about, " +
-                "u.city, " +
-                "u.imageUser " +
-                "FROM User as u WHERE u.role.name = :role")
-                .setParameter("role", role.toUpperCase())
+    public List<ModeratorDto> getListUsersByModerator() {
+        List<ModeratorDto> listUsers = entityManager.createQuery("SELECT " +
+                "m.id, " +
+                "m.persistDateTime, " +
+                "m.user.fullName, " +
+                "m.user.city, " +
+                "m.user.imageUser, " +
+                "SUM(r.reputationCount)" +
+                "FROM Moderator as m JOIN Reputation r ON m.user.id = r.user.id " +
+                "GROUP BY r.user.id ")
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return UserDto.builder()
+                        return ModeratorDto.builder()
                                 .id(((Number) objects[0]).longValue())
-                                .fullName((String) objects[1])
-                                .email((String) objects[2])
-                                .role((String) objects[3])
-                                .persistDateTime((LocalDateTime) objects[4])
-                                .reputationCount((Integer) objects[5])
-                                .about((String) objects[6])
-                                .city((String) objects[7])
-                                .imageUser((byte[]) objects[8])
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .fullNameUser((String) objects[2])
+                                .cityUser((String) objects[3])
+                                .imageUser((byte[]) objects[4])
+                                .reputationCount(((Number) objects[5]).longValue())
                                 .build();
                     }
 

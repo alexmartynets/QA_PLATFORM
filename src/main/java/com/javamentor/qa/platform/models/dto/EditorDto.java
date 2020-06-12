@@ -18,19 +18,23 @@ public class EditorDto {
 
     @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
     @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значние при обновлении")
-    private Long editorId;
+    private Long id;
 
     private LocalDateTime persistDateTime;
 
     private Long countChanges;
 
-    private Long id;
+    private Long reputationCount;
 
-    private String fullName;
+    private Long userId;
 
-    private String about;
+    private LocalDateTime persistDateTimeUser;
 
-    private String city;
+    private String fullNameUser;
+
+    private String aboutUser;
+
+    private String cityUser;
 
     private byte[] imageUser;
 }

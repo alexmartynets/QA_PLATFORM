@@ -9,15 +9,14 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "editor")
-public class Editor {
+@Table(name = "moderator")
+public class Moderator {
 
     @Id
     private Long id;
@@ -31,21 +30,18 @@ public class Editor {
     @MapsId
     private User user;
 
-    @Column(name = "count_changes")
-    private Integer countChanges;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Editor editor = (Editor) o;
-        return Objects.equals(id, editor.id) &&
-                Objects.equals(persistDateTime, editor.persistDateTime) &&
-                Objects.equals(countChanges, editor.countChanges);
+        Moderator moderator = (Moderator) o;
+        return Objects.equals(id, moderator.id) &&
+                Objects.equals(persistDateTime, moderator.persistDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, persistDateTime, countChanges);
+        return Objects.hash(id, persistDateTime);
     }
 }

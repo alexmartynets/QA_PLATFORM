@@ -1,6 +1,7 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.EditorDto;
+import com.javamentor.qa.platform.models.dto.ModeratorDto;
 import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.user.User;
@@ -151,13 +152,13 @@ public class UserResourceController {
                 .getListUsersByQuantityEditedText(page.intValue(), count.intValue(), weeks));
     }
 
-    @ApiOperation(value = "получение списка пользователей по роли")
-    @GetMapping(path = "/role")  // ?role=admin
+    @ApiOperation(value = "получение списка модераторов ")
+    @GetMapping(path = "/moderator")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByRole(@RequestParam @NonNull String role) {
-        return ResponseEntity.ok().body(userDtoService.getListUsersByRole(role));
+    public ResponseEntity<Pair<List<ModeratorDto>, Long>> getListUsersByModerator() {
+        return ResponseEntity.ok().body(userDtoService.getListUsersByModerator());
     }
 
     @ApiOperation(value = "получение списка пользователей для поиска по имяни с погинацией")

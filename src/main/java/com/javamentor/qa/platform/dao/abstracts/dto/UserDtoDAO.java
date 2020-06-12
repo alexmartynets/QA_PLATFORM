@@ -1,6 +1,7 @@
 package com.javamentor.qa.platform.dao.abstracts.dto;
 
 import com.javamentor.qa.platform.models.dto.EditorDto;
+import com.javamentor.qa.platform.models.dto.ModeratorDto;
 import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 
@@ -37,5 +38,5 @@ public interface UserDtoDAO {
 
     List<ReputationDto> getListUsersByNameToSearch(String name, int page, int count, long weeks);
 
-    List<UserDto> getListUsersByRole(String role);
+    List<ModeratorDto> getListUsersByModerator();
 }

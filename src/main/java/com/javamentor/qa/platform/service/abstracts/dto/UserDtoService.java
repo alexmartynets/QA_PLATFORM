@@ -1,6 +1,7 @@
 package com.javamentor.qa.platform.service.abstracts.dto;
 
 import com.javamentor.qa.platform.models.dto.EditorDto;
+import com.javamentor.qa.platform.models.dto.ModeratorDto;
 import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import javafx.util.Pair;
@@ -26,5 +27,5 @@ public interface UserDtoService {
 
     Pair<List<EditorDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks);
 
-    Pair<List<UserDto>, Long> getListUsersByRole(String role);
+    Pair<List<ModeratorDto>, Long> getListUsersByModerator();
 }
