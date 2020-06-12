@@ -47,14 +47,14 @@ public class UserDtoServiceImpl implements UserDtoService {
     @Override
     public Pair<List<ReputationDto>, Long> getListUsersByReputation(int page, int count, long weeks) {
         List<ReputationDto> reputationDtoList = userDtoDao.getListUsersByReputation(page, count, weeks);
-        Long counts = userDtoDao.getCountUsers(weeks);
+        Long counts = userDtoDao.getCountUsersByReputation(weeks);
         return new Pair<>(reputationDtoList, counts);
     }
 
     @Override
     public Pair<List<ReputationDto>, Long> getListUsersByVoice(int page, int count, long weeks) {
         List<ReputationDto> reputationDtoList = userDtoDao.getListUsersByVoice(page, count, weeks);
-        Long counts = userDtoDao.getCountUsers(weeks);
+        Long counts = userDtoDao.getCountUsersByVoice(weeks);
         return new Pair<>(reputationDtoList, counts);
     }
 

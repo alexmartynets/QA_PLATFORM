@@ -25,9 +25,11 @@ public interface UserDtoDAO {
 
     List<EditorDto> getListUsersByQuantityEditedText(int page, int count, long weeks);
 
-    Long getCountUsers(long weeks);
+    Long getCountUsersByReputation(long weeks);
 
     List<ReputationDto> getListUsersByReputation(int page, int count, long weeks);
+
+    Long getCountUsersByVoice(long weeks);
 
     List<ReputationDto> getListUsersByVoice(int page, int count, long weeks);
 

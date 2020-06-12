@@ -175,7 +175,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    @Override // todo поиск новых пользователей из таблице Reputation
+    @Override
     public Long getCountUsersByCreationDate(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
@@ -332,8 +332,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    @Override // todo поиск пользователей из таблице Reputation для Reputation и Voice
-    public Long getCountUsers(long weeks) {
+    @Override
+    public Long getCountUsersByReputation(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
                 "WHERE r.persistDateTime > :data", Long.class)
@@ -381,6 +381,15 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getResultList();
 
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
+    }
+
+    @Override
+    public Long getCountUsersByVoice(long weeks) {
+        LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
+        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
+                "WHERE r.persistDateTime > :data", Long.class)
+                .setParameter("data", data)
+                .getSingleResult();
     }
 
     @SuppressWarnings("unchecked")
