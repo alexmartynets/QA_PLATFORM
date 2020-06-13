@@ -256,8 +256,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "e.user.city, " +
                 "e.user.imageUser, " +
                 "SUM(e.countChanges)" +
-                "FROM Editor as e  WHERE " +
-                "e.persistDateTime > :data GROUP BY e.user.id ORDER BY SUM(e.countChanges) DESC")
+//                "SUM(r.reputationCount) " +
+                "FROM Editor as e WHERE e.persistDateTime > :data " +
+                "GROUP BY e.user.id ORDER BY SUM(e.countChanges) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)

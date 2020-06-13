@@ -161,14 +161,13 @@ jQuery(document).ready(function ($) {
         $(this).toggleClass("colors");
     });
 
-
     // todo получаем даннные для стартовой страницы по комбинации кнопок репутация + месяц
     console.log("url для получения данных для страницы старт после блоков");
     console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
-    // let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
-    // service.showUsers(data, dataMap);
-    // service.showPagination(data, dataMap, numberMedia, currentPage);
+    let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+    service.showUsers(data, dataMap);
+    service.showPagination(data, dataMap, numberMedia, currentPage);
 
     /*блок кода для динамического изменения данных*/
     $("body").on("click", ".page-link", function () {
@@ -177,14 +176,13 @@ jQuery(document).ready(function ($) {
         if (currentPage === '...') {
             return;
         }
-
         // получаем даннные для текущей страницы
         console.log("url для получения данных для страницы пагинация после блоков");
         console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
-        // let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
-        // service.showUsers(data, dataMap);
-        // service.showPagination(data, dataMap, numberMedia, currentPage);
+        let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+        service.showUsers(data, dataMap);
+        service.showPagination(data, dataMap, numberMedia, currentPage);
     });
 
 
