@@ -11,7 +11,11 @@ public interface QuestionDtoService {
 
     Optional<QuestionDto> getQuestionDtoById(Long id);
 
-    List<QuestionDto> getQuestionDtoListByUserId (Long userId);
+    List<QuestionDto> getQuestionDtoListByUserId(Long userId);
 
-    Optional<QuestionDto> hasQuestionAnswer (Long questionId);
+    Optional<QuestionDto> hasQuestionAnswer(Long questionId);
+
+    Optional<QuestionDto> toUpdateQuestionDtoTitleOrDescription(QuestionDto questionDtoFromClient);
+
+    Optional<QuestionDto> toVoteForQuestion(Long id, int vote);
 }

@@ -101,12 +101,15 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.viewCount, " +
                 "q.countValuable, " +
                 "q.persistDateTime, " +
+                "q.lastUpdateDateTime, " +
                 "q.description, " +
                 "t.id, " +
                 "t.name, " +
                 "t.description, " +
                 "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id)" +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id)," +
+                "(SELECT a.user.fullName FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)), " +
+                "(SELECT a.persistDateTime FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)) " +
                 "FROM Question q JOIN q.tags t WHERE q.id =: id ")
                 .unwrap(Query.class)
                 .setParameter("id", id)
@@ -120,9 +123,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .imageUser((byte[]) objects[5])
                                 .build();
                         TagDto tagDto = TagDto.builder()
-                                .id((Long) objects[10])
-                                .name((String) objects[11])
-                                .description((String) objects[12])
+                                .id((Long) objects[11])
+                                .name((String) objects[12])
+                                .description((String) objects[13])
                                 .build();
                         List<TagDto> tagDtoList = new ArrayList<>();
                         tagDtoList.add(tagDto);
@@ -133,10 +136,13 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .viewCount((Integer) objects[6])
                                 .countValuable((Integer) objects[7])
                                 .persistDateTime((LocalDateTime) objects[8])
-                                .description((String) objects[9])
+                                .lastUpdateDateTime((LocalDateTime) objects[9])
+                                .description((String) objects[10])
                                 .tags(tagDtoList)
-                                .countAnswer(((Number) objects[13]).intValue())
-                                .isHelpful((Boolean) objects[14])
+                                .countAnswer(((Number) objects[14]).intValue())
+                                .isHelpful((Boolean) objects[15])
+                                .lastAnswerDate((LocalDateTime) objects[17])
+                                .lastAnswerName((String) objects[16])
                                 .build();
                     }
 
@@ -169,6 +175,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "q.viewCount, " +
                     "q.countValuable, " +
                     "q.persistDateTime, " +
+                    "q.lastUpdateDateTime, " +
                     "q.description," +
                     "t.id, " +
                     "t.name, " +
@@ -184,9 +191,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .id((Long) objects[2])
                                     .build();
                             TagDto tagDto = TagDto.builder()
-                                    .id((Long) objects[7])
-                                    .name((String) objects[8])
-                                    .description((String) objects[9])
+                                    .id((Long) objects[8])
+                                    .name((String) objects[9])
+                                    .description((String) objects[10])
                                     .build();
                             List<TagDto> tagDtoList = new ArrayList<>();
                             tagDtoList.add(tagDto);
@@ -197,9 +204,10 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .viewCount((Integer) objects[3])
                                     .countValuable((Integer) objects[4])
                                     .persistDateTime((LocalDateTime) objects[5])
-                                    .description((String) objects[6])
+                                    .lastUpdateDateTime((LocalDateTime) objects[6])
+                                    .description((String) objects[7])
                                     .tags(tagDtoList)
-                                    .isHelpful((Boolean) objects[10])
+                                    .isHelpful((Boolean) objects[11])
                                     .build();
                         }
 
@@ -248,5 +256,26 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     }
                 })
         );
+    }
+
+    @Override
+    public void updateQuestionDtoTitleAndDescription(QuestionDto questionDto) {
+        entityManager.createQuery("UPDATE Question " +
+                "SET title = :title, description = :description WHERE id = : id")
+                .setParameter("title", questionDto.getTitle())
+                .setParameter("description", questionDto.getDescription())
+                .setParameter("id", questionDto.getId())
+                .unwrap(Query.class)
+                .executeUpdate();
+    }
+
+    @Override
+    public void toVoteForQuestion(Long questionId, int vote) {
+        entityManager.createQuery("UPDATE Question " +
+                "SET countValuable = :vote WHERE id = : id")
+                .setParameter("vote", vote)
+                .setParameter("id", questionId)
+                .unwrap(Query.class)
+                .executeUpdate();
     }
 }

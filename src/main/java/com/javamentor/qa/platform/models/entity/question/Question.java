@@ -2,17 +2,16 @@ package com.javamentor.qa.platform.models.entity.question;
 
 import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
-import org.hibernate.annotations.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -77,7 +76,6 @@ public class Question {
     @UpdateTimestamp
     private LocalDateTime lastUpdateDateTime;
 
-    @NotNull
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
@@ -93,7 +91,10 @@ public class Question {
 
     private void checkConstraints() {
         if (this.tags == null || this.tags.isEmpty()) {
-            throw new RuntimeException("Экземпляр Question должен иметь поле tags хотя бы один элемент");
+            throw new RuntimeException("Экземпляр Question должен иметь в поле tags хотя бы один элемент");
+        }
+        if (this.isDeleted == null) {
+            this.isDeleted = false;
         }
     }
 

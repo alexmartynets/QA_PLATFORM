@@ -301,7 +301,7 @@ public class TestDataEntityService {
                 .title("Question3 title")
                 .viewCount(5)
                 .description("Question3 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(4L))
                 .countValuable(3)
                 .isDeleted(false)
                 .build();
@@ -329,7 +329,7 @@ public class TestDataEntityService {
                 .title("Question5 title")
                 .viewCount(5)
                 .description("Question5 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(5L))
                 .countValuable(3)
                 .isDeleted(false)
                 .build();
@@ -342,7 +342,7 @@ public class TestDataEntityService {
                 .title("Question6 title")
                 .viewCount(5)
                 .description("Question6 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(4L))
                 .countValuable(6)
                 .isDeleted(false)
                 .build();
@@ -374,7 +374,7 @@ public class TestDataEntityService {
                 .title("Question8 title")
                 .viewCount(7)
                 .description("Question8 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(2L))
                 .countValuable(3)
                 .isDeleted(false)
                 .build();
@@ -387,7 +387,7 @@ public class TestDataEntityService {
                 .title("Question9 title")
                 .viewCount(9)
                 .description("Question9 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(5L))
                 .countValuable(3)
                 .isDeleted(false)
                 .build();

@@ -4,9 +4,10 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.javamentor.qa.platform.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,7 +28,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(get("/api/user/question/"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"));
+                .andExpect(jsonPath("$.length()").value("4"));
     }
 
     @Test
@@ -39,254 +40,250 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.title").value("Question number one"))
                 .andExpect(jsonPath("$.userDto.id").value("1"))
                 .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+                .andExpect(jsonPath("$.userDto.reputationCount").value("2"))
                 .andExpect(jsonPath("$.description").value("some description for first question"))
-                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.tags.[0].id").value("1"))
+                .andExpect(jsonPath("$.tags.[0].name").value("java"))
+                .andExpect(jsonPath("$.tags.[0].description").value("Java the best language"))
                 .andExpect(jsonPath("$.viewCount").value("3"))
                 .andExpect(jsonPath("$.countAnswer").value("2"))
                 .andExpect(jsonPath("$.countValuable").value("1"))
                 .andExpect(jsonPath("$.persistDateTime").value("2020-01-01T13:58:56"))
+                .andExpect(jsonPath("$.lastUpdateDateTime").value("2020-01-02T13:58:56"))
                 .andExpect(jsonPath("$.isHelpful").value("true"))
-//                .andExpect(jsonPath("$.lastAnswerNameAndDate").value("null"))
-                .andExpect(jsonPath("$.length()").value("12"));
+                .andExpect(jsonPath("$.lastAnswerName").value("Tot"))
+                .andExpect(jsonPath("$.isHelpful").value("true"))
+                .andExpect(jsonPath("$.length()").value("13"));
     }
 
     @Test
     void getQuestionNotPresent() throws Exception {
         this.mockMvc.perform(get("/api/user/question/1234"))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchNotNumberForUserId() throws Exception {
+    void searchNotNumberForQuestionId() throws Exception {
         this.mockMvc.perform(get("/api/user/question/abc"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchUserHaveNotQuestion() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=user:3"))
+    void getQuestionWithDeleteTrue() throws Exception {
+        this.mockMvc.perform(get("/api/user/question/4"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("0"));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchAnswerHas2() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=answers:2"))
+    void deleteQuestionByIdNoPresent() throws Exception {
+        this.mockMvc.perform(delete("/api/user/question/1234"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("1"))
-                .andExpect(jsonPath("$.[0].id").value("1"));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchAnswerHas0AndMore() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=answers:0"))
+    void deleteQuestionByIdIsPresentWithoutAnswer() throws Exception {
+        this.mockMvc.perform(delete("/api/user/question/3"))
+                .andDo(print())
+                .andExpect(status().isOk());
+        this.mockMvc.perform(get("/api/user/question/3"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+        this.mockMvc.perform(get("/api/user/question/"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value("3"));
+    }
+
+    @Test
+    void deleteQuestionByIdIsPresentWithAnswer() throws Exception {
+        this.mockMvc.perform(delete("/api/user/question/2"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getQuestionListByUserId() throws Exception {
+        this.mockMvc.perform(get("/api/user/question/by-user/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value("3"))
-                .andExpect(jsonPath("$.[0].id").value("3"));
+                .andExpect(jsonPath("$.[0].userDto.id").value("1"))
+                .andExpect(jsonPath("$.[1].userDto.id").value("1"))
+                .andExpect(jsonPath("$.[2].userDto.id").value("1"));
     }
 
     @Test
-    void searchAnswerNotDigitParam() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=answers:q"))
+    void getQuestionListByNotPresentUserId() throws Exception {
+        this.mockMvc.perform(get("/api/user/question/by-user/5"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"))
-                .andExpect(jsonPath("$.[0].id").value("3"));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchAnswerDigitMoreThanPresent() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=answers:10000"))
+    void getQuestionListByUserIdNotNumber() throws Exception {
+        this.mockMvc.perform(get("/api/user/question/by-user/abc"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("0"));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchHelpfulYes() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=helpful:yes"))
+    void updateQuestionCorrect() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 3," +
+                        "\"title\": \"Question3 title New\"," +
+                        "\"description\": \"Question3 description New\"" +
+                        "}"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("1"))
-                .andExpect(jsonPath("$.[0].id").value("1"));
+                .andExpect(jsonPath("$.length()").value("13"))
+                .andExpect(jsonPath("$.id").value("3"))
+                .andExpect(jsonPath("$.title").value("Question3 title New"))
+                .andExpect(jsonPath("$.description").value("Question3 description New"));
     }
 
     @Test
-    void searchHelpfulNo() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=helpful:no"))
+    void updateQuestionDifferentUlrAndId() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/4")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 3," +
+                        "\"title\": \"Question3 title New\"," +
+                        "\"description\": \"Question3 description New\"" +
+                        "}"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("2"))
-                .andExpect(jsonPath("$.[0].id").value("3"));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchHelpfulAnyOtherData() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=helpful:qwerty"))
+    void updateQuestionWrongUrlAndId() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/10")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 10," +
+                        "\"title\": \"Question3 title New\"," +
+                        "\"description\": \"Question3 description New\"" +
+                        "}"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"))
-                .andExpect(jsonPath("$.[0].id").value("3"));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchVotesFrom0() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=votes:0"))
+    void updateQuestionWrongIdNull() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": null," +
+                        "\"title\": \"Question3 title New\"," +
+                        "\"description\": \"Question3 description New\"" +
+                        "}"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"))
-                .andExpect(jsonPath("$.[0].id").value("3"));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchVotesMax() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=votes:3"))
+    void updateQuestionWrongIdNotNumber() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": \"abc\"," +
+                        "\"title\": \"Question3 title New\"," +
+                        "\"description\": \"Question3 description New\"" +
+                        "}"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("1"))
-                .andExpect(jsonPath("$.[0].id").value("2"));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchVotesNotDigit() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=votes:q"))
+    void updateQuestionWrongTitleNull() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 3," +
+                        "\"title\": null," +
+                        "\"description\": \"Question3 description New\"" +
+                        "}"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"))
-                .andExpect(jsonPath("$.[0].id").value("3"));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchVotesMoreThanMax() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=votes:300"))
+    void updateQuestionWrongTitleEmpty() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 3," +
+                        "\"title\": \"               \"," +
+                        "\"description\": \"Question3 description New\"" +
+                        "}"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("0"));
+                .andExpect(status().is4xxClientError());
+    }
+
+
+    @Test
+    void updateQuestionWrongDescription() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 3," +
+                        "\"title\": \"Question3 title New\"," +
+                        "\"description\": null" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void searchTagIsPresent() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=[java]"))
+    void toVoteForQuestionSuccessPositive() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/1/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"))
-                .andExpect(jsonPath("$.[0].id").value("3"));
+                .andExpect(jsonPath("$.length()").value("13"))
+                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.countValuable").value("2"));
     }
 
     @Test
-    void searchTagIsPresentWithoutBrackets() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=java"))
+    void toVoteForQuestionNegativePositive() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/1/0"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"))
-                .andExpect(jsonPath("$.[0].id").value("3"));
+                .andExpect(jsonPath("$.length()").value("13"))
+                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.countValuable").value("0"));
     }
 
     @Test
-    void searchTagAnyData() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=[qwerty]"))
+    void toVoteForQuestionNotSuccessPositive() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/1/2"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("0"));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void searchCommonJsonTestForAllFieldsFromUser() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=user:2"))
+    void toVoteForQuestionNotSuccessNegative() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/1/-1"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("1"))
-                .andExpect(jsonPath("$.[0].id").value("3"))
-                .andExpect(jsonPath("$.[0].title").value("Question number three"))
-                .andExpect(jsonPath("$.[0].username").value("Tot"))
-                .andExpect(jsonPath("$.[0].tags.length()").value("1"))
-                .andExpect(jsonPath("$.[0].reputationCount").value("1"))
-                .andExpect(jsonPath("$.[0].viewCount").value("2"))
-                .andExpect(jsonPath("$.[0].countAnswer").value("0"))
-                .andExpect(jsonPath("$.[0].countValuable").value("2"))
-                .andExpect(jsonPath("$.[0].persistDateTime").value("2020-01-20T13:58:56"))
-                .andExpect(jsonPath("$.[0].isHelpful").value("false"))
-                .andExpect(jsonPath("$.[0].description").value("some description for next question number three"));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void searchCommonJsonTestForAllFieldsFromVotes() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=votes:3"))
+    void toVoteForQuestionNotSuccessNotNumber() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/1/abc"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("1"))
-                .andExpect(jsonPath("$.[0].id").value("2"))
-                .andExpect(jsonPath("$.[0].title").value("Question number two"))
-                .andExpect(jsonPath("$.[0].username").value("Teat"))
-                .andExpect(jsonPath("$.[0].tags.length()").value("1"))
-                .andExpect(jsonPath("$.[0].reputationCount").value("2"))
-                .andExpect(jsonPath("$.[0].viewCount").value("5"))
-                .andExpect(jsonPath("$.[0].countAnswer").value("1"))
-                .andExpect(jsonPath("$.[0].countValuable").value("3"))
-                .andExpect(jsonPath("$.[0].persistDateTime").value("2020-01-10T13:58:56"))
-                .andExpect(jsonPath("$.[0].isHelpful").value("false"))
-                .andExpect(jsonPath("$.[0].description").value("some description for second question"));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void searchCommonJsonTestForAllFieldsFromHelpful() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=helpful:yes"))
+    void toVoteForQuestionNotSuccessWrongQuestionId() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/10/1"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("1"))
-                .andExpect(jsonPath("$.[0].id").value("1"))
-                .andExpect(jsonPath("$.[0].title").value("Question number one"))
-                .andExpect(jsonPath("$.[0].username").value("Teat"))
-                .andExpect(jsonPath("$.[0].tags.length()").value("1"))
-                .andExpect(jsonPath("$.[0].reputationCount").value("2"))
-                .andExpect(jsonPath("$.[0].viewCount").value("3"))
-                .andExpect(jsonPath("$.[0].countAnswer").value("2"))
-                .andExpect(jsonPath("$.[0].countValuable").value("1"))
-                .andExpect(jsonPath("$.[0].persistDateTime").value("2020-01-01T13:58:56"))
-                .andExpect(jsonPath("$.[0].isHelpful").value("true"))
-                .andExpect(jsonPath("$.[0].description").value("some description for first question"));
-    }
-
-    @Test
-    void searchCommonJsonTestForAllFieldsFromAnswer() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=answers:2"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("1"))
-                .andExpect(jsonPath("$.[0].id").value("1"))
-                .andExpect(jsonPath("$.[0].title").value("Question number one"))
-                .andExpect(jsonPath("$.[0].username").value("Teat"))
-                .andExpect(jsonPath("$.[0].tags.length()").value("1"))
-                .andExpect(jsonPath("$.[0].reputationCount").value("2"))
-                .andExpect(jsonPath("$.[0].viewCount").value("3"))
-                .andExpect(jsonPath("$.[0].countAnswer").value("2"))
-                .andExpect(jsonPath("$.[0].countValuable").value("1"))
-                .andExpect(jsonPath("$.[0].persistDateTime").value("2020-01-01T13:58:56"))
-                .andExpect(jsonPath("$.[0].isHelpful").value("true"))
-                .andExpect(jsonPath("$.[0].description").value("some description for first question"));
-    }
-
-    @Test
-    void searchCommonJsonTestForAllFieldsFromTag() throws Exception {
-        this.mockMvc.perform(get("/api/user/search?search=[java]"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"))
-                .andExpect(jsonPath("$.[0].id").value("3"))
-                .andExpect(jsonPath("$.[0].title").value("Question number three"))
-                .andExpect(jsonPath("$.[0].username").value("Tot"))
-                .andExpect(jsonPath("$.[0].tags.length()").value("1"))
-                .andExpect(jsonPath("$.[0].reputationCount").value("1"))
-                .andExpect(jsonPath("$.[0].viewCount").value("2"))
-                .andExpect(jsonPath("$.[0].countAnswer").value("0"))
-                .andExpect(jsonPath("$.[0].countValuable").value("2"))
-                .andExpect(jsonPath("$.[0].persistDateTime").value("2020-01-20T13:58:56"))
-                .andExpect(jsonPath("$.[0].isHelpful").value("false"))
-                .andExpect(jsonPath("$.[0].description").value("some description for next question number three"));
+                .andExpect(status().isBadRequest());
     }
 }
