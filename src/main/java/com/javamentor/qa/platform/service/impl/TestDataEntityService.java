@@ -1,9 +1,6 @@
 package com.javamentor.qa.platform.service.impl;
 
-import com.javamentor.qa.platform.models.entity.Comment;
-import com.javamentor.qa.platform.models.entity.CommentType;
-import com.javamentor.qa.platform.models.entity.Editor;
-import com.javamentor.qa.platform.models.entity.Reputation;
+import com.javamentor.qa.platform.models.entity.*;
 import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.RelatedTag;
@@ -58,6 +55,9 @@ public class TestDataEntityService {
     @Autowired
     private EditorService editorService;
 
+    @Autowired
+    private ModeratorService moderatorService;
+
 
     public void createEntity() {
         creatUserEntity();
@@ -66,6 +66,9 @@ public class TestDataEntityService {
         creatAnswerEntity();
         creatComment();
         creatUserFavoriteQuestion();
+        creatReputation();
+        creatEditor();
+        creatModerator();
     }
 
     private void creatUserEntity() {
@@ -78,16 +81,11 @@ public class TestDataEntityService {
                 .name("USER")
                 .build();
 
-        Role moderatorRole = Role.builder()
-                .name("MODERATOR")
-                .build();
-
-
         User admin = User.builder()
                 .email("admin@admin.ru")
                 .password("admin")
                 .fullName("Админ Админович Админов")
-                .reputationCount(5)
+                .reputationCount(0)
                 .city("Moscow")
                 .linkSite("site.admin.ru")
                 .linkGitHub("github.admin.ru")
@@ -100,7 +98,7 @@ public class TestDataEntityService {
 
         Reputation reputation = Reputation.builder()
                 .reputationCount(2)
-                .voiceCount(1)
+                .voiceCount(10)
                 .user(admin)
                 .build();
         reputationService.persist(reputation);
@@ -109,20 +107,20 @@ public class TestDataEntityService {
                 .email("user1@user.ru")
                 .password("user1")
                 .fullName("Юрий Иванивич Пухов")
-                .reputationCount(4)
+                .reputationCount(0)
                 .city("Moscow")
                 .linkSite("site.user1.ru")
                 .linkGitHub("github.user1.ru")
                 .linkVk("vk.user1.ru")
                 .about("about user1")
-                .role(moderatorRole)
+                .role(userRole)
                 .isEnabled(true)
                 .build();
         userService.persist(user1);
 
         Reputation reputation1 = Reputation.builder()
                 .reputationCount(4)
-                .voiceCount(2)
+                .voiceCount(12)
                 .user(user1)
                 .build();
         reputationService.persist(reputation1);
@@ -132,19 +130,19 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user2")
                 .fullName("Петр Алексеевич Петров")
-                .reputationCount(1)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
                 .linkVk("vk.user2.ru")
                 .about("about user2")
-                .role(moderatorRole)
+                .role(userRole)
                 .build();
         userService.persist(user2);
 
         Reputation reputation2 = Reputation.builder()
                 .reputationCount(6)
-                .voiceCount(3)
+                .voiceCount(13)
                 .user(user2)
                 .build();
         reputationService.persist(reputation2);
@@ -154,7 +152,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user3")
                 .fullName("Василий Дмитрьевич Петров")
-                .reputationCount(19)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user3.ru")
                 .linkGitHub("github.user3.ru")
@@ -166,7 +164,7 @@ public class TestDataEntityService {
 
         Reputation reputation3 = Reputation.builder()
                 .reputationCount(8)
-                .voiceCount(4)
+                .voiceCount(14)
                 .user(user3)
                 .build();
         reputationService.persist(reputation3);
@@ -176,7 +174,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user4")
                 .fullName("Евгений Петрович Суздальцев")
-                .reputationCount(6)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
@@ -188,7 +186,7 @@ public class TestDataEntityService {
 
         Reputation reputation4 = Reputation.builder()
                 .reputationCount(10)
-                .voiceCount(5)
+                .voiceCount(15)
                 .user(user4)
                 .build();
         reputationService.persist(reputation4);
@@ -198,7 +196,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user5")
                 .fullName("Василий Петрович Гром")
-                .reputationCount(21)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user5.ru")
                 .linkGitHub("github.user5.ru")
@@ -210,7 +208,7 @@ public class TestDataEntityService {
 
         Reputation reputation5 = Reputation.builder()
                 .reputationCount(12)
-                .voiceCount(6)
+                .voiceCount(16)
                 .user(user5)
                 .build();
         reputationService.persist(reputation5);
@@ -220,7 +218,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user6")
                 .fullName("Георгий Андреевич Дымов")
-                .reputationCount(13)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user6.ru")
                 .linkGitHub("github.user6.ru")
@@ -232,7 +230,7 @@ public class TestDataEntityService {
 
         Reputation reputation6 = Reputation.builder()
                 .reputationCount(14)
-                .voiceCount(7)
+                .voiceCount(17)
                 .user(user6)
                 .build();
         reputationService.persist(reputation6);
@@ -242,7 +240,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user7")
                 .fullName("Роман Игоривич Смышляев")
-                .reputationCount(35)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user7.ru")
                 .linkGitHub("github.user7.ru")
@@ -254,7 +252,7 @@ public class TestDataEntityService {
 
         Reputation reputation7 = Reputation.builder()
                 .reputationCount(16)
-                .voiceCount(8)
+                .voiceCount(18)
                 .user(user7)
                 .build();
         reputationService.persist(reputation7);
@@ -264,7 +262,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user8")
                 .fullName("Алексей Петрович Пережёг")
-                .reputationCount(2)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user8.ru")
                 .linkGitHub("github.user8.ru")
@@ -276,7 +274,7 @@ public class TestDataEntityService {
 
         Reputation reputation8 = Reputation.builder()
                 .reputationCount(18)
-                .voiceCount(9)
+                .voiceCount(19)
                 .user(user8)
                 .build();
         reputationService.persist(reputation8);
@@ -286,7 +284,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user9")
                 .fullName("Андрей Евгеньевич Городилов")
-                .reputationCount(33)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user9.ru")
                 .linkGitHub("github.user9.ru")
@@ -298,7 +296,7 @@ public class TestDataEntityService {
 
         Reputation reputation9 = Reputation.builder()
                 .reputationCount(20)
-                .voiceCount(10)
+                .voiceCount(21)
                 .user(user9)
                 .build();
         reputationService.persist(reputation9);
@@ -308,7 +306,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user10")
                 .fullName("Давид Антонович Чехов")
-                .reputationCount(43)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user10.ru")
                 .linkGitHub("github.user10.ru")
@@ -320,7 +318,7 @@ public class TestDataEntityService {
 
         Reputation reputation10 = Reputation.builder()
                 .reputationCount(22)
-                .voiceCount(11)
+                .voiceCount(22)
                 .user(user10)
                 .build();
         reputationService.persist(reputation10);
@@ -330,7 +328,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user11")
                 .fullName("Семён Павлович Слепаков")
-                .reputationCount(23)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user11.ru")
                 .linkGitHub("github.user11.ru")
@@ -342,7 +340,7 @@ public class TestDataEntityService {
 
         Reputation reputation11 = Reputation.builder()
                 .reputationCount(24)
-                .voiceCount(12)
+                .voiceCount(8)
                 .user(user11)
                 .build();
         reputationService.persist(reputation11);
@@ -352,7 +350,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user12")
                 .fullName("Иван Дмитревич Кузмин")
-                .reputationCount(14)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user12.ru")
                 .linkGitHub("github.user12.ru")
@@ -364,7 +362,7 @@ public class TestDataEntityService {
 
         Reputation reputation12 = Reputation.builder()
                 .reputationCount(26)
-                .voiceCount(13)
+                .voiceCount(1)
                 .user(user12)
                 .build();
         reputationService.persist(reputation12);
@@ -374,7 +372,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user13")
                 .fullName("Владимер Романович Кержаков")
-                .reputationCount(9)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user13.ru")
                 .linkGitHub("github.user13.ru")
@@ -385,8 +383,8 @@ public class TestDataEntityService {
         userService.persist(user13);
 
         Reputation reputation13 = Reputation.builder()
-                .reputationCount(26)
-                .voiceCount(14)
+                .reputationCount(28)
+                .voiceCount(4)
                 .user(user13)
                 .build();
         reputationService.persist(reputation13);
@@ -396,7 +394,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user14")
                 .fullName("Иван Николаевич Курочкин")
-                .reputationCount(11)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user14.ru")
                 .linkGitHub("github.user14.ru")
@@ -408,7 +406,7 @@ public class TestDataEntityService {
 
         Reputation reputation14 = Reputation.builder()
                 .reputationCount(30)
-                .voiceCount(15)
+                .voiceCount(5)
                 .user(user14)
                 .build();
         reputationService.persist(reputation14);
@@ -418,7 +416,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user15")
                 .fullName("Андрей Александрович Яращук")
-                .reputationCount(17)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user15.ru")
                 .linkGitHub("github.user15.ru")
@@ -430,7 +428,7 @@ public class TestDataEntityService {
 
         Reputation reputation15 = Reputation.builder()
                 .reputationCount(32)
-                .voiceCount(16)
+                .voiceCount(6)
                 .user(user15)
                 .build();
         reputationService.persist(reputation15);
@@ -440,7 +438,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user16")
                 .fullName("Алексей Борисович Огородов")
-                .reputationCount(18)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user16.ru")
                 .linkGitHub("github.user16.ru")
@@ -452,7 +450,7 @@ public class TestDataEntityService {
 
         Reputation reputation16 = Reputation.builder()
                 .reputationCount(34)
-                .voiceCount(17)
+                .voiceCount(7)
                 .user(user16)
                 .build();
         reputationService.persist(reputation16);
@@ -462,7 +460,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user17")
                 .fullName("Артем Романович Туборг")
-                .reputationCount(36)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user17.ru")
                 .linkGitHub("github.user17.ru")
@@ -474,7 +472,7 @@ public class TestDataEntityService {
 
         Reputation reputation17 = Reputation.builder()
                 .reputationCount(36)
-                .voiceCount(18)
+                .voiceCount(8)
                 .user(user17)
                 .build();
         reputationService.persist(reputation17);
@@ -484,7 +482,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user18")
                 .fullName("Алексей Алексеевич Мышкин")
-                .reputationCount(39)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user18.ru")
                 .linkGitHub("github.user18.ru")
@@ -496,7 +494,7 @@ public class TestDataEntityService {
 
         Reputation reputation18 = Reputation.builder()
                 .reputationCount(38)
-                .voiceCount(19)
+                .voiceCount(9)
                 .user(user18)
                 .build();
         reputationService.persist(reputation18);
@@ -506,7 +504,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user19")
                 .fullName("Сергей Петрович Старадуб")
-                .reputationCount(53)
+                .reputationCount(0)
                 .city("SPB")
                 .linkSite("site.user19.ru")
                 .linkGitHub("github.user19.ru")
@@ -518,77 +516,121 @@ public class TestDataEntityService {
 
         Reputation reputation19 = Reputation.builder()
                 .reputationCount(40)
-                .voiceCount(20)
+                .voiceCount(25)
                 .user(user19)
                 .build();
         reputationService.persist(reputation19);
+    }
 
-        //todo reputation 5
+    private void creatReputation() {
         Reputation reputation20 = Reputation.builder()
-                .reputationCount(2)
-                .voiceCount(1)
-                .user(user3)
+                .reputationCount(8)
+                .voiceCount(4)
+                .user(userService.getByKey(3L))
                 .build();
         reputationService.persist(reputation20);
 
         Reputation reputation21 = Reputation.builder()
-                .reputationCount(2)
-                .voiceCount(1)
-                .user(user3)
+                .reputationCount(16)
+                .voiceCount(8)
+                .user(userService.getByKey(3L))
                 .build();
         reputationService.persist(reputation21);
 
         Reputation reputation22 = Reputation.builder()
-                .reputationCount(2)
-                .voiceCount(1)
-                .user(user3)
+                .reputationCount(24)
+                .voiceCount(12)
+                .user(userService.getByKey(4L))
                 .build();
         reputationService.persist(reputation22);
 
         Reputation reputation23 = Reputation.builder()
-                .reputationCount(2)
-                .voiceCount(1)
-                .user(user4)
+                .reputationCount(32)
+                .voiceCount(16)
+                .user(userService.getByKey(4L))
                 .build();
         reputationService.persist(reputation23);
 
         Reputation reputation24 = Reputation.builder()
-                .reputationCount(2)
-                .voiceCount(1)
-                .user(user4)
+                .reputationCount(40)
+                .voiceCount(20)
+                .user(userService.getByKey(5L))
                 .build();
         reputationService.persist(reputation24);
 
-        //todo editor 5
+        Reputation reputation25 = Reputation.builder()
+                .reputationCount(48)
+                .voiceCount(24)
+                .user(userService.getByKey(5L))
+                .build();
+        reputationService.persist(reputation25);
+    }
+
+    private void creatEditor() {
         Editor editor = Editor.builder()
                 .countChanges(1)
-                .user(user10)
+                .user(userService.getByKey(5L))
                 .build();
         editorService.persist(editor);
 
         Editor editor1 = Editor.builder()
-                .countChanges(1)
-                .user(user10)
+                .countChanges(2)
+                .user(userService.getByKey(8L))
                 .build();
         editorService.persist(editor1);
 
         Editor editor2 = Editor.builder()
-                .countChanges(1)
-                .user(user10)
+                .countChanges(3)
+                .user(userService.getByKey(3L))
                 .build();
         editorService.persist(editor2);
 
         Editor editor3 = Editor.builder()
-                .countChanges(1)
-                .user(user11)
+                .countChanges(4)
+                .user(userService.getByKey(4L))
                 .build();
         editorService.persist(editor3);
 
         Editor editor4 = Editor.builder()
-                .countChanges(1)
-                .user(user11)
+                .countChanges(5)
+                .user(userService.getByKey(5L))
                 .build();
         editorService.persist(editor4);
+
+        Editor editor5 = Editor.builder()
+                .countChanges(6)
+                .user(userService.getByKey(5L))
+                .build();
+        editorService.persist(editor5);
+
+        Editor editor6 = Editor.builder()
+                .countChanges(7)
+                .user(userService.getByKey(4L))
+                .build();
+        editorService.persist(editor6);
+
+        Editor editor7 = Editor.builder()
+                .countChanges(8)
+                .user(userService.getByKey(3L))
+                .build();
+        editorService.persist(editor7);
+    }
+
+    private void creatModerator() {
+        Moderator moderator = Moderator.builder()
+                .user(userService.getByKey(19L))
+                .build();
+        moderatorService.persist(moderator);
+
+        Moderator moderator1 = Moderator.builder()
+                .user(userService.getByKey(18L))
+                .build();
+        moderatorService.persist(moderator1);
+
+        Moderator moderator2 = Moderator.builder()
+                .user(userService.getByKey(17L))
+                .build();
+        moderatorService.persist(moderator2);
     }
 
     private void creatTagEntity() {

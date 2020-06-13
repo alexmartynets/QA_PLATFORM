@@ -28,8 +28,6 @@ public class EditorDto {
 
     private Long userId;
 
-    private LocalDateTime persistDateTimeUser;
-
     private String fullNameUser;
 
     private String aboutUser;

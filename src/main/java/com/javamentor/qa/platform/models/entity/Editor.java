@@ -20,6 +20,7 @@ import java.util.Objects;
 public class Editor {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreationTimestamp
@@ -27,8 +28,8 @@ public class Editor {
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "count_changes")

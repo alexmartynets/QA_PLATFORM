@@ -16,10 +16,6 @@ import java.time.LocalDateTime;
 @ToString
 public class ModeratorDto {
 
-    @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
-    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значние при обновлении")
-    private Long id;
-
     private LocalDateTime persistDateTime;
 
     private Long reputationCount;

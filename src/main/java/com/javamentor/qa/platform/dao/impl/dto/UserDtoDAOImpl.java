@@ -147,7 +147,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.imageUser, " +
                 "SUM(r.reputationCount)," +
                 "SUM(r.voiceCount) " +
-                "FROM Reputation r WHERE r.user.persistDateTime > :data " +
+                "FROM Reputation as r WHERE r.user.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -164,8 +164,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .aboutUser((String) objects[4])
                                 .cityUser((String) objects[5])
                                 .imageUser((byte[]) objects[6])
-                                .voiceCount(((Number) objects[7]).longValue())
-                                .reputationCount(((Number) objects[8]).longValue())
+                                .reputationCount(((Number) objects[7]).longValue())
+                                .voiceCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -202,7 +202,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.imageUser, " +
                 "SUM(r.reputationCount)," +
                 "SUM(r.voiceCount) " +
-                "FROM Reputation r WHERE r.user.persistDateTime > :data " +
+                "FROM Reputation as r WHERE r.user.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY r.user.persistDateTime DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -219,8 +219,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .aboutUser((String) objects[4])
                                 .cityUser((String) objects[5])
                                 .imageUser((byte[]) objects[6])
-                                .voiceCount(((Number) objects[7]).longValue())
-                                .reputationCount(((Number) objects[8]).longValue())
+                                .reputationCount(((Number) objects[7]).longValue())
+                                .voiceCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -249,15 +249,15 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<EditorDto> listUsers = entityManager.createQuery("SELECT " +
                 "e.id, " +
+                "e.persistDateTime, " +
                 "e.user.id, " +
                 "e.user.fullName, " +
                 "e.user.about, " +
                 "e.user.city, " +
                 "e.user.imageUser, " +
-                "SUM(e.countChanges)," +
-                "SUM(r.reputationCount)" +
-                "FROM Editor e JOIN Reputation r ON e.user.id = r.user.id WHERE r.persistDateTime > :data and " +
-                "e.persistDateTime > :data GROUP BY r.user.id, e.user.id ORDER BY SUM(e.countChanges) DESC")
+                "SUM(e.countChanges)" +
+                "FROM Editor as e  WHERE " +
+                "e.persistDateTime > :data GROUP BY e.user.id ORDER BY SUM(e.countChanges) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -267,13 +267,14 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return EditorDto.builder()
                                 .id(((Number) objects[0]).longValue())
-                                .userId(((Number) objects[1]).longValue())
-                                .fullNameUser((String) objects[2])
-                                .aboutUser((String) objects[3])
-                                .cityUser((String) objects[4])
-                                .imageUser((byte[]) objects[5])
-                                .countChanges(((Number) objects[6]).longValue())
-                                .reputationCount(((Number) objects[7]).longValue())
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .userId(((Number) objects[2]).longValue())
+                                .fullNameUser((String) objects[3])
+                                .aboutUser((String) objects[4])
+                                .cityUser((String) objects[5])
+                                .imageUser((byte[]) objects[6])
+                                .countChanges(((Number) objects[7]).longValue())
+//                                .reputationCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -311,7 +312,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.imageUser, " +
                 "SUM(r.reputationCount)," +
                 "SUM(r.voiceCount) " +
-                "FROM Reputation r WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%') " +
+                "FROM Reputation as r WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%') " +
                 "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
                 .setParameter("data", data)
                 .setParameter("searchKeyword", name.toLowerCase())
@@ -367,7 +368,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.imageUser, " +
                 "SUM(r.reputationCount)," +
                 "SUM(r.voiceCount) " +
-                "FROM Reputation r WHERE r.persistDateTime > :data " +
+                "FROM Reputation as r WHERE r.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -384,8 +385,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .aboutUser((String) objects[4])
                                 .cityUser((String) objects[5])
                                 .imageUser((byte[]) objects[6])
-                                .voiceCount(((Number) objects[7]).longValue())
-                                .reputationCount(((Number) objects[8]).longValue())
+                                .reputationCount(((Number) objects[7]).longValue())
+                                .voiceCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -422,7 +423,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.imageUser, " +
                 "SUM(r.reputationCount)," +
                 "SUM(r.voiceCount) " +
-                "FROM Reputation r WHERE r.persistDateTime > :data " +
+                "FROM Reputation as r WHERE r.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.voiceCount) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -439,8 +440,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .aboutUser((String) objects[4])
                                 .cityUser((String) objects[5])
                                 .imageUser((byte[]) objects[6])
-                                .voiceCount(((Number) objects[7]).longValue())
-                                .reputationCount(((Number) objects[8]).longValue())
+                                .reputationCount(((Number) objects[7]).longValue())
+                                .voiceCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
@@ -458,21 +459,21 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     @Override
     public List<ModeratorDto> getListUsersByModerator() {
         List<ModeratorDto> listUsers = entityManager.createQuery("SELECT " +
-                "m.id, " +
                 "m.persistDateTime, " +
+                "m.user.id, " +
                 "m.user.fullName, " +
                 "m.user.city, " +
                 "m.user.imageUser, " +
                 "SUM(r.reputationCount)" +
-                "FROM Moderator as m JOIN Reputation r ON m.user.id = r.user.id " +
+                "FROM Moderator as m JOIN Reputation as r ON m.user.id = r.user.id " +
                 "GROUP BY r.user.id ")
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return ModeratorDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .persistDateTime((LocalDateTime) objects[1])
+                                .persistDateTime((LocalDateTime) objects[0])
+                                .userId(((Number) objects[1]).longValue())
                                 .fullNameUser((String) objects[2])
                                 .cityUser((String) objects[3])
                                 .imageUser((byte[]) objects[4])
