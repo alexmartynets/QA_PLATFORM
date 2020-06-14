@@ -156,6 +156,12 @@ class DataUsersService {
         ]);
         return mapUrl.get(key);
     }
+
+    getCountWeeksSinceCreation(){
+        let today = new Date();
+        let dateCreation = new Date('2018-01-01');
+        return Math.ceil((today-dateCreation)/604800000);
+    }
 }
 
 
