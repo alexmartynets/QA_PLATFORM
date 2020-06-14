@@ -6,6 +6,7 @@ import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
+import com.javamentor.qa.platform.models.entity.question.Tag;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
@@ -35,7 +36,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "t.name, " +
                     "t.description, " +
                     "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                    "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                    "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
                     "FROM Question q JOIN q.tags t")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
@@ -277,5 +278,85 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 .setParameter("id", questionId)
                 .unwrap(Query.class)
                 .executeUpdate();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<QuestionDto> getQuestionList(int page, int size) {
+        List<QuestionDto> resultList = entityManager.createQuery("SELECT " +
+                "q.id, " +
+                "q.title, " +
+                "q.user.fullName, " +
+                "q.user.reputationCount, " +
+                "q.viewCount, " +
+                "q.countValuable, " +
+                "q.persistDateTime, " +
+                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id), " +
+                "(SELECT a.user.fullName FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)), " +
+                "(SELECT a.persistDateTime FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)) " +
+                "FROM Question q ")
+                .setFirstResult((page - 1) * size)
+                .setMaxResults(size)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return QuestionDto.builder()
+                                .id((Long) objects[0])
+                                .title((String) objects[1])
+                                .userDto(UserDto.builder()
+                                        .fullName((String) objects[2])
+                                        .reputationCount((Integer) objects[3])
+                                        .build())
+                                .viewCount((Integer) objects[4])
+                                .countValuable((Integer) objects[5])
+                                .persistDateTime((LocalDateTime) objects[6])
+                                .countAnswer(((Number) objects[7]).intValue())
+                                .isHelpful((Boolean) objects[8])
+                                .lastAnswerName((String) objects[9])
+                                .lastAnswerDate((LocalDateTime) objects[10])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+        return resultList;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<TagDto> getTagList(long q_id) {
+        List<TagDto> result = entityManager.createQuery(
+                "SELECT t.id, t.name, t.description " +
+                        "FROM Question q JOIN q.tags t WHERE q.id = :q_id")
+                .setParameter("q_id", q_id)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return TagDto.builder()
+                                .id((Long) objects[0])
+                                .name((String) objects[1])
+                                .description((String) objects[2])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                }).getResultList();
+        return result;
+    }
+
+    @Override
+    public Long getCount() {
+        return (Long) entityManager.createQuery("SELECT COUNT(q) FROM Question q")
+                .getSingleResult();
     }
 }

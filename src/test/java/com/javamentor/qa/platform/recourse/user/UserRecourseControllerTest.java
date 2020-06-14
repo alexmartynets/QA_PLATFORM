@@ -14,6 +14,5 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     @Test
     @DataSet(value = {"searchDatasets/roleSearch.yml", "searchDatasets/usersSearch.yml"}, cleanBefore = true)
     void getAllDto()  {
-
     }
 }

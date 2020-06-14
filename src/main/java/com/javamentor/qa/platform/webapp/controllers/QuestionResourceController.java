@@ -1,8 +1,15 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
+import com.javamentor.qa.platform.exception.ApiRequestException;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import io.swagger.annotations.Api;
@@ -13,6 +20,7 @@ import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -136,5 +144,20 @@ public class QuestionResourceController {
         }
         logger.info(String.format("Получен список вопросов пользователя с ID: %d.", id));
         return ResponseEntity.ok(questionDtoService.getQuestionDtoListByUserId(id));
+    }
+
+
+    @ApiOperation(value = "Получение списка пагинации из QuestionDto (без фильтра)")
+    @GetMapping(value = "/pagination")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список для пагинации из QuestionDto получен")
+    })
+    public ResponseEntity<Pair<Long, List<QuestionDto>>> getPaginationQuestion(@RequestParam int page,
+                                                                               @RequestParam int size) {
+        if (page < 1 || size < 1) {
+            throw new ApiRequestException("Значения не должны быть отрицательными");
+        } else {
+            return ResponseEntity.ok(questionDtoService.getPaginationQuestion(page, size));
+        }
     }
 }

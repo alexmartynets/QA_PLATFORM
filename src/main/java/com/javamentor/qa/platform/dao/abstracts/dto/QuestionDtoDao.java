@@ -1,6 +1,7 @@
 package com.javamentor.qa.platform.dao.abstracts.dto;
 
 import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.dto.TagDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,10 @@ public interface QuestionDtoDao {
     void updateQuestionDtoTitleAndDescription(QuestionDto questionDto);
 
     void toVoteForQuestion(Long questionId, int vote);
+
+    List<QuestionDto> getQuestionList(int page, int size);
+
+    List<TagDto> getTagList(long q_id);
+
+    Long getCount();
 }
