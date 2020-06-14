@@ -152,7 +152,8 @@ class DataUsersService {
             ["editor", "http://localhost:5557/api/user/editor?count="],
             ["moderator", "http://localhost:5557/api/user/moderator"],
             ["new", "http://localhost:5557/api/user/new?count="],
-            ["new-reputation", "http://localhost:5557/api/user/new/reputation?count="]
+            ["new-reputation", "http://localhost:5557/api/user/new/reputation?count="],
+            ["search", "http://localhost:5557/api/user/search?count="]
         ]);
         return mapUrl.get(key);
     }
