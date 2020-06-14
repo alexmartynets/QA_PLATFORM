@@ -3,14 +3,14 @@ class DataUsersPage {
     constructor() {
     }
 
-    mapperMediaUsers(listUsers) {
+    mapperMediaModerator(listUsers) {
         let listMedia = [];
 
         for (let i = 0; i < listUsers.length; i++) {
             let user = listUsers[i];
 
             const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.id;
+            img.src = "//placehold.it/48x48?text=" + user.userId;
             img.className = "align-self-start mr-3";
             img.alt = "...";
 
@@ -20,24 +20,171 @@ class DataUsersPage {
             const name = document.createElement("a");
             name.href = "/profile";
             name.className = "mt-0 user-name";
-            name.innerText = user.fullName;
+            name.innerText = user.fullNameUser;
 
             const city = document.createElement("div");
             city.className = "user-location";
-            city.innerText = user.city;
+            city.innerText = user.cityUser;
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = user.reputationCount;
+            ratings.innerText = "reputation " + user.reputationCount;
 
-            const tags = document.createElement("a");
-            tags.href = "/tags/" + user.about;
-            tags.className = "user-tags";
-            tags.innerText = user.about;
+            const year = document.createElement("div");
+            year.className = "user-year";
+            year.innerText = "выбран " + user.persistDateTime.substr(0, 4);
 
             divs.appendChild(name);
             divs.appendChild(city);
             divs.appendChild(ratings);
+            divs.appendChild(year);
+
+            const media = document.createElement("div");
+            media.className = "media user-info";
+            media.appendChild(img);
+            media.appendChild(divs);
+
+            listMedia.push(media);
+        }
+        // console.log(listMedia);
+        return listMedia;
+    }
+
+    mapperMediaEditor(listUsers) {
+        let listMedia = [];
+
+        for (let i = 0; i < listUsers.length; i++) {
+            let user = listUsers[i];
+
+            const img = document.createElement("img");
+            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.className = "align-self-start mr-3";
+            img.alt = "...";
+
+            const divs = document.createElement("div");
+            divs.className = "media-body";
+
+            const name = document.createElement("a");
+            name.href = "/profile";
+            name.className = "mt-0 user-name";
+            name.innerText = user.fullNameUser;
+
+            const city = document.createElement("div");
+            city.className = "user-location";
+            city.innerText = user.cityUser;
+
+            const ratings = document.createElement("div");
+            ratings.className = "user-rating";
+            ratings.innerText = "reputation " + user.reputationCount;
+
+            const editor = document.createElement("div");
+            editor.className = "user-editor";
+            editor.innerText = user.countChanges + "правок";
+
+            divs.appendChild(name);
+
+            divs.appendChild(city);
+            divs.appendChild(ratings);
+            divs.appendChild(editor);
+
+            const media = document.createElement("div");
+            media.className = "media user-info";
+            media.appendChild(img);
+            media.appendChild(divs);
+
+            listMedia.push(media);
+        }
+        // console.log(listMedia);
+        return listMedia;
+    }
+
+    mapperMediaVoice(listUsers) {
+        let listMedia = [];
+
+        for (let i = 0; i < listUsers.length; i++) {
+            let user = listUsers[i];
+
+            const img = document.createElement("img");
+            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.className = "align-self-start mr-3";
+            img.alt = "...";
+
+            const divs = document.createElement("div");
+            divs.className = "media-body";
+
+            const name = document.createElement("a");
+            name.href = "/profile";
+            name.className = "mt-0 user-name";
+            name.innerText = user.fullNameUser;
+
+            const city = document.createElement("div");
+            city.className = "user-location";
+            city.innerText = user.cityUser;
+
+            const ratings = document.createElement("div");
+            ratings.className = "user-rating";
+            ratings.innerText = "reputation " + user.reputationCount;
+
+            const voice = document.createElement("div");
+            voice.className = "user-voice";
+            voice.innerText = user.voiceCount + "голосов";
+
+            divs.appendChild(name);
+            divs.appendChild(city);
+            divs.appendChild(ratings);
+            divs.appendChild(voice);
+
+            const media = document.createElement("div");
+            media.className = "media user-info";
+            media.appendChild(img);
+            media.appendChild(divs);
+
+            listMedia.push(media);
+        }
+        // console.log(listMedia);
+        return listMedia;
+    }
+
+    mapperMediaUsers(listUsers) {
+        let listMedia = [];
+
+        for (let i = 0; i < listUsers.length; i++) {
+            let user = listUsers[i];
+
+            const img = document.createElement("img");
+            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.className = "align-self-start mr-3";
+            img.alt = "...";
+
+            const divs = document.createElement("div");
+            divs.className = "media-body";
+
+            const name = document.createElement("a");
+            name.href = "/profile";
+            name.className = "mt-0 user-name";
+            name.innerText = user.fullNameUser;
+
+            const city = document.createElement("div");
+            city.className = "user-location";
+            city.innerText = user.cityUser;
+
+            const ratings = document.createElement("div");
+            ratings.className = "user-rating";
+            ratings.innerText = "reputation " + user.reputationCount;
+
+            const voices = document.createElement("div");
+            voices.className = "user-voices";
+            voices.innerText = "voice " + user.voiceCount;
+
+            const tags = document.createElement("a");
+            tags.href = "/tags/" + user.aboutUser;
+            tags.className = "user-tags";
+            tags.innerText = user.aboutUser;
+
+            divs.appendChild(name);
+            divs.appendChild(city);
+            divs.appendChild(ratings);
+            divs.appendChild(voices);
             divs.appendChild(tags);
 
             const media = document.createElement("div");
@@ -162,6 +309,12 @@ class DataUsersService {
         let today = new Date();
         let dateCreation = new Date('2018-01-01');
         return Math.ceil((today-dateCreation)/604800000);
+    }
+
+    getCountDaySinceCreation(data){
+        let today = new Date();
+        let dateCreation = new Date(data);
+        return Math.ceil((today-dateCreation)/86400000);
     }
 }
 
