@@ -218,7 +218,16 @@ function putCountValuablePlus(id) {
 }
 
 function putNewAnswer(id, answerDTO) {
+    let userDto = {"id": 3};
     let questionId = id;
+    userDto.password = "Qwerty12";
+    userDto.email = "email@email.com";
+    userDto.fullName = "test";
+    answerDTO.isHelpful = false;
+    answerDTO.isHidden = false;
+    answerDTO.userDto = userDto;
+    answerDTO.questionId = id;
+    answerDTO.htmlBody = "test";
     $.ajax({
         url: '/api/user/question/' + questionId + '/answer/',
         method: 'POST',
@@ -346,7 +355,7 @@ function getTextOfQuestion(id) {
                <div class="collapse" id="collapseComment${val.id}">
   <div class="card card-body">
     <label for="textarea1">Оставьте свой комментарий</label>
-    <textarea class="form-control" id="textarea1" rows="3"></textarea>
+    <textarea class="form-control" id="textarea1${val.id}" rows="3"></textarea>
   </div>
   <button onclick="putComment(${val.id},${questionId})" type="button" class="btn btn-primary mt-3"
                                             style="text-align:left;float:left;">
@@ -449,7 +458,7 @@ function getSortDateTextOfQuestion(id) {
                <div class="collapse" id="collapseComment${val.id}">
   <div class="card card-body">
     <label for="textarea1">Оставьте свой комментарий</label>
-    <textarea class="form-control" id="textarea1" rows="3"></textarea>
+    <textarea class="form-control" id="textarea1${val.id}" rows="3"></textarea>
   </div>
   <button onclick="putComment(${val.id},${questionId})" type="button" class="btn btn-primary mt-3"
                                             style="text-align:left;float:left;">
@@ -553,7 +562,7 @@ function getSortReputationTextOfQuestion(id) {
                <div class="collapse" id="collapseComment${val.id}">
   <div class="card card-body">
     <label for="textarea1">Оставьте свой комментарий</label>
-    <textarea class="form-control" id="textarea1" rows="3"></textarea>
+    <textarea class="form-control" id="textarea1${val.id}" rows="3"></textarea>
   </div>
   <button onclick="putComment(${val.id},${questionId})" type="button" class="btn btn-primary mt-3"
                                             style="text-align:left;float:left;">
@@ -628,15 +637,22 @@ function convertDateToString(date) {
     return result;
 }
 
-function putComment(id) {
-    let commentDto = document.getElementById("textarea1").value;
+function putComment(id,questionId) {
+    let commentDto = {};
+    let x = "textarea1"+id;
+    commentDto.commentType = "ANSWER";
+    commentDto.id = id;
+    commentDto.userId = 3 ;
+    commentDto.fullName = "Петр2 Петрович2 Петров2";
+    commentDto.text = document.getElementById(x).value;
     let answerId = id;
     $.ajax({
-        url: '/api/user/answer/' + id + '/comment',
+        url: '/api/user/answer/' + questionId + '/comment/',
         method: 'POST',
-        data: JSON.stringify({"text": commentDto}), answerId,
+        data: JSON.stringify(commentDto),answerId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
+            window.location.reload();
         },
         error: function () {
             alert("Не корректно отправлен комментарий");
@@ -646,12 +662,16 @@ function putComment(id) {
 
 function addComment(id, commentDto) {
     let questionId = id;
+    commentDto.commentType = "QUESTION";
+    commentDto.userId = 3 ;
+    commentDto.fullName = "Петр2 Петрович2 Петров2";
     $.ajax({
-        url: '/api/user/question/' + id + '/comment',
+        url: '/api/user/question/' + id + '/comment/',
         method: 'POST',
         data: JSON.stringify(commentDto), questionId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
+            window.location.reload();
         },
         error: function () {
             alert("Не корректно отправлен комментарий");
