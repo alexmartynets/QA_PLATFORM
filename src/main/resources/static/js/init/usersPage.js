@@ -8,22 +8,9 @@ jQuery(document).ready(function ($) {
     let currentPage = 1;
     let url;
 
-    // map url для запроса todo можно обяденить с mapUrlNewUsers и сделать метод для получения
-    let mapUrlAllUsers = new Map([
-        ["reputation", "http://localhost:5557/api/user/reputation?count="],
-        ["voice", "http://localhost:5557/api/user/voice?count="],
-        ["editor", "http://localhost:5557/api/user/editor?count="],
-        ["moderator", "http://localhost:5557/api/user/moderator"]
-    ]);
-
-    let mapUrlNewUsers = new Map([
-        ["new", "http://localhost:5557/api/user/new?count="],
-        ["reputation", "http://localhost:5557/api/user/new/reputation?count="]
-    ]);
-
     // todo получения данных для стартовой страницы с кнопки поиска "репутация"
     let attr_search = $('#reputation').attr("data-search");
-    url = mapUrlAllUsers.get(attr_search);
+    url = service.getUrl(attr_search);
     console.log("url при загрузке страницы по кнопке репутация");
     console.log(url);
 
@@ -58,7 +45,7 @@ jQuery(document).ready(function ($) {
             $('.hides').show();
 
             let attr_path = $('#new').attr("data-path");
-            url = mapUrlNewUsers.get(attr_path);
+            url = service.getUrl(attr_path);
 
             weeks = $('#new').attr("data-weeks");
 
@@ -69,7 +56,7 @@ jQuery(document).ready(function ($) {
         } else if (text === 'Модераторы') {
 
             attr_search = $(this).attr("data-search");
-            url = mapUrlAllUsers.get(attr_search);
+            url = service.getUrl(attr_search);
 
             // url для запроса
             console.log("блок search-users при нажатии кнопки поиск Модераторы в блоке else if");
@@ -91,7 +78,7 @@ jQuery(document).ready(function ($) {
             $('.shows').show();
 
             attr_search = $(this).attr("data-search");
-            url = mapUrlAllUsers.get(attr_search);
+            url = service.getUrl(attr_search);
 
             weeks = $('#month').attr("data-weeks");
 
@@ -127,7 +114,7 @@ jQuery(document).ready(function ($) {
             console.log("data-path при нажатии кнопки сортировки в блоке sorting-time");
             console.log(attr_path);
 
-            url = mapUrlNewUsers.get(attr_path);
+            url = service.getUrl(attr_path);
             // url для запроса
             console.log("url для получения данных в блоков sorting-time при обработке кнопки Новые пользователи");
             console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);

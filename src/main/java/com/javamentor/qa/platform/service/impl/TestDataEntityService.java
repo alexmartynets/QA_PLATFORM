@@ -526,42 +526,42 @@ public class TestDataEntityService {
         Reputation reputation20 = Reputation.builder()
                 .reputationCount(8)
                 .voiceCount(4)
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(16L))
                 .build();
         reputationService.persist(reputation20);
 
         Reputation reputation21 = Reputation.builder()
                 .reputationCount(16)
                 .voiceCount(8)
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(16L))
                 .build();
         reputationService.persist(reputation21);
 
         Reputation reputation22 = Reputation.builder()
                 .reputationCount(24)
                 .voiceCount(12)
-                .user(userService.getByKey(4L))
+                .user(userService.getByKey(17L))
                 .build();
         reputationService.persist(reputation22);
 
         Reputation reputation23 = Reputation.builder()
                 .reputationCount(32)
                 .voiceCount(16)
-                .user(userService.getByKey(4L))
+                .user(userService.getByKey(17L))
                 .build();
         reputationService.persist(reputation23);
 
         Reputation reputation24 = Reputation.builder()
                 .reputationCount(40)
                 .voiceCount(20)
-                .user(userService.getByKey(5L))
+                .user(userService.getByKey(18L))
                 .build();
         reputationService.persist(reputation24);
 
         Reputation reputation25 = Reputation.builder()
                 .reputationCount(48)
                 .voiceCount(24)
-                .user(userService.getByKey(5L))
+                .user(userService.getByKey(19L))
                 .build();
         reputationService.persist(reputation25);
     }
@@ -569,49 +569,49 @@ public class TestDataEntityService {
     private void creatEditor() {
         Editor editor = Editor.builder()
                 .countChanges(1)
-                .user(userService.getByKey(5L))
+                .user(userService.getByKey(15L))
                 .build();
         editorService.persist(editor);
 
         Editor editor1 = Editor.builder()
                 .countChanges(2)
-                .user(userService.getByKey(8L))
+                .user(userService.getByKey(16L))
                 .build();
         editorService.persist(editor1);
 
         Editor editor2 = Editor.builder()
                 .countChanges(3)
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(17L))
                 .build();
         editorService.persist(editor2);
 
         Editor editor3 = Editor.builder()
                 .countChanges(4)
-                .user(userService.getByKey(4L))
+                .user(userService.getByKey(17L))
                 .build();
         editorService.persist(editor3);
 
         Editor editor4 = Editor.builder()
                 .countChanges(5)
-                .user(userService.getByKey(5L))
+                .user(userService.getByKey(17L))
                 .build();
         editorService.persist(editor4);
 
         Editor editor5 = Editor.builder()
                 .countChanges(6)
-                .user(userService.getByKey(5L))
+                .user(userService.getByKey(18L))
                 .build();
         editorService.persist(editor5);
 
         Editor editor6 = Editor.builder()
                 .countChanges(7)
-                .user(userService.getByKey(4L))
+                .user(userService.getByKey(19L))
                 .build();
         editorService.persist(editor6);
 
         Editor editor7 = Editor.builder()
                 .countChanges(8)
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(19L))
                 .build();
         editorService.persist(editor7);
     }

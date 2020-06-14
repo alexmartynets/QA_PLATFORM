@@ -144,6 +144,18 @@ class DataUsersService {
         let listMediaUsers = data.mapperMediaUsers(listUsersForPage);
         $("#users").html($(listMediaUsers));
     }
+
+    getUrl(key) {
+        let mapUrl = new Map([
+            ["reputation", "http://localhost:5557/api/user/reputation?count="],
+            ["voice", "http://localhost:5557/api/user/voice?count="],
+            ["editor", "http://localhost:5557/api/user/editor?count="],
+            ["moderator", "http://localhost:5557/api/user/moderator"],
+            ["new", "http://localhost:5557/api/user/new?count="],
+            ["new-reputation", "http://localhost:5557/api/user/new/reputation?count="]
+        ]);
+        return mapUrl.get(key);
+    }
 }
 
 

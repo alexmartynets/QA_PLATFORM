@@ -255,10 +255,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "e.user.about, " +
                 "e.user.city, " +
                 "e.user.imageUser, " +
-                "SUM(e.countChanges)" +
-//                "SUM(r.reputationCount) " +
-                "FROM Editor as e WHERE e.persistDateTime > :data " +
-                "GROUP BY e.user.id ORDER BY SUM(e.countChanges) DESC")
+                "SUM(e.countChanges)," +
+                "(SELECT SUM(r.reputationCount) FROM Reputation as r WHERE e.user.id = r.user.id AND r.persistDateTime > :data GROUP BY r.user.id) " +
+                "FROM Editor as e WHERE e.persistDateTime > :data GROUP BY e.user.id ORDER BY SUM(e.countChanges) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -275,7 +274,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .cityUser((String) objects[5])
                                 .imageUser((byte[]) objects[6])
                                 .countChanges(((Number) objects[7]).longValue())
-//                                .reputationCount(((Number) objects[8]).longValue())
+                                .reputationCount(((Number) objects[8]).longValue())
                                 .build();
                     }
 
