@@ -26,7 +26,7 @@ public class Reputation {
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -42,8 +42,8 @@ public class Reputation {
         if (o == null || getClass() != o.getClass()) return false;
         Reputation reputation = (Reputation) o;
         return Objects.equals(id, reputation.id) &&
-                Objects.equals(persistDateTime, reputation.persistDateTime)&&
-                Objects.equals(reputationCount, reputation.reputationCount)&&
+                Objects.equals(persistDateTime, reputation.persistDateTime) &&
+                Objects.equals(reputationCount, reputation.reputationCount) &&
                 Objects.equals(voiceCount, reputation.voiceCount);
     }
 
