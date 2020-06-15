@@ -3,33 +3,27 @@ jQuery(document).ready(function ($) {
     const pagination_element = document.getElementById('pagination');
 
     let current_page = 1;
-    let rows = 10;
+    let rows = 3;
 
     getButtons();
 
     function getButtons() {
         $.ajax({
-            url: '/pagination',
-            type: 'POST',
-            data: {
-                page: 1,
-                size: rows,
-            },
+            url: '/'+ rows + '/page/' + current_page,
+            type: 'GET',
             contentType: "application/json",
             dataType: "json",
-            //timeout: 100000,
-            success: function (map) {
-                SetupPagination(new Map(Object.entries(map)), pagination_element);
-                DisplayList(list_element, rows, current_page);
+            success: function (pair) {
+                SetupPagination(pair, pagination_element);
+                DisplayList(list_element, current_page);
             }
         })
     }
 
-    function SetupPagination(map, wrapper) {
+    function SetupPagination(pair, wrapper) {
         wrapper.innerHTML = "";
-        let number = Array.from(map.keys())[0];
-        //let items = Array.from(map.values())[0];
-        let page_count = Math.ceil(number / 3);
+        let number = Object.values(pair)[1];
+        let page_count = Math.ceil(number /rows);
         for (let i = 1; i < page_count + 1; i++) {
             let btn = PaginationButton(i);
             wrapper.appendChild(btn);
@@ -58,18 +52,12 @@ jQuery(document).ready(function ($) {
     function DisplayList (wrapper, page) {
         wrapper.innerHTML = "";
         $.ajax({
-            url: '/pagination',
-            type: 'POST',
-            data: {
-                page: page,
-                size: rows,
-            },
+            url: '/'+ rows + '/page/' + page,
+            type: 'GET',
             contentType: "application/json",
             dataType: "json",
-            //timeout: 100000,
-            success: function (map) {
-                /*alert(Array.from(new Map(Object.values(map)))[0]);*/
-                let paginatedItems = Array.from(new Map(Object.entries(map)).values())[0];
+            success: function (pair) {
+                let paginatedItems = Object.values(pair)[0];
                 for (let i = 0; i < paginatedItems.length; i++) {
                     let item = paginatedItems[i];
                     addRow(item);
@@ -103,7 +91,6 @@ jQuery(document).ready(function ($) {
             newRow += ('<button type="button" class="btn btn-outline-secondary btn-square">Ответов ' + data.countAnswer +'</button>');
         }
         newRow += ('<button type="button" class="btn btn-outline-secondary ml-1 btn-square">Показов ' + data.viewCount +' </button>');
-        //newRow += "&nbsp&nbsp&nbsp  ";
         newRow += ('</div>');
         newRow += ('<div class="col pl-0">');
         newRow += ('<h4>' + data.title + '</h4>');
@@ -116,12 +103,5 @@ jQuery(document).ready(function ($) {
         newRow += ('</li>');
 
         $("#list_questions").append(newRow);
-    }
-    function counting_time(time) {
-        let now = new Date();
-        let month = (now.getMonth() + 1 - time.getMonth());
-        let day = (now.getDate() - time.getDayOfMonth());
-        let year = (now.getFullYear() - time.getYear());
-        return month + "/" + day + "/" + year;
     }
 })

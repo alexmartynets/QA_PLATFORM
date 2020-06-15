@@ -17,11 +17,11 @@
 
 
 .btn-square
- {
-     width: 100px !important;
-     height: 100px !important;
-     font-size: 10px;
- }
+{
+    width: 100px !important;
+    height: 100px !important;
+    font-size: 10px;
+}
 ​
 .btn-square:hover
 {
