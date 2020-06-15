@@ -73,9 +73,11 @@ class DataUsersPage {
             city.className = "user-location";
             city.innerText = user.cityUser;
 
+            let result = user.reputationCount == null ? 0 : user.reputationCount;
+
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = "reputation " + user.reputationCount;
+            ratings.innerText = "reputation " + result;
 
             const editor = document.createElement("div");
             editor.className = "user-editor";
@@ -198,6 +200,105 @@ class DataUsersPage {
         return listMedia;
     }
 
+    mapperMediaNewUsers(listUsers) {
+        let listMedia = [];
+
+        for (let i = 0; i < listUsers.length; i++) {
+            let user = listUsers[i];
+
+            const img = document.createElement("img");
+            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.className = "align-self-start mr-3";
+            img.alt = "...";
+
+            const divs = document.createElement("div");
+            divs.className = "media-body";
+
+            const name = document.createElement("a");
+            name.href = "/profile";
+            name.className = "mt-0 user-name";
+            name.innerText = user.fullNameUser;
+
+            // репутация от даты создания
+            let today = new Date();
+            let data = user.persistDateTimeUser();
+            let dateCreation = new Date(data.substr(0, 10));
+            let days = Math.ceil((today - dateCreation) / 86400000);
+
+            const ratings = document.createElement("div");
+            ratings.className = "user-rating";
+            ratings.innerText = user.reputationCount + " за " + days;
+
+            divs.appendChild(name);
+            divs.appendChild(ratings);
+
+            const media = document.createElement("div");
+            media.className = "media user-info";
+            media.appendChild(img);
+            media.appendChild(divs);
+
+            listMedia.push(media);
+        }
+        // console.log(listMedia);
+        return listMedia;
+    }
+
+    mapperMediaNewUsersReputation(listUsers) {
+        let listMedia = [];
+
+        for (let i = 0; i < listUsers.length; i++) {
+            let user = listUsers[i];
+
+            const img = document.createElement("img");
+            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.className = "align-self-start mr-3";
+            img.alt = "...";
+
+            const divs = document.createElement("div");
+            divs.className = "media-body";
+
+            const name = document.createElement("a");
+            name.href = "/profile";
+            name.className = "mt-0 user-name";
+            name.innerText = user.fullNameUser;
+
+            const city = document.createElement("div");
+            city.className = "user-location";
+            city.innerText = user.cityUser;
+
+            // репутация от даты создания
+            let today = new Date();
+            let data = user.persistDateTimeUser();
+            let dateCreation = new Date(data.substr(0, 10));
+            let days = Math.ceil((today - dateCreation) / 86400000);
+
+            let result = user.reputationCount == null ? 0 : user.reputationCount;
+
+            const ratings = document.createElement("div");
+            ratings.className = "user-rating";
+            ratings.innerText = result + " за " + days;
+
+            const tags = document.createElement("a");
+            tags.href = "/tags/" + user.aboutUser;
+            tags.className = "user-tags";
+            tags.innerText = user.aboutUser;
+
+            divs.appendChild(name);
+            divs.appendChild(city);
+            divs.appendChild(ratings);
+            divs.appendChild(tags);
+
+            const media = document.createElement("div");
+            media.className = "media user-info";
+            media.appendChild(img);
+            media.appendChild(divs);
+
+            listMedia.push(media);
+        }
+        // console.log(listMedia);
+        return listMedia;
+    }
+
     mapperMediaPagination(listPagination) {
         let listMediaPagination = [];
 
@@ -305,16 +406,10 @@ class DataUsersService {
         return mapUrl.get(key);
     }
 
-    getCountWeeksSinceCreation(){
+    getCountWeeksSinceCreation() {
         let today = new Date();
         let dateCreation = new Date('2018-01-01');
-        return Math.ceil((today-dateCreation)/604800000);
-    }
-
-    getCountDaySinceCreation(data){
-        let today = new Date();
-        let dateCreation = new Date(data);
-        return Math.ceil((today-dateCreation)/86400000);
+        return Math.ceil((today - dateCreation) / 604800000);
     }
 }
 
