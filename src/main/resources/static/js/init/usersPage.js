@@ -18,10 +18,8 @@ jQuery(document).ready(function ($) {
         $('.search').removeClass("active");
 
         $("#pagination").show();
-
         $('.sorting-time').removeClass("colors");
         $('#month').toggleClass("colors");
-
         $('#moderator').hide();
         $('#sorting-time').show();
 
@@ -43,7 +41,8 @@ jQuery(document).ready(function ($) {
             attr_search = $(this).attr("data-search");
             url = service.getUrl(attr_search);
             let dataMap = data.getListUsers(url);
-            service.showUsers(media.getMediaList(attr_search, dataMap.get("list")));
+            let list = media.getMediaList(attr_search, dataMap.get("list"));
+            service.showUsers(list);
 
             $("#pagination").hide();
             $('#sorting-time').hide();
@@ -62,7 +61,8 @@ jQuery(document).ready(function ($) {
         }
 
         let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
-        service.showUsers(media.getMediaList(attr_search, dataMap.get("list")));
+        let list = media.getMediaList(attr_search, dataMap.get("list"));
+        service.showUsers(list);
         service.showPagination(media, data, dataMap, numberMedia, currentPage);
 
         $(this).toggleClass("active");
@@ -82,18 +82,20 @@ jQuery(document).ready(function ($) {
 
         // получаем число недель от даты создания приложения
         if (weeks === '-1') {
-            weeks = service.getCountWeeksSinceCreation();
+            weeks = service.getCountWeeksDateCreation();
         }
 
         let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
-        service.showUsers(media.getMediaList(attr_search, dataMap.get("list")));
+        let list = media.getMediaList(attr_search, dataMap.get("list"));
+        service.showUsers(list);
         service.showPagination(media, data, dataMap, numberMedia, currentPage);
 
         $(this).toggleClass("colors");
     });
 
     let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
-    service.showUsers(media.getMediaList(attr_search, dataMap.get("list")));
+    let list = media.getMediaList(attr_search, dataMap.get("list"));
+    service.showUsers(list);
     service.showPagination(media, data, dataMap, numberMedia, currentPage);
 
     // блок кода для динамического изменения данных на странице
@@ -105,7 +107,8 @@ jQuery(document).ready(function ($) {
         }
 
         let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
-        service.showUsers(media.getMediaList(attr_search, dataMap.get("list")));
+        let list = media.getMediaList(attr_search, dataMap.get("list"));
+        service.showUsers(list);
         service.showPagination(media, data, dataMap, numberMedia, currentPage);
     });
 
@@ -135,8 +138,8 @@ jQuery(document).ready(function ($) {
             $("#users").html($(message));
             $("#pagination").hide();
         } else {
-
-            service.showUsers(media.getMediaList("reputation", dataMap.get("list")));
+            let list = media.getMediaList("reputation", dataMap.get("list"));
+            service.showUsers(list);
             service.showPagination(media, data, dataMap, numberMedia, currentPage);
         }
 
@@ -146,11 +149,12 @@ jQuery(document).ready(function ($) {
             weeks = $(this).attr("data-weeks");
 
             if (weeks === '-1') {
-                weeks = service.getCountWeeksSinceCreation();
+                weeks = service.getCountWeeksDateCreation();
             }
 
             let dataMap = data.getListUsers(url_search + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-            service.showUsers(media.getMediaList("reputation", dataMap.get("list")));
+            let list = media.getMediaList("reputation", dataMap.get("list"));
+            service.showUsers(list);
             service.showPagination(media, data, dataMap, numberMedia, currentPage);
 
             $(this).toggleClass("colors");
@@ -163,10 +167,13 @@ jQuery(document).ready(function ($) {
             if (currentPage === '...') {
                 return;
             }
+
             let url_search = service.getUrl("search");
             let dataMap = data.getListUsers(url_search + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-            service.showUsers(media.getMediaList("reputation", dataMap.get("list")));
+            let list = media.getMediaList("reputation", dataMap.get("list"));
+            service.showUsers(list);
             service.showPagination(media, data, dataMap, numberMedia, currentPage);
         });
     });
+
 });

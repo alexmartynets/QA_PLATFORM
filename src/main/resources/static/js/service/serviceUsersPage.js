@@ -91,7 +91,8 @@ class DataUsersService {
         return mapUrl.get(key);
     }
 
-    getCountWeeksSinceCreation() {
+    //WeeksDateCreation
+    getCountWeeksDateCreation() {
         let today = new Date();
         let dateCreation = new Date('2018-01-01');
         return Math.ceil((today - dateCreation) / 604800000);
@@ -416,7 +417,6 @@ class MediaFactory {
 
     mapperMediaPagination(listPagination) {
         let listMediaPagination = [];
-
         for (let i = 0; i < listPagination.length; i++) {
             let li = document.createElement("li");
             li.className = "page-item";
