@@ -9,14 +9,11 @@ jQuery(document).ready(function ($) {
     let currentPage = 1;
     let url;
 
-    // todo получения данных для стартовой страницы с кнопки поиска "Репутация"
     let attr_search = $('#reputation').attr("data-search");
     url = service.getUrl(attr_search);
-
-    // todo получения данных для стартовой страницы с кнопки сортировки "Месяц"
     weeks = $('#month').attr("data-weeks");
 
-    // todo кнопки в блоке search-users "ПОИСК" получаем url для запроса
+    // обработка кнопок в блоке "ПОИСК" получаем url для запроса
     $('.search').click(function () {
         $('.search').removeClass("active");
 
@@ -37,6 +34,7 @@ jQuery(document).ready(function ($) {
             $('.shows').hide();
             $('.hides').show();
 
+            attr_search = $(this).attr("data-search");
             let attr_path = $('#new').attr("data-path");
             url = service.getUrl(attr_path);
             weeks = $('#new').attr("data-weeks");
@@ -44,8 +42,6 @@ jQuery(document).ready(function ($) {
         } else if (text === 'Модераторы') {
             attr_search = $(this).attr("data-search");
             url = service.getUrl(attr_search);
-
-            // получаем даннные для страницы
             let dataMap = data.getListUsers(url);
             service.showUsers(media.getMediaList(attr_search, dataMap.get("list")));
 
@@ -65,7 +61,6 @@ jQuery(document).ready(function ($) {
             weeks = $('#month').attr("data-weeks");
         }
 
-        // получаем даннные для текущей страницы
         let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         service.showUsers(media.getMediaList(attr_search, dataMap.get("list")));
         service.showPagination(media, data, dataMap, numberMedia, currentPage);
@@ -73,25 +68,23 @@ jQuery(document).ready(function ($) {
         $(this).toggleClass("active");
     });
 
-    // todo кнопки в блоке sorting-time "СОРТИРОВКА" получаем число недель для запроса
+    // обработка кнопок в блоке "СОРТИРОВКА" получаем число недель для запроса
     $('.sorting-time').click(function () {
         $('.sorting-time').removeClass("colors");
         let text = $(this).text();
         weeks = $(this).attr("data-weeks");
 
-        // todo получаем url запроса для "НОВЫЕ УЧАСТНИКИ"
         if (text === 'по рейтингу' || text === 'по дате') {
-
             let attr_path = $(this).attr("data-path");
             url = service.getUrl(attr_path);
+            attr_search = $(this).attr("data-search");
         }
 
-        // todo получаем число недель от даты создания приложения
+        // получаем число недель от даты создания приложения
         if (weeks === '-1') {
             weeks = service.getCountWeeksSinceCreation();
         }
 
-        // получаем даннные для текущей страницы
         let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         service.showUsers(media.getMediaList(attr_search, dataMap.get("list")));
         service.showPagination(media, data, dataMap, numberMedia, currentPage);
@@ -103,7 +96,7 @@ jQuery(document).ready(function ($) {
     service.showUsers(media.getMediaList(attr_search, dataMap.get("list")));
     service.showPagination(media, data, dataMap, numberMedia, currentPage);
 
-    // todo блок кода для динамического изменения данных на странице
+    // блок кода для динамического изменения данных на странице
     $("body").on("click", ".page-link", function () {
         let currentPage = $(this).text();
 
@@ -142,37 +135,23 @@ jQuery(document).ready(function ($) {
             $("#users").html($(message));
             $("#pagination").hide();
         } else {
-            // если пользователи найдены
-            service.showPagination(data, dataMap, numberMedia, currentPage);
-            service.showUsers(data, dataMap);
+
+            service.showUsers(media.getMediaList("reputation", dataMap.get("list")));
+            service.showPagination(media, data, dataMap, numberMedia, currentPage);
         }
 
         $('.sorting-time').click(function () {
             $('.sorting-time').removeClass("colors");
 
-            let text = $(this).text();
-            // console.log("text с кнопки поиска блока sorting-time SEARCH");
-            // console.log(text);
-
             weeks = $(this).attr("data-weeks");
-            // console.log("weeks с кнопки поиска блока sorting-time SEARCH");
-            // console.log(weeks);
 
-            // todo получаем число недель от даты создания приложения
             if (weeks === '-1') {
                 weeks = service.getCountWeeksSinceCreation();
-                // console.log("блок sorting-time количество weeks при нажатии кнопки Все SEARCH");
-                // console.log(weeks);
             }
 
-            // получаем даннные для текущей страницы
             let dataMap = data.getListUsers(url_search + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-            service.showUsers(data, dataMap);
-            service.showPagination(data, dataMap, numberMedia, currentPage);
-
-            // todo получаем даннные для текущей страницы
-            // console.log("url_search для получения данных блок sorting-time SEARCH");
-            // console.log(url_search + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+            service.showUsers(media.getMediaList("reputation", dataMap.get("list")));
+            service.showPagination(media, data, dataMap, numberMedia, currentPage);
 
             $(this).toggleClass("colors");
         });
@@ -186,13 +165,8 @@ jQuery(document).ready(function ($) {
             }
             let url_search = service.getUrl("search");
             let dataMap = data.getListUsers(url_search + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-            service.showUsers(data, dataMap);
-            service.showPagination(data, dataMap, numberMedia, currentPage);
-
-            // todo получаем даннные для текущей страницы
-            // console.log("url_search для получения данных пагинация блок sorting-time SEARCH");
-            // console.log(url_search + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+            service.showUsers(media.getMediaList("reputation", dataMap.get("list")));
+            service.showPagination(media, data, dataMap, numberMedia, currentPage);
         });
-        // document.getElementById("search").value = "";
     });
 });
