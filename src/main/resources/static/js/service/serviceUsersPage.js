@@ -147,59 +147,6 @@ class DataUsersPage {
         return listMedia;
     }
 
-    mapperMediaUsers(listUsers) {
-        let listMedia = [];
-
-        for (let i = 0; i < listUsers.length; i++) {
-            let user = listUsers[i];
-
-            const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.userId;
-            img.className = "align-self-start mr-3";
-            img.alt = "...";
-
-            const divs = document.createElement("div");
-            divs.className = "media-body";
-
-            const name = document.createElement("a");
-            name.href = "/profile";
-            name.className = "mt-0 user-name";
-            name.innerText = user.fullNameUser;
-
-            const city = document.createElement("div");
-            city.className = "user-location";
-            city.innerText = user.cityUser;
-
-            const ratings = document.createElement("div");
-            ratings.className = "user-rating";
-            ratings.innerText = "reputation " + user.reputationCount;
-
-            const voices = document.createElement("div");
-            voices.className = "user-voices";
-            voices.innerText = "voice " + user.voiceCount;
-
-            const tags = document.createElement("a");
-            tags.href = "/tags/" + user.aboutUser;
-            tags.className = "user-tags";
-            tags.innerText = user.aboutUser;
-
-            divs.appendChild(name);
-            divs.appendChild(city);
-            divs.appendChild(ratings);
-            divs.appendChild(voices);
-            divs.appendChild(tags);
-
-            const media = document.createElement("div");
-            media.className = "media user-info";
-            media.appendChild(img);
-            media.appendChild(divs);
-
-            listMedia.push(media);
-        }
-        // console.log(listMedia);
-        return listMedia;
-    }
-
     mapperMediaNewUsers(listUsers) {
         let listMedia = [];
 
@@ -299,6 +246,59 @@ class DataUsersPage {
         return listMedia;
     }
 
+    mapperMediaUsers(listUsers) {
+        let listMedia = [];
+
+        for (let i = 0; i < listUsers.length; i++) {
+            let user = listUsers[i];
+
+            const img = document.createElement("img");
+            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.className = "align-self-start mr-3";
+            img.alt = "...";
+
+            const divs = document.createElement("div");
+            divs.className = "media-body";
+
+            const name = document.createElement("a");
+            name.href = "/profile";
+            name.className = "mt-0 user-name";
+            name.innerText = user.fullNameUser;
+
+            const city = document.createElement("div");
+            city.className = "user-location";
+            city.innerText = user.cityUser;
+
+            const ratings = document.createElement("div");
+            ratings.className = "user-rating";
+            ratings.innerText = "reputation " + user.reputationCount;
+
+            const voices = document.createElement("div");
+            voices.className = "user-voices";
+            voices.innerText = "voice " + user.voiceCount;
+
+            const tags = document.createElement("a");
+            tags.href = "/tags/" + user.aboutUser;
+            tags.className = "user-tags";
+            tags.innerText = user.aboutUser;
+
+            divs.appendChild(name);
+            divs.appendChild(city);
+            divs.appendChild(ratings);
+            divs.appendChild(voices);
+            divs.appendChild(tags);
+
+            const media = document.createElement("div");
+            media.className = "media user-info";
+            media.appendChild(img);
+            media.appendChild(divs);
+
+            listMedia.push(media);
+        }
+        // console.log(listMedia);
+        return listMedia;
+    }
+
     mapperMediaPagination(listPagination) {
         let listMediaPagination = [];
 
@@ -365,14 +365,14 @@ class DataUsersPage {
                 if (xhr.status === 404) {
                     alert('list User not found...');
                 } else {
-                    alert('Error - ' + xhr.status + ': ' + xhr.statusText + error);
+                    alert('The server does not answer...');
+                    console.log('Error - ' + xhr.status + ': ' + xhr.statusText + error);
                 }
             }
         });
         // console.log(map);
         return map;
     }
-
 }
 
 class DataUsersService {
@@ -389,6 +389,8 @@ class DataUsersService {
 
     showUsers(data, dataMap) {
         let listUsersForPage = dataMap.get("list");
+
+        //todo надо подменять mapper
         let listMediaUsers = data.mapperMediaUsers(listUsersForPage);
         $("#users").html($(listMediaUsers));
     }

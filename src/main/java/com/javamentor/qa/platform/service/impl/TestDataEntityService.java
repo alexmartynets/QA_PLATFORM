@@ -614,6 +614,78 @@ public class TestDataEntityService {
                 .user(userService.getByKey(19L))
                 .build();
         editorService.persist(editor7);
+
+        Editor editor8 = Editor.builder()
+                .countChanges(17)
+                .user(userService.getByKey(15L))
+                .build();
+        editorService.persist(editor8);
+
+        Editor editor9 = Editor.builder()
+                .countChanges(14)
+                .user(userService.getByKey(14L))
+                .build();
+        editorService.persist(editor9);
+
+        Editor editor10 = Editor.builder()
+                .countChanges(4)
+                .user(userService.getByKey(13L))
+                .build();
+        editorService.persist(editor10);
+
+        Editor editor11 = Editor.builder()
+                .countChanges(3)
+                .user(userService.getByKey(12L))
+                .build();
+        editorService.persist(editor11);
+
+        Editor editor12 = Editor.builder()
+                .countChanges(1)
+                .user(userService.getByKey(12L))
+                .build();
+        editorService.persist(editor12);
+
+        Editor editor13 = Editor.builder()
+                .countChanges(2)
+                .user(userService.getByKey(11L))
+                .build();
+        editorService.persist(editor13);
+
+        Editor editor14 = Editor.builder()
+                .countChanges(10)
+                .user(userService.getByKey(11L))
+                .build();
+        editorService.persist(editor14);
+
+        Editor editor15 = Editor.builder()
+                .countChanges(9)
+                .user(userService.getByKey(11L))
+                .build();
+        editorService.persist(editor15);
+
+        Editor editor16 = Editor.builder()
+                .countChanges(5)
+                .user(userService.getByKey(10L))
+                .build();
+        editorService.persist(editor16);
+
+        Editor editor17 = Editor.builder()
+                .countChanges(1)
+                .user(userService.getByKey(10L))
+                .build();
+        editorService.persist(editor17);
+
+        Editor editor18 = Editor.builder()
+                .countChanges(4)
+                .user(userService.getByKey(3L))
+                .build();
+        editorService.persist(editor18);
+
+        Editor editor19 = Editor.builder()
+                .countChanges(2)
+                .user(userService.getByKey(3L))
+                .build();
+        editorService.persist(editor19);
     }
 
     private void creatModerator() {

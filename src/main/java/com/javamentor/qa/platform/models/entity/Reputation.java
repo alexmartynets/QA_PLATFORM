@@ -26,7 +26,7 @@ public class Reputation {
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 
