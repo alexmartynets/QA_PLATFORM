@@ -1,4 +1,4 @@
-package com.javamentor.qa.platform.webapp.controllers;
+package com.javamentor.qa.platform.webapp.controllers.advice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
