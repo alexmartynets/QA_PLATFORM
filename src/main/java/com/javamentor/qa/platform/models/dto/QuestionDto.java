@@ -45,7 +45,9 @@ public class QuestionDto {
 
     private Boolean isHelpful;
 
-    private String description;
+    private String lastAnswerName;
 
-    private Map<String, String> lastAnswerNameAndDate;
+    private LocalDateTime lastAnswerDate;
+
+    private String description;
 }
