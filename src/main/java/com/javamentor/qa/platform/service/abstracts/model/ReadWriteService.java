@@ -13,6 +13,8 @@ public interface ReadWriteService<T, PK>  {
 
     void deleteByKeyCascadeIgnore(PK id);
 
+    void deleteByFlag(PK id);
+
     boolean existsById(PK id);
 
     T getByKey(PK id);
