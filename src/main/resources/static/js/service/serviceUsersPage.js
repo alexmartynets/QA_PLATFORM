@@ -131,20 +131,24 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = user.fullNameUser;
+            name.style.fontWeight= "800";
+            name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = user.cityUser;
+            city.style.fontSize= "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = user.reputationCount;
+            ratings.style.fontSize= "12px";
 
             const year = document.createElement("div");
             year.className = "user-year";
             year.innerText = "выбран " + user.persistDateTime.substr(0, 4);
-            year.style.opacity = "0.5";
-            year.style.fontWeight = "600";
+            year.style.opacity = "0.4";
+            year.style.fontWeight = "900";
 
             divs.appendChild(name);
             divs.appendChild(city);
@@ -180,23 +184,25 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = user.fullNameUser;
+            name.style.fontWeight= "800";
+            name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = user.cityUser;
-
-            let result = user.reputationCount == null ? 0 : user.reputationCount;
+            city.style.fontSize= "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = result;
-
+            ratings.innerText = user.reputationCount;
+            ratings.style.fontSize= "12px";
 
             const editor = document.createElement("div");
             editor.className = "user-editor";
             editor.innerText = user.countChanges + " правок";
-            editor.style.opacity = "0.5";
-            editor.style.fontWeight = "600";
+            editor.style.opacity = "0.4";
+            editor.style.fontWeight = "900";
+            editor.style.fontSize= "12px";
 
             divs.appendChild(name);
 
@@ -233,20 +239,25 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = user.fullNameUser;
+            name.style.fontWeight= "800";
+            name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = user.cityUser;
+            city.style.fontSize= "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = user.reputationCount;
+            ratings.style.fontSize= "12px";
 
             const voice = document.createElement("div");
             voice.className = "user-voice";
             voice.innerText = user.voiceCount + " голосов";
-            voice.style.opacity = "0.5";
-            voice.style.fontWeight= "600";
+            voice.style.opacity = "0.4";
+            voice.style.fontWeight= "900";
+            voice.style.fontSize= "12px";
 
             divs.appendChild(name);
             divs.appendChild(city);
@@ -282,6 +293,8 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = user.fullNameUser;
+            name.style.fontWeight= "800";
+            name.style.color = "#343a40";
 
             // репутация от даты создания
             let today = new Date();
@@ -292,8 +305,9 @@ class MediaFactory {
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = user.reputationCount + " за " + days;
-            ratings.style.opacity = "0.5";
-            ratings.style.fontWeight= "600";
+            ratings.style.opacity = "0.4";
+            ratings.style.fontWeight= "900";
+            ratings.style.fontSize= "12px";
 
             divs.appendChild(name);
             divs.appendChild(ratings);
@@ -327,24 +341,26 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = user.fullNameUser;
+            name.style.fontWeight= "800";
+            name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = user.cityUser;
+            city.style.fontSize= "12px";
 
-            // репутация от даты создания
+            // ррасчет времяни от даты создания
             let today = new Date();
             let data = user.persistDateTimeUser.substr(0, 10);
             let dateCreation = new Date(data);
             let days = Math.ceil((today - dateCreation) / 86400000);
 
-            let result = user.reputationCount == null ? 0 : user.reputationCount;
-
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = result + " за " + days + " дней";
-            ratings.style.opacity = "0.5";
-            ratings.style.fontWeight= "600";
+            ratings.innerText = user.reputationCount + " за " + days + " дней";
+            ratings.style.opacity = "0.4";
+            ratings.style.fontWeight= "900";
+            ratings.style.fontSize= "12px";
 
             const tags = document.createElement("a");
             tags.href = "/tags/" + user.aboutUser;
@@ -385,14 +401,20 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = user.fullNameUser;
+            name.style.fontWeight= "800";
+            name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = user.cityUser;
+            city.style.fontSize= "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = user.reputationCount;
+            ratings.style.opacity = "0.4";
+            ratings.style.fontWeight= "900";
+            ratings.style.fontSize= "12px";
 
             const tags = document.createElement("a");
             tags.href = "/tags/" + user.aboutUser;

@@ -677,13 +677,13 @@ public class TestDataEntityService {
 
         Editor editor18 = Editor.builder()
                 .countChanges(4)
-                .user(userService.getByKey(9L))
+                .user(userService.getByKey(3L))
                 .build();
         editorService.persist(editor18);
 
         Editor editor19 = Editor.builder()
                 .countChanges(2)
-                .user(userService.getByKey(9L))
+                .user(userService.getByKey(3L))
                 .build();
         editorService.persist(editor19);
     }

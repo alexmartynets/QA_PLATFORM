@@ -274,7 +274,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .cityUser((String) objects[5])
                                 .imageUser((byte[]) objects[6])
                                 .countChanges(((Number) objects[7]).longValue())
-                                .reputationCount(((Number) objects[8]).longValue())
+                                .reputationCount(((Number) (objects[8] == null ? 0 : objects[8])).longValue())
                                 .build();
                     }
 
@@ -385,7 +385,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .aboutUser((String) objects[4])
                                 .cityUser((String) objects[5])
                                 .imageUser((byte[]) objects[6])
-                                .reputationCount(((Number) objects[7]).longValue())
+                                .reputationCount(((Number)objects[7]).longValue())
                                 .voiceCount(((Number) objects[8]).longValue())
                                 .build();
                     }

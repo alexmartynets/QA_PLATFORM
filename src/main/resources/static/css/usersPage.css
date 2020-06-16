@@ -108,6 +108,7 @@ body {
     width: 300px;
     height: 120px;
     font-size: 14px;
+    text-decoration: none;
     /*overflow: hidden;*/
 }
 
