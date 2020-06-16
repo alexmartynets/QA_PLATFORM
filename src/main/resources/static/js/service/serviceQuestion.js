@@ -221,11 +221,14 @@ function putNewAnswer(id, answerDTO) {
     let userDto = {"id": 3};
     let questionId = id;
     answerDTO.isHelpful = false;
-    answerDTO.isHidden = false;
+    answerDTO.isDeleted = false;
     answerDTO.countValuable = 0;
     answerDTO.id = null;
     answerDTO.userDto = userDto;
     answerDTO.questionId = id;
+    answerDTO.persistDateTime = null;
+    answerDTO.dateAcceptTime = null;
+    answerDTO.updateDateTime = null;
     $.ajax({
         url: '/api/user/question/' + questionId + '/answer/',
         method: 'POST',
