@@ -1,0 +1,53 @@
+answer:
+  - id: 1
+    count_valuable: 10
+    date_accept_time: "2020-05-29 14:00:00"
+    html_body: "first answer for Q1"
+    is_deleted: 0
+    is_helpful: 1
+    persist_date: "2020-05-26 13:00:00"
+    update_date: "2020-05-29 14:00:00"
+    question_id: 1
+    user_id: 1
+
+  - id: 2
+    count_valuable: 9
+    html_body: "second answer for Q1"
+    is_deleted: 0
+    is_helpful: 0
+    persist_date: "2020-05-28 14:00:00"
+    update_date: "2020-05-28 14:00:00"
+    question_id: 1
+    user_id: 1
+
+  - id: 3
+    count_valuable: 8
+    html_body: "third answer for Q1"
+    is_deleted: 0
+    is_helpful: 0
+    persist_date: "2020-05-27 13:30:00"
+    update_date: "2020-05-27 13:40:00"
+    question_id: 1
+    user_id: 1
+
+  - id: 4
+    count_valuable: 1
+    html_body: "deleted answer for Q1"
+    is_deleted: 1
+    is_helpful: 0
+    persist_date: "2020-05-29 13:30:00"
+    update_date: "2020-05-30 13:40:00"
+    question_id: 1
+    user_id: 1
+
+  - id: 5
+    count_valuable: 10
+    date_accept_time: "2020-05-28 13:58:56"
+    html_body: "first answer for Q2"
+    is_deleted: 0
+    is_helpful: 1
+    persist_date: "2020-05-26 13:00:00"
+    update_date: "2020-05-29 14:00:00"
+    question_id: 2
+    user_id: 1
+
