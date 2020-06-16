@@ -20,8 +20,8 @@ public class AnswerDtoServiceImpl implements AnswerDtoService {
     }
 
     @Override
-    public List<AnswerDto> getAnswersDtoByQuestionId(Long questionId) {
-        return answerDtoDao.getAnswersDtoByQuestionId(questionId);
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId) {
+        return answerDtoDao.getAnswersDtoByQuestionIdSortNew(questionId);
     }
 
     @Override

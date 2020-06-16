@@ -48,6 +48,19 @@ public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
 
     @Override
     @Transactional
+    public void setDelete(PK id) {
+        if(tClass.isAnnotationPresent(Where.class)) {
+            entityManager.createQuery(
+                    "update " + tClass.getName() + " e set e.isDeleted = true where e.id = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+        }else {
+            throw new RuntimeException(String.format("Class: %s does not have field 'isDeleted' and can not be removed this way.", tClass.getName()));
+        }
+    }
+
+    @Override
+    @Transactional
     public void deleteByKeyCascadeEnable(PK id) {
         entityManager.remove(entityManager.find(tClass, id));
     }
