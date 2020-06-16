@@ -3,269 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="/css/mainPage.css">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
-
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
-
 </head>
 <body>
+<style>
+    .btn-square
+    {
+        width: 80px !important;
+        height: 80px !important;
+        font-size: 12px;
+    }
+    ​
+    .btn-square:hover
+    {
+        border: 5px solid #ffffff;
+    }
+</style>
 <div class="container-">
-    <nav class="navbar sticky-top navbar-light bg-light justify-content-between">
+    <nav class="navbar navbar-light bg-light justify-content-between">
         <a class="navbar-brand" href="#">
             <img src="/images/question.png" width="30" height="30" class="d-inline-block align-top" alt="">StackOverMentor</a>
-        ​
+
         <div class="nav-item col-8">
             <form class="form-inline my-2 my-lg-0" style="">
                 <input class="form-control mr-sm-5 col-10" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
-        <a href="#"><img src="/images/user.png" width="30" height="30" class="d-inline-block align-top" alt=""
-                         title="Последние Входящие Сообщения"/></a>
-        <a href="#"><img src="/images/goal.png" width="30" height="30" class="d-inline-block align-top" alt=""
-                         title="Последние достижения: репутация, знаки и привелегии"/></a>
+        <a href="#"><img src="/images/user.png" width="30" height="30" class="d-inline-block align-top" alt="" title="Последние Входящие Сообщения"/></a>
+        <a href="#"><img src="/images/goal.png" width="30" height="30" class="d-inline-block align-top" alt="" title="Последние достижения: репутация, знаки и привелегии"/></a>
         <button type="button" class="btn btn-outline-primary">Войти</button>
         <button type="button" class="btn btn-outline-primary">Зарегистрироваться</button>
     </nav>
     <div class="row">
-        <div class="col-lg-2">
-            <div class="nav position-fixed flex-column nav-pills" id="v-pills-tab" role="tablist"
-                 aria-orientation="vertical">
-                <a class="nav-link text-primary" id="v-pills-home-tab" data-toggle="pill" onclick="location.href = 'http://localhost:5557/'"
-                   aria-controls="v-pills-home" aria-selected="false" >Главная</a>
-                <a class="nav-link show active " id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
-                   aria-controls="v-pills-profile" aria-selected="true">Вопросы</a>
-                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
-                   aria-controls="v-pills-messages" aria-selected="false">Метки</a>
-                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
-                   aria-controls="v-pills-settings" aria-selected="false">Участники</a>
+        <div class="col">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Главная</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Вопросы</a>
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Метки</a>
+                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Участники</a>
             </div>
         </div>
-        <div class="col-lg-10">
+        <div class="col-6">
             <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade" id="v-pills-home" role="tabpanel"
-                     aria-labelledby="v-pills-home-tab">...
-                </div>
-                <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                    <div class="row border-left">
-                        <div class="col-lg-9">
-                            <div class="tab-content" id="v-pills-profile-tabContent">
-                                <div class="row">
-                                    <div class="container-fluid">
-                                        <h4 style="float:left;" class="ml-1 mt-3" id="NameAnswer"></h4>
-                                        <button type="button" class="btn btn-primary mt-3"
-                                                style="text-align:right;float:right;">
-                                            Задать вопрос
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="mr16 mb8" id="persistDateTimeTitle" title="">
-                                            <span class="fc-light mr2" style="color: #6a89c0 ">Вопрос задан</span>
-                                            <time id="persistDateTime"></time>
-                                        </div>
-                                        <div class="mr16 mb8 pl-sm-2" title="" id="lastUpdateDateTime2">
-                                            <span class="fc-light mr2"
-                                                  style="color: #6a89c0 ">Последняя активность</span>
-                                            <a class="s-link"
-                                               title="" id="lastUpdateDateTime"></a>
-                                        </div>
-                                        <div class="mb8 pl-sm-2" id="viewCountTitle" title="">
-                                            <span class="fc-light mr2" style="color: #6a89c0 ">Просмотрен </span>
-                                            <h id="viewCount"></h>
-                                        </div>
-                                    </div>
-                                    <hr color="gainsboro">
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-1">
-                                            <button id="btnUpCountPlus" class=" btn btn-link- outline-dark"
-                                                    title="Вопрос отражает стремление разобраться; он понятен и несёт пользу">
-                                                <svg class="bi bi-caret-up-fill" width="1em" height="1em"
-                                                     viewBox="0 0 16 16"
-                                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 00.753-1.659l-4.796-5.48a1 1 0 00-1.506 0z"/>
-                                                </svg>
-                                            </button>
-
-                                            <div class=" ml-3 " id="countValuableQuestion"></div>
-
-                                            <button id="btnDownCountMinus" class="btn btn-link- outline-dark"
-                                                    title="Вопрос не отражает стремление разобраться; он непонятен или не несёт пользу">
-                                                <svg class="bi bi-caret-down-fill" width="1em" height="1em"
-                                                     viewBox="0 0 16 16"
-                                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
-                                                </svg>
-                                            </button>
-
-                                        </div>
-                                        <div class="col-10">
-                                            <h id="tblQuestionText"></h>
-                                            <div class="my-2">
-                                                <table id="tags" class="table table table-responsive-md">
-                                                    <tbody></tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button id="btnPopover" type="button" class="btn btn-link" data-container="body"
-                                            data-toggle="popover" data-placement="bottom"
-                                            data-content="<a id='hrefPage'></a>"
-                                            data-html="true"
-                                            title="Поделиться ссылкой на ответ">
-                                        Поделиться
-                                    </button>
-                                    <button href="#" class="btn btn-link ">
-                                        улучшить этот вопрос
-                                    </button>
-                                    <span style="text-align:right;float:right; background-color: #e1ecf4"
-                                          class="badge badge"><h style="text-align: left;float: left;">задан:<h
-                                            class=" ml-1 "
-                                            id="persistDateTimeUser"></h></h><br><div><svg
-                                            style="text-align: left;float: left"
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" width="12"
-                                            height="16"><path fill-rule="evenodd"
-                                                              d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg><h
-                                            class=" ml-1 "
-                                            id="InfoUser"></h><br><h class=" ml-2 "
-                                                                     style="text-align: left;float: left;"
-                                                                     id="InfoUserReputation"
-                                                                     title="уровень репутации"></h></div></span>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-1">
-                                        </div>
-                                        <div class="col  mx-1">
-                                            <table style="border-collapse: collapse" id="tableComment" class="table table table-responsive-md my-0 ">
-                                                <tbody></tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a class="btn btn-link"
-                                               title="Используйте комментарии для запроса дополнительной информации или предложения улучшений. Избегайте публикации ответа на вопросы в комментариях."
-                                               data-toggle="collapse" href="#comment" role="button"
-                                               aria-expanded="false" aria-controls="comment">
-                                                добавить комментарий </a>
-                                            <div class="collapse" id="comment">
-                                                <div class="card card-body">
-                                                    <label for="textarea2">Оставьте свой комментарий</label>
-                                                    <textarea class="form-control" id="textarea2" rows="3"></textarea>
-                                                </div>
-                                                <button id="addComment" type="button" class="btn btn-primary mt-3"
-                                                        style="text-align:left;float:left;">
-                                                    добавить комментарий
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 style="float:left;" class="ml-1 mt-3">Ответы&ensp;
-                                            </h4><h4 class="mt-3" id="countAnswer"></h4>
-                                        </div>
-                                        <div class="col">
-                                            <div class="btn-group" role="group" aria-label="Basic example"
-                                                 style="text-align:right;float:right;">
-                                                <button id="SortCurrentTextOfQuestion" type="button"
-                                                        class="btn btn-outline-secondary"
-                                                        title="Сначала недавно обновлённые ответы">Текущие
-                                                </button>
-                                                <button id="SortDateTextOfQuestion" type="button"
-                                                        class="btn btn-outline-secondary"
-                                                        title="Ответы отображаются в порядке их публикации">По дате
-                                                    публикации
-                                                </button>
-                                                <button id="SortReputationTextOfQuestion" type="button"
-                                                        class="btn btn-outline-secondary"
-                                                        title="Сначала ответы с наивысшим рейтингом">Голоса
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr class="my-0" color="gainsboro">
-                                    <div class="row">
-                                        <table style="border-collapse: collapse" id="tblTextOfQuestion"
-                                               class="table table-borderless table-responsive-md" >
-                                            <h id="tblHeadOfAnswerQuestion"></h>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div class="row">
-                                        <h4 class="ml-3 mt-3">Ваш ответ</h4>
-                                    </div>
-                                    <div>
-                                        <textarea id="summernote"></textarea>
-                                    </div>
-                                    <button id="btnSendAnswer" type="button" class="btn btn-primary mt-3"
-                                            style="text-align:left;float:left;">
-                                        Отправить ответ
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <div class="row">
                         <div class="col">
+                            <h4 style="float:left;" class="ml-1 mt-3">Исследуйте вопросы на сайте</h4>
+                            <button type="button" class="btn btn-primary mt-3" style="text-align:right;float:right;">Задать вопрос</button>
+                        </div>
+                    </div>
+                    <div class="row">
+<!--                        <div class="col-4">-->
+<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">java</button>-->
+<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">javaScript</button>-->
+<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">front-End</button>-->
+<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">back-End</button>-->
+<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">jquery</button>-->
+<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">html</button>-->
+<!--                        </div>-->
+                        <div class="col">
+                            <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Интересные</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Конкусрные</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Популярные</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="week-tab" data-toggle="tab" href="#week-tab" role="tab" aria-controls="week" aria-selected="false">За неделю</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="month-tab" data-toggle="tab" href="#month-tab" role="tab" aria-controls="month" aria-selected="false">За месяц</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <ul class="list-group" id="getQuestions">
 
-                            <div class="btn-toolbar btn-group-vertical">
-                                <button href="#" class="btn btn-block btn-light btn-large text-left"
-                                        style="background-color: #fbeec2"><strong>Важное на мете</strong></button>
-                                <button href="#" class="btn btn-block btn-light btn-large text-left"
-                                        style="background-color: #fbf2d4">
-                                    <svg style="float:left;" class="bi bi-chat-square " width="1em" height="1em"
-                                         viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M14 1H2a1 1 0 00-1 1v8a1 1 0 001 1h2.5a2 2 0 011.6.8L8 14.333 9.9 11.8a2 2 0 011.6-.8H14a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v8a2 2 0 002 2h2.5a1 1 0 01.8.4l1.9 2.533a1 1 0 001.6 0l1.9-2.533a1 1 0 01.8-.4H14a2 2 0 002-2V2a2 2 0 00-2-2H2z"
-                                              clip-rule="evenodd"/>
-                                    </svg>
-                                    <h class="ml-3">Ссылка №1, замените название ссылки на любое другое.</h>
-                                </button>
-                                <button href="#" class="btn btn-block btn-light btn-large text-left"
-                                        style="background-color: #fbf2d4">
-                                    <svg style="float:left;" class="bi bi-chat-square " width="1em" height="1em"
-                                         viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M14 1H2a1 1 0 00-1 1v8a1 1 0 001 1h2.5a2 2 0 011.6.8L8 14.333 9.9 11.8a2 2 0 011.6-.8H14a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v8a2 2 0 002 2h2.5a1 1 0 01.8.4l1.9 2.533a1 1 0 001.6 0l1.9-2.533a1 1 0 01.8-.4H14a2 2 0 002-2V2a2 2 0 00-2-2H2z"
-                                              clip-rule="evenodd"/>
-                                    </svg>
-                                    <h class="ml-3">Ссылка №2, замените название ссылки на любое другое.</h>
-                                </button>
-                                <button href="#" class="btn btn-block btn-light btn-large text-left"
-                                        style="background-color: #fbf2d4">
-                                    <svg style="float:left;" class="bi bi-chat-square " width="1em" height="1em"
-                                         viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M14 1H2a1 1 0 00-1 1v8a1 1 0 001 1h2.5a2 2 0 011.6.8L8 14.333 9.9 11.8a2 2 0 011.6-.8H14a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v8a2 2 0 002 2h2.5a1 1 0 01.8.4l1.9 2.533a1 1 0 001.6 0l1.9-2.533a1 1 0 01.8-.4H14a2 2 0 002-2V2a2 2 0 00-2-2H2z"
-                                              clip-rule="evenodd"/>
-                                    </svg>
-                                    <h class="ml-3">Ссылка №3, замените название ссылки на любое другое.</h>
-                                </button>
-                            </div>
-                            <div>
-                                <strong><h4>Похожие</h4></strong>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <ul class="list-group mt-3" id="list1">
+
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <ul class="list-group mt-3" id="list2">
+
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="week" role="tabpanel" aria-labelledby="week-tab">
+                                    <ul class="list-group mt-3" id="list3">
+
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="month" role="tabpanel" aria-labelledby="month-tab">
+                                    <ul class="list-group mt-3" id="list4">
+
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                    ...
-                </div>
-                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                    ...
-                </div>
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
             </div>
+        </div>
+        <div class="col">
+            <h5 class="mt-3">Недавние метки</h5>
         </div>
     </div>
 
@@ -278,26 +134,6 @@
 <script crossorigin="anonymous"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
 <script src="/js/mainPage.js"></script>
-<script type="text/javascript" src="/js/QuestionPageJs/QuestionPage.js"></script>
-<script type="text/javascript" src="/js/QuestionPageJs/Answer-Question-Function.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
-
-
-<script>
-    $('#summernote').summernote({
-        placeholder: 'Ваш ответ',
-        tabsize: 3,
-        height: 100,
-        lang: 'ru-RU',
-        minHeight: 100,
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline']],
-            ['paragStyle', ['ol', 'ul', 'paragraph']]
-        ]
-    });
-</script>
 </body>
 </html>

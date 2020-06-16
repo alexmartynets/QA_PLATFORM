@@ -6,8 +6,8 @@ answer:
     question_id: 1
     user_id: 1
     persist_date: "2020-01-01 13:58:56"
-    is_deleted: 0
-    update_date: "2020-01-01 13:58:56"
+#    is_deleted: 0
+#    update_date: "2020-01-01 13:58:56"
 
   - id: 2
     count_valuable: 0
@@ -16,8 +16,8 @@ answer:
     question_id: 1
     user_id: 1
     persist_date: "2020-01-02 13:58:56"
-    is_deleted: 0
-    update_date: "2020-01-01 13:58:56"
+#    is_deleted: 0
+#    update_date: "2020-01-01 13:58:56"
 
   - id: 3
     count_valuable: 0
@@ -26,5 +26,5 @@ answer:
     question_id: 2
     user_id: 1
     persist_date: "2020-01-11 13:58:56"
-    is_deleted: 0
-    update_date: "2020-01-01 13:58:56"
+#    is_deleted: 0
+#    update_date: "2020-01-01 13:58:56"
