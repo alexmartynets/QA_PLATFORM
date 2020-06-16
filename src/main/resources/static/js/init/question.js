@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     $('#btnSendAnswer').click(function () {
         let answerDTO = {};
-        answerDTO.text = $('#summernote').val();
+        answerDTO.htmlBody = $('#summernote').val();
         putNewAnswer(id,answerDTO);
     });
     $('#addComment').click(function () {

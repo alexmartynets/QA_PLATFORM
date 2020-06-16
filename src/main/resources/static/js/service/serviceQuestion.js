@@ -220,20 +220,19 @@ function putCountValuablePlus(id) {
 function putNewAnswer(id, answerDTO) {
     let userDto = {"id": 3};
     let questionId = id;
-    userDto.password = "Qwerty12";
-    userDto.email = "email@email.com";
-    userDto.fullName = "test";
     answerDTO.isHelpful = false;
     answerDTO.isHidden = false;
+    answerDTO.countValuable = 0;
+    answerDTO.id = null;
     answerDTO.userDto = userDto;
     answerDTO.questionId = id;
-    answerDTO.htmlBody = "test";
     $.ajax({
         url: '/api/user/question/' + questionId + '/answer/',
         method: 'POST',
         data: JSON.stringify(answerDTO), questionId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
+            window.location.reload();
         },
         error: function () {
             alert("Не корректно отправлен ответ");
@@ -286,16 +285,17 @@ function getTextOfQuestion(id) {
 
         success: function (data) {
 
-            $.ajax({
-                url: '/api/user/answer/' + id + '/comment/',
-                method: 'GET',
-                dataType: 'json',
-                success: function (dataAnswerComment) {
+            let tableBody = $('#tblTextOfQuestion tbody');
+            tableBody.empty();
+            let num = 0;
+            $(data).each(function (index, val) {
 
-                    let tableBody = $('#tblTextOfQuestion tbody');
-                    tableBody.empty();
-                    let num = 0;
-                    $(data).each(function (index, val) {
+                $.ajax({
+                    url: '/api/user/answer/' + val.id + '/comment/',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (dataAnswerComment) {
+
                         $(val).each(function (index, value) {
                             num++;
                             document.getElementById("countAnswer").innerHTML = num;
@@ -303,6 +303,8 @@ function getTextOfQuestion(id) {
                             let href = window.location.href;
                             let questionId = val.questionId;
                             let persistDateTime = convertDateToString(val.persistDateTime);
+
+
                             tableBody.append(`<tr>
         <td  width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
@@ -346,7 +348,9 @@ function getTextOfQuestion(id) {
     </tr>
      <tr>
      <td style="padding: 0" width="50" rowspan="1"></td>
-            <td style="padding: 0">${isAnswerComment(val.id, dataAnswerComment)}</td>
+            <td style="padding: 0"><table style="border-collapse: collapse" id="tableCommentAnswer${val.id}" class="table table table-responsive-md my-0 ">
+                                                <tbody></tbody>
+                                            </table></td>
     </tr>
  <tr>
         <td style="padding: 0" colspan="2">
@@ -363,20 +367,13 @@ function getTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
+                            $(isAnswerComment(val.id, dataAnswerComment));
                             $(popover());
                         });
-                    });
-                },
-
-                error: function () {
-                    alert("Текст ответа не загружен");
-                }
-
+                    },
+                });
             })
         },
-        error: function () {
-            alert("Комментарий ответа не загружен");
-        }
     })
 }
 
@@ -389,16 +386,17 @@ function getSortDateTextOfQuestion(id) {
 
         success: function (data) {
 
-            $.ajax({
-                url: '/api/user/answer/' + id + '/comment/',
-                method: 'GET',
-                dataType: 'json',
-                success: function (dataAnswerComment) {
+            let tableBody = $('#tblTextOfQuestion tbody');
+            tableBody.empty();
+            let num = 0;
+            $(data).each(function (index, val) {
 
-                    let tableBody = $('#tblTextOfQuestion tbody');
-                    tableBody.empty();
-                    let num = 0;
-                    $(data).each(function (index, val) {
+                $.ajax({
+                    url: '/api/user/answer/' + val.id + '/comment/',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (dataAnswerComment) {
+
                         $(val).each(function (index, value) {
                             num++;
                             document.getElementById("countAnswer").innerHTML = num;
@@ -449,7 +447,9 @@ function getSortDateTextOfQuestion(id) {
     </tr>
      <tr>
      <td style="padding: 0" width="50" rowspan="1"></td>
-            <td style="padding: 0">${isAnswerComment(val.id, dataAnswerComment)}</td>
+            <td style="padding: 0"><table style="border-collapse: collapse" id="tableCommentAnswer${val.id}" class="table table table-responsive-md my-0 ">
+                                                <tbody></tbody>
+                                            </table></td>
     </tr>
 <tr>
         <td style="padding: 0" colspan="2">
@@ -466,20 +466,13 @@ function getSortDateTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
+                            $(isAnswerComment(val.id, dataAnswerComment));
                             $(popover());
                         });
-                    });
-                },
-
-                error: function () {
-                    alert("Текст ответа не загружен");
-                }
-
+                    },
+                });
             })
         },
-        error: function () {
-            alert("Комментарий ответа не загружен");
-        }
     })
 }
 
@@ -492,17 +485,17 @@ function getSortReputationTextOfQuestion(id) {
 
         success: function (data) {
 
-            $.ajax({
-                url: '/api/user/answer/' + id + '/comment/',
-                method: 'GET',
-                dataType: 'json',
-                success: function (dataAnswerComment) {
+            let tableBody = $('#tblTextOfQuestion tbody');
+            tableBody.empty();
+            let num = 0;
+            $(data).each(function (index, val) {
 
+                $.ajax({
+                    url: '/api/user/answer/' + val.id + '/comment/',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (dataAnswerComment) {
 
-                    let tableBody = $('#tblTextOfQuestion tbody');
-                    tableBody.empty();
-                    let num = 0;
-                    $(data).each(function (index, val) {
                         $(val).each(function (index, value) {
                             num++;
                             document.getElementById("countAnswer").innerHTML = num;
@@ -553,7 +546,8 @@ function getSortReputationTextOfQuestion(id) {
     </tr>
      <tr>
      <td style="padding: 0" width="50" rowspan="1"></td>
-            <td style="padding: 0">${isAnswerComment(val.id, dataAnswerComment)}</td>
+            <td style="padding: 0"><table style="border-collapse: collapse" id="tableCommentAnswer${val.id}" class="table table table-responsive-md my-0 ">
+                                                <tbody></tbody></td>
     </tr>
 <tr>
         <td style="padding: 0" colspan="2">
@@ -570,20 +564,13 @@ function getSortReputationTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
+                            $(isAnswerComment(val.id, dataAnswerComment));
                             $(popover());
                         });
-                    });
-                },
-
-                error: function () {
-                    alert("Текст ответа не загружен");
-                }
-
+                    },
+                });
             })
         },
-        error: function () {
-            alert("Комментарий ответа не загружен");
-        }
     })
 }
 
@@ -598,28 +585,14 @@ function isHelpful(isHelpful) {
 }
 
 function isAnswerComment(id, dataAnswerComment) {
-    let newText = "";
     let persistDateTime = "";
-    let button = "";
-    let result = "";
-    let border = "";
-    let convertPersistDateTime = "";
-    dataAnswerComment.forEach(
-        dataAnswerComment => {
-            if (dataAnswerComment.id === id) {
-                newText = dataAnswerComment.text;
-                persistDateTime = dataAnswerComment.persistDateTime;
-                button = "<a href=\"#\" class=\"comment-user\">" + dataAnswerComment.fullName + "</a>";
-                border = "<hr class=\"my-0\" color=\"gainsboro\">";
-                convertPersistDateTime = convertDateToString(persistDateTime);
-                result = border + newText + " – " + button + " " + convertPersistDateTime + border;
-                return border + newText + " – " + button + " " + convertPersistDateTime + border;
-            } else {
-                return result;
-            }
-        }
-    );
-    return result;
+
+    $(dataAnswerComment).each(function (index, val) {
+        persistDateTime = convertDateToString(val.persistDateTime);
+        let x = "#tableCommentAnswer" + id;
+        let tableBody = $(x, 'tbody');
+        tableBody.append(`<tr><td style="padding: 0"><hr class="my-0" color="gainsboro"><h>${val.text}</h>&nbsp;–&nbsp;<a href="#" class="comment-user">${val.fullName}</a><h>&nbsp;${persistDateTime}</h><hr class="my-0" color="gainsboro"></td></tr>`);
+    });
 }
 
 function popover() {
@@ -637,19 +610,19 @@ function convertDateToString(date) {
     return result;
 }
 
-function putComment(id,questionId) {
+function putComment(id, questionId) {
     let commentDto = {};
-    let x = "textarea1"+id;
+    let x = "textarea1" + id;
     commentDto.commentType = "ANSWER";
     commentDto.id = id;
-    commentDto.userId = 3 ;
+    commentDto.userId = 3;
     commentDto.fullName = "Петр2 Петрович2 Петров2";
     commentDto.text = document.getElementById(x).value;
     let answerId = id;
     $.ajax({
-        url: '/api/user/answer/' + questionId + '/comment/',
+        url: '/api/user/answer/' + id + '/comment/',
         method: 'POST',
-        data: JSON.stringify(commentDto),answerId,
+        data: JSON.stringify(commentDto), answerId,
         contentType: 'application/json; charset=utf-8',
         success: function () {
             window.location.reload();
@@ -663,7 +636,7 @@ function putComment(id,questionId) {
 function addComment(id, commentDto) {
     let questionId = id;
     commentDto.commentType = "QUESTION";
-    commentDto.userId = 3 ;
+    commentDto.userId = 3;
     commentDto.fullName = "Петр2 Петрович2 Петров2";
     $.ajax({
         url: '/api/user/question/' + id + '/comment/',
