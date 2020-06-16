@@ -34,8 +34,7 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     public Pair<Long, List<QuestionDto>> getPaginationQuestion(int page, int size) {
         List<QuestionDto> list = questionDtoDao.getQuestionList(page, size);
         list.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));
-        Pair<Long, List<QuestionDto>> result = new Pair<>(questionDtoDao.getCount(), list);
-        return result;
+        return new Pair<>(questionDtoDao.getCount(), list);
     }
 
     @Override
@@ -64,7 +63,7 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
         questionDto.setTitle(questionDtoFromClient.getTitle());
         questionDto.setDescription(questionDtoFromClient.getDescription());
         questionService.update(questionConverter.toEntity(questionDto));
-        return questionDtoDao.getQuestionDtoById(questionDto.getId());
+        return Optional.of(questionDto);
     }
 
     @Override
@@ -84,6 +83,6 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
         }
         questionDto.setCountValuable(vote);
         questionService.update(questionConverter.toEntity(questionDto));
-        return questionDtoDao.getQuestionDtoById(id);
+        return Optional.of(questionDto);
     }
 }
