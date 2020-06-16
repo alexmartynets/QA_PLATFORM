@@ -9,8 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DataSet(value = {"question/roleQuestionApi.yml",
         "question/usersQuestionApi.yml",
@@ -60,7 +59,8 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     void getQuestionNotPresent() throws Exception {
         this.mockMvc.perform(get("/api/user/question/1234"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("No question with ID 1234"));
     }
 
     @Test
@@ -74,14 +74,16 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     void getQuestionWithDeleteTrue() throws Exception {
         this.mockMvc.perform(get("/api/user/question/4"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("No question with ID 4"));
     }
 
     @Test
     void deleteQuestionByIdNoPresent() throws Exception {
         this.mockMvc.perform(delete("/api/user/question/1234"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("Can't find Question with ID 1234"));
     }
 
     @Test
@@ -102,7 +104,8 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     void deleteQuestionByIdIsPresentWithAnswer() throws Exception {
         this.mockMvc.perform(delete("/api/user/question/2"))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Can't delete question with ID 2. Question has answer"));
     }
 
     @Test
@@ -322,6 +325,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     void toVoteForQuestionNotSuccessWrongQuestionId() throws Exception {
         this.mockMvc.perform(put("/api/user/question/10/1"))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Can't find Question with ID 10"));
     }
 }

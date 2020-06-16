@@ -64,7 +64,7 @@ public class QuestionResourceController {
             return ResponseEntity.ok(questionDto.get());
         }
         logger.error(String.format("Вопрос с указанным ID: %d не найден", id));
-        return ResponseEntity.badRequest().body("Вопроса c таким id не существует");
+        return ResponseEntity.badRequest().body(String.format("No question with ID %d", id));
     }
 
     @Validated(OnUpdate.class)
@@ -78,12 +78,12 @@ public class QuestionResourceController {
                                                                @RequestBody @Valid QuestionDto questionDtoFromClient) {
         if (!questionDtoFromClient.getId().equals(id)) {
             logger.error(String.format("Переданный в QuestionDto ID: %d не совпадает с url: %d", questionDtoFromClient.getId(), id));
-            return ResponseEntity.badRequest().body("id в url не совпадает с переданной questionDto");
+            return ResponseEntity.badRequest().body("Different ID by Dto and URL");
         }
         Optional<QuestionDto> questionDto = questionDtoService.toUpdateQuestionDtoTitleOrDescription(questionDtoFromClient);
         if (!questionDto.isPresent()) {
             logger.error(String.format("Запрос на изменение вопроса с неактуальным ID: %d.", id));
-            return ResponseEntity.badRequest().body("Вопроса c таким id не существует.");
+            return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", id));
         }
         return ResponseEntity.ok(questionDto);
     }
@@ -100,7 +100,7 @@ public class QuestionResourceController {
         Optional<QuestionDto> questionDto = questionDtoService.toVoteForQuestion(id, vote);
         if (!questionDto.isPresent()) {
             logger.error(String.format("Вопрос с ID: %d не найден", id));
-            return ResponseEntity.badRequest().body("Вопроса с таким id не существует");
+            return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", id));
         }
         return ResponseEntity.ok(questionDto);
     }
@@ -115,14 +115,14 @@ public class QuestionResourceController {
         Optional<QuestionDto> questionDto = questionDtoService.hasQuestionAnswer(id);
         if (!questionDto.isPresent()) {
             logger.error(String.format("Вопрос с ID: %d не найден", id));
-            return ResponseEntity.badRequest().body("Вопроса с таким id не существует");
+            return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", id));
         }
         if (questionDto.get().getCountAnswer() > 0) {
             logger.error(String.format("На вопрос был дан ответ, поэтому вопрос с ID: %d не может быть удалён", id));
-            return ResponseEntity.badRequest().body("Can't delete question with answer");
+            return ResponseEntity.badRequest().body(String.format("Can't delete question with ID %d. Question has answer", id));
         }
         questionService.deleteByFlag(id);
-        return ResponseEntity.ok().body(String.format("Удаление вопроса с ID: %d выполнено успешно", id));
+        return ResponseEntity.ok().body(String.format("Deleted Question with ID %d, is successful", id));
     }
 
     @ApiOperation(value = "Получение списка вопросов по ID пользователя")
@@ -134,7 +134,7 @@ public class QuestionResourceController {
     public ResponseEntity<?> getQuestionByUserId(@PathVariable @NotNull Long id) {
         if (!userService.existsById(id)) {
             logger.error(String.format("Получен запрос на список вопросов от пользователя с неактуальным ID: %d.", id));
-            return ResponseEntity.badRequest().body(String.format("Пользователь по ID: %d не найден.", id));
+            return ResponseEntity.badRequest().body(String.format("Can't find User with ID %d", id));
         }
         logger.info(String.format("Получен список вопросов пользователя с ID: %d.", id));
         return ResponseEntity.ok(questionDtoService.getQuestionDtoListByUserId(id));
