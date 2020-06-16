@@ -165,7 +165,7 @@ function putCountValuableMinus(id) {
             let questionDto = JSON.stringify(data);
 
             $.ajax({
-                url: '/api/user/question/' + data.id,
+                url: '/api/user/question/' + data.id + '/' + 0,
                 method: 'PUT',
                 data: questionDto,
                 contentType: 'application/json; charset=utf-8',
@@ -198,7 +198,7 @@ function putCountValuablePlus(id) {
             let questionDto = JSON.stringify(data);
 
             $.ajax({
-                url: '/api/user/question/' + data.id,
+                url: '/api/user/question/' + data.id + '/' + 1,
                 method: 'PUT',
                 data: questionDto,
                 dataType: 'json',
