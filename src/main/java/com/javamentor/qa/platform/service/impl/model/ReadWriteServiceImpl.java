@@ -39,7 +39,7 @@ public abstract class ReadWriteServiceImpl<T, PK> implements ReadWriteService<T,
     @Transactional
     public void setDelete(PK id) {
 
-        readWriteDao.setDelete(id);
+        readWriteDao.deleteByFlagById(id);
     }
 
     @Override

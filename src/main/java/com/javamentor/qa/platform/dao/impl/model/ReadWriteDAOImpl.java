@@ -42,20 +42,7 @@ public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
     @Override
     @Transactional
     public void delete(T t) {
-        entityManager.remove(t);
-    }
-
-    @Override
-    @Transactional
-    public void setDelete(PK id) {
-        if(tClass.isAnnotationPresent(Where.class)) {
-            entityManager.createQuery(
-                    "update " + tClass.getName() + " e set e.isDeleted = true where e.id = :id")
-                    .setParameter("id", id)
-                    .executeUpdate();
-        }else {
-            throw new RuntimeException(String.format("Class: %s does not have field 'isDeleted' and can not be removed this way.", tClass.getName()));
-        }
+        entityManager.remove(entityManager.contains(t) ? t : entityManager.merge(t));
     }
 
     @Override
@@ -71,6 +58,19 @@ public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
                 "DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public void deleteByFlagById(PK id) {
+        if (tClass.isAnnotationPresent(Where.class)) {
+            entityManager.createQuery(
+                    "UPDATE " + tClass.getName() + " e SET e.isDeleted = TRUE WHERE e.id = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+        } else {
+            throw new RuntimeException("В классе нет признака удаление по флагу");
+        }
     }
 
     @Override
