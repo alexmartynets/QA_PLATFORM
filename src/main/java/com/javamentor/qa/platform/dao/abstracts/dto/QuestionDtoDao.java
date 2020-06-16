@@ -16,10 +16,6 @@ public interface QuestionDtoDao {
 
     Optional<QuestionDto> hasQuestionAnswer(Long questionId);
 
-    void updateQuestionDtoTitleAndDescription(QuestionDto questionDto);
-
-    void toVoteForQuestion(Long questionId, int vote);
-
     List<QuestionDto> getQuestionList(int page, int size);
 
     List<TagDto> getTagList(long q_id);

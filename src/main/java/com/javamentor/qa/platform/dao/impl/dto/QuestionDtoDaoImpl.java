@@ -258,27 +258,6 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
         );
     }
 
-    @Override
-    public void updateQuestionDtoTitleAndDescription(QuestionDto questionDto) {
-        entityManager.createQuery("UPDATE Question " +
-                "SET title = :title, description = :description WHERE id = : id")
-                .setParameter("title", questionDto.getTitle())
-                .setParameter("description", questionDto.getDescription())
-                .setParameter("id", questionDto.getId())
-                .unwrap(Query.class)
-                .executeUpdate();
-    }
-
-    @Override
-    public void toVoteForQuestion(Long questionId, int vote) {
-        entityManager.createQuery("UPDATE Question " +
-                "SET countValuable = :vote WHERE id = : id")
-                .setParameter("vote", vote)
-                .setParameter("id", questionId)
-                .unwrap(Query.class)
-                .executeUpdate();
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public List<QuestionDto> getQuestionList(int page, int size) {

@@ -119,7 +119,7 @@ public class QuestionResourceController {
         }
         if (questionDto.get().getCountAnswer() > 0) {
             logger.error(String.format("На вопрос был дан ответ, поэтому вопрос с ID: %d не может быть удалён", id));
-            return ResponseEntity.badRequest().body("Невозможно удалить вопрос, на который был дан ответ");
+            return ResponseEntity.badRequest().body("Can't delete question with answer");
         }
         questionService.deleteByFlag(id);
         return ResponseEntity.ok().body(String.format("Удаление вопроса с ID: %d выполнено успешно", id));
