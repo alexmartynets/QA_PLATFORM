@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.persistence.RollbackException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -17,7 +18,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(value = {ApiRequestException.class})
     public ResponseEntity<Object> handlerApiRequestException(ApiRequestException e) {
-        logger.info(e.toString());      // здесь нужно сделать info или warn?
+        logger.warn(e.toString());
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.BAD_REQUEST,
@@ -27,10 +28,21 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(value = {NumberFormatException.class})
-    public ResponseEntity<Object> handlerNumberFormatExaption(RuntimeException e) {
-        logger.info(e.toString());      // здесь нужно сделать info или warn?
+    public ResponseEntity<Object> handlerNumberFormatException(RuntimeException e) {
+        logger.warn(e.toString());
         ApiException apiException = new ApiException(
                 "Значения не должны быть символьными, только числовые!",
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {RollbackException.class})
+    public ResponseEntity<Object> handlerWrongData(RollbackException e){
+        logger.info(e.toString());
+        ApiException apiException = new ApiException(
+                "Необходимо передать все заполненные поля",
                 HttpStatus.BAD_REQUEST,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );

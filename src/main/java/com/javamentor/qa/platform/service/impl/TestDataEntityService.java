@@ -278,6 +278,7 @@ public class TestDataEntityService {
                 .description("Question1 description")
                 .user(userService.getByKey(2L))
                 .countValuable(2)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList1 = new ArrayList<>();
         tagList1.add(tagService.getByKey(1L));
@@ -292,6 +293,7 @@ public class TestDataEntityService {
                 .description("Question2 description")
                 .user(userService.getByKey(3L))
                 .countValuable(2)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList2 = new ArrayList<>();
         tagList2.add(tagService.getByKey(2L));
@@ -302,8 +304,9 @@ public class TestDataEntityService {
                 .title("Question3 title")
                 .viewCount(5)
                 .description("Question3 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(4L))
                 .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList3 = new ArrayList<>();
         tagList3.add(tagService.getByKey(2L));
@@ -318,6 +321,7 @@ public class TestDataEntityService {
                 .description("Question4 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList4 = new ArrayList<>();
         tagList4.add(tagService.getByKey(3L));
@@ -328,8 +332,9 @@ public class TestDataEntityService {
                 .title("Question5 title")
                 .viewCount(5)
                 .description("Question5 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(5L))
                 .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList5 = new ArrayList<>();
         tagList5.add(tagService.getByKey(3L));
@@ -340,8 +345,9 @@ public class TestDataEntityService {
                 .title("Question6 title")
                 .viewCount(5)
                 .description("Question6 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(4L))
                 .countValuable(6)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList6 = new ArrayList<>();
         tagList6.add(tagService.getByKey(1L));
@@ -358,6 +364,7 @@ public class TestDataEntityService {
                 .description("Question7 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList7 = new ArrayList<>();
         tagList7.add(tagService.getByKey(2L));
@@ -370,8 +377,9 @@ public class TestDataEntityService {
                 .title("Question8 title")
                 .viewCount(7)
                 .description("Question8 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(2L))
                 .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList8 = new ArrayList<>();
         tagList8.add(tagService.getByKey(3L));
@@ -382,8 +390,9 @@ public class TestDataEntityService {
                 .title("Question9 title")
                 .viewCount(9)
                 .description("Question9 description")
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(5L))
                 .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList9 = new ArrayList<>();
         tagList9.add(tagService.getByKey(3L));
@@ -396,6 +405,7 @@ public class TestDataEntityService {
                 .description("Question10 description")
                 .user(userService.getByKey(3L))
                 .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList10 = new ArrayList<>();
         tagList10.add(tagService.getByKey(1L));
@@ -421,101 +431,100 @@ public class TestDataEntityService {
     private void creatAnswerEntity() {
         Answer answer1_1 = Answer.builder()
                 .user(userService.getByKey(3L))
-                .countValuable(2)
-                .isHelpful(true)
+                .countValuable(0)
+                .isHelpful(false)
+                .isDeleted(false)
                 .question(questionService.getByKey(1L))
-                .dateAcceptTime(LocalDateTime.now())
                 .htmlBody("Helpful answer for question 1")
                 .build();
         answerService.persist(answer1_1);
 
         Answer answer1_2 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(2)
+                .countValuable(0)
                 .question(questionService.getByKey(1L))
-                .dateAcceptTime(LocalDateTime.now())
                 .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer1_2);
 
         Answer answer1_3 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(2)
+                .countValuable(0)
                 .question(questionService.getByKey(1L))
-                .dateAcceptTime(LocalDateTime.now())
-                .persistDateTime(LocalDateTime.now())
                 .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer1_3);
 
         Answer answer1_4 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(2)
+                .countValuable(0)
                 .question(questionService.getByKey(1L))
-                .dateAcceptTime(LocalDateTime.now())
                 .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer1_4);
 
         Answer answer2_1 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(2)
+                .countValuable(0)
                 .question(questionService.getByKey(2L))
-                .dateAcceptTime(LocalDateTime.now())
                 .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 2")
                 .build();
         answerService.persist(answer2_1);
 
         Answer answer2_2 = Answer.builder()
                 .user(userService.getByKey(4L))
-                .countValuable(2)
+                .countValuable(0)
                 .question(questionService.getByKey(2L))
-                .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(true)
+                .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Helpful answer for question 2")
                 .build();
         answerService.persist(answer2_2);
 
         Answer answer2_3 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(2)
+                .countValuable(0)
                 .question(questionService.getByKey(2L))
-                .dateAcceptTime(LocalDateTime.now())
                 .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 2")
                 .build();
         answerService.persist(answer2_3);
 
         Answer answer3_1 = Answer.builder()
                 .user(userService.getByKey(4L))
-                .countValuable(2)
+                .countValuable(0)
                 .question(questionService.getByKey(3L))
-                .dateAcceptTime(LocalDateTime.now())
                 .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer3_1);
 
         Answer answer3_2 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(2)
+                .countValuable(0)
                 .question(questionService.getByKey(3L))
-                .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(true)
+                .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer3_2);
 
         Answer answer4_1 = Answer.builder()
                 .user(userService.getByKey(4L))
-                .countValuable(2)
+                .countValuable(0)
                 .question(questionService.getByKey(4L))
-                .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(true)
+                .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Helpful answer for question 4")
                 .build();
         answerService.persist(answer4_1);
