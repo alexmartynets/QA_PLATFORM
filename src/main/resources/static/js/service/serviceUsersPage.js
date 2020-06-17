@@ -37,7 +37,7 @@ class DataUsersPage {
         let map = new Map();
         $.ajax({
             type: "GET",
-            url: url,
+            // url: url,
             xhrFields: {withCredentials: true},
             cache: false,
             async: false,

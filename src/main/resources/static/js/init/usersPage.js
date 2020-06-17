@@ -9,8 +9,11 @@ jQuery(document).ready(function ($) {
     let currentPage = 1;
     let url;
 
+    // key для mediaList
     let attr_search = $('#reputation').attr("data-search");
+    // url для запроса
     url = service.getUrl(attr_search);
+    // weeks для запроса
     weeks = $('#month').attr("data-weeks");
 
     // обработка кнопок в блоке "ПОИСК" получаем url для запроса
@@ -59,7 +62,7 @@ jQuery(document).ready(function ($) {
             url = service.getUrl(attr_search);
             weeks = $('#month').attr("data-weeks");
         }
-
+        // данные для страницы
         let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         let list = media.getMediaList(attr_search, dataMap.get("list"));
         service.showUsers(list);
