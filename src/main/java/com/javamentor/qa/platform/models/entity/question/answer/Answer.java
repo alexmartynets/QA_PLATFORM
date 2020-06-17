@@ -44,7 +44,11 @@ public class Answer {
 
     @NotNull
     @Column(name = "is_helpful")
-    private Boolean isHelpful = false;
+    private Boolean isHelpful;
+
+    @NotNull
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     @Column(name = "date_accept_time")
     @Type(type = "org.hibernate.type.LocalDateTimeType")
