@@ -29,20 +29,25 @@ public class QuestionDto {
     private List<TagDto> tags = new ArrayList<>();
 
     @NotNull
-    private Integer reputationCount;
+    private Integer reputationCount = 0;
 
     @NotNull
-    private Integer viewCount;
+    private Integer viewCount = 0;
 
     @NotNull
-    private Integer countAnswer;
+    private Integer countAnswer = 0;
 
     @NotNull
-    private Integer countValuable;
+    private Integer countValuable = 0;
 
     @NotNull
     private LocalDateTime persistDateTime;
 
     private Boolean isHelpful;
-    private Map<String, String> lastAnswerNameAndDate;
+
+    private String lastAnswerName;
+
+    private LocalDateTime lastAnswerDate;
+
+    private String description;
 }
