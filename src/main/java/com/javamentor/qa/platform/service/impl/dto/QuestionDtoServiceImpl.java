@@ -16,13 +16,9 @@ import java.util.Optional;
 public class QuestionDtoServiceImpl implements QuestionDtoService {
 
     private final QuestionDtoDao questionDtoDao;
-    private final QuestionConverter questionConverter;
-    private final QuestionService questionService;
 
-    public QuestionDtoServiceImpl(QuestionDtoDao questionDtoDao, QuestionConverter questionConverter, QuestionService questionService) {
+    public QuestionDtoServiceImpl(QuestionDtoDao questionDtoDao) {
         this.questionDtoDao = questionDtoDao;
-        this.questionConverter = questionConverter;
-        this.questionService = questionService;
     }
 
     @Override

@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
@@ -116,6 +117,7 @@ public class QuestionResourceController {
                 break;
             case 1:
                 vote = question.getCountValuable() + 1;
+                break;
         }
         question.setCountValuable(vote);
         questionService.update(question);
@@ -162,12 +164,8 @@ public class QuestionResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список для пагинации из QuestionDto получен")
     })
-    public ResponseEntity<Pair<Long, List<QuestionDto>>> getPaginationQuestion(@RequestParam int page,
-                                                                               @RequestParam int size) {
-        if (page < 1 || size < 1) {
-            throw new ApiRequestException("Значения не должны быть отрицательными");
-        } else {
+    public ResponseEntity<Pair<Long, List<QuestionDto>>> getPaginationQuestion(@RequestParam @Min(value = 1) int page,
+                                                                               @RequestParam @Min(value = 1) int size) {
             return ResponseEntity.ok(questionDtoService.getPaginationQuestion(page, size));
-        }
     }
 }
