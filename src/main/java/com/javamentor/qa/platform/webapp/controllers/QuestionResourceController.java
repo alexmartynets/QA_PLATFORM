@@ -1,6 +1,5 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
-import com.javamentor.qa.platform.exception.ApiRequestException;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
@@ -87,7 +86,7 @@ public class QuestionResourceController {
             return ResponseEntity.badRequest().body("Different ID by Dto and URL");
         }
         Question question = questionService.getByKey(id);
-        if (question == null){
+        if (question == null) {
             logger.error(String.format("Запрос на изменение вопроса с неактуальным ID: %d.", id));
             return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", id));
         }
@@ -166,6 +165,6 @@ public class QuestionResourceController {
     })
     public ResponseEntity<Pair<Long, List<QuestionDto>>> getPaginationQuestion(@RequestParam @Min(value = 1) int page,
                                                                                @RequestParam @Min(value = 1) int size) {
-            return ResponseEntity.ok(questionDtoService.getPaginationQuestion(page, size));
+        return ResponseEntity.ok(questionDtoService.getPaginationQuestion(page, size));
     }
 }
