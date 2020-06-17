@@ -5,6 +5,7 @@ import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -53,6 +54,11 @@ public class Answer {
     @Column(name = "date_accept_time")
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime dateAcceptTime;
+
+    @UpdateTimestamp
+    @Column(name = "update_date")
+    @Type(type = "org.hibernate.type.LocalDateTimeType")
+    private LocalDateTime updateDate;
 
     @NotNull
     @Column(name = "count_valuable")
