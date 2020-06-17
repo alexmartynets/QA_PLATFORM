@@ -1,0 +1,60 @@
+package com.javamentor.qa.platform.dao.impl.model;
+
+import com.javamentor.qa.platform.dao.abstracts.model.ReputationDAO;
+import com.javamentor.qa.platform.models.entity.user.Reputation;
+import com.javamentor.qa.platform.models.entity.user.User;
+import org.hibernate.query.Query;
+import org.hibernate.transform.ResultTransformer;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.NoResultException;
+import java.time.LocalDate;
+import java.util.List;
+
+@Repository
+public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implements ReputationDAO {
+
+    @Override
+    public void persist(Reputation reputation) {
+        super.persist(reputation);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Reputation findByUserIdAndDate(User user) {
+        Reputation reputation1 = null;
+        try {
+            reputation1 = (Reputation) entityManager.createQuery("SELECT " +
+                    "r.id, " +
+                    "r.count, " +
+                    "r.persistDate, " +
+                    "r.voiceCount " +
+                    "FROM Reputation r WHERE r.user.id = :user_id AND r.persistDate = :persistDate")
+                    .setParameter("persistDate", LocalDate.now())
+                    .setParameter("user_id", user.getId())
+                    .unwrap(Query.class)
+                    .setResultTransformer(new ResultTransformer() {
+                        @Override
+                        public Object transformTuple(Object[] objects, String[] strings) {
+                            return Reputation.builder()
+                                    .id((Long) objects[0])
+                                    .user(user)
+                                    .count((Integer) objects[1])
+                                    .persistDate((LocalDate) objects[2])
+                                    .voiceCount((Integer) objects[3])
+                                    .build();
+                        }
+
+                        @Override
+                        public List transformList(List list) {
+                            return list;
+                        }
+                    })
+                    .getSingleResult();
+        } catch (NoResultException e) {
+//            e.printStackTrace();
+        }
+
+        return reputation1;
+    }
+}

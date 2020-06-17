@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.service.impl;
 
+import com.javamentor.qa.platform.models.entity.Badges;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
@@ -8,9 +9,7 @@ import com.javamentor.qa.platform.models.entity.question.RelatedTag;
 import com.javamentor.qa.platform.models.entity.question.Tag;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
-import com.javamentor.qa.platform.models.entity.user.Role;
-import com.javamentor.qa.platform.models.entity.user.User;
-import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
+import com.javamentor.qa.platform.models.entity.user.*;
 import com.javamentor.qa.platform.service.abstracts.model.*;
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentAnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentQuestionService;
@@ -18,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,19 @@ public class TestDataEntityService {
     @Autowired
     private RelatedTagService relatedTagService;
 
+    private final ReputationService reputationService;
+    private final BadgesService badgesService;
+    private final UserBadgesService userBadgesService;
+
+    @Autowired
+    public TestDataEntityService(ReputationService reputationService,
+                                 BadgesService badgesService,
+                                 UserBadgesService userBadgesService) {
+        this.reputationService = reputationService;
+        this.badgesService = badgesService;
+        this.userBadgesService = userBadgesService;
+    }
+
     public void createEntity() {
         creatUserEntity();
         creatTagEntity();
@@ -57,9 +70,13 @@ public class TestDataEntityService {
         creatAnswerEntity();
         creatComment();
         creatUserFavoriteQuestion();
+        createBadges();
+        createUserBadges();
+        reputationEntity();
     }
 
     private void creatUserEntity() {
+        Integer reputationCount = 0;
 
         Role adminRole = Role.builder()
                 .name("ADMIN")
@@ -73,7 +90,7 @@ public class TestDataEntityService {
                 .email("admin@admin.ru")
                 .password("admin")
                 .fullName("Админ Админович Админов")
-                .reputationCount(5)
+                .reputationCount(reputationCount)
                 .city("Moscow")
                 .linkSite("site.admin.ru")
                 .linkGitHub("github.admin.ru")
@@ -88,7 +105,7 @@ public class TestDataEntityService {
                 .email("user1@user.ru")
                 .password("user1")
                 .fullName("Иван Иванович Иванов")
-                .reputationCount(4)
+                .reputationCount(reputationCount)
                 .city("Moscow")
                 .linkSite("site.user1.ru")
                 .linkGitHub("github.user1.ru")
@@ -104,7 +121,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user2")
                 .fullName("Петр2 Петрович2 Петров2")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
@@ -119,7 +136,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user3")
                 .fullName("Петр3 Петрович3 Петров3")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user3.ru")
                 .linkGitHub("github.user3.ru")
@@ -134,7 +151,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user4")
                 .fullName("Петр4 Петрович4 Петров4")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
@@ -149,7 +166,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user5")
                 .fullName("Петр5 Петрович5 Петров5")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user5.ru")
                 .linkGitHub("github.user5.ru")
@@ -164,7 +181,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user6")
                 .fullName("Петр6 Петрович6 Петров6")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user6.ru")
                 .linkGitHub("github.user6.ru")
@@ -179,7 +196,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user7")
                 .fullName("Петр7 Петрович7 Петров7")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user7.ru")
                 .linkGitHub("github.user7.ru")
@@ -194,7 +211,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user8")
                 .fullName("Петр8 Петрович8 Петров8")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user8.ru")
                 .linkGitHub("github.user8.ru")
@@ -209,7 +226,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user9")
                 .fullName("Петр9 Петрович9 Петров9")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user9.ru")
                 .linkGitHub("github.user9.ru")
@@ -224,7 +241,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user10")
                 .fullName("Петр10 Петрович10 Петров10")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user10.ru")
                 .linkGitHub("github.user10.ru")
@@ -422,7 +439,7 @@ public class TestDataEntityService {
         Answer answer1_1 = Answer.builder()
                 .user(userService.getByKey(3L))
                 .countValuable(2)
-                .isHelpful(true)
+                .isHelpful(false)
                 .question(questionService.getByKey(1L))
                 .dateAcceptTime(LocalDateTime.now())
                 .htmlBody("Helpful answer for question 1")
@@ -475,7 +492,7 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(2L))
                 .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(true)
+                .isHelpful(false)
                 .htmlBody("Helpful answer for question 2")
                 .build();
         answerService.persist(answer2_2);
@@ -505,7 +522,7 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(3L))
                 .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(true)
+                .isHelpful(false)
                 .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer3_2);
@@ -515,7 +532,7 @@ public class TestDataEntityService {
                 .countValuable(2)
                 .question(questionService.getByKey(4L))
                 .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(true)
+                .isHelpful(false)
                 .htmlBody("Helpful answer for question 4")
                 .build();
         answerService.persist(answer4_1);
@@ -569,5 +586,81 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(2L))
                 .build();
         userFavoriteQuestionService.persist(userFavoriteQuestion);
+    }
+
+    private void createBadges() {
+        Badges badges = Badges.builder()
+                .badges("Учитель")
+                .description("Награждается если в день получить 20 баллов")
+                .count(20)
+                .build();
+        badgesService.persist(badges);
+
+        Badges badges1 = Badges.builder()
+                .badges("Академик")
+                .description("Награждается если в день получить 50 баллов")
+                .count(50)
+                .build();
+        badgesService.persist(badges1);
+    }
+
+    private void createUserBadges() {
+        for (long i = 1; i < 12; i++) {
+            UserBadges user1Badges1 = UserBadges.builder()
+                    .countOfBadges(0)
+                    .badges(badgesService.getByKey(1l))
+                    .user(userService.getByKey(i))
+                    .ready(false)
+                    .build();
+
+            UserBadges user1Badges2 = UserBadges.builder()
+                    .countOfBadges(0)
+                    .badges(badgesService.getByKey(2l))
+                    .user(userService.getByKey(i))
+                    .ready(false)
+                    .build();
+
+            userBadgesService.persist(user1Badges1);
+            userBadgesService.persist(user1Badges2);
+        }
+    }
+
+    private void reputationEntity() {
+        for (long i = 1; i < 12; i++) {
+            Reputation reputation = Reputation.builder()
+                    .count(0)
+                    .persistDate(LocalDate.now())
+                    .user(userService.getByKey(i))
+                    .voiceCount(0)
+                    .build();
+            reputationService.updateOrInsert(reputation);
+        }
+//        Reputation reputation = Reputation.builder()
+//                .count(6)
+//                .persistDate(LocalDate.now())
+//                .user(userService.getByKey(1l))
+//                .build();
+//        reputationService.updateOrInsert(reputation);
+//
+//        Reputation reputation1 = Reputation.builder()
+//                .count(1)
+//                .persistDate(LocalDate.now())
+//                .user(userService.getByKey(1l))
+//                .build();
+//        reputationService.updateOrInsert(reputation1);
+//
+//        Reputation reputation2 = Reputation.builder()
+//                .count(1)
+//                .persistDate(LocalDate.now())
+//                .user(userService.getByKey(1l))
+//                .build();
+//        reputationService.updateOrInsert(reputation2);
+//
+//        Reputation reputation3 = Reputation.builder()
+//                .count(1)
+//                .persistDate(LocalDate.now())
+//                .user(userService.getByKey(2l))
+//                .build();
+//        reputationService.updateOrInsert(reputation3);
     }
 }
