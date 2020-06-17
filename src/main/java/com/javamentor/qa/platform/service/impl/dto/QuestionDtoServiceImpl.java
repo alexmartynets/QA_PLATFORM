@@ -51,38 +51,4 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     public Optional<QuestionDto> hasQuestionAnswer(Long questionId) {
         return questionDtoDao.hasQuestionAnswer(questionId);
     }
-
-    @Override
-    @Transactional
-    public Optional<QuestionDto> toUpdateQuestionDtoTitleOrDescription(QuestionDto questionDtoFromClient) {
-        Optional<QuestionDto> dtoById = questionDtoDao.getQuestionDtoById(questionDtoFromClient.getId());
-        if (!dtoById.isPresent()) {
-            return Optional.empty();
-        }
-        QuestionDto questionDto = dtoById.get();
-        questionDto.setTitle(questionDtoFromClient.getTitle());
-        questionDto.setDescription(questionDtoFromClient.getDescription());
-        questionService.update(questionConverter.toEntity(questionDto));
-        return Optional.of(questionDto);
-    }
-
-    @Override
-    @Transactional
-    public Optional<QuestionDto> toVoteForQuestion(Long id, int vote) {
-        Optional<QuestionDto> questionDtoById = getQuestionDtoById(id);
-        if (!questionDtoById.isPresent()) {
-            return Optional.empty();
-        }
-        QuestionDto questionDto = questionDtoById.get();
-        switch (vote) {
-            case 0:
-                vote = questionDto.getCountValuable() - 1;
-                break;
-            case 1:
-                vote = questionDto.getCountValuable() + 1;
-        }
-        questionDto.setCountValuable(vote);
-        questionService.update(questionConverter.toEntity(questionDto));
-        return Optional.of(questionDto);
-    }
 }

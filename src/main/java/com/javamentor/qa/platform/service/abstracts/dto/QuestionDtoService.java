@@ -16,9 +16,5 @@ public interface QuestionDtoService {
 
     Optional<QuestionDto> hasQuestionAnswer(Long questionId);
 
-    Optional<QuestionDto> toUpdateQuestionDtoTitleOrDescription(QuestionDto questionDtoFromClient);
-
-    Optional<QuestionDto> toVoteForQuestion(Long id, int vote);
-
     Pair<Long, List<QuestionDto>> getPaginationQuestion(int page, int size);
 }
