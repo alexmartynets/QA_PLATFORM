@@ -91,7 +91,6 @@ class DataUsersService {
         return mapUrl.get(key);
     }
 
-    //WeeksDateCreation
     getCountWeeksDateCreation() {
         let today = new Date();
         let dateCreation = new Date('2018-01-01');

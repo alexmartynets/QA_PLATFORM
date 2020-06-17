@@ -99,7 +99,7 @@ jQuery(document).ready(function ($) {
     service.showPagination(media, data, dataMap, numberMedia, currentPage);
 
     // блок кода для динамического изменения данных на странице
-    $("body").on("click", ".page-link", function () {
+    $("#pagination").on("click", ".page-link", function () {
         let currentPage = $(this).text();
 
         if (currentPage === '...') {
@@ -161,7 +161,7 @@ jQuery(document).ready(function ($) {
         });
 
         // блок кода для динамического изменения данных для search
-        $("body").on("click", ".page-link", function () {
+        $("#pagination").on("click", ".page-link", function () {
             let currentPage = $(this).text();
 
             if (currentPage === '...') {

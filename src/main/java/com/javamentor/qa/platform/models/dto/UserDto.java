@@ -62,9 +62,14 @@ public class UserDto {
     @ApiModelProperty(notes = "Репутация пользователя, по умолчанию 0", example = "не указывать")
     private Integer reputationCount;
 
+    private Integer countChanges;
+
+    private LocalDateTime dateAppointedModerator;
+
     @ApiModelProperty(notes = "Дата создания учетной записи пользователя, явно указывать не нужно, назначается автоматически при создании", example = "не указывать")
     private LocalDateTime persistDateTime;
 
     @ApiModelProperty(notes = "Дата изменения учетной записи пользователя, явно указывать не нужно, назначается автоматически при внесении изменений", example = "не указывать")
     private LocalDateTime lastUpdateDateTime;
+
 }

@@ -26,15 +26,12 @@ public class Reputation {
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "reputation_count")
     private Integer reputationCount;
-
-    @Column(name = "voice_count")
-    private Integer voiceCount;
 
     @Override
     public boolean equals(Object o) {
@@ -43,12 +40,11 @@ public class Reputation {
         Reputation reputation = (Reputation) o;
         return Objects.equals(id, reputation.id) &&
                 Objects.equals(persistDateTime, reputation.persistDateTime) &&
-                Objects.equals(reputationCount, reputation.reputationCount) &&
-                Objects.equals(voiceCount, reputation.voiceCount);
+                Objects.equals(reputationCount, reputation.reputationCount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, persistDateTime, reputationCount, voiceCount);
+        return Objects.hash(id, persistDateTime, reputationCount);
     }
 }

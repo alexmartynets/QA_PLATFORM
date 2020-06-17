@@ -98,7 +98,6 @@ public class TestDataEntityService {
 
         Reputation reputation = Reputation.builder()
                 .reputationCount(2)
-                .voiceCount(10)
                 .user(admin)
                 .build();
         reputationService.persist(reputation);
@@ -120,7 +119,6 @@ public class TestDataEntityService {
 
         Reputation reputation1 = Reputation.builder()
                 .reputationCount(4)
-                .voiceCount(12)
                 .user(user1)
                 .build();
         reputationService.persist(reputation1);
@@ -142,7 +140,6 @@ public class TestDataEntityService {
 
         Reputation reputation2 = Reputation.builder()
                 .reputationCount(6)
-                .voiceCount(13)
                 .user(user2)
                 .build();
         reputationService.persist(reputation2);
@@ -164,7 +161,6 @@ public class TestDataEntityService {
 
         Reputation reputation3 = Reputation.builder()
                 .reputationCount(8)
-                .voiceCount(14)
                 .user(user3)
                 .build();
         reputationService.persist(reputation3);
@@ -186,7 +182,6 @@ public class TestDataEntityService {
 
         Reputation reputation4 = Reputation.builder()
                 .reputationCount(10)
-                .voiceCount(15)
                 .user(user4)
                 .build();
         reputationService.persist(reputation4);
@@ -208,7 +203,6 @@ public class TestDataEntityService {
 
         Reputation reputation5 = Reputation.builder()
                 .reputationCount(12)
-                .voiceCount(16)
                 .user(user5)
                 .build();
         reputationService.persist(reputation5);
@@ -230,7 +224,6 @@ public class TestDataEntityService {
 
         Reputation reputation6 = Reputation.builder()
                 .reputationCount(14)
-                .voiceCount(17)
                 .user(user6)
                 .build();
         reputationService.persist(reputation6);
@@ -252,7 +245,6 @@ public class TestDataEntityService {
 
         Reputation reputation7 = Reputation.builder()
                 .reputationCount(16)
-                .voiceCount(18)
                 .user(user7)
                 .build();
         reputationService.persist(reputation7);
@@ -274,7 +266,6 @@ public class TestDataEntityService {
 
         Reputation reputation8 = Reputation.builder()
                 .reputationCount(18)
-                .voiceCount(19)
                 .user(user8)
                 .build();
         reputationService.persist(reputation8);
@@ -296,7 +287,6 @@ public class TestDataEntityService {
 
         Reputation reputation9 = Reputation.builder()
                 .reputationCount(20)
-                .voiceCount(21)
                 .user(user9)
                 .build();
         reputationService.persist(reputation9);
@@ -318,7 +308,6 @@ public class TestDataEntityService {
 
         Reputation reputation10 = Reputation.builder()
                 .reputationCount(22)
-                .voiceCount(22)
                 .user(user10)
                 .build();
         reputationService.persist(reputation10);
@@ -340,7 +329,6 @@ public class TestDataEntityService {
 
         Reputation reputation11 = Reputation.builder()
                 .reputationCount(24)
-                .voiceCount(8)
                 .user(user11)
                 .build();
         reputationService.persist(reputation11);
@@ -362,7 +350,6 @@ public class TestDataEntityService {
 
         Reputation reputation12 = Reputation.builder()
                 .reputationCount(26)
-                .voiceCount(1)
                 .user(user12)
                 .build();
         reputationService.persist(reputation12);
@@ -384,7 +371,6 @@ public class TestDataEntityService {
 
         Reputation reputation13 = Reputation.builder()
                 .reputationCount(28)
-                .voiceCount(4)
                 .user(user13)
                 .build();
         reputationService.persist(reputation13);
@@ -406,7 +392,6 @@ public class TestDataEntityService {
 
         Reputation reputation14 = Reputation.builder()
                 .reputationCount(30)
-                .voiceCount(5)
                 .user(user14)
                 .build();
         reputationService.persist(reputation14);
@@ -428,7 +413,6 @@ public class TestDataEntityService {
 
         Reputation reputation15 = Reputation.builder()
                 .reputationCount(32)
-                .voiceCount(6)
                 .user(user15)
                 .build();
         reputationService.persist(reputation15);
@@ -450,7 +434,6 @@ public class TestDataEntityService {
 
         Reputation reputation16 = Reputation.builder()
                 .reputationCount(34)
-                .voiceCount(7)
                 .user(user16)
                 .build();
         reputationService.persist(reputation16);
@@ -472,7 +455,6 @@ public class TestDataEntityService {
 
         Reputation reputation17 = Reputation.builder()
                 .reputationCount(36)
-                .voiceCount(8)
                 .user(user17)
                 .build();
         reputationService.persist(reputation17);
@@ -494,7 +476,6 @@ public class TestDataEntityService {
 
         Reputation reputation18 = Reputation.builder()
                 .reputationCount(38)
-                .voiceCount(9)
                 .user(user18)
                 .build();
         reputationService.persist(reputation18);
@@ -516,7 +497,6 @@ public class TestDataEntityService {
 
         Reputation reputation19 = Reputation.builder()
                 .reputationCount(40)
-                .voiceCount(25)
                 .user(user19)
                 .build();
         reputationService.persist(reputation19);
@@ -525,42 +505,36 @@ public class TestDataEntityService {
     private void creatReputation() {
         Reputation reputation20 = Reputation.builder()
                 .reputationCount(8)
-                .voiceCount(4)
                 .user(userService.getByKey(16L))
                 .build();
         reputationService.persist(reputation20);
 
         Reputation reputation21 = Reputation.builder()
                 .reputationCount(16)
-                .voiceCount(8)
                 .user(userService.getByKey(16L))
                 .build();
         reputationService.persist(reputation21);
 
         Reputation reputation22 = Reputation.builder()
                 .reputationCount(24)
-                .voiceCount(12)
                 .user(userService.getByKey(17L))
                 .build();
         reputationService.persist(reputation22);
 
         Reputation reputation23 = Reputation.builder()
                 .reputationCount(32)
-                .voiceCount(16)
                 .user(userService.getByKey(17L))
                 .build();
         reputationService.persist(reputation23);
 
         Reputation reputation24 = Reputation.builder()
                 .reputationCount(40)
-                .voiceCount(20)
                 .user(userService.getByKey(18L))
                 .build();
         reputationService.persist(reputation24);
 
         Reputation reputation25 = Reputation.builder()
                 .reputationCount(48)
-                .voiceCount(24)
                 .user(userService.getByKey(19L))
                 .build();
         reputationService.persist(reputation25);

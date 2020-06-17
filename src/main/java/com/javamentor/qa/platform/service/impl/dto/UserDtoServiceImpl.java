@@ -1,9 +1,6 @@
 package com.javamentor.qa.platform.service.impl.dto;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
-import com.javamentor.qa.platform.models.dto.EditorDto;
-import com.javamentor.qa.platform.models.dto.ModeratorDto;
-import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import javafx.util.Pair;
@@ -32,50 +29,50 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Pair<List<ReputationDto>, Long> getListNewUsersByReputation(int page, int count, long weeks){
-        List<ReputationDto> reputationDtoList = userDtoDao.getListNewUsersByReputation(page, count, weeks);
+    public Pair<List<UserDto>, Long> getListNewUsersByReputation(int page, int count, long weeks){
+        List<UserDto> reputationDtoList = userDtoDao.getListNewUsersByReputation(page, count, weeks);
         Long countUsers = userDtoDao.getCountNewUsersByReputation(weeks);
         return new Pair<>(reputationDtoList, countUsers);
     };
 
     @Override
-    public Pair<List<ReputationDto>, Long> getListUsersByCreationDate(int page, int count, long weeks) {
-        List<ReputationDto> reputationDtoList = userDtoDao.getListUsersByCreationDate(page, count, weeks);
+    public Pair<List<UserDto>, Long> getListUsersByCreationDate(int page, int count, long weeks) {
+        List<UserDto> reputationDtoList = userDtoDao.getListUsersByCreationDate(page, count, weeks);
         Long countUsers = userDtoDao.getCountUsersByCreationDate(weeks);
         return new Pair<>(reputationDtoList, countUsers);
     }
 
     @Override
-    public Pair<List<ReputationDto>, Long> getListUsersByReputation(int page, int count, long weeks) {
-        List<ReputationDto> reputationDtoList = userDtoDao.getListUsersByReputation(page, count, weeks);
+    public Pair<List<UserDto>, Long> getListUsersByReputation(int page, int count, long weeks) {
+        List<UserDto> reputationDtoList = userDtoDao.getListUsersByReputation(page, count, weeks);
         Long counts = userDtoDao.getCountUsersByReputation(weeks);
         return new Pair<>(reputationDtoList, counts);
     }
 
     @Override
-    public Pair<List<ReputationDto>, Long> getListUsersByVoice(int page, int count, long weeks) {
-        List<ReputationDto> reputationDtoList = userDtoDao.getListUsersByVoice(page, count, weeks);
+    public Pair<List<UserDto>, Long> getListUsersByVoice(int page, int count, long weeks) {
+        List<UserDto> reputationDtoList = userDtoDao.getListUsersByVoice(page, count, weeks);
         Long counts = userDtoDao.getCountUsersByVoice(weeks);
         return new Pair<>(reputationDtoList, counts);
     }
 
     @Override
-    public Pair<List<ReputationDto>, Long> getListUsersByNameToSearch(String name, int page, int count, long weeks) {
-        List<ReputationDto> reputationDtoList = userDtoDao.getListUsersByNameToSearch(name, page, count, weeks);
+    public Pair<List<UserDto>, Long> getListUsersByNameToSearch(String name, int page, int count, long weeks) {
+        List<UserDto> reputationDtoList = userDtoDao.getListUsersByNameToSearch(name, page, count, weeks);
         Long counts = userDtoDao.getCountUsersByName(name, weeks);
         return new Pair<>(reputationDtoList, counts);
     }
 
     @Override
-    public Pair<List<EditorDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks) {
-        List<EditorDto> editorDtoList = userDtoDao.getListUsersByQuantityEditedText(page, count, weeks);
+    public Pair<List<UserDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks) {
+        List<UserDto> editorDtoList = userDtoDao.getListUsersByQuantityEditedText(page, count, weeks);
         Long counts = userDtoDao.getCountUsersByQuantityEditedText(weeks);
         return new Pair<>(editorDtoList, counts);
     }
 
     @Override
-    public Pair<List<ModeratorDto>, Long> getListUsersByModerator() {
-        List<ModeratorDto> moderatorDtoList = userDtoDao.getListUsersByModerator();
+    public Pair<List<UserDto>, Long> getListUsersByModerator() {
+        List<UserDto> moderatorDtoList = userDtoDao.getListUsersByModerator();
         long countUsers = moderatorDtoList.size();
         return new Pair<>(moderatorDtoList, countUsers);
     }

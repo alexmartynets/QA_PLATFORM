@@ -3,9 +3,6 @@ package com.javamentor.qa.platform.dao.impl.dto;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
-import com.javamentor.qa.platform.models.dto.EditorDto;
-import com.javamentor.qa.platform.models.dto.ModeratorDto;
-import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
@@ -135,9 +132,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListNewUsersByReputation(int page, int count, long weeks) {
+    public List<UserDto> getListNewUsersByReputation(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
+        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
                 "r.user.persistDateTime, " +
@@ -145,8 +142,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)," +
-                "SUM(r.voiceCount) " +
+                "SUM(r.reputationCount)" +
                 "FROM Reputation as r WHERE r.user.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
                 .setParameter("data", data)
@@ -156,17 +152,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return ReputationDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .userId(((Number) objects[1]).longValue())
-                                .persistDateTimeUser((LocalDateTime) objects[2])
-                                .fullNameUser((String) objects[3])
-                                .aboutUser((String) objects[4])
-                                .cityUser((String) objects[5])
-                                .imageUser((byte[]) objects[6])
-                                .reputationCount(((Number) objects[7]).longValue())
-                                .voiceCount(((Number) objects[8]).longValue())
-                                .build();
+                        return null;
                     }
 
                     @Override
@@ -190,9 +176,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListUsersByCreationDate(int page, int count, long weeks) {
+    public List<UserDto> getListUsersByCreationDate(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
+        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
                 "r.user.persistDateTime, " +
@@ -200,8 +186,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)," +
-                "SUM(r.voiceCount) " +
+                "SUM(r.reputationCount)" +
                 "FROM Reputation as r WHERE r.user.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY r.user.persistDateTime DESC")
                 .setParameter("data", data)
@@ -211,17 +196,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return ReputationDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .userId(((Number) objects[1]).longValue())
-                                .persistDateTimeUser((LocalDateTime) objects[2])
-                                .fullNameUser((String) objects[3])
-                                .aboutUser((String) objects[4])
-                                .cityUser((String) objects[5])
-                                .imageUser((byte[]) objects[6])
-                                .reputationCount(((Number) objects[7]).longValue())
-                                .voiceCount(((Number) objects[8]).longValue())
-                                .build();
+                        return null;
                     }
 
                     @Override
@@ -245,9 +220,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<EditorDto> getListUsersByQuantityEditedText(int page, int count, long weeks) {
+    public List<UserDto> getListUsersByQuantityEditedText(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        List<EditorDto> listUsers = entityManager.createQuery("SELECT " +
+        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "e.id, " +
                 "e.persistDateTime, " +
                 "e.user.id, " +
@@ -265,17 +240,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return EditorDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .persistDateTime((LocalDateTime) objects[1])
-                                .userId(((Number) objects[2]).longValue())
-                                .fullNameUser((String) objects[3])
-                                .aboutUser((String) objects[4])
-                                .cityUser((String) objects[5])
-                                .imageUser((byte[]) objects[6])
-                                .countChanges(((Number) objects[7]).longValue())
-                                .reputationCount(((Number) (objects[8] == null ? 0 : objects[8])).longValue())
-                                .build();
+                        return null;
                     }
 
                     @Override
@@ -300,9 +265,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListUsersByNameToSearch(String name, int page, int count, long weeks) {
+    public List<UserDto> getListUsersByNameToSearch(String name, int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
+        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
                 "r.user.persistDateTime, " +
@@ -310,8 +275,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)," +
-                "SUM(r.voiceCount) " +
+                "SUM(r.reputationCount)" +
                 "FROM Reputation as r WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%') " +
                 "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
                 .setParameter("data", data)
@@ -322,17 +286,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return ReputationDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .userId(((Number) objects[1]).longValue())
-                                .persistDateTimeUser((LocalDateTime) objects[2])
-                                .fullNameUser((String) objects[3])
-                                .aboutUser((String) objects[4])
-                                .cityUser((String) objects[5])
-                                .imageUser((byte[]) objects[6])
-                                .voiceCount(((Number) objects[7]).longValue())
-                                .reputationCount(((Number) objects[8]).longValue())
-                                .build();
+                        return null;
                     }
 
                     @Override
@@ -356,9 +310,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListUsersByReputation(int page, int count, long weeks) {
+    public List<UserDto> getListUsersByReputation(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
+        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
                 "r.user.persistDateTime, " +
@@ -366,8 +320,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)," +
-                "SUM(r.voiceCount) " +
+                "SUM(r.reputationCount)" +
                 "FROM Reputation as r WHERE r.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
                 .setParameter("data", data)
@@ -377,17 +330,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return ReputationDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .userId(((Number) objects[1]).longValue())
-                                .persistDateTimeUser((LocalDateTime) objects[2])
-                                .fullNameUser((String) objects[3])
-                                .aboutUser((String) objects[4])
-                                .cityUser((String) objects[5])
-                                .imageUser((byte[]) objects[6])
-                                .reputationCount(((Number)objects[7]).longValue())
-                                .voiceCount(((Number) objects[8]).longValue())
-                                .build();
+                        return null;
                     }
 
                     @Override
@@ -411,9 +354,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ReputationDto> getListUsersByVoice(int page, int count, long weeks) {
+    public List<UserDto> getListUsersByVoice(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        List<ReputationDto> listUsers = entityManager.createQuery("SELECT " +
+        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "r.id, " +
                 "r.user.id, " +
                 "r.user.persistDateTime, " +
@@ -421,10 +364,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)," +
-                "SUM(r.voiceCount) " +
+                "SUM(r.reputationCount)" +
                 "FROM Reputation as r WHERE r.persistDateTime > :data " +
-                "GROUP BY r.user.id ORDER BY SUM(r.voiceCount) DESC")
+                "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -432,17 +374,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return ReputationDto.builder()
-                                .id(((Number) objects[0]).longValue())
-                                .userId(((Number) objects[1]).longValue())
-                                .persistDateTimeUser((LocalDateTime) objects[2])
-                                .fullNameUser((String) objects[3])
-                                .aboutUser((String) objects[4])
-                                .cityUser((String) objects[5])
-                                .imageUser((byte[]) objects[6])
-                                .reputationCount(((Number) objects[7]).longValue())
-                                .voiceCount(((Number) objects[8]).longValue())
-                                .build();
+                        return null;
                     }
 
                     @Override
@@ -457,8 +389,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ModeratorDto> getListUsersByModerator() {
-        List<ModeratorDto> listUsers = entityManager.createQuery("SELECT " +
+    public List<UserDto> getListUsersByModerator() {
+        List<UserDto> listUsers = entityManager.createQuery("SELECT " +
                 "m.persistDateTime, " +
                 "m.user.id, " +
                 "m.user.fullName, " +
@@ -471,14 +403,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return ModeratorDto.builder()
-                                .persistDateTime((LocalDateTime) objects[0])
-                                .userId(((Number) objects[1]).longValue())
-                                .fullNameUser((String) objects[2])
-                                .cityUser((String) objects[3])
-                                .imageUser((byte[]) objects[4])
-                                .reputationCount(((Number) objects[5]).longValue())
-                                .build();
+                        return null;
                     }
 
                     @Override

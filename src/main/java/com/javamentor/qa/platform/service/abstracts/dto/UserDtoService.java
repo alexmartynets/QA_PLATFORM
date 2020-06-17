@@ -1,8 +1,5 @@
 package com.javamentor.qa.platform.service.abstracts.dto;
 
-import com.javamentor.qa.platform.models.dto.EditorDto;
-import com.javamentor.qa.platform.models.dto.ModeratorDto;
-import com.javamentor.qa.platform.models.dto.ReputationDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import javafx.util.Pair;
 
@@ -15,17 +12,17 @@ public interface UserDtoService {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Pair<List<ReputationDto>, Long> getListNewUsersByReputation(int page, int count, long weeks);
+    Pair<List<UserDto>, Long> getListNewUsersByReputation(int page, int count, long weeks);
 
-    Pair<List<ReputationDto>, Long> getListUsersByCreationDate(int page, int count, long weeks);
+    Pair<List<UserDto>, Long> getListUsersByCreationDate(int page, int count, long weeks);
 
-    Pair<List<ReputationDto>, Long> getListUsersByReputation(int page, int count, long weeks);
+    Pair<List<UserDto>, Long> getListUsersByReputation(int page, int count, long weeks);
 
-    Pair<List<ReputationDto>, Long> getListUsersByVoice(int page, int count, long weeks);
+    Pair<List<UserDto>, Long> getListUsersByVoice(int page, int count, long weeks);
 
-    Pair<List<ReputationDto>, Long> getListUsersByNameToSearch(String name, int page, int count, long weeks);
+    Pair<List<UserDto>, Long> getListUsersByNameToSearch(String name, int page, int count, long weeks);
 
-    Pair<List<EditorDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks);
+    Pair<List<UserDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks);
 
-    Pair<List<ModeratorDto>, Long> getListUsersByModerator();
+    Pair<List<UserDto>, Long> getListUsersByModerator();
 }
