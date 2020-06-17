@@ -44,6 +44,10 @@ public class TagDto {
             position = 6)
     private Integer questionTodayCount;
 
+    @ApiModelProperty(notes = "Количество вопросов по тэгу добавленных за последнюю неделю.",
+            position = 6)
+    private Integer questionWeekCount;
+
     @ApiModelProperty(notes = "Количество вопросов по тэгу добавленных за последний месяц.",
             position = 7)
     private Integer questionMonthCount;
