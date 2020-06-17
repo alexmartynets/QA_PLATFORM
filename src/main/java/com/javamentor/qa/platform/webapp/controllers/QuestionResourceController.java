@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import javafx.util.Pair;
-import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -97,28 +96,35 @@ public class QuestionResourceController {
     }
 
     @ApiOperation(value = "Голосование за вопрос (параметр ID обязателен)")
-    @PutMapping(path = "/{id}/{vote}")
+    @PutMapping(path = "/{id}/upVote")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Голос учтён"),
             @ApiResponse(code = 400, message = "Голос не учтён")
     })
-    public ResponseEntity<?> toVoteForQuestion(@PathVariable @NotNull Long id,
-                                               @PathVariable @Range(min = 0, max = 1, message = "Передавать" +
-                                                       " значения можно только 0 и 1") Integer vote) {
+    public ResponseEntity<?> toUpVoteForQuestion(@PathVariable @NotNull Long id) {
         Question question = questionService.getByKey(id);
         if (question == null) {
             logger.error(String.format("Вопрос с ID: %d не найден", id));
             return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", id));
         }
-        switch (vote) {
-            case 0:
-                vote = question.getCountValuable() - 1;
-                break;
-            case 1:
-                vote = question.getCountValuable() + 1;
-                break;
+        question.setCountValuable(question.getCountValuable() + 1);
+        questionService.update(question);
+        return ResponseEntity.ok(questionConverter.toDto(question));
+    }
+
+    @ApiOperation(value = "Голосование за вопрос (параметр ID обязателен)")
+    @PutMapping(path = "/{id}/downVote")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Голос учтён"),
+            @ApiResponse(code = 400, message = "Голос не учтён")
+    })
+    public ResponseEntity<?> toDownVoteForQuestion(@PathVariable @NotNull Long id) {
+        Question question = questionService.getByKey(id);
+        if (question == null) {
+            logger.error(String.format("Вопрос с ID: %d не найден", id));
+            return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", id));
         }
-        question.setCountValuable(vote);
+        question.setCountValuable(question.getCountValuable() - 1);
         questionService.update(question);
         return ResponseEntity.ok(questionConverter.toDto(question));
     }

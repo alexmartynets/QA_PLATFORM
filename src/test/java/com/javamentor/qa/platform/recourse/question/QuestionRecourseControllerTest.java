@@ -229,6 +229,19 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    void updateQuestionWrongDescription() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 3," +
+                        "\"title\": \"Question3 title New\"," +
+                        "\"description\": null" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
     void test_Count_Of_Questions_In_DB() throws Exception {
         this.mockMvc.perform(get("/api/user/question/pagination?page=1&size=5"))
                 .andDo(print())
@@ -268,21 +281,8 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void updateQuestionWrongDescription() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/3")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{" +
-                        "\"id\": 3," +
-                        "\"title\": \"Question3 title New\"," +
-                        "\"description\": null" +
-                        "}"))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
     void toVoteForQuestionSuccessPositive() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/1"))
+        this.mockMvc.perform(put("/api/user/question/1/upVote"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value("13"))
@@ -292,7 +292,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
 
     @Test
     void toVoteForQuestionNegativePositive() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/0"))
+        this.mockMvc.perform(put("/api/user/question/1/downVote"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value("13"))
@@ -301,29 +301,8 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void toVoteForQuestionNotSuccessPositive() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/2"))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void toVoteForQuestionNotSuccessNegative() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/-1"))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void toVoteForQuestionNotSuccessNotNumber() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/abc"))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     void toVoteForQuestionNotSuccessWrongQuestionId() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/10/1"))
+        this.mockMvc.perform(put("/api/user/question/10/upVote"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Can't find Question with ID 10"));
