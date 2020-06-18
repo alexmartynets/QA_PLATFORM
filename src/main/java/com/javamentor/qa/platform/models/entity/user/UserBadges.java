@@ -4,7 +4,6 @@ import com.javamentor.qa.platform.models.entity.Badges;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -22,10 +21,6 @@ public class UserBadges {
 
     @Column
     private Boolean ready;
-
-    @NotNull
-    @Column(name = "count_of_badges")
-    private Integer countOfBadges;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

@@ -72,7 +72,6 @@ public class TestDataEntityService {
         creatUserFavoriteQuestion();
         createBadges();
         createUserBadges();
-        reputationEntity();
     }
 
     private void creatUserEntity() {
@@ -589,78 +588,75 @@ public class TestDataEntityService {
     }
 
     private void createBadges() {
+        Badges badges1 = Badges.builder()
+                .badges("Помощник")
+                .description("Награждается если в день заработать 50 баллов")
+                .reputationForMerit(50)
+                .build();
+        badgesService.persist(badges1);
+
         Badges badges = Badges.builder()
-                .badges("Учитель")
-                .description("Награждается если в день получить 20 баллов")
-                .count(20)
+                .badges("Друг")
+                .description("Награждается если в день заработать 100 баллов")
+                .reputationForMerit(100)
                 .build();
         badgesService.persist(badges);
 
-        Badges badges1 = Badges.builder()
-                .badges("Академик")
-                .description("Награждается если в день получить 50 баллов")
-                .count(50)
+
+        Badges badges2 = Badges.builder()
+                .badges("Учитель")
+                .description("Награждается если в день заработать 150 баллов")
+                .reputationForMerit(150)
                 .build();
-        badgesService.persist(badges1);
+        badgesService.persist(badges2);
+
+        Badges badges3 = Badges.builder()
+                .badges("Преподаватель")
+                .description("Награждается если в день заработать 200 баллов")
+                .reputationForMerit(200)
+                .build();
+        badgesService.persist(badges3);
+
+        Badges badges4 = Badges.builder()
+                .badges("Ментор")
+                .description("Награждается если в день заработать 250 баллов")
+                .reputationForMerit(250)
+                .build();
+        badgesService.persist(badges4);
+
+        Badges badges7 = Badges.builder()
+                .badges("JM Ментор")
+                .description("Награждается если в день заработать 300 баллов")
+                .reputationForMerit(300)
+                .build();
+        badgesService.persist(badges7);
+
+        Badges badges5 = Badges.builder()
+                .badges("Профессор")
+                .description("Награждается если в день заработать 400 баллов")
+                .reputationForMerit(400)
+                .build();
+        badgesService.persist(badges5);
+
+        Badges badges6 = Badges.builder()
+                .badges("Академик")
+                .description("Награждается если в день заработать 500 баллов")
+                .reputationForMerit(500)
+                .build();
+        badgesService.persist(badges6);
+
     }
 
     private void createUserBadges() {
         for (long i = 1; i < 12; i++) {
-            UserBadges user1Badges1 = UserBadges.builder()
-                    .countOfBadges(0)
-                    .badges(badgesService.getByKey(1l))
-                    .user(userService.getByKey(i))
-                    .ready(false)
-                    .build();
-
-            UserBadges user1Badges2 = UserBadges.builder()
-                    .countOfBadges(0)
-                    .badges(badgesService.getByKey(2l))
-                    .user(userService.getByKey(i))
-                    .ready(false)
-                    .build();
-
-            userBadgesService.persist(user1Badges1);
-            userBadgesService.persist(user1Badges2);
+            for (long j = 1; j < 9; j++) {
+                UserBadges user1Badges1 = UserBadges.builder()
+                        .badges(badgesService.getByKey(j))
+                        .user(userService.getByKey(i))
+                        .ready(false)
+                        .build();
+                userBadgesService.persist(user1Badges1);
+            }
         }
-    }
-
-    private void reputationEntity() {
-        for (long i = 1; i < 12; i++) {
-            Reputation reputation = Reputation.builder()
-                    .count(0)
-                    .persistDate(LocalDate.now())
-                    .user(userService.getByKey(i))
-                    .voiceCount(0)
-                    .build();
-            reputationService.updateOrInsert(reputation);
-        }
-//        Reputation reputation = Reputation.builder()
-//                .count(6)
-//                .persistDate(LocalDate.now())
-//                .user(userService.getByKey(1l))
-//                .build();
-//        reputationService.updateOrInsert(reputation);
-//
-//        Reputation reputation1 = Reputation.builder()
-//                .count(1)
-//                .persistDate(LocalDate.now())
-//                .user(userService.getByKey(1l))
-//                .build();
-//        reputationService.updateOrInsert(reputation1);
-//
-//        Reputation reputation2 = Reputation.builder()
-//                .count(1)
-//                .persistDate(LocalDate.now())
-//                .user(userService.getByKey(1l))
-//                .build();
-//        reputationService.updateOrInsert(reputation2);
-//
-//        Reputation reputation3 = Reputation.builder()
-//                .count(1)
-//                .persistDate(LocalDate.now())
-//                .user(userService.getByKey(2l))
-//                .build();
-//        reputationService.updateOrInsert(reputation3);
     }
 }

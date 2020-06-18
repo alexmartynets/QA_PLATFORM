@@ -19,16 +19,15 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
         super.persist(reputation);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public Reputation findByUserIdAndDate(User user) {
-        Reputation reputation1 = null;
+        Reputation reputation1;
         try {
             reputation1 = (Reputation) entityManager.createQuery("SELECT " +
                     "r.id, " +
                     "r.count, " +
-                    "r.persistDate, " +
-                    "r.voiceCount " +
+                    "r.persistDate " +
                     "FROM Reputation r WHERE r.user.id = :user_id AND r.persistDate = :persistDate")
                     .setParameter("persistDate", LocalDate.now())
                     .setParameter("user_id", user.getId())
@@ -41,7 +40,6 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
                                     .user(user)
                                     .count((Integer) objects[1])
                                     .persistDate((LocalDate) objects[2])
-                                    .voiceCount((Integer) objects[3])
                                     .build();
                         }
 
@@ -53,8 +51,8 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
                     .getSingleResult();
         } catch (NoResultException e) {
 //            e.printStackTrace();
+            return null;
         }
-
         return reputation1;
     }
 }

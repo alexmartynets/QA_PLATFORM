@@ -19,27 +19,26 @@ public class UserBadgesDAOImpl extends ReadWriteDAOImpl<UserBadges, Long> implem
         List<UserBadges> userBadgesList = entityManager.createQuery("SELECT " +
                 "ub.id, " +
                 "ub.ready, " +
-                "ub.countOfBadges, " +
-                "(SELECT b.id FROM Badges b WHERE ub.badges.id = b.id), " +
-                "(SELECT b.count FROM Badges b WHERE ub.badges.id = b.id), " +
-                "(SELECT b.badges FROM Badges b WHERE ub.badges.id = b.id) " +
-                "FROM UserBadges ub WHERE ub.user.id = :user_id AND ub.ready = false")
+                "b.id, " +
+                "b.reputationForMerit, " +
+                "b.badges " +
+                "FROM UserBadges ub JOIN Badges b ON ub.badges.id = b.id " +
+                "WHERE ub.user.id = :user_id AND ub.ready = false")
                 .setParameter("user_id", user.getId())
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
                         Badges badges = Badges.builder()
-                                .id((Long) objects[3])
-                                .count((Integer) objects[4])
-                                .badges((String) objects[5])
+                                .id((Long) objects[2])
+                                .reputationForMerit((Integer) objects[3])
+                                .badges((String) objects[4])
                                 .build();
                         return UserBadges.builder()
                                 .id((Long) objects[0])
                                 .user(user)
                                 .badges(badges)
                                 .ready((Boolean) objects[1])
-                                .countOfBadges((Integer) objects[2])
                                 .build();
                     }
 
@@ -49,7 +48,6 @@ public class UserBadgesDAOImpl extends ReadWriteDAOImpl<UserBadges, Long> implem
                     }
                 })
                 .getResultList();
-
         return userBadgesList;
     }
 }

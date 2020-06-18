@@ -32,7 +32,4 @@ public class Reputation {
     @Column
     private Integer count;
 
-    @Column
-    private Integer voiceCount;
-
 }

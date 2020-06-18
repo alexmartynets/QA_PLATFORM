@@ -1,37 +1,60 @@
 package com.javamentor.qa.platform.service.impl.model;
 
-import com.javamentor.qa.platform.dao.abstracts.dto.ReputationDtoDAO;
 import com.javamentor.qa.platform.dao.abstracts.model.ReputationDAO;
-import com.javamentor.qa.platform.models.dto.ReputationDto;
+import com.javamentor.qa.platform.dao.abstracts.model.UserBadgesDAO;
 import com.javamentor.qa.platform.models.entity.user.Reputation;
+import com.javamentor.qa.platform.models.entity.user.User;
+import com.javamentor.qa.platform.models.entity.user.UserBadges;
 import com.javamentor.qa.platform.service.abstracts.model.ReputationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long> implements ReputationService {
 
     private final ReputationDAO reputationDAO;
+    private final UserBadgesDAO userBadgesDAO;
 
     @Autowired
-    public ReputationServiceImpl(ReputationDAO reputationDAO) {
+    public ReputationServiceImpl(ReputationDAO reputationDAO,
+                                 UserBadgesDAO userBadgesDAO) {
         super(reputationDAO);
         this.reputationDAO = reputationDAO;
+        this.userBadgesDAO = userBadgesDAO;
     }
 
     @Override
-    public Reputation updateOrInsert(Reputation reputation) {
-        Reputation candidate = reputationDAO.findByUserIdAndDate(reputation.getUser());
+    public void updateOrInsert(User user, int count) {
+        Reputation reputation = Reputation.builder()
+                .user(user)
+                .count(count)
+                .build();
+        Reputation candidate = reputationDAO.findByUserIdAndDate(user);
         if (candidate != null) {
             candidate.setCount(candidate.getCount() + reputation.getCount());
-            candidate.setVoiceCount(candidate.getVoiceCount() + 1);
+            if(candidate.getCount() < 0) {
+                candidate.setCount(0);
+            }
             reputation.setId(candidate.getId());
             reputation.setCount(candidate.getCount());
-            reputation.setVoiceCount(candidate.getVoiceCount());
             super.update(reputation);
         } else {
             super.persist(reputation);
         }
-        return reputation;
+        checkAndUpdateUserBadges(reputation);
+    }
+
+    private void checkAndUpdateUserBadges(Reputation reputation) {
+        List<UserBadges> userBadges = userBadgesDAO.getUserBadges(reputation.getUser());
+        if (userBadges != null) {
+            userBadges.forEach(u -> {
+                if (reputation.getCount() >= u.getBadges().getReputationForMerit()) {
+                    u.setReady(true);
+                    userBadgesDAO.update(u);
+                }
+            });
+        }
     }
 }

@@ -20,10 +20,9 @@ public class Badges {
     @Column
     private String badges;
 
-    @Column
-    private Integer count;
+    @Column(name = "reputations_for_merit")
+    private Integer reputationForMerit;
 
     @Column
     private String description;
-
 }

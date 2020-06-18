@@ -1,7 +1,5 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
-import com.javamentor.qa.platform.models.dto.ReputationDto;
-import com.javamentor.qa.platform.models.entity.user.Reputation;
 import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.service.abstracts.model.ReputationService;
 import com.javamentor.qa.platform.service.abstracts.model.UserBadgesService;
@@ -11,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping(value = "/rep")
@@ -32,17 +28,10 @@ public class ReputationController {
     }
 
     @GetMapping
-    public void addReputtionForUser(@RequestParam Long user_id,
+    public void addReputationForUser(@RequestParam Long user_id,
                                     @RequestParam Integer add_rep) {
         User user = userService.getByKey(user_id);
-        Reputation reputation = reputationService.updateOrInsert(Reputation.builder()
-                .user(user)
-                .count(add_rep)
-                .voiceCount(1)
-                .persistDate(LocalDate.now())
-                .build());
-        reputation.getUser().setReputationCount(reputation.getUser().getReputationCount() + (int) (long) reputation.getCount());
-        userService.persist(reputation.getUser());
-        userBadgesService.checkAndUpdateUserBadges(reputation);
+        reputationService.updateOrInsert(user, add_rep);
+//        userBadgesService.checkAndUpdateUserBadges(reputation);
     }
 }
