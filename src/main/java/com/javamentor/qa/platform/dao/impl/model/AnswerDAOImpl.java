@@ -1,7 +1,6 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracts.model.AnswerDAO;
-import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +18,9 @@ public class AnswerDAOImpl extends ReadWriteDAOImpl<Answer, Long> implements Ans
                     "select a from Answer a where a.question.id = :questionId and a.isHelpful = true", Answer.class)
                     .setParameter("questionId", questionId)
                     .getSingleResult();
-        }catch (NoResultException e){
+        } catch (NoResultException e) {
             return null;
         }
     }
-
 
 }

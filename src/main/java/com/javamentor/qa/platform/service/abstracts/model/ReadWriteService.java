@@ -10,7 +10,7 @@ public interface ReadWriteService<T, PK> {
 
     void delete(T t);
 
-    void setDelete(PK id);
+    void deleteByFlagById(PK id);
 
     void deleteByKeyCascadeEnable(PK id);
 
