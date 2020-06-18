@@ -1,6 +1,8 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracts.model.ReadWriteDAO;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +43,20 @@ public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
     @Override
     @Transactional
     public void delete(T t) {
-        entityManager.remove(t);
+        entityManager.remove(entityManager.contains(t) ? t : entityManager.merge(t));
+    }
+
+    @Override
+    @Transactional
+    public void setDelete(PK id) {
+        if(tClass.isAnnotationPresent(Where.class)) {
+            entityManager.createQuery(
+                    "update " + tClass.getName() + " e set e.isDeleted = true where e.id = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+        }else {
+            throw new RuntimeException(String.format("Class: %s does not have field 'isDeleted' and can not be removed this way.", tClass.getName()));
+        }
     }
 
     @Override
@@ -57,6 +72,19 @@ public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
                 "DELETE FROM " + tClass.getName() + " u WHERE u.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public void deleteByFlagById(PK id) {
+        if (tClass.isAnnotationPresent(Where.class)) {
+            entityManager.createQuery(
+                    "UPDATE " + tClass.getName() + " e SET e.isDeleted = TRUE WHERE e.id = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+        } else {
+            throw new RuntimeException("В классе нет признака удаление по флагу");
+        }
     }
 
     @Override

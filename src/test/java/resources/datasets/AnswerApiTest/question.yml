@@ -1,0 +1,16 @@
+question:
+  - count_valuable: 0
+    description: "desc q1"
+    persist_date: "2020-05-28 13:58:56"
+    title: "What is Java?"
+    view_count: 3
+    user_id: 1
+    id: 1
+
+  - count_valuable: 1
+    description: "desc q2"
+    persist_date: "2020-05-29 13:58:56"
+    title: "What is C++?"
+    view_count: 5
+    user_id: 1
+    id: 2

@@ -1,23 +1,1 @@
-package com.javamentor.qa.platform.models.dto;
-
-import lombok.*;
-
-import java.sql.Blob;
-import java.time.LocalDateTime;
-
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class AnswerDto {
-    private Long id;
-    private String htmlBody;
-    private LocalDateTime persistDateTime;
-    private Integer countValuable;
-    private Boolean isHelpful;
-    private String fullName;
-    private Blob imageUser;
-    private Integer reputationCount;
-}
+package com.javamentor.qa.platform.models.dto;import com.javamentor.qa.platform.models.util.action.OnCreate;import com.javamentor.qa.platform.models.util.action.OnUpdate;import io.swagger.annotations.ApiModelProperty;import lombok.*;import javax.validation.constraints.*;import java.time.LocalDateTime;@Getter@Setter@NoArgsConstructor@AllArgsConstructor@Builderpublic class AnswerDto {    @ApiModelProperty(notes = "Автоматически генерируемый ID ответа. Не указывать при создании, обязательно указывать при изменении",            position = 1)    @Null(groups = OnCreate.class, message = "Field 'id' must be null on create. (AnswerDto.class) ")    @NotNull(groups = OnUpdate.class, message = "Field 'id' can`t be null on update.(AnswerDto.class)")    @DecimalMin(value = "1", groups = {OnUpdate.class}, message = "Field 'id' must not be null and must contain at least one non-whitespace character.(AnswerDto.class)")    private Long id;    @ApiModelProperty(notes = "ID ответа. Обязательно указывать при создании и при изменении",            position = 2, required = true)    @NotNull(groups = {OnCreate.class, OnUpdate.class}, message = "Field 'questionId' can`t be null.(AnswerDto.class)")    private Long questionId;    @ApiModelProperty(notes = "Текст ответа. Обязательно указывать при создании",            position = 3, required = true)    @NotBlank(groups = {OnCreate.class, OnUpdate.class}, message = "Field 'htmlBody' must not be null and must contain at least one non-whitespace character.(AnswerDto.class)")    private String htmlBody;    @ApiModelProperty(notes = "Дата создания ответа, явно указывать не нужно, назначается автоматически при создании.",            position = 4)    @Null(groups = OnCreate.class, message = "Field 'persistDateTime' must be null on create. (AnswerDto.class)")    private LocalDateTime persistDateTime;    @ApiModelProperty(notes = "Дата отметки ответа полезным, явно указывать не нужно, назначается автоматически при изменении isHelpful=true",            position = 5)    @Null(groups = OnCreate.class, message = "Field 'dateAcceptTime' must be null on create. (AnswerDto.class)")    private LocalDateTime dateAcceptTime;    @ApiModelProperty(notes = "Дату изменения ответа, явно указывать не нужно, назначается автоматически.",            position = 6)    @Null(groups = OnCreate.class, message = "Field 'updateDateTime' must be null on create. (AnswerDto.class)")    private LocalDateTime updateDateTime;    @ApiModelProperty(notes = "Счетчик полезности ответа, ставится разными пользователями, по умолчанию при создани равен 0",            position = 7)    @DecimalMin(groups = {OnCreate.class}, message = "Field 'countValuable' must be a number '>=0' on create. (AnswerDto.class).", value = "0")    @DecimalMax(groups = {OnCreate.class}, message = "Field 'countValuable' must be a number '=0' on create. (AnswerDto.class).", value = "0")    private Integer countValuable;    @ApiModelProperty(notes = "Отметка полезности ответа (т.е. ответ помог решить вопрос). Ставится только пользователем задавшим вопрос, по умолчанию при создани false",            position = 8)    @NotNull(groups = {OnCreate.class, OnUpdate.class}, message = "Field 'isHelpful' can`t be null on create or update. (AnswerDto.class).")    @AssertFalse(groups = OnCreate.class, message = "Field 'isHelpful' must be false on create. (AnswerDto.class).")    private Boolean isHelpful;    @ApiModelProperty(notes = "Маркер отмечающий удален ответ или нет, по умолчанию при создани равен false",            position = 9)    @NotNull(groups = {OnCreate.class, OnUpdate.class}, message = "Field 'isDeleted' can`t be null on create or update. (AnswerDto.class).")    @AssertFalse(groups = OnCreate.class, message = "Field 'isDeleted' must be false on create. (AnswerDto.class).")    private Boolean isDeleted;    @ApiModelProperty(notes = "Пользователь давший ответ, обязательно указывать ID", required = true,            position = 10)    @NotNull(groups = {OnCreate.class, OnUpdate.class}, message = "Field 'userDto' can`t be null on create or update. (AnswerDto.class).")    private UserDto userDto;}
