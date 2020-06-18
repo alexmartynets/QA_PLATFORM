@@ -182,3 +182,4 @@ User при регистрации получает все знаки лишь �
 ```
 
 [Схема](https://dbdiagram.io/d/5eeb86a09ea313663b3abf57)
+[Знаки и рейтинг](https://docs.google.com/document/d/1RRKdtLzGQkAk7QPscaS95Vaw2MkYrROuHGKNgyD0kug/edit)
