@@ -124,8 +124,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     @Override
     public Long getCountNewUsersByReputation(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
-                "WHERE r.user.persistDateTime > :data", Long.class)
+        return entityManager.createQuery("SELECT COUNT(u.id) FROM User as u " +
+                "WHERE u.persistDateTime > :data", Long.class)
                 .setParameter("data", data)
                 .getSingleResult();
     }
@@ -135,16 +135,15 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     public List<UserDto> getListNewUsersByReputation(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "r.id, " +
-                "r.user.id, " +
-                "r.user.persistDateTime, " +
-                "r.user.fullName, " +
-                "r.user.about, " +
-                "r.user.city, " +
-                "r.user.imageUser, " +
-                "SUM(r.reputationCount)" +
-                "FROM Reputation as r WHERE r.user.persistDateTime > :data " +
-                "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                "u.id, " +
+                "u.persistDateTime, " +
+                "u.fullName, " +
+                "u.about, " +
+                "u.city, " +
+                "u.imageUser, " +
+                "SUM(r.count) " +
+                "FROM User as u JOIN Reputation as r on u.id = r.user.id WHERE u.persistDateTime > :data " +
+                "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -152,7 +151,15 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return null;
+                        return   UserDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .fullName((String) objects[2])
+                                .about((String) objects[3])
+                                .city((String) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .reputationCount(objects[6] == null ? 0 : (Integer) objects[6])
+                                .build();
                     }
 
                     @Override
@@ -186,7 +193,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)" +
+                "SUM(r.count)" +
                 "FROM Reputation as r WHERE r.user.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY r.user.persistDateTime DESC")
                 .setParameter("data", data)
@@ -230,9 +237,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "e.user.about, " +
                 "e.user.city, " +
                 "e.user.imageUser, " +
-                "SUM(e.countChanges)," +
-                "(SELECT SUM(r.reputationCount) FROM Reputation as r WHERE e.user.id = r.user.id AND r.persistDateTime > :data GROUP BY r.user.id) " +
-                "FROM Editor as e WHERE e.persistDateTime > :data GROUP BY e.user.id ORDER BY SUM(e.countChanges) DESC")
+                "SUM(e.count)," +
+                "(SELECT SUM(r.count) FROM Reputation as r WHERE e.user.id = r.user.id AND r.persistDateTime > :data GROUP BY r.user.id) " +
+                "FROM Editor as e WHERE e.persistDateTime > :data GROUP BY e.user.id ORDER BY SUM(e.count) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -275,9 +282,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)" +
+                "SUM(r.count)" +
                 "FROM Reputation as r WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%') " +
-                "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
                 .setParameter("data", data)
                 .setParameter("searchKeyword", name.toLowerCase())
                 .setFirstResult(count * (page - 1))
@@ -320,9 +327,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)" +
+                "SUM(r.count)" +
                 "FROM Reputation as r WHERE r.persistDateTime > :data " +
-                "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -364,9 +371,9 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.about, " +
                 "r.user.city, " +
                 "r.user.imageUser, " +
-                "SUM(r.reputationCount)" +
+                "SUM(r.count)" +
                 "FROM Reputation as r WHERE r.persistDateTime > :data " +
-                "GROUP BY r.user.id ORDER BY SUM(r.reputationCount) DESC")
+                "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -396,7 +403,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "m.user.fullName, " +
                 "m.user.city, " +
                 "m.user.imageUser, " +
-                "SUM(r.reputationCount)" +
+                "SUM(r.count)" +
                 "FROM Moderator as m JOIN Reputation as r ON m.user.id = r.user.id " +
                 "GROUP BY r.user.id ")
                 .unwrap(Query.class)
@@ -416,3 +423,5 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 }
+
+

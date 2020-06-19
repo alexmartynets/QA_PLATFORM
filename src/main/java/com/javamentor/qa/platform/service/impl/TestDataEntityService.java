@@ -97,7 +97,7 @@ public class TestDataEntityService {
         userService.persist(admin);
 
         Reputation reputation = Reputation.builder()
-                .reputationCount(1)
+                .count(1)
                 .user(admin)
                 .build();
         reputationService.persist(reputation);
@@ -118,7 +118,7 @@ public class TestDataEntityService {
         userService.persist(user1);
 
         Reputation reputation1 = Reputation.builder()
-                .reputationCount(4)
+                .count(4)
                 .user(user1)
                 .build();
         reputationService.persist(reputation1);
@@ -139,7 +139,7 @@ public class TestDataEntityService {
         userService.persist(user2);
 
         Reputation reputation2 = Reputation.builder()
-                .reputationCount(6)
+                .count(6)
                 .user(user2)
                 .build();
         reputationService.persist(reputation2);
@@ -160,7 +160,7 @@ public class TestDataEntityService {
         userService.persist(user3);
 
         Reputation reputation3 = Reputation.builder()
-                .reputationCount(8)
+                .count(8)
                 .user(user3)
                 .build();
         reputationService.persist(reputation3);
@@ -181,7 +181,7 @@ public class TestDataEntityService {
         userService.persist(user4);
 
         Reputation reputation4 = Reputation.builder()
-                .reputationCount(10)
+                .count(10)
                 .user(user4)
                 .build();
         reputationService.persist(reputation4);
@@ -202,7 +202,7 @@ public class TestDataEntityService {
         userService.persist(user5);
 
         Reputation reputation5 = Reputation.builder()
-                .reputationCount(12)
+                .count(12)
                 .user(user5)
                 .build();
         reputationService.persist(reputation5);
@@ -223,7 +223,7 @@ public class TestDataEntityService {
         userService.persist(user6);
 
         Reputation reputation6 = Reputation.builder()
-                .reputationCount(14)
+                .count(14)
                 .user(user6)
                 .build();
         reputationService.persist(reputation6);
@@ -244,7 +244,7 @@ public class TestDataEntityService {
         userService.persist(user7);
 
         Reputation reputation7 = Reputation.builder()
-                .reputationCount(16)
+                .count(16)
                 .user(user7)
                 .build();
         reputationService.persist(reputation7);
@@ -265,7 +265,7 @@ public class TestDataEntityService {
         userService.persist(user8);
 
         Reputation reputation8 = Reputation.builder()
-                .reputationCount(18)
+                .count(18)
                 .user(user8)
                 .build();
         reputationService.persist(reputation8);
@@ -286,7 +286,7 @@ public class TestDataEntityService {
         userService.persist(user9);
 
         Reputation reputation9 = Reputation.builder()
-                .reputationCount(20)
+                .count(20)
                 .user(user9)
                 .build();
         reputationService.persist(reputation9);
@@ -307,7 +307,7 @@ public class TestDataEntityService {
         userService.persist(user10);
 
         Reputation reputation10 = Reputation.builder()
-                .reputationCount(22)
+                .count(22)
                 .user(user10)
                 .build();
         reputationService.persist(reputation10);
@@ -328,7 +328,7 @@ public class TestDataEntityService {
         userService.persist(user11);
 
         Reputation reputation11 = Reputation.builder()
-                .reputationCount(24)
+                .count(24)
                 .user(user11)
                 .build();
         reputationService.persist(reputation11);
@@ -349,7 +349,7 @@ public class TestDataEntityService {
         userService.persist(user12);
 
         Reputation reputation12 = Reputation.builder()
-                .reputationCount(26)
+                .count(26)
                 .user(user12)
                 .build();
         reputationService.persist(reputation12);
@@ -370,7 +370,7 @@ public class TestDataEntityService {
         userService.persist(user13);
 
         Reputation reputation13 = Reputation.builder()
-                .reputationCount(28)
+                .count(28)
                 .user(user13)
                 .build();
         reputationService.persist(reputation13);
@@ -391,7 +391,7 @@ public class TestDataEntityService {
         userService.persist(user14);
 
         Reputation reputation14 = Reputation.builder()
-                .reputationCount(30)
+                .count(30)
                 .user(user14)
                 .build();
         reputationService.persist(reputation14);
@@ -412,7 +412,7 @@ public class TestDataEntityService {
         userService.persist(user15);
 
         Reputation reputation15 = Reputation.builder()
-                .reputationCount(32)
+                .count(32)
                 .user(user15)
                 .build();
         reputationService.persist(reputation15);
@@ -433,7 +433,7 @@ public class TestDataEntityService {
         userService.persist(user16);
 
         Reputation reputation16 = Reputation.builder()
-                .reputationCount(34)
+                .count(34)
                 .user(user16)
                 .build();
         reputationService.persist(reputation16);
@@ -454,7 +454,7 @@ public class TestDataEntityService {
         userService.persist(user17);
 
         Reputation reputation17 = Reputation.builder()
-                .reputationCount(36)
+                .count(36)
                 .user(user17)
                 .build();
         reputationService.persist(reputation17);
@@ -475,7 +475,7 @@ public class TestDataEntityService {
         userService.persist(user18);
 
         Reputation reputation18 = Reputation.builder()
-                .reputationCount(38)
+                .count(38)
                 .user(user18)
                 .build();
         reputationService.persist(reputation18);
@@ -496,7 +496,7 @@ public class TestDataEntityService {
         userService.persist(user19);
 
         Reputation reputation19 = Reputation.builder()
-                .reputationCount(40)
+                .count(40)
                 .user(user19)
                 .build();
         reputationService.persist(reputation19);
@@ -504,97 +504,97 @@ public class TestDataEntityService {
 
     private void creatReputation() {
         Reputation reputation20 = Reputation.builder()
-                .reputationCount(8)
+                .count(8)
                 .user(userService.getByKey(1L))
                 .build();
         reputationService.persist(reputation20);
 
         Reputation reputation21 = Reputation.builder()
-                .reputationCount(16)
+                .count(16)
                 .user(userService.getByKey(1L))
                 .build();
         reputationService.persist(reputation21);
 
         Reputation reputation22 = Reputation.builder()
-                .reputationCount(24)
+                .count(24)
                 .user(userService.getByKey(3L))
                 .build();
         reputationService.persist(reputation22);
 
         Reputation reputation23 = Reputation.builder()
-                .reputationCount(32)
+                .count(32)
                 .user(userService.getByKey(4L))
                 .build();
         reputationService.persist(reputation23);
 
         Reputation reputation24 = Reputation.builder()
-                .reputationCount(40)
+                .count(40)
                 .user(userService.getByKey(4L))
                 .build();
         reputationService.persist(reputation24);
 
         Reputation reputation25 = Reputation.builder()
-                .reputationCount(18)
+                .count(18)
                 .user(userService.getByKey(5L))
                 .build();
         reputationService.persist(reputation25);
 
         Reputation reputation26 = Reputation.builder()
-                .reputationCount(4)
+                .count(4)
                 .user(userService.getByKey(5L))
                 .build();
         reputationService.persist(reputation26);
 
         Reputation reputation27 = Reputation.builder()
-                .reputationCount(1)
+                .count(1)
                 .user(userService.getByKey(7L))
                 .build();
         reputationService.persist(reputation27);
 
         Reputation reputation28 = Reputation.builder()
-                .reputationCount(4)
+                .count(4)
                 .user(userService.getByKey(8L))
                 .build();
         reputationService.persist(reputation28);
 
         Reputation reputation29 = Reputation.builder()
-                .reputationCount(3)
+                .count(3)
                 .user(userService.getByKey(9L))
                 .build();
         reputationService.persist(reputation29);
 
         Reputation reputation30 = Reputation.builder()
-                .reputationCount(6)
+                .count(6)
                 .user(userService.getByKey(11L))
                 .build();
         reputationService.persist(reputation30);
 
         Reputation reputation31 = Reputation.builder()
-                .reputationCount(2)
+                .count(2)
                 .user(userService.getByKey(13L))
                 .build();
         reputationService.persist(reputation31);
 
         Reputation reputation32 = Reputation.builder()
-                .reputationCount(4)
+                .count(4)
                 .user(userService.getByKey(13L))
                 .build();
         reputationService.persist(reputation32);
 
         Reputation reputation33 = Reputation.builder()
-                .reputationCount(11)
+                .count(11)
                 .user(userService.getByKey(17L))
                 .build();
         reputationService.persist(reputation33);
 
         Reputation reputation34 = Reputation.builder()
-                .reputationCount(7)
+                .count(7)
                 .user(userService.getByKey(18L))
                 .build();
         reputationService.persist(reputation34);
 
         Reputation reputation35 = Reputation.builder()
-                .reputationCount(3)
+                .count(3)
                 .user(userService.getByKey(19L))
                 .build();
         reputationService.persist(reputation35);
@@ -602,121 +602,121 @@ public class TestDataEntityService {
 
     private void creatEditor() {
         Editor editor = Editor.builder()
-                .countChanges(1)
+                .count(1)
                 .user(userService.getByKey(1L))
                 .build();
         editorService.persist(editor);
 
         Editor editor1 = Editor.builder()
-                .countChanges(2)
+                .count(2)
                 .user(userService.getByKey(6L))
                 .build();
         editorService.persist(editor1);
 
         Editor editor2 = Editor.builder()
-                .countChanges(3)
+                .count(3)
                 .user(userService.getByKey(5L))
                 .build();
         editorService.persist(editor2);
 
         Editor editor3 = Editor.builder()
-                .countChanges(4)
+                .count(4)
                 .user(userService.getByKey(9L))
                 .build();
         editorService.persist(editor3);
 
         Editor editor4 = Editor.builder()
-                .countChanges(5)
+                .count(5)
                 .user(userService.getByKey(12L))
                 .build();
         editorService.persist(editor4);
 
         Editor editor5 = Editor.builder()
-                .countChanges(6)
+                .count(6)
                 .user(userService.getByKey(14L))
                 .build();
         editorService.persist(editor5);
 
         Editor editor6 = Editor.builder()
-                .countChanges(7)
+                .count(7)
                 .user(userService.getByKey(16L))
                 .build();
         editorService.persist(editor6);
 
         Editor editor7 = Editor.builder()
-                .countChanges(8)
+                .count(8)
                 .user(userService.getByKey(19L))
                 .build();
         editorService.persist(editor7);
 
         Editor editor8 = Editor.builder()
-                .countChanges(17)
+                .count(17)
                 .user(userService.getByKey(15L))
                 .build();
         editorService.persist(editor8);
 
         Editor editor9 = Editor.builder()
-                .countChanges(14)
+                .count(14)
                 .user(userService.getByKey(14L))
                 .build();
         editorService.persist(editor9);
 
         Editor editor10 = Editor.builder()
-                .countChanges(4)
+                .count(4)
                 .user(userService.getByKey(13L))
                 .build();
         editorService.persist(editor10);
 
         Editor editor11 = Editor.builder()
-                .countChanges(3)
+                .count(3)
                 .user(userService.getByKey(12L))
                 .build();
         editorService.persist(editor11);
 
         Editor editor12 = Editor.builder()
-                .countChanges(1)
+                .count(1)
                 .user(userService.getByKey(12L))
                 .build();
         editorService.persist(editor12);
 
         Editor editor13 = Editor.builder()
-                .countChanges(2)
+                .count(2)
                 .user(userService.getByKey(6L))
                 .build();
         editorService.persist(editor13);
 
         Editor editor14 = Editor.builder()
-                .countChanges(10)
+                .count(10)
                 .user(userService.getByKey(5L))
                 .build();
         editorService.persist(editor14);
 
         Editor editor15 = Editor.builder()
-                .countChanges(9)
+                .count(9)
                 .user(userService.getByKey(4L))
                 .build();
         editorService.persist(editor15);
 
         Editor editor16 = Editor.builder()
-                .countChanges(5)
+                .count(5)
                 .user(userService.getByKey(10L))
                 .build();
         editorService.persist(editor16);
 
         Editor editor17 = Editor.builder()
-                .countChanges(1)
+                .count(1)
                 .user(userService.getByKey(17L))
                 .build();
         editorService.persist(editor17);
 
         Editor editor18 = Editor.builder()
-                .countChanges(4)
+                .count(4)
                 .user(userService.getByKey(3L))
                 .build();
         editorService.persist(editor18);
 
         Editor editor19 = Editor.builder()
-                .countChanges(2)
+                .count(2)
                 .user(userService.getByKey(3L))
                 .build();
         editorService.persist(editor19);

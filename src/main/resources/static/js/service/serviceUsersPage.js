@@ -37,7 +37,7 @@ class DataUsersPage {
         let map = new Map();
         $.ajax({
             type: "GET",
-            // url: url,
+            url: url,
             xhrFields: {withCredentials: true},
             cache: false,
             async: false,
@@ -116,10 +116,9 @@ class MediaFactory {
         let listMedia = [];
 
         for (let i = 0; i < list.length; i++) {
-            let user = list[i];
 
             const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.src = "//placehold.it/48x48?text=" + list[i].id;
             img.className = "align-self-start mr-3";
             img.alt = "...";
 
@@ -129,23 +128,23 @@ class MediaFactory {
             const name = document.createElement("a");
             name.href = "/profile";
             name.className = "mt-0 user-name";
-            name.innerText = user.fullNameUser;
+            name.innerText = list[i].fullName;
             name.style.fontWeight= "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
-            city.innerText = user.cityUser;
+            city.innerText = list[i].city;
             city.style.fontSize= "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = user.reputationCount;
+            ratings.innerText = list[i].reputationCount;
             ratings.style.fontSize= "12px";
 
             const year = document.createElement("div");
             year.className = "user-year";
-            year.innerText = "выбран " + user.persistDateTime.substr(0, 4);
+            year.innerText = "выбран " + list[i].dateAppointedModerator.substr(0, 4);
             year.style.opacity = "0.4";
             year.style.fontWeight = "900";
 
@@ -169,10 +168,9 @@ class MediaFactory {
         let listMedia = [];
 
         for (let i = 0; i < list.length; i++) {
-            let user = list[i];
 
             const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.src = "//placehold.it/48x48?text=" + list[i].id;
             img.className = "align-self-start mr-3";
             img.alt = "...";
 
@@ -182,23 +180,23 @@ class MediaFactory {
             const name = document.createElement("a");
             name.href = "/profile";
             name.className = "mt-0 user-name";
-            name.innerText = user.fullNameUser;
+            name.innerText = list[i].fullName;
             name.style.fontWeight= "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
-            city.innerText = user.cityUser;
+            city.innerText = list[i].city;
             city.style.fontSize= "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = user.reputationCount;
+            ratings.innerText = list[i].reputationCount;
             ratings.style.fontSize= "12px";
 
             const editor = document.createElement("div");
             editor.className = "user-editor";
-            editor.innerText = user.countChanges + " правок";
+            editor.innerText = list[i].countChanges + " правок";
             editor.style.opacity = "0.4";
             editor.style.fontWeight = "900";
             editor.style.fontSize= "12px";
@@ -224,10 +222,9 @@ class MediaFactory {
         let listMedia = [];
 
         for (let i = 0; i < list.length; i++) {
-            let user = list[i];
 
             const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.src = "//placehold.it/48x48?text=" + list[i].id;
             img.className = "align-self-start mr-3";
             img.alt = "...";
 
@@ -237,23 +234,23 @@ class MediaFactory {
             const name = document.createElement("a");
             name.href = "/profile";
             name.className = "mt-0 user-name";
-            name.innerText = user.fullNameUser;
+            name.innerText = list[i].fullName;
             name.style.fontWeight= "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
-            city.innerText = user.cityUser;
+            city.innerText = list[i].city;
             city.style.fontSize= "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = user.reputationCount;
+            ratings.innerText = list[i].reputationCount;
             ratings.style.fontSize= "12px";
 
             const voice = document.createElement("div");
             voice.className = "user-voice";
-            voice.innerText = user.voiceCount + " голосов";
+            voice.innerText = list[i].countVoice + " голосов";
             voice.style.opacity = "0.4";
             voice.style.fontWeight= "900";
             voice.style.fontSize= "12px";
@@ -278,10 +275,9 @@ class MediaFactory {
         let listMedia = [];
 
         for (let i = 0; i < list.length; i++) {
-            let user = list[i];
 
             const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.src = "//placehold.it/48x48?text=" + list[i].id;
             img.className = "align-self-start mr-3";
             img.alt = "...";
 
@@ -291,19 +287,19 @@ class MediaFactory {
             const name = document.createElement("a");
             name.href = "/profile";
             name.className = "mt-0 user-name";
-            name.innerText = user.fullNameUser;
+            name.innerText = list[i].fullName;
             name.style.fontWeight= "800";
             name.style.color = "#343a40";
 
-            // репутация от даты создания
+            // todo даты создания
             let today = new Date();
-            let data = user.persistDateTimeUser.substr(0, 10);
+            let data = list[i].persistDateTime.substr(0, 10);
             let dateCreation = new Date(data);
             let days = Math.ceil((today - dateCreation) / 86400000);
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = user.reputationCount + " за " + days;
+            ratings.innerText = list[i].reputationCount + " за " + days;
             ratings.style.opacity = "0.4";
             ratings.style.fontWeight= "900";
             ratings.style.fontSize= "12px";
@@ -326,10 +322,9 @@ class MediaFactory {
         let listMedia = [];
 
         for (let i = 0; i < list.length; i++) {
-            let user = list[i];
 
             const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.src = "//placehold.it/48x48?text=" + list[i].id;
             img.className = "align-self-start mr-3";
             img.alt = "...";
 
@@ -339,32 +334,32 @@ class MediaFactory {
             const name = document.createElement("a");
             name.href = "/profile";
             name.className = "mt-0 user-name";
-            name.innerText = user.fullNameUser;
+            name.innerText = list[i].fullName;
             name.style.fontWeight= "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
-            city.innerText = user.cityUser;
+            city.innerText = list[i].city;
             city.style.fontSize= "12px";
 
-            // ррасчет времяни от даты создания
+            // расчет времяни от даты создания
             let today = new Date();
-            let data = user.persistDateTimeUser.substr(0, 10);
+            let data = list[i].persistDateTime.substr(0, 10);
             let dateCreation = new Date(data);
             let days = Math.ceil((today - dateCreation) / 86400000);
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = user.reputationCount + " за " + days + " дней";
+            ratings.innerText = list[i].reputationCount + " за " + days + " дней";
             ratings.style.opacity = "0.4";
             ratings.style.fontWeight= "900";
             ratings.style.fontSize= "12px";
 
             const tags = document.createElement("a");
-            tags.href = "/tags/" + user.aboutUser;
+            tags.href = "/tags/" + list[i].about;
             tags.className = "user-tags";
-            tags.innerText = user.aboutUser;
+            tags.innerText = list[i].about;
 
             divs.appendChild(name);
             divs.appendChild(city);
@@ -386,10 +381,9 @@ class MediaFactory {
         let listMedia = [];
 
         for (let i = 0; i < list.length; i++) {
-            let user = list[i];
 
             const img = document.createElement("img");
-            img.src = "//placehold.it/48x48?text=" + user.userId;
+            img.src = "//placehold.it/48x48?text=" + list[i].id;
             img.className = "align-self-start mr-3";
             img.alt = "...";
 
@@ -399,26 +393,26 @@ class MediaFactory {
             const name = document.createElement("a");
             name.href = "/profile";
             name.className = "mt-0 user-name";
-            name.innerText = user.fullNameUser;
+            name.innerText = list[i].fullName;
             name.style.fontWeight= "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
-            city.innerText = user.cityUser;
+            city.innerText = list[i].city;
             city.style.fontSize= "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = user.reputationCount;
+            ratings.innerText = list[i].reputationCount;
             ratings.style.opacity = "0.4";
             ratings.style.fontWeight= "900";
             ratings.style.fontSize= "12px";
 
             const tags = document.createElement("a");
-            tags.href = "/tags/" + user.aboutUser;
+            tags.href = "/tags/" + list[i].about;
             tags.className = "user-tags";
-            tags.innerText = user.aboutUser;
+            tags.innerText = list[i].about;
 
             divs.appendChild(name);
             divs.appendChild(city);

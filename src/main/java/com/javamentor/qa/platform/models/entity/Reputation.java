@@ -30,8 +30,8 @@ public class Reputation {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "reputation_count")
-    private Integer reputationCount;
+    @Column(name = "count")
+    private Integer count;
 
     @Override
     public boolean equals(Object o) {
@@ -40,11 +40,11 @@ public class Reputation {
         Reputation reputation = (Reputation) o;
         return Objects.equals(id, reputation.id) &&
                 Objects.equals(persistDateTime, reputation.persistDateTime) &&
-                Objects.equals(reputationCount, reputation.reputationCount);
+                Objects.equals(count, reputation.count);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, persistDateTime, reputationCount);
+        return Objects.hash(id, persistDateTime, count);
     }
 }

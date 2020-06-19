@@ -79,6 +79,8 @@ public class UserDto {
 
     private Integer countChanges;
 
+    private Integer countVoice;
+
     private LocalDateTime dateAppointedModerator;
 
     @ApiModelProperty(notes = "Дата создания учетной записи пользователя, " + "явно указывать не нужно, назначается автоматически при создании", example = "не указывать", hidden = true)

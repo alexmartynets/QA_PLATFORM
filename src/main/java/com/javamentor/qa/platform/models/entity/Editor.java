@@ -32,8 +32,8 @@ public class Editor {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "count_changes")
-    private Integer countChanges;
+    @Column(name = "count")
+    private Integer count;
 
     @Override
     public boolean equals(Object o) {
@@ -42,11 +42,11 @@ public class Editor {
         Editor editor = (Editor) o;
         return Objects.equals(id, editor.id) &&
                 Objects.equals(persistDateTime, editor.persistDateTime) &&
-                Objects.equals(countChanges, editor.countChanges);
+                Objects.equals(count, editor.count);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, persistDateTime, countChanges);
+        return Objects.hash(id, persistDateTime, count);
     }
 }
