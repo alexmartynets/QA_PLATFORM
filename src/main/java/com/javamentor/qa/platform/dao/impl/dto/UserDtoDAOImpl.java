@@ -121,7 +121,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 }));
     }
 
-    // todo
     @Override
     public Long getCountNewUsersByReputation(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -131,7 +130,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
-    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListNewUsersByReputation(int page, int count, long weeks) {
@@ -159,7 +157,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .about((String) objects[3])
                                 .city((String) objects[4])
                                 .imageUser((byte[]) objects[5])
-                                .reputationCount(getCurrentCountValuable(objects[6]))
+                                .reputationCount(getInteger(objects[6]))
                                 .build();
                     }
 
@@ -173,7 +171,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    // todo
     @Override
     public Long getCountUsersByCreationDate(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -183,7 +180,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
-    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByCreationDate(int page, int count, long weeks) {
@@ -211,7 +207,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .about((String) objects[3])
                                 .city((String) objects[4])
                                 .imageUser((byte[]) objects[5])
-                                .reputationCount(getCurrentCountValuable(objects[6]))
+                                .reputationCount(getInteger(objects[6]))
                                 .build();
                     }
 
@@ -235,7 +231,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
-    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByQuantityEditedText(int page, int count, long weeks) {
@@ -265,8 +260,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .about((String) objects[3])
                                 .city((String) objects[4])
                                 .imageUser((byte[]) objects[5])
-                                .countChanges(getCurrentCountValuable(objects[6]))
-                                .reputationCount(getCurrentCountValuable(objects[7]))
+                                .countChanges(getInteger(objects[6]))
+                                .reputationCount(getInteger(objects[7]))
                                 .build();
                     }
 
@@ -280,7 +275,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    // todo
     @Override
     public Long getCountUsersByName(String name, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -291,7 +285,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
-    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByNameToSearch(String name, int page, int count, long weeks) {
@@ -321,7 +314,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .about((String) objects[3])
                                 .city((String) objects[4])
                                 .imageUser((byte[]) objects[5])
-                                .reputationCount(getCurrentCountValuable(objects[6]))
+                                .reputationCount(getInteger(objects[6]))
                                 .build();
                     }
 
@@ -335,7 +328,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    // todo
     @Override
     public Long getCountUsersByReputation(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -345,7 +337,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
-    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByReputation(int page, int count, long weeks) {
@@ -374,7 +365,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .about((String) objects[3])
                                 .city((String) objects[4])
                                 .imageUser((byte[]) objects[5])
-                                .reputationCount(getCurrentCountValuable(objects[6]))
+                                .reputationCount(getInteger(objects[6]))
                                 .build();
                     }
 
@@ -387,7 +378,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
-
+    // todo
     @Override
     public Long getCountUsersByVoice(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -396,7 +387,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setParameter("data", data)
                 .getSingleResult();
     }
-
+    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByVoice(int page, int count, long weeks) {
@@ -432,7 +423,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByModerator() {
@@ -454,7 +444,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .city((String) objects[2])
                                 .imageUser((byte[]) objects[3])
                                 .dateAppointedModerator((LocalDateTime)(objects[4]))
-                                .reputationCount(getCurrentCountValuable(objects[5]))
+                                .reputationCount(getInteger(objects[5]))
                                 .build();
                     }
 
@@ -468,8 +458,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    // todo
-    private Integer getCurrentCountValuable(Object o) {
+    private Integer getInteger(Object o) {
         if (o == null) {
             return 0;
         }
