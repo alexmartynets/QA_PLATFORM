@@ -26,9 +26,11 @@ jQuery(document).ready(function ($) {
         $('#moderator').hide();
         $('#sorting-time').show();
 
-        let text = $(this).text();
+        // let text = $(this).text();
+        let values = $(this).val();
 
-        if (text === 'Новые участники') {
+        if (values === 'new') {
+            alert(values);
             $('.sorting-time').removeClass("colors");
             $('#new').toggleClass("colors");
 
@@ -40,7 +42,8 @@ jQuery(document).ready(function ($) {
             url = service.getUrl(attr_path);
             weeks = $('#new').attr("data-weeks");
 
-        } else if (text === 'Модераторы') {
+        } else if (values === 'moderator') {
+            alert(values);
             attr_search = $(this).attr("data-search");
             url = service.getUrl(attr_search);
             let dataMap = data.getListUsers(url);
@@ -55,6 +58,7 @@ jQuery(document).ready(function ($) {
             return;
 
         } else {
+            alert(values);
             $('.hides').hide();
             $('.shows').show();
 
@@ -120,15 +124,15 @@ jQuery(document).ready(function ($) {
 
 
     // обработка search на странице users
-    let input = document.querySelector("#search");
+    let input = document.querySelector("#find");
     input.addEventListener("input", function (e) {
         let name = e.target.value;
         $('#moderator').hide();
         $("#pagination").show();
 
         let currentPage = 1;
-        let url_search = service.getUrl("search");
-        let dataMap = data.getListUsers(url_search + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+        let url_find = service.getUrl("find");
+        let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
 
         if (dataMap.get("list").length === 1) {
             location.assign("http://localhost:5557/profile");
@@ -155,7 +159,7 @@ jQuery(document).ready(function ($) {
                 weeks = service.getCountWeeksDateCreation();
             }
 
-            let dataMap = data.getListUsers(url_search + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+            let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
             let list = media.getMediaList("reputation", dataMap.get("list"));
             service.showUsers(list);
             service.showPagination(media, data, dataMap, numberMedia, currentPage);
@@ -171,8 +175,8 @@ jQuery(document).ready(function ($) {
                 return;
             }
 
-            let url_search = service.getUrl("search");
-            let dataMap = data.getListUsers(url_search + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+            let url_find = service.getUrl("find");
+            let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
             let list = media.getMediaList("reputation", dataMap.get("list"));
             service.showUsers(list);
             service.showPagination(media, data, dataMap, numberMedia, currentPage);

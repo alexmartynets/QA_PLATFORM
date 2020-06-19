@@ -173,7 +173,7 @@ public class UserResourceController {
     }
 
     @ApiOperation(value = "получение списка пользователей для поиска по имяни с погинацией")
-    @GetMapping(path = "/search") // ?count=20&page=1&weeks=12&name=Андрей
+    @GetMapping(path = "/find") // ?count=20&page=1&weeks=12&name=Андрей
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен")
     })

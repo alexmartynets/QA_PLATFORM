@@ -57,7 +57,7 @@ class DataUsersPage {
                 }
             }
         });
-        // console.log(map);
+        console.log(map);
         return map;
     }
 }
@@ -86,7 +86,7 @@ class DataUsersService {
             ["moderator", "http://localhost:5557/api/user/moderator"],
             ["new", "http://localhost:5557/api/user/new?count="],
             ["new-reputation", "http://localhost:5557/api/user/new/reputation?count="],
-            ["search", "http://localhost:5557/api/user/search?count="]
+            ["find", "http://localhost:5557/api/user/find?count="]
         ]);
         return mapUrl.get(key);
     }
@@ -109,7 +109,6 @@ class MediaFactory {
         if (key === "moderator") return this.mapperMediaModerator(list);
         if (key === "new") return this.mapperMediaNewUsers(list);
         if (key === "new-reputation") return this.mapperMediaNewUsersReputation(list);
-        if (key === "search") return this.mapperMediaUsers(list);
     }
 
     mapperMediaModerator(list) {

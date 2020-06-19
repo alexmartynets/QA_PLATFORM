@@ -143,8 +143,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.about, " +
                 "u.city, " +
                 "u.imageUser, " +
-                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDateTime > :data GROUP BY u.id) AS reputation " +
-                "FROM User AS u WHERE u.persistDateTime > :data ORDER BY reputation DESC")
+                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDateTime > :data GROUP BY u.id) AS reputationCount " +
+                "FROM User AS u WHERE u.persistDateTime > :data ORDER BY reputationCount DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -437,19 +437,25 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     @Override
     public List<UserDto> getListUsersByModerator() {
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
+                "u.id, " +
+                "u.fullName, " +
+                "u.city, " +
+                "u.imageUser, " +
                 "m.persistDateTime, " +
-                "m.user.id, " +
-                "m.user.fullName, " +
-                "m.user.city, " +
-                "m.user.imageUser, " +
-                "SUM(r.count)" +
-                "FROM Moderator as m JOIN Reputation as r ON m.user.id = r.user.id " +
-                "GROUP BY r.user.id ")
+                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id GROUP BY u.id)" +
+                "FROM Moderator AS m JOIN User AS u ON m.user.id = u.id")
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return null;
+                        return UserDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .fullName((String) objects[1])
+                                .city((String) objects[2])
+                                .imageUser((byte[]) objects[3])
+                                .dateAppointedModerator((LocalDateTime)(objects[4]))
+                                .reputationCount(getCurrentCountValuable(objects[5]))
+                                .build();
                     }
 
                     @Override

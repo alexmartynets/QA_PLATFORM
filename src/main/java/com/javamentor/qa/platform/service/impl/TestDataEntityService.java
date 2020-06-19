@@ -453,11 +453,11 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user17);
 
-        Reputation reputation17 = Reputation.builder()
-                .count(1)
-                .user(user17)
-                .build();
-        reputationService.persist(reputation17);
+//        Reputation reputation17 = Reputation.builder()
+//                .count(1)
+//                .user(user17)
+//                .build();
+//        reputationService.persist(reputation17);
 
         User user18 = User.builder()
                 .email("user18@user.ru")
@@ -581,11 +581,11 @@ public class TestDataEntityService {
                 .build();
         reputationService.persist(reputation32);
 
-        Reputation reputation33 = Reputation.builder()
-                .count(1)
-                .user(userService.getByKey(18L))
-                .build();
-        reputationService.persist(reputation33);
+//        Reputation reputation33 = Reputation.builder()
+//                .count(1)
+//                .user(userService.getByKey(18L))
+//                .build();
+//        reputationService.persist(reputation33);
 
         Reputation reputation34 = Reputation.builder()
                 .count(1)
