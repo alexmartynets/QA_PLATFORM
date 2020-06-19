@@ -121,15 +121,17 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 }));
     }
 
+    // todo
     @Override
     public Long getCountNewUsersByReputation(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        return entityManager.createQuery("SELECT COUNT(u.id) FROM User as u " +
+        return entityManager.createQuery("SELECT COUNT(u.id) FROM User AS u " +
                 "WHERE u.persistDateTime > :data", Long.class)
                 .setParameter("data", data)
                 .getSingleResult();
     }
 
+    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListNewUsersByReputation(int page, int count, long weeks) {
@@ -141,9 +143,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.about, " +
                 "u.city, " +
                 "u.imageUser, " +
-                "SUM(r.count) " +
-                "FROM User as u JOIN Reputation as r on u.id = r.user.id WHERE u.persistDateTime > :data " +
-                "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
+                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDateTime > :data GROUP BY u.id) AS reputation " +
+                "FROM User AS u WHERE u.persistDateTime > :data ORDER BY reputation DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -151,14 +152,14 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return   UserDto.builder()
+                        return UserDto.builder()
                                 .id(((Number) objects[0]).longValue())
                                 .persistDateTime((LocalDateTime) objects[1])
                                 .fullName((String) objects[2])
                                 .about((String) objects[3])
                                 .city((String) objects[4])
                                 .imageUser((byte[]) objects[5])
-                                .reputationCount(objects[6] == null ? 0 : (Integer) objects[6])
+                                .reputationCount(getCurrentCountValuable(objects[6]))
                                 .build();
                     }
 
@@ -172,30 +173,30 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
+    // todo
     @Override
     public Long getCountUsersByCreationDate(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
-                "WHERE r.user.persistDateTime > :data", Long.class)
+        return entityManager.createQuery("SELECT COUNT(u.id) FROM User AS u " +
+                "WHERE u.persistDateTime > :data", Long.class)
                 .setParameter("data", data)
                 .getSingleResult();
     }
 
+    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByCreationDate(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "r.id, " +
-                "r.user.id, " +
-                "r.user.persistDateTime, " +
-                "r.user.fullName, " +
-                "r.user.about, " +
-                "r.user.city, " +
-                "r.user.imageUser, " +
-                "SUM(r.count)" +
-                "FROM Reputation as r WHERE r.user.persistDateTime > :data " +
-                "GROUP BY r.user.id ORDER BY r.user.persistDateTime DESC")
+                "u.id, " +
+                "u.persistDateTime, " +
+                "u.fullName, " +
+                "u.about, " +
+                "u.city, " +
+                "u.imageUser, " +
+                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDateTime > :data GROUP BY u.id) " +
+                "FROM User AS u WHERE u.persistDateTime > :data ORDER BY u.persistDateTime DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -203,7 +204,15 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return null;
+                        return UserDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .fullName((String) objects[2])
+                                .about((String) objects[3])
+                                .city((String) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .reputationCount(getCurrentCountValuable(objects[6]))
+                                .build();
                     }
 
                     @Override
@@ -216,6 +225,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
+    // todo
     @Override
     public Long getCountUsersByQuantityEditedText(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -225,21 +235,22 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
+    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByQuantityEditedText(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "e.id, " +
-                "e.persistDateTime, " +
-                "e.user.id, " +
-                "e.user.fullName, " +
-                "e.user.about, " +
-                "e.user.city, " +
-                "e.user.imageUser, " +
+                "u.id, " +
+                "u.persistDateTime, " +
+                "u.fullName, " +
+                "u.about, " +
+                "u.city, " +
+                "u.imageUser, " +
                 "SUM(e.count)," +
-                "(SELECT SUM(r.count) FROM Reputation as r WHERE e.user.id = r.user.id AND r.persistDateTime > :data GROUP BY r.user.id) " +
-                "FROM Editor as e WHERE e.persistDateTime > :data GROUP BY e.user.id ORDER BY SUM(e.count) DESC")
+                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDateTime > :data GROUP BY u.id) " +
+                "FROM Editor AS e JOIN User AS u ON e.user.id = u.id WHERE e.persistDateTime > :data " +
+                "GROUP BY e.user.id ORDER BY SUM(e.count) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -247,7 +258,16 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return null;
+                        return UserDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .fullName((String) objects[2])
+                                .about((String) objects[3])
+                                .city((String) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .countChanges(getCurrentCountValuable(objects[6]))
+                                .reputationCount(getCurrentCountValuable(objects[7]))
+                                .build();
                     }
 
                     @Override
@@ -260,6 +280,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
+    // todo
     @Override
     public Long getCountUsersByName(String name, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -270,20 +291,20 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
+    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByNameToSearch(String name, int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "r.id, " +
-                "r.user.id, " +
-                "r.user.persistDateTime, " +
-                "r.user.fullName, " +
-                "r.user.about, " +
-                "r.user.city, " +
-                "r.user.imageUser, " +
+                "u.id, " +
+                "u.persistDateTime, " +
+                "u.fullName, " +
+                "u.about, " +
+                "u.city, " +
+                "u.imageUser, " +
                 "SUM(r.count)" +
-                "FROM Reputation as r WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%') " +
+                "FROM Reputation AS r JOIN User AS u ON r.user.id = u.id WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%') " +
                 "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
                 .setParameter("data", data)
                 .setParameter("searchKeyword", name.toLowerCase())
@@ -293,7 +314,15 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return null;
+                        return UserDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .fullName((String) objects[2])
+                                .about((String) objects[3])
+                                .city((String) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .reputationCount(getCurrentCountValuable(objects[6]))
+                                .build();
                     }
 
                     @Override
@@ -306,6 +335,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
+    // todo
     @Override
     public Long getCountUsersByReputation(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -315,20 +345,20 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
+    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByReputation(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "r.id, " +
-                "r.user.id, " +
-                "r.user.persistDateTime, " +
-                "r.user.fullName, " +
-                "r.user.about, " +
-                "r.user.city, " +
-                "r.user.imageUser, " +
+                "u.id, " +
+                "u.persistDateTime, " +
+                "u.fullName, " +
+                "u.about, " +
+                "u.city, " +
+                "u.imageUser, " +
                 "SUM(r.count)" +
-                "FROM Reputation as r WHERE r.persistDateTime > :data " +
+                "FROM Reputation AS r JOIN User AS u ON r.user.id = u.id WHERE r.persistDateTime > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -337,7 +367,15 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return null;
+                        return UserDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .fullName((String) objects[2])
+                                .about((String) objects[3])
+                                .city((String) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .reputationCount(getCurrentCountValuable(objects[6]))
+                                .build();
                     }
 
                     @Override
@@ -394,6 +432,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
+    // todo
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByModerator() {
@@ -421,6 +460,14 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getResultList();
 
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
+    }
+
+    // todo
+    private Integer getCurrentCountValuable(Object o) {
+        if (o == null) {
+            return 0;
+        }
+        return ((Number) o).intValue();
     }
 }
 
