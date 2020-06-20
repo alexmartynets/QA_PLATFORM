@@ -26,11 +26,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @AutoConfigureTestEntityManager
-@TestPropertySource("/config/application-test.properties")
-@PropertySource(encoding = "UTF-8", value = "/config/application-error-message.properties")
+@TestPropertySource("/resources/config/application-test.properties")
+@PropertySource(encoding = "UTF-8", value = "/resources/config/application-error-message.properties")
 @AutoConfigureMockMvc
 @DBRider
-@DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "qa_platform_test")
+@DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true)
 public abstract class AbstractIntegrationTest {
 
 
