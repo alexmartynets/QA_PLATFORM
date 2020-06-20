@@ -30,15 +30,17 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @PropertySource(encoding = "UTF-8", value = "/resources/config/application-error-message.properties")
 @AutoConfigureMockMvc
 @DBRider
-@DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true)
+@DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "qa_platform_test")
 public abstract class AbstractIntegrationTest {
 
 
     protected ObjectMapper objectMapper = new ObjectMapper();
+
     {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
 }
+
 
