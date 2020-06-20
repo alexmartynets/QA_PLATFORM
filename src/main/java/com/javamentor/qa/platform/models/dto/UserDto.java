@@ -25,7 +25,7 @@ public class UserDto {
             "обязательно указывать при изменении учетной записи", position = 1)
     private Long id;
 
-    @NotNull (groups = OnCreate.class, message = "Поле не должно быть пустым")
+    @NotNull(groups = OnCreate.class, message = "Поле не должно быть пустым")
     @ApiModelProperty(notes = "Полное имя пользователя, поле не должно быть пустым",
             required = true, example = "Иванов Иван", position = 4)
     private String fullName;
@@ -33,8 +33,8 @@ public class UserDto {
     @NotNull
     @ApiModelProperty(notes = "Email должен быть корректным, смотрите пример",
             required = true, example = "email@email.com", position = 2)
-    @Email(regexp="^[a-zA-Z0-9]{1,}"+"((\\.|\\_|-{0,})[a-zA-Z0-9]{1,})*"+"@"+"[a-zA-Z0-9]{1,}"+
-            "((\\.|\\_|-{0,1})[a-zA-Z0-9]{1,})*"+"\\.[a-zA-Z]{2,}$",
+    @Email(regexp = "^[a-zA-Z0-9]{1,}" + "((\\.|\\_|-{0,})[a-zA-Z0-9]{1,})*" + "@" + "[a-zA-Z0-9]{1,}" +
+            "((\\.|\\_|-{0,1})[a-zA-Z0-9]{1,})*" + "\\.[a-zA-Z]{2,}$",
             message = "Email должен быть корректным")
     private String email;
 
@@ -77,13 +77,21 @@ public class UserDto {
             example = "не указывать", hidden = true)
     private Integer reputationCount = 0;
 
+    @ApiModelProperty(notes = "Количестро правок внесенных в сообщения других участников",
+            example = "не указывать", hidden = true)
     private Integer countChanges;
 
+    @ApiModelProperty(notes = "Количество голосов отданных другими участникими за ваши вопросы, ответы и правки.",
+            example = "не указывать", hidden = true)
     private Integer countVoice;
 
+    @ApiModelProperty(notes = "Дата создания учетной записи Модератор",
+            example = "не указывать", hidden = true)
     private LocalDateTime dateAppointedModerator;
 
-    @ApiModelProperty(notes = "Дата создания учетной записи пользователя, " + "явно указывать не нужно, назначается автоматически при создании", example = "не указывать", hidden = true)
+    @ApiModelProperty(notes = "Дата создания учетной записи пользователя, "
+            + "явно указывать не нужно, назначается автоматически при создании",
+            example = "не указывать", hidden = true)
     private LocalDateTime persistDateTime;
 
     @ApiModelProperty(notes = "Дата изменения учетной записи пользователя, явно указывать не нужно, " +

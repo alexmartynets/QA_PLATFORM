@@ -4,6 +4,7 @@ import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import javafx.util.Pair;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -77,4 +78,16 @@ public class UserDtoServiceImpl implements UserDtoService {
         long countUsers = moderatorDtoList.size();
         return new Pair<>(moderatorDtoList, countUsers);
     }
+
+    @Override
+    public boolean isNumbersGreaterZero(Long count, Long page, Long weeks) {
+        return count > 0 && page > 0 && weeks > 0;
+    }
+
+    @Override
+    public boolean isString(@NotNull String name) {
+        return name.matches("[a-zA-Zа-яёА-ЯЁ]");
+    }
 }
+
+

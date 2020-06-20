@@ -2,6 +2,7 @@ package com.javamentor.qa.platform.service.impl.dto;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
 import javafx.util.Pair;
@@ -33,8 +34,7 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     public Pair<Long, List<QuestionDto>> getPaginationQuestion(int page, int size) {
         List<QuestionDto> list = questionDtoDao.getQuestionList(page, size);
         list.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));
-        Pair<Long, List<QuestionDto>> result = new Pair<>(questionDtoDao.getCount(), list);
-        return result;
+        return new Pair<>(questionDtoDao.getCount(), list);
     }
 
     @Override
