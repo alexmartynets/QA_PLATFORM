@@ -27,41 +27,67 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
-                        "\"id\": 3," +
-                        "\"title\": \"Question3 title New\"," +
-                        "\"description\": \"Question3 description New\"" +
+                        "\"id\": null," +
+                        "\"fullName\": \"Админ\"," +
+                        "\"email\": \"admin@admin.ru\"," +
+                        "\"password\": 1111," +
+                        "\"role\": 2," +
+                        "\"about\": \"about admin\"," +
+                        "\"city\": \"Moscow\"," +
+                        "\"reputationCount\": 0," +
+                        "\"persistDateTime\": \"2020-06-20T18:51:11.548\","  +
+                        "\"lastUpdateDateTime\": \"2020-06-20T18:51:11.548\" "+
                         "}"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.role").value("ADMIN"));
     }
 
     @Test
     void findAllUsers() throws Exception {
         this.mockMvc.perform(get("/api/user"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("5"));;
+                .andExpect(status().isOk());
+//                .andExpect(jsonPath("$.length()").value("5"));
     }
 
     @Test
     void updateUser() throws Exception {
-        this.mockMvc.perform(put("/api/user/{id}", 3L)
+        this.mockMvc.perform(put("/api/user/{id}", 6L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
-                        "\"id\": 3," +
-                        "\"title\": \"Question3 title New\"," +
-                        "\"description\": \"Question3 description New\"" +
+                        "\"id\": 6," +
+                        "\"fullName\": \"Василий Петрович Рощин\"," +
+                        "\"email\": \"admin@admin.ru\"," +
+                        "\"password\": \"1111\"," +
+                        "\"role\": \"2\"," +
+                        "\"about\": \"about admin\"," +
+                        "\"city\": \"Moscow\"," +
+                        "\"reputationCount\": \"0\"," +
+                        "\"persistDateTime\": \"2020-06-20T18:51:11.548\","  +
+                        "\"lastUpdateDateTime\": \"2020-06-20T18:51:11.548\" "+
                         "}"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("6"))
+                .andExpect(jsonPath("$.fullName").value("Василий"))
+                .andExpect(jsonPath("$.role").value("ADMIN"));
     }
 
     @Test
     void findUser() throws Exception {
         this.mockMvc.perform(get("/api/user/{id}", 5L))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(jsonPath("$.id").value(5))
+                .andExpect(jsonPath("$.fullName").value("Иван"))
+                .andExpect(jsonPath("$.email").value("ivan@com"))
+                .andExpect(jsonPath("$.password").value("5678"))
+                .andExpect(jsonPath("$.role").value(1))
+                .andExpect(jsonPath("$.about").value("description 2"))
+                .andExpect(jsonPath("$.city").value("SPB"));
     }
 
     @Test

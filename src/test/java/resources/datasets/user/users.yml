@@ -4,6 +4,7 @@ users:
     password: "1234"
     about: "description 1"
     full_name: "Артем"
+    city: "Moscow"
     is_enabled: 1
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-02-15 13:58:56"
@@ -15,6 +16,7 @@ users:
     password: "2345"
     about: "description 2"
     full_name: "Igor"
+    city: "Rostov"
     is_enabled: 1
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-04-15 13:58:56"
@@ -26,6 +28,7 @@ users:
     password: "3456"
     about: "description 2"
     full_name: "Евгений"
+    city: "Kiev"
     is_enabled: 1
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-05-05 13:58:56"
@@ -37,6 +40,7 @@ users:
     password: "4567"
     about: "description 1"
     full_name: "Алексей"
+    city: "Kazan"
     is_enabled: 1
     last_redaction_date: "2020-06-10 13:58:56"
     persist_date: "2020-06-01 13:58:56"
@@ -48,6 +52,7 @@ users:
     password: "5678"
     about: "description 2"
     full_name: "Иван"
+    city: "SPB"
     is_enabled: 1
     last_redaction_date: "2020-06-17 13:58:56"
     persist_date: "2020-06-15 13:58:56"
