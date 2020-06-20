@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
+
 
 import javax.validation.Valid;
 import java.util.List;
@@ -106,7 +106,8 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка новых пользователей c пагинацией")
     @GetMapping(path = "/new/reputation")  // ?count=20&page=1&weeks=2
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+            @ApiResponse(code = 404, message = "Список пользователей не найден")
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListNewUsersByReputation(@RequestParam @NonNull Long count,
                                                                                        @RequestParam @NonNull Long page,
@@ -118,7 +119,8 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка новых пользователей c пагинацией")
     @GetMapping(path = "/new")  // ?count=20&page=1&weeks=2
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+            @ApiResponse(code = 404, message = "Список пользователей не найден")
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByCreationDate(@RequestParam @NonNull Long count,
                                                                                       @RequestParam @NonNull Long page,
@@ -130,7 +132,8 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка пользователей по репутации c пагинацией")
     @GetMapping(path = "/reputation") // ?count=20&page=1&weeks=12
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+            @ApiResponse(code = 404, message = "Список пользователей не найден")
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByReputation(@RequestParam @NonNull Long count,
                                                                                     @RequestParam @NonNull Long page,
@@ -142,7 +145,8 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка пользователей по голосам с пагинацией")
     @GetMapping(path = "/voice") // ?count=20&page=1&weeks=12
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+            @ApiResponse(code = 404, message = "Список пользователей не найден")
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByVoice(@RequestParam @NonNull Long count,
                                                                                @RequestParam @NonNull Long page,
@@ -154,7 +158,8 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка редакторов с пагинацией")
     @GetMapping(path = "/editor") // ?count=20&page=1&weeks=12
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список редакторов получен")
+            @ApiResponse(code = 200, message = "Список редакторов получен"),
+            @ApiResponse(code = 404, message = "Список пользователей не найден")
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByQuantityEditedText(@RequestParam @NonNull Long count,
                                                                                         @RequestParam @NonNull Long page,
@@ -166,7 +171,8 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка модераторов ")
     @GetMapping(path = "/moderator")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+            @ApiResponse(code = 404, message = "Список пользователей не найден")
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByModerator() {
         return ResponseEntity.ok().body(userDtoService.getListUsersByModerator());
@@ -175,7 +181,8 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка пользователей для поиска по имяни с погинацией")
     @GetMapping(path = "/find") // ?count=20&page=1&weeks=12&name=Андрей
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+            @ApiResponse(code = 404, message = "Список пользователей не найден")
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull String name,
                                                                                       @RequestParam @NonNull Long count,
