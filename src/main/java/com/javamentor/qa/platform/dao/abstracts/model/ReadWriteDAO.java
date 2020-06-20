@@ -10,13 +10,18 @@ public interface ReadWriteDAO<T, PK> {
 
     void delete(T t);
 
+    void setDelete(PK id);
+
     void deleteByKeyCascadeEnable(PK id);
 
     void deleteByKeyCascadeIgnore(PK id);
+
+    void deleteByFlagById(PK id);
 
     boolean existsById(PK id);
 
     T getByKey(PK id);
 
     List<T> getAll();
+
 }
