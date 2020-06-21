@@ -80,13 +80,13 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public boolean isNumbersGreaterZero(Long count, Long page, Long weeks) {
-        return count > 0 && page > 0 && weeks > 0;
+    public boolean numbersIsLessZero(Long count, Long page, Long weeks) {
+        return count < 0 || page < 0 || weeks < 0;
     }
 
     @Override
     public boolean isString(@NotNull String name) {
-        return name.matches("[a-zA-Zа-яёА-ЯЁ]");
+        return name.matches("^[а-яА-ЯёЁa-zA-Z]+");
     }
 }
 

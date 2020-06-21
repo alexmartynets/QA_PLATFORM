@@ -1,5 +1,6 @@
 users:
-  - email: "artem@com"
+  - id: 1
+    email: "artem@com"
     reputation_count: 0
     password: "1234"
     about: "description 1"
@@ -9,9 +10,10 @@ users:
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-02-15 13:58:56"
     role_id: 2
-    id: 1
 
-  - email: "igor@com"
+
+  - id: 2
+    email: "igor@com"
     reputation_count: 0
     password: "2345"
     about: "description 2"
@@ -21,9 +23,9 @@ users:
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-04-15 13:58:56"
     role_id: 1
-    id: 2
 
-  - email: "evgeniy@com"
+  - id: 3
+    email: "evgeniy@com"
     reputation_count: 0
     password: "3456"
     about: "description 2"
@@ -33,9 +35,10 @@ users:
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-05-05 13:58:56"
     role_id: 1
-    id: 3
 
-  - email: "aleksey@com"
+
+  - id: 4
+    email: "aleksey@com"
     reputation_count: 0
     password: "4567"
     about: "description 1"
@@ -45,9 +48,10 @@ users:
     last_redaction_date: "2020-06-10 13:58:56"
     persist_date: "2020-06-01 13:58:56"
     role_id: 1
-    id: 4
 
-  - email: "ivan@com"
+
+  - id: 5
+    email: "ivan@com"
     reputation_count: 0
     password: "5678"
     about: "description 2"
@@ -57,4 +61,4 @@ users:
     last_redaction_date: "2020-06-17 13:58:56"
     persist_date: "2020-06-15 13:58:56"
     role_id: 1
-    id: 5
+

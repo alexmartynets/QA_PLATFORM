@@ -94,7 +94,7 @@
         <dependency>
             <groupId>com.github.database-rider</groupId>
             <artifactId>rider-junit5</artifactId>
-            <version>1.13.1</version>
+            <version>1.14.0</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>

@@ -26,7 +26,7 @@ public interface UserDtoService {
 
     Pair<List<UserDto>, Long> getListUsersByModerator();
 
-    boolean isNumbersGreaterZero(Long count, Long page, Long weeks);
+    boolean numbersIsLessZero(Long count, Long page, Long weeks);
 
     boolean isString (String name);
 }

@@ -12,11 +12,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@DataSet(value = {"user/editor.yml",
-        "user/moderator.yml",
-        "user/reputation.yml",
-        "user/role.yml",
-        "user/users.yml"}, cleanBefore = true, cleanAfter = true)
+@DataSet(value = {
+        "users/role.yml",
+        "users/users.yml",
+        "users/reputation.yml",
+        "users/editor.yml",
+        "users/moderator.yml"}, cleanBefore = true, cleanAfter = true)
 public class UserRecourseControllerTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -31,17 +32,16 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"fullName\": \"Админ\"," +
                         "\"email\": \"admin@admin.ru\"," +
                         "\"password\": 1111," +
-                        "\"role\": 2," +
                         "\"about\": \"about admin\"," +
                         "\"city\": \"Moscow\"," +
                         "\"reputationCount\": 0," +
-                        "\"persistDateTime\": \"2020-06-20T18:51:11.548\","  +
-                        "\"lastUpdateDateTime\": \"2020-06-20T18:51:11.548\" "+
+                        "\"persistDateTime\": \"2020-06-20T18:51:11.548\"," +
+                        "\"lastUpdateDateTime\": \"2020-06-20T18:51:11.548\" " +
                         "}"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.role").value("ADMIN"));
+                .andExpect(jsonPath("$.fullName").value("Админ"));
     }
 
     @Test
@@ -61,18 +61,16 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"fullName\": \"Василий Петрович Рощин\"," +
                         "\"email\": \"admin@admin.ru\"," +
                         "\"password\": \"1111\"," +
-                        "\"role\": \"2\"," +
                         "\"about\": \"about admin\"," +
                         "\"city\": \"Moscow\"," +
                         "\"reputationCount\": \"0\"," +
-                        "\"persistDateTime\": \"2020-06-20T18:51:11.548\","  +
-                        "\"lastUpdateDateTime\": \"2020-06-20T18:51:11.548\" "+
+                        "\"persistDateTime\": \"2020-06-20T18:51:11.548\"," +
+                        "\"lastUpdateDateTime\": \"2020-06-20T18:51:11.548\" " +
                         "}"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("6"))
-                .andExpect(jsonPath("$.fullName").value("Василий"))
-                .andExpect(jsonPath("$.role").value("ADMIN"));
+                .andExpect(jsonPath("$.fullName").value("Василий"));
     }
 
     @Test
@@ -93,49 +91,49 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     @Test
     void getListNewUsersByReputation() throws Exception {
         this.mockMvc.perform(get("/api/user/new/reputation?count=5&page=1&weeks=12"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().isOk());
     }
 
     @Test
     void getListUsersByCreationDate() throws Exception {
         this.mockMvc.perform(get("/api/user/new?count=5&page=1&weeks=12"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().isOk());
     }
 
     @Test
     void getListUsersByReputation() throws Exception {
         this.mockMvc.perform(get("/api/user/reputation?count=5&page=1&weeks=12"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().isOk());
     }
 
     @Test
     void getListUsersByVoice() throws Exception {
         this.mockMvc.perform(get("/api/user/voice?count=5&page=1&weeks=12"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().isOk());
     }
 
     @Test
     void getListUsersByQuantityEditedText() throws Exception {
         this.mockMvc.perform(get("/api/user/editor?count=5&page=1&weeks=12"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().isOk());
     }
 
     @Test
     void getListUsersByModerator() throws Exception {
         this.mockMvc.perform(get("/api/user/moderator"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().isOk());
     }
 
     @Test
