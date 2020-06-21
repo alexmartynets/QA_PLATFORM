@@ -34,22 +34,22 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
         }
     }
 
-    @Override
-    public Answer updateAnswerCount(Long answerId, Boolean count) {
-        Answer answer = answerDAO.getByKey(answerId);
-        if(answer != null) {
-            if (count) {
-                answer.setCountValuable(answer.getCountValuable() + 1);
-            } else {
-                answer.setCountValuable(answer.getCountValuable() - 1);
-            }
-            update(answer);
-            return answer;
-        }else {
-            logger.error(String.format("Answer with id %s does not exist in DB", answerId));
-            throw new EntityNotFoundException(String.format("Answer with id %s does not exist in DB", answerId));
-        }
-    }
+//    @Override
+//    public Answer updateAnswerCount(Long answerId, Boolean count) {
+//        Answer answer = answerDAO.getByKey(answerId);
+//        if(answer != null) {
+//            if (count) {
+//                answer.setCountValuable(answer.getCountValuable() + 1);
+//            } else {
+//                answer.setCountValuable(answer.getCountValuable() - 1);
+//            }
+//            update(answer);
+//            return answer;
+//        }else {
+//            logger.error(String.format("Answer with id %s does not exist in DB", answerId));
+//            throw new EntityNotFoundException(String.format("Answer with id %s does not exist in DB", answerId));
+//        }
+//    }
 
     @Override
     public Answer updateAnswerHelpful(Long answerId, Boolean isHelpful) {
