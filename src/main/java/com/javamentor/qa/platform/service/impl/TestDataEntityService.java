@@ -7,6 +7,7 @@ import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.RelatedTag;
 import com.javamentor.qa.platform.models.entity.question.Tag;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
+import com.javamentor.qa.platform.models.entity.question.answer.AnswerVote;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
 import com.javamentor.qa.platform.models.entity.user.Role;
 import com.javamentor.qa.platform.models.entity.user.User;
@@ -49,6 +50,7 @@ public class TestDataEntityService {
 
     @Autowired
     private RelatedTagService relatedTagService;
+
 
     public void createEntity() {
         creatUserEntity();
@@ -442,80 +444,80 @@ public class TestDataEntityService {
         Answer answer1_3 = Answer.builder()
                 .user(userService.getByKey(2L))
                 .countValuable(0)
-                .question(questionService.getByKey(1L))
+                .question(questionService.getByKey(2L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 1")
+                .htmlBody("Don't helpful answer for question 2")
                 .build();
         answerService.persist(answer1_3);
 
         Answer answer1_4 = Answer.builder()
                 .user(userService.getByKey(2L))
                 .countValuable(0)
-                .question(questionService.getByKey(1L))
+                .question(questionService.getByKey(3L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 1")
+                .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer1_4);
 
         Answer answer2_1 = Answer.builder()
                 .user(userService.getByKey(2L))
                 .countValuable(0)
-                .question(questionService.getByKey(2L))
+                .question(questionService.getByKey(4L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 2")
+                .htmlBody("Don't helpful answer for question 4")
                 .build();
         answerService.persist(answer2_1);
 
         Answer answer2_2 = Answer.builder()
                 .user(userService.getByKey(4L))
                 .countValuable(0)
-                .question(questionService.getByKey(2L))
+                .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Helpful answer for question 2")
+                .htmlBody("Helpful answer for question 1")
                 .build();
         answerService.persist(answer2_2);
 
         Answer answer2_3 = Answer.builder()
                 .user(userService.getByKey(2L))
                 .countValuable(0)
-                .question(questionService.getByKey(2L))
+                .question(questionService.getByKey(5L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 2")
+                .htmlBody("Don't helpful answer for question 5")
                 .build();
         answerService.persist(answer2_3);
 
         Answer answer3_1 = Answer.builder()
                 .user(userService.getByKey(4L))
                 .countValuable(0)
-                .question(questionService.getByKey(3L))
+                .question(questionService.getByKey(2L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 3")
+                .htmlBody("Don't helpful answer for question 2")
                 .build();
         answerService.persist(answer3_1);
 
         Answer answer3_2 = Answer.builder()
                 .user(userService.getByKey(2L))
                 .countValuable(0)
-                .question(questionService.getByKey(3L))
+                .question(questionService.getByKey(6L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 3")
+                .htmlBody("Don't helpful answer for question 6")
                 .build();
         answerService.persist(answer3_2);
 
         Answer answer4_1 = Answer.builder()
                 .user(userService.getByKey(4L))
                 .countValuable(0)
-                .question(questionService.getByKey(4L))
+                .question(questionService.getByKey(3L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Helpful answer for question 4")
+                .htmlBody("Helpful answer for question 3")
                 .build();
         answerService.persist(answer4_1);
 

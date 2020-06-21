@@ -8,4 +8,5 @@ public interface AnswerDtoDAO {
     List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId);
     List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId);
     List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId);
+    Boolean isUserAlreadyAnswered(Long questionId, Long userId);
 }

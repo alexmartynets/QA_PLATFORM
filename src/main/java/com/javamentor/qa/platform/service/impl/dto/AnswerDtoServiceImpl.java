@@ -33,4 +33,9 @@ public class AnswerDtoServiceImpl implements AnswerDtoService {
     public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
         return answerDtoDao.getAnswersDtoByQuestionIdSortDate(questionId);
     }
+
+    @Override
+    public Boolean isUserAlreadyAnswered(Long questionId, Long userId) {
+        return answerDtoDao.isUserAlreadyAnswered(questionId, userId);
+    }
 }

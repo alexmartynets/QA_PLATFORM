@@ -36,7 +36,7 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
 
     @Override
     public Answer updateAnswerCount(Long answerId, Boolean count) {
-        Answer answer = getByKey(answerId);
+        Answer answer = answerDAO.getByKey(answerId);
         if(answer != null) {
             if (count) {
                 answer.setCountValuable(answer.getCountValuable() + 1);

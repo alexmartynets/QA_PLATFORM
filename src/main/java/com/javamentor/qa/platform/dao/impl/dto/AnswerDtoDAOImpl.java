@@ -45,8 +45,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId) {
         return entityManager
                 .createQuery(HQL +
-                        "a.question.id = :questionId order by a.updateDateTime desc " +
-                        "")
+                        "a.question.id = :questionId order by a.updateDateTime desc")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
@@ -59,8 +58,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId) {
         return entityManager
                 .createQuery(HQL +
-                        "a.question.id = :questionId order by a.countValuable desc" +
-                        "")
+                        "a.question.id = :questionId order by a.countValuable desc")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
@@ -73,8 +71,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
         return entityManager
                 .createQuery(HQL +
-                        "a.question.id = :questionId order by a.persistDateTime asc" +
-                        "")
+                        "a.question.id = :questionId order by a.persistDateTime asc")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
@@ -116,5 +113,17 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .isDeleted((Boolean) tuple[8])
                 .userDto(userDto)
                 .build();
+    }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
+    @Override
+    public Boolean isUserAlreadyAnswered(Long questionId, Long userId) {
+       List<AnswerDto> answerDto = entityManager
+               .createQuery("select a from Answer a where a.question.id = :questionId and a.user.id = :userId")
+               .setParameter("questionId", questionId)
+               .setParameter("userId", userId)
+               .getResultList();
+        return answerDto.size() == 0;
     }
 }
