@@ -22,8 +22,6 @@ public class AnswerVoteDAOImpl extends ReadWriteDAOImpl<AnswerVote, Long> implem
     @Transactional
     @Override
     public List<AnswerVote> getVotesOfUserByAnswer(Long answerId, Long userId) {
-
-
         List<AnswerVote> list = entityManager
                 .createQuery("select v from AnswerVote v where v.answer.id = :answerId and v.user.id = :userId", AnswerVote.class)
                 .setParameter("answerId", answerId)

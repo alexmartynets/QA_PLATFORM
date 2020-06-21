@@ -5,6 +5,6 @@ import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 public interface AnswerService extends ReadWriteService<Answer, Long>{
     void resetIsHelpful(Long questionId);
 //    Answer updateAnswerCount(Long answerId, Boolean count);
-    Answer updateAnswerHelpful(Long answerId, Boolean isHelpful);
-    Answer updateAnswerBody(Long answerId, String htmlBody);
+    Answer updateAnswerHelpful(Long answerId, Long questionId, Boolean isHelpful);
+    Answer updateAnswerBody(Long answerId, Long questionId, String htmlBody);
 }

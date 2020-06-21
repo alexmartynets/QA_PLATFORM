@@ -1,6 +1,8 @@
 package com.javamentor.qa.platform.service.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracts.model.AnswerDAO;
+import com.javamentor.qa.platform.dao.abstracts.model.QuestionDAO;
+import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import org.slf4j.Logger;
@@ -15,12 +17,14 @@ import java.time.LocalDateTime;
 public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implements AnswerService {
 
     private final AnswerDAO answerDAO;
+    private final QuestionDAO questionDAO;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public AnswerServiceImpl(AnswerDAO answerDAO) {
+    public AnswerServiceImpl(AnswerDAO answerDAO, QuestionDAO questionDAO) {
         super(answerDAO);
         this.answerDAO = answerDAO;
+        this.questionDAO = questionDAO;
     }
 
 
@@ -34,51 +38,54 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
         }
     }
 
-//    @Override
-//    public Answer updateAnswerCount(Long answerId, Boolean count) {
-//        Answer answer = answerDAO.getByKey(answerId);
-//        if(answer != null) {
-//            if (count) {
-//                answer.setCountValuable(answer.getCountValuable() + 1);
-//            } else {
-//                answer.setCountValuable(answer.getCountValuable() - 1);
-//            }
-//            update(answer);
-//            return answer;
-//        }else {
-//            logger.error(String.format("Answer with id %s does not exist in DB", answerId));
-//            throw new EntityNotFoundException(String.format("Answer with id %s does not exist in DB", answerId));
-//        }
-//    }
 
     @Override
-    public Answer updateAnswerHelpful(Long answerId, Boolean isHelpful) {
-        Answer answer = getByKey(answerId);
-        if(answer != null) {
+    public Answer updateAnswerHelpful(Long answerId, Long questionId, Boolean isHelpful) {
+        Answer answer = answerDAO.getByKey(answerId);
+        Question question = questionDAO.getByKey(questionId);
+        if(answer == null){
+            logger.error(String.format("Answer with id %s does not exist in DB", answerId));
+            throw new EntityNotFoundException(String.format("Answer with id %s does not exist in DB", answerId));
+        }
+        if(question == null){
+            logger.error(String.format("Question with id %s does not exist in DB", questionId));
+            throw new EntityNotFoundException(String.format("Question with id %s does not exist in DB", questionId));
+        }
+        if (answer.getQuestion().getId().equals(questionId)) {
             resetIsHelpful(answer.getQuestion().getId());
             answer.setIsHelpful(isHelpful);
-            if(isHelpful){
+            if (isHelpful) {
                 answer.setDateAcceptTime(LocalDateTime.now());
             }
             update(answer);
             return answer;
-        }else {
-            logger.error(String.format("Answer with id %s does not exist in DB", answerId));
-            throw new EntityNotFoundException(String.format("Answer with id %s does not exist in DB", answerId));
+        } else {
+            logger.error(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
+            throw new EntityNotFoundException(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
+
         }
     }
 
     @Override
-    public Answer updateAnswerBody(Long answerId, String htmlBody) {
-        Answer answer = getByKey(answerId);
-        if(answer != null) {
-            answer.setHtmlBody(htmlBody);
-            update(answer);
-            return answer;
-        }else {
+    public Answer updateAnswerBody(Long answerId, Long questionId, String htmlBody) {
+        Answer answer = answerDAO.getByKey(answerId);
+        Question question = questionDAO.getByKey(questionId);
+        if(answer == null){
             logger.error(String.format("Answer with id %s does not exist in DB", answerId));
             throw new EntityNotFoundException(String.format("Answer with id %s does not exist in DB", answerId));
         }
+        if(question == null){
+            logger.error(String.format("Question with id %s does not exist in DB", questionId));
+            throw new EntityNotFoundException(String.format("Question with id %s does not exist in DB", questionId));
+        }
+        if (answer.getQuestion().getId().equals(questionId)) {
+            answer.setHtmlBody(htmlBody);
+            update(answer);
+            return answer;
+        } else {
+            logger.error(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
+            throw new EntityNotFoundException(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
 
+        }
     }
 }

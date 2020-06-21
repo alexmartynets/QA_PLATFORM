@@ -85,7 +85,7 @@ public class CommentResourceController {
 
     @PutMapping("/answer/comment")
     public ResponseEntity<?> updateCommentAnswer(@RequestBody @NonNull CommentDto commentDto,
-                                                          @RequestParam @NotNull Long userId) {
+                                                 @RequestParam @NotNull Long userId) {
         if (commentDto.getUserId().equals(userId)) {
             Comment comment = commentAnswerServiceDto.getByKey(commentDto.getId());
             comment.setText(commentDto.getText());
