@@ -25,7 +25,8 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.persistDateTime, " +
             "a.dateAcceptTime, " +
             "a.updateDateTime, " +
-            "a.countValuable, " +
+//            "a.countValuable, " +
+            "(select sum (av.vote) from AnswerVote av where av.answer.id = a.id), " +
             "a.isHelpful, " +
             "a.isDeleted, " +
             "a.user.id, " +
@@ -108,7 +109,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .persistDateTime((LocalDateTime) tuple[3])
                 .dateAcceptTime((LocalDateTime) tuple[4])
                 .updateDateTime((LocalDateTime) tuple[5])
-                .countValuable((Integer) tuple[6])
+                .countValuable(tuple[6] != null ? ((Number) tuple[6]).intValue() : 0)
                 .isHelpful((Boolean) tuple[7])
                 .isDeleted((Boolean) tuple[8])
                 .userDto(userDto)
@@ -119,11 +120,11 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @SuppressWarnings("unchecked")
     @Override
     public Boolean isUserAlreadyAnswered(Long questionId, Long userId) {
-       List<AnswerDto> answerDto = entityManager
-               .createQuery("select a from Answer a where a.question.id = :questionId and a.user.id = :userId")
-               .setParameter("questionId", questionId)
-               .setParameter("userId", userId)
-               .getResultList();
+        List<AnswerDto> answerDto = entityManager
+                .createQuery("select a from Answer a where a.question.id = :questionId and a.user.id = :userId")
+                .setParameter("questionId", questionId)
+                .setParameter("userId", userId)
+                .getResultList();
         return answerDto.size() == 0;
     }
 }
