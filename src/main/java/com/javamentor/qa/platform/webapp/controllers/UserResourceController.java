@@ -112,8 +112,8 @@ public class UserResourceController {
     public ResponseEntity<Pair<List<UserDto>, Long>> getListNewUsersByReputation(@RequestParam @NonNull Long count,
                                                                                  @RequestParam @NonNull Long page,
                                                                                  @RequestParam @NonNull Long weeks) {
-        if (userDtoService.numbersIsLessZero(count, page, weeks)) {
-            throw new ApiRequestException("Значения не должны быть отрицательными!");
+        if (userDtoService.isNegativeNumber(count, page, weeks)) {
+            throw new ApiRequestException("Значения должны быть больше нуля!");
         }
         return ResponseEntity.ok().body(userDtoService
                 .getListNewUsersByReputation(page.intValue(), count.intValue(), weeks));
@@ -128,8 +128,8 @@ public class UserResourceController {
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByCreationDate(@RequestParam @NonNull Long count,
                                                                                 @RequestParam @NonNull Long page,
                                                                                 @RequestParam @NonNull Long weeks) {
-        if (userDtoService.numbersIsLessZero(count, page, weeks)) {
-            throw new ApiRequestException("Значения не должны быть отрицательными!");
+        if (userDtoService.isNegativeNumber(count, page, weeks)) {
+            throw new ApiRequestException("Значения должны быть больше нуля!");
         }
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByCreationDate(page.intValue(), count.intValue(), weeks));
@@ -143,8 +143,8 @@ public class UserResourceController {
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByReputation(@RequestParam @NonNull Long count,
                                                                               @RequestParam @NonNull Long page,
                                                                               @RequestParam @NonNull Long weeks) {
-        if (userDtoService.numbersIsLessZero(count, page, weeks)) {
-            throw new ApiRequestException("Значения не должны быть отрицательными!");
+        if (userDtoService.isNegativeNumber(count, page, weeks)) {
+            throw new ApiRequestException("Значения должны быть больше нуля!");
         }
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByReputation(page.intValue(), count.intValue(), weeks));
@@ -158,8 +158,8 @@ public class UserResourceController {
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByVoice(@RequestParam @NonNull Long count,
                                                                          @RequestParam @NonNull Long page,
                                                                          @RequestParam @NonNull Long weeks) {
-        if (userDtoService.numbersIsLessZero(count, page, weeks)) {
-            throw new ApiRequestException("Значения не должны быть отрицательными!");
+        if (userDtoService.isNegativeNumber(count, page, weeks)) {
+            throw new ApiRequestException("Значения должны быть больше нуля!");
         }
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByVoice(page.intValue(), count.intValue(), weeks));
@@ -173,8 +173,8 @@ public class UserResourceController {
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByQuantityEditedText(@RequestParam @NonNull Long count,
                                                                                       @RequestParam @NonNull Long page,
                                                                                       @RequestParam @NonNull Long weeks) {
-        if (userDtoService.numbersIsLessZero(count, page, weeks)) {
-            throw new ApiRequestException("Значения не должны быть отрицательными!");
+        if (userDtoService.isNegativeNumber(count, page, weeks)) {
+            throw new ApiRequestException("Значения должны быть больше нуля!");
         }
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByQuantityEditedText(page.intValue(), count.intValue(), weeks));
@@ -198,8 +198,8 @@ public class UserResourceController {
                                                                                 @RequestParam @NonNull Long count,
                                                                                 @RequestParam @NonNull Long page,
                                                                                 @RequestParam @NonNull Long weeks) {
-        if (userDtoService.numbersIsLessZero(count, page, weeks)) {
-            throw new ApiRequestException("Значения не должны быть отрицательными!");
+        if (userDtoService.isNegativeNumber(count, page, weeks)) {
+            throw new ApiRequestException("Значения должны быть больше нуля!");
         }
         if (userDtoService.isString(name)) {
             return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));

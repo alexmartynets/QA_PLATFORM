@@ -1,8 +1,8 @@
 users:
   - id: 1
-    email: "artem@com"
+    email: "artem@email.com"
     reputation_count: 0
-    password: "1234"
+    password: "Qwerty12"
     about: "description 1"
     full_name: "Артем"
     city: "Moscow"
@@ -13,9 +13,9 @@ users:
 
 
   - id: 2
-    email: "igor@com"
+    email: "igor@email.com"
     reputation_count: 0
-    password: "2345"
+    password: "Qwerty12"
     about: "description 2"
     full_name: "Igor"
     city: "Rostov"
@@ -25,9 +25,9 @@ users:
     role_id: 1
 
   - id: 3
-    email: "evgeniy@com"
+    email: "evgeniy@email.com"
     reputation_count: 0
-    password: "3456"
+    password: "Qwerty12"
     about: "description 2"
     full_name: "Евгений"
     city: "Kiev"
@@ -38,9 +38,9 @@ users:
 
 
   - id: 4
-    email: "aleksey@com"
+    email: "aleksey@email.com"
     reputation_count: 0
-    password: "4567"
+    password: "Qwerty12"
     about: "description 1"
     full_name: "Алексей"
     city: "Kazan"
@@ -51,9 +51,9 @@ users:
 
 
   - id: 5
-    email: "ivan@com"
+    email: "ivan@email.com"
     reputation_count: 0
-    password: "5678"
+    password: "Qwerty12"
     about: "description 2"
     full_name: "Иван"
     city: "SPB"

@@ -80,8 +80,8 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public boolean numbersIsLessZero(Long count, Long page, Long weeks) {
-        return count < 0 || page < 0 || weeks < 0;
+    public boolean isNegativeNumber(Long count, Long page, Long weeks) {
+        return count <= 0 || page <= 0 || weeks <= 0;
     }
 
     @Override
