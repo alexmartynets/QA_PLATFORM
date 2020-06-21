@@ -60,7 +60,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                     .linkVk((String) objects[12])
                                     .build();
                         }
-
                         @Override
                         public List transformList(List list) {
                             return list;

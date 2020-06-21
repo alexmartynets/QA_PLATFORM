@@ -1,4 +1,4 @@
-package com.javamentor.qa.platform.service.abstracts.dto;
+package com.javamentor.qa.platform.service.impl.dto;
 
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import javafx.util.Pair;
@@ -22,3 +22,4 @@ public interface QuestionDtoService {
 
     Pair<Long, List<QuestionDto>> getPaginationQuestion(int page, int size);
 }
+

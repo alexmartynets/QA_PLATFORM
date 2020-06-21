@@ -54,6 +54,12 @@ public abstract class ReadWriteServiceImpl<T, PK> implements ReadWriteService<T,
     }
 
     @Override
+    @Transactional
+    public void deleteByFlag(PK id) {
+        readWriteDao.deleteByFlagById(id);
+    }
+
+    @Override
     public boolean existsById(PK id) {
         return readWriteDao.existsById(id);
     }
