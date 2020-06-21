@@ -198,13 +198,9 @@ public class UserResourceController {
                                                                                 @RequestParam @NonNull Long count,
                                                                                 @RequestParam @NonNull Long page,
                                                                                 @RequestParam @NonNull Long weeks) {
-//        если < 0
-        System.out.println("Boolean == >" + userDtoService.numbersIsLessZero(count, page, weeks));
         if (userDtoService.numbersIsLessZero(count, page, weeks)) {
             throw new ApiRequestException("Значения не должны быть отрицательными!");
         }
-//        переделать не содержит буквы в начале
-        System.out.println("Boolean == >" + userDtoService.isString(name));
         if (userDtoService.isString(name)) {
             return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
         }

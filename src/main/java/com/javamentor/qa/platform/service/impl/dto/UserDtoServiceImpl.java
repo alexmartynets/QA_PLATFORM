@@ -86,7 +86,7 @@ public class UserDtoServiceImpl implements UserDtoService {
 
     @Override
     public boolean isString(@NotNull String name) {
-        return name.matches("^[а-яА-ЯёЁa-zA-Z]+");
+        return name.matches("[а-яА-ЯёЁa-zA-Z]+.*$");
     }
 }
 
