@@ -52,7 +52,6 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().is4xxClientError());
     }
 
-    // todo сделать проверку в контролере
     @Test
     void create_User_No_Name() throws Exception {
         this.mockMvc.perform(post("/api/user")
@@ -65,8 +64,34 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().is4xxClientError());
     }
 
+    // todo сделать проверку в контролере code 200
+    @Test
+    void create_User_Name_Null() throws Exception {
+        this.mockMvc.perform(post("/api/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"fullName\": \"      \"," +
+                        "\"email\": \"admin@admin.ru\"," +
+                        "\"password\": \"Qwerty12\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
     @Test
     void create_User_No_Email() throws Exception {
+        this.mockMvc.perform(post("/api/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"fullName\": \"Админ\"," +
+                        "\"password\": \"Qwerty12\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void create_User_Email_Null() throws Exception {
         this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
@@ -91,9 +116,21 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().is4xxClientError());
     }
 
-    // todo сделать проверку в контролере
     @Test
     void create_User_No_Password() throws Exception {
+        this.mockMvc.perform(post("/api/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"fullName\": \"Админ\"," +
+                        "\"email\": \"admin@admin.ru\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    // todo сделать проверку в контролере code 200
+    @Test
+    void create_User_Password_Null() throws Exception {
         this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
@@ -105,7 +142,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().is4xxClientError());
     }
 
-    // todo сделать проверку в контролере
+    // todo сделать проверку в контролере code 200
     @Test
     void create_User_With_Invalid_Password() throws Exception {
         this.mockMvc.perform(post("/api/user")
@@ -155,6 +192,20 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(put("/api/user/{id}", 3L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
+                        "\"fullName\": \"Василий update\"," +
+                        "\"email\": \"vasiliy@email.com\"," +
+                        "\"password\": \"Qwerty12\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void update_User_Id_Null() throws Exception {
+        this.mockMvc.perform(put("/api/user/{id}", 3L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": \"   \"," +
                         "\"fullName\": \"Василий update\"," +
                         "\"email\": \"vasiliy@email.com\"," +
                         "\"password\": \"Qwerty12\"" +

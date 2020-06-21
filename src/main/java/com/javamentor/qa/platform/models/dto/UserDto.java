@@ -25,7 +25,7 @@ public class UserDto {
             "обязательно указывать при изменении учетной записи", position = 1)
     private Long id;
 
-    @NotNull(groups = OnCreate.class, message = "Поле не должно быть пустым")
+    @NotNull(groups = OnCreate.class, message = "Поле имя не должно быть пустым")
     @ApiModelProperty(notes = "Полное имя пользователя, поле не должно быть пустым",
             required = true, example = "Иванов Иван", position = 4)
     private String fullName;
@@ -38,7 +38,7 @@ public class UserDto {
             message = "Email должен быть корректным")
     private String email;
 
-    @NotNull
+    @NotNull(groups = OnCreate.class, message = "Поле password не должно быть пустым")
     @ApiModelProperty(notes = "Должен содержать минимум 8 символов, 1 заглавную букву и 1 цифру",
             required = true, example = "Qwerty12", position = 3)
     private String password;

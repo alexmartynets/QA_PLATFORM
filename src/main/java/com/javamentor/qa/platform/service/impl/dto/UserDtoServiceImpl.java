@@ -5,7 +5,6 @@ import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,11 +30,11 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Pair<List<UserDto>, Long> getListNewUsersByReputation(int page, int count, long weeks){
+    public Pair<List<UserDto>, Long> getListNewUsersByReputation(int page, int count, long weeks) {
         List<UserDto> reputationDtoList = userDtoDao.getListNewUsersByReputation(page, count, weeks);
         Long countUsers = userDtoDao.getCountNewUsersByReputation(weeks);
         return new Pair<>(reputationDtoList, countUsers);
-    };
+    }
 
     @Override
     public Pair<List<UserDto>, Long> getListUsersByCreationDate(int page, int count, long weeks) {
