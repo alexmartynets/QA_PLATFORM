@@ -337,4 +337,87 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
         return (Long) entityManager.createQuery("SELECT COUNT(q) FROM Question q")
                 .getSingleResult();
     }
+
+//  new methods
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<QuestionDto> getSortingQuestionDtoByUserId(Long user_id, String sort, int page) {
+        List<QuestionDto> questionDtoList = entityManager.createQuery("SELECT " +
+                "q.id, " +
+                "q.countValuable, " +
+                "q.viewCount, " +
+                "q.persistDateTime, " +
+                "q.title, " +
+                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                "FROM Question q WHERE q.user.id = :user_id " +
+                "ORDER BY " + sort + " DESC")
+                .setParameter("user_id", user_id)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] aliases) {
+                        return QuestionDto.builder()
+                                .id((Long) objects[0])
+                                .countValuable((Integer) objects[1])
+                                .viewCount((Integer) objects[2])
+                                .persistDateTime((LocalDateTime) objects[3])
+                                .title((String) objects[4])
+                                .countAnswer(((Number) objects[5]).intValue())
+                                .isHelpful((Boolean) objects[6])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List collection) {
+                        return collection;
+                    }
+                }).getResultList();
+
+        return questionDtoList;
+    }
+
+    @Override
+    public Long getQuestionCountByUserId(long user_id) {
+        return (Long) entityManager.createQuery("SELECT COUNT(q) " +
+                "FROM Question q WHERE q.user.id = :user_id")
+                .setParameter("user_id", user_id)
+                .getSingleResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<TagDto> getTagsByUserId(long user_id)  {
+        List<TagDto> list = entityManager.createQuery("SELECT " +
+                "q.id, " +
+                "t.id, " +
+                "t.name, " +
+                "t.description " +
+                "FROM Question q LEFT JOIN Answer a ON q.id = a.question.id " +
+                "JOIN q.tags t " +
+                "WHERE q.user.id = :user_id OR a.user.id = :user_id")
+                .setParameter("user_id", user_id)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] tuple, String[] aliases) {
+                        return TagDto.builder()
+                                .id((Long) tuple[1])
+                                .name((String) tuple[2])
+                                .description((String) tuple[3])
+                                .questionId((Long) tuple[0])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                }).getResultList();
+
+        return list;
+    }
 }

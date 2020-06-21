@@ -2,7 +2,10 @@ package com.javamentor.qa.platform.dao.impl.dto;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.AnswerDtoDAO;
 import com.javamentor.qa.platform.models.dto.AnswerDto;
+import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
+import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
@@ -12,12 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
 public class AnswerDtoDAOImpl implements AnswerDtoDAO {
-
     private final String HQL = "select " +
             "a.id, " +
             "a.question.id, " +
@@ -117,4 +119,51 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .userDto(userDto)
                 .build();
     }
+
+    // new methods
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AnswerDto> getAnswerDtoByUserId(Long user_id, String sort, int page) {
+        List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
+                "a.id, " +
+                "a.persistDateTime, " +
+                "a.isHelpful, " +
+                "a.countValuable, " +
+                "a.question.id, " +
+                "a.question.title " +
+                "FROM Answer a WHERE a.user.id = :user_id " +
+                "ORDER BY " + sort + " DESC")
+                .setParameter("user_id", user_id)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] aliases) {
+                        return AnswerDto.builder()
+                                .id((Long) objects[0])
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .isHelpful((Boolean) objects[2])
+                                .countValuable((Integer) objects[3])
+                                .questionId((Long) objects[4])
+                                .htmlBody((String) objects[5])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List collection) {
+                        return collection;
+                    }
+                }).getResultList();
+        return answerList;
+    }
+
+    @Override
+    public Long getAnswerCountByUserId(long user_id) {
+        return (Long) entityManager.createQuery("SELECT COUNT(a) " +
+                "FROM Answer a WHERE a.user.id = :user_id")
+                .setParameter("user_id", user_id)
+                .getSingleResult();
+    }
+
 }

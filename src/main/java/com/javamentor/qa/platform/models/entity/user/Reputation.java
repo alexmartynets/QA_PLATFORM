@@ -32,4 +32,6 @@ public class Reputation {
     @Column
     private Integer count;
 
+    @Transient
+    private Long user_id;
 }

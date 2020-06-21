@@ -15,6 +15,8 @@ public class TagDto {
 
     private Long id;
 
+    private Long questionId;
+
     @NotNull
     private String name;
 

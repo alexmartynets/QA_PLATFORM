@@ -1,10 +1,11 @@
 package com.javamentor.qa.platform.dao.impl.dto;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
+import com.javamentor.qa.platform.models.dto.UserBadgesDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
-import javafx.util.Pair;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
@@ -60,6 +61,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                     .linkVk((String) objects[12])
                                     .build();
                         }
+
                         @Override
                         public List transformList(List list) {
                             return list;
@@ -127,7 +129,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
-
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersForPagination(int page, int count) {
@@ -146,7 +147,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkSite, " +
                 "u.linkVk " +
                 "FROM User u ORDER BY u.reputationCount DESC")
-                .setFirstResult(count*(page - 1))
+                .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
@@ -176,6 +177,45 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 })
                 .getResultList();
 
-        return listUsers.isEmpty()? Collections.emptyList():listUsers;
+        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
+    }
+
+
+    //    methods for statistics
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<UserBadgesDto> getUserBadges(Long user_id) {
+        List<UserBadgesDto> userBadgesList = entityManager.createQuery("SELECT " +
+                "b.id, " +
+                "b.description, " +
+                "b.badges " +
+                "FROM UserBadges ub JOIN Badges b ON ub.badges.id = b.id " +
+                "WHERE ub.user.id = :user_id AND ub.ready = true ")
+                .setParameter("user_id", user_id)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return UserBadgesDto.builder()
+                                .id((Long) objects[0])
+                                .badges((String) objects[2])
+                                .description((String) objects[1])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+        return userBadgesList;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Long> getUserStatistics(Long user_id){
+//        List<QuestionDto> statistics = entityManager.createQuery("SELECT " +
+//                "(SELECT SUM(q.viewCount) FROM Question q )")
+        return null;
     }
 }

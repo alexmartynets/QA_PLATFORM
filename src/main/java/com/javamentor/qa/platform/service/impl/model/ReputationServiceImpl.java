@@ -43,7 +43,9 @@ public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long
         } else {
             super.persist(reputation);
         }
-        checkAndUpdateUserBadges(reputation);
+        if(count > 0) {
+            checkAndUpdateUserBadges(reputation);
+        }
     }
 
     private void checkAndUpdateUserBadges(Reputation reputation) {
