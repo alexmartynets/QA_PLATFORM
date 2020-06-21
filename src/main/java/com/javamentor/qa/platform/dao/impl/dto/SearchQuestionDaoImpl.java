@@ -27,7 +27,7 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
             "q.title, " +
             "q.description, " +
             "q.user.fullName, " +
-            "q.countValuable, " +
+            "(SELECT SUM (v.vote) FROM Question qw RIGHT OUTER JOIN VoteQuestion v WHERE VoteQuestion.question.id = q.id), " +
             "q.user.reputationCount, " +
             "q.viewCount, " +
             "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
@@ -106,7 +106,8 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
         List<QuestionDto> questionDtoListSortedByVotes = new ArrayList<>();
         try {
             questionDtoListSortedByVotes = entityManager.createQuery(QUERY +
-                    " FROM Question q JOIN q.tags t ORDER BY q.countValuable DESC")
+                    //todo исправить
+                    " FROM Question q JOIN q.tags t INNER JOIN VoteQuestion v ON q.id = v.voteQuestionPK.question.id ORDER BY SUM (v.vote) DESC")
                     .unwrap(Query.class)
                     .setResultTransformer(result())
                     .getResultList();
@@ -135,9 +136,9 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<QuestionDto> getQuestionsByNumberOfVotes(Integer numberOfVotes) {
+    public List<QuestionDto> getQuestionsByNumberOfVotes(Long numberOfVotes) {
         List<QuestionDto> questionDtoListByNumberOfVotes = new ArrayList<>();
-        try {
+        try {//todo исправить
             questionDtoListByNumberOfVotes = entityManager.createQuery(QUERY +
                     " FROM Question q JOIN q.tags t WHERE q.countValuable >= :numberOfVotes ORDER BY q.countValuable ASC")
                     .setParameter("numberOfVotes", numberOfVotes)

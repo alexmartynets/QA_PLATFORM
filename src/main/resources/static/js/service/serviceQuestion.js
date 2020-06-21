@@ -1,7 +1,7 @@
 function getQuestion(id) {
 
     $.ajax({
-        url: '/api/user/question/' + id,
+        url: '/api/user/question/' + id + '?userId=' + userId,
         method: 'GET',
         dataType: 'json',
 
@@ -27,6 +27,7 @@ function getQuestion(id) {
                 document.getElementById("viewCount").innerHTML = data.viewCount;
                 document.getElementById("tblQuestionText").innerHTML = data.description;
                 document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
+                setButtonState(data.voteByUser);
                 document.getElementById("persistDateTimeUser").innerHTML = convertUserPersistDateTimeToString;
                 document.getElementById("InfoUser").innerHTML = userInfoDto.fullName;
                 document.getElementById("InfoUserReputation").innerHTML = userInfoDto.reputationCount;
@@ -151,30 +152,43 @@ function putAnswerCountValuablePlus(id, questionId, countValuable, isHelpful) {
     })
 }
 
+function setButtonState(userVote) {
+    if (userVote < 0){
+        document.getElementById("btnDownCountMinus").setAttribute("disabled", true);
+        document.getElementById("btnUpCountPlus").removeAttribute("disabled");
+    }
+    if (userVote === 0){
+        document.getElementById("btnDownCountMinus").removeAttribute("disabled");
+        document.getElementById("btnUpCountPlus").removeAttribute("disabled");
+    }
+    if (userVote > 0){
+        document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
+        document.getElementById("btnDownCountMinus").removeAttribute("disabled");
+    }
+}
+
 function putCountValuableMinus(id) {
     $.ajax({
-        url: '/api/user/question/' + id,
+        url: '/api/user/question/' + id + '?userId=' + userId,
         method: 'GET',
         dataType: 'json',
 
         success: function (data) {
-
             let count = data.countValuable;
             count--;
             data.countValuable = count;
-            let questionDto = JSON.stringify(data);
 
             $.ajax({
-                url: '/api/user/question/' + data.id + '/' + 0,
+                url: '/api/user/question/' + data.id + '/downVote?userId=' + userId,
                 method: 'PUT',
-                data: questionDto,
+                dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
-
+                    setButtonState(data.voteByUser);
                 },
-                error: function (error) {
-                    alert(error);
+                error: function () {
+                    alert("Можно проголосовать только один раз.");
                 }
             })
         },
@@ -186,28 +200,27 @@ function putCountValuableMinus(id) {
 
 function putCountValuablePlus(id) {
     $.ajax({
-        url: '/api/user/question/' + id,
+        url: '/api/user/question/' + id + '?userId=' + userId,
         method: 'GET',
         dataType: 'json',
 
         success: function (data) {
-
             let count = data.countValuable;
             count++;
             data.countValuable = count;
-            let questionDto = JSON.stringify(data);
 
             $.ajax({
-                url: '/api/user/question/' + data.id + '/' + 1,
+                url: '/api/user/question/' + data.id + '/upVote?userId=' + userId,
                 method: 'PUT',
-                data: questionDto,
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
+                    setButtonState(data.voteByUser);
                 },
-                error: function (error) {
-                    alert(error);
+
+                error: function () {
+                    alert("Можно проголосовать только один раз.");
                 }
             })
         },
@@ -637,10 +650,11 @@ function putComment(id, questionId) {
 }
 
 function addComment(id, commentDto) {
+    console.log(commentDto);
     let questionId = id;
     commentDto.commentType = "QUESTION";
-    commentDto.userId = 3;
-    commentDto.fullName = "Петр2 Петрович2 Петров2";
+    commentDto.userId = userId;
+    commentDto.fullName = userName;
     $.ajax({
         url: '/api/user/question/' + id + '/comment/',
         method: 'POST',
@@ -650,7 +664,13 @@ function addComment(id, commentDto) {
             window.location.reload();
         },
         error: function () {
-            alert("Не корректно отправлен комментарий");
+            alert("Комментарий к вопросу можно отправить только один раз");
         }
     })
 }
+
+/**
+ * Используется временная "заглушка" для передачи на сервер информацию о пользователе
+ */
+let userId = 10;
+let userName = "Петр10 Петрович10 Петров10";

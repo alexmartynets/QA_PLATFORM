@@ -21,7 +21,8 @@ public class SearchQuestionByVotes implements Search {
     @Override
     public List<QuestionDto> getList(String searchVotes) {
         if (searchVotes.chars().allMatch(Character::isDigit)) {
-            return searchQuestionDAO.getQuestionsByNumberOfVotes(Integer.parseInt(searchVotes));
+            return searchQuestionDAO.getQuestionsByNumberOfVotes(Long.parseLong(searchVotes));
+//            return searchQuestionDAO.getQuestionsByNumberOfVotes(Integer.parseInt(searchVotes));
         }
         return searchQuestionDAO.getQuestionsSortedByVotes();
     }

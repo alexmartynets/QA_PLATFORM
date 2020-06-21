@@ -1,11 +1,15 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
+import com.javamentor.qa.platform.models.entity.question.VoteQuestion;
+import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
+import com.javamentor.qa.platform.service.abstracts.model.VoteQuestionService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +18,7 @@ import io.swagger.annotations.ApiResponses;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,16 +40,19 @@ public class QuestionResourceController {
     private final QuestionService questionService;
     private final UserService userService;
     private final QuestionConverter questionConverter;
+    private final VoteQuestionService voteQuestionService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public QuestionResourceController(QuestionDtoService questionDtoService,
                                       QuestionService questionService,
                                       UserService userService,
-                                      QuestionConverter questionConverter) {
+                                      QuestionConverter questionConverter,
+                                      VoteQuestionService voteQuestionService) {
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
         this.userService = userService;
         this.questionConverter = questionConverter;
+        this.voteQuestionService = voteQuestionService;
     }
 
     @ApiOperation(value = "Получение списка вопросов, которые не удалены")
@@ -62,8 +70,8 @@ public class QuestionResourceController {
             @ApiResponse(code = 200, message = "Вопрос найден"),
             @ApiResponse(code = 404, message = "Вопрос не найден")
     })
-    public ResponseEntity<?> getQuestionById(@PathVariable @NotNull Long id) {
-        Optional<QuestionDto> questionDto = questionDtoService.getQuestionDtoById(id);
+    public ResponseEntity<?> getQuestionById(@PathVariable @NotNull Long id, @RequestParam Long userId) {
+        Optional<QuestionDto> questionDto = questionDtoService.getQuestionDtoById(id, userId);
         if (questionDto.isPresent()) {
             return ResponseEntity.ok(questionDto.get());
         }
@@ -96,37 +104,47 @@ public class QuestionResourceController {
     }
 
     @ApiOperation(value = "Голосование за вопрос (параметр ID обязателен)")
-    @PutMapping(path = "/{id}/upVote")
+    @PutMapping(path = "/{questionId}/upVote")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Голос учтён"),
             @ApiResponse(code = 400, message = "Голос не учтён")
     })
-    public ResponseEntity<?> toUpVoteForQuestion(@PathVariable @NotNull Long id) {
-        Question question = questionService.getByKey(id);
+    public ResponseEntity<?> toUpVoteForQuestion(@PathVariable @NotNull Long questionId, @RequestParam Long userId) {
+        Question question = questionService.getByKey(questionId);
         if (question == null) {
-            logger.error(String.format("Вопрос с ID: %d не найден", id));
-            return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", id));
+            logger.error(String.format("Вопрос с ID: %d не найден", questionId));
+            return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", questionId));
         }
-        question.setCountValuable(question.getCountValuable() + 1);
-        questionService.update(question);
-        return ResponseEntity.ok(questionConverter.toDto(question));
+        if (questionDtoService.isUserCanToVoteByQuestionUp(questionId, userId)) {
+            logger.error(String.format("Попытка второй раз проголосовать за вопрос " +
+                    "с ID: %d пользователем с ID: %d", questionId, userId));
+            return ResponseEntity.badRequest().body("Only one time User can to vote by Question.");
+        }
+        User user = userService.getByKey(userId);
+        voteQuestionService.persist(new VoteQuestion(user, question, 1));
+        return ResponseEntity.ok(questionDtoService.getCountValuableQuestionWithUserVote(questionId, userId));
     }
 
     @ApiOperation(value = "Голосование за вопрос (параметр ID обязателен)")
-    @PutMapping(path = "/{id}/downVote")
+    @PutMapping(path = "/{questionId}/downVote")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Голос учтён"),
             @ApiResponse(code = 400, message = "Голос не учтён")
     })
-    public ResponseEntity<?> toDownVoteForQuestion(@PathVariable @NotNull Long id) {
-        Question question = questionService.getByKey(id);
+    public ResponseEntity<?> toDownVoteForQuestion(@PathVariable @NotNull Long questionId, @RequestParam Long userId) {
+        Question question = questionService.getByKey(questionId);
         if (question == null) {
-            logger.error(String.format("Вопрос с ID: %d не найден", id));
-            return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", id));
+            logger.error(String.format("Вопрос с ID: %d не найден", questionId));
+            return ResponseEntity.badRequest().body(String.format("Can't find Question with ID %d", questionId));
         }
-        question.setCountValuable(question.getCountValuable() - 1);
-        questionService.update(question);
-        return ResponseEntity.ok(questionConverter.toDto(question));
+        if (questionDtoService.isUserCanToVoteByQuestionDown(questionId, userId)) {
+            logger.error(String.format("Попытка второй раз проголосовать за вопрос " +
+                    "с ID: %d пользователем с ID: %d", questionId, userId));
+            return ResponseEntity.badRequest().body("Only one time User can to vote by Question.");
+        }
+        User user = userService.getByKey(userId);
+        voteQuestionService.persist(new VoteQuestion(user, question, -1));
+        return ResponseEntity.ok(questionDtoService.getCountValuableQuestionWithUserVote(questionId, userId));
     }
 
     @ApiOperation(value = "Удаление вопроса (параметр ID обязателен)")
@@ -172,5 +190,23 @@ public class QuestionResourceController {
     public ResponseEntity<Pair<Long, List<QuestionDto>>> getPaginationQuestion(@RequestParam @Min(value = 1) int page,
                                                                                @RequestParam @Min(value = 1) int size) {
         return ResponseEntity.ok(questionDtoService.getPaginationQuestion(page, size));
+    }
+
+    @ApiOperation(value = "Возможность голосования 'за' пользователю в данном вопросе")
+    @GetMapping(value = "/{id}/check-up")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Результат получен")
+    })
+    public ResponseEntity<?> checkForToVoteUp(@PathVariable @NotNull Long id, @RequestParam Long userId) {
+        return ResponseEntity.ok(questionDtoService.isUserCanToVoteByQuestionUp(id, userId));
+    }
+
+    @ApiOperation(value = "Возможность голосования 'против' пользователю в данном вопросе")
+    @GetMapping(value = "/{id}/check-down")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Результат получен")
+    })
+    public ResponseEntity<?> checkForToVoteDown(@PathVariable @NotNull Long id, @RequestParam Long userId) {
+        return ResponseEntity.ok(questionDtoService.isUserCanToVoteByQuestionDown(id, userId));
     }
 }

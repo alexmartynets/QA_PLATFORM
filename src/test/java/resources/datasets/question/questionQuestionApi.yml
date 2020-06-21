@@ -1,6 +1,6 @@
 question:
   - id: 1
-    count_valuable: 1
+#    count_valuable: 1
     description: "some description for first question"
     title: "Question number one"
     view_count: 3
@@ -10,7 +10,7 @@ question:
     last_redaction_date: "2020-01-02 13:58:56"
 
   - id: 2
-    count_valuable: 3
+#    count_valuable: 3
     description: "some description for second question"
     title: "Question number two"
     view_count: 5
@@ -20,7 +20,7 @@ question:
     last_redaction_date: "2020-01-20 13:58:56"
 
   - id: 3
-    count_valuable: 2
+#    count_valuable: 2
     description: "some description for next question number three"
     title: "Question number three"
     view_count: 2
@@ -30,7 +30,7 @@ question:
     last_redaction_date: "2020-02-01 13:58:56"
 
   - id: 4
-    count_valuable: 5
+#    count_valuable: 5
     description: "some description for next question number four"
     title: "Question number four"
     view_count: 2
@@ -40,7 +40,7 @@ question:
     last_redaction_date: "2020-02-02 13:58:56"
 
   - id: 5
-    count_valuable: 2
+#    count_valuable: 2
     description: "some description for next question number five"
     title: "Question number five"
     view_count: 2
@@ -50,7 +50,7 @@ question:
     last_redaction_date: "2020-02-01 13:58:56"
 
   - id: 6
-    count_valuable: 1
+#    count_valuable: 1
     description: "some description for next question number six"
     persist_date: "2020-04-04"
     title: "Question number six"
@@ -60,7 +60,7 @@ question:
     last_redaction_date: "2020-05-01 13:58:56"
 
   - id: 7
-    count_valuable: 4
+#    count_valuable: 4
     description: "some description for next question number seven"
     persist_date: "2020-04-04"
     title: "Question number seven"
@@ -70,7 +70,7 @@ question:
     last_redaction_date: "2020-05-02 13:58:56"
 
   - id: 8
-    count_valuable: 5
+#    count_valuable: 5
     description: "some description for next question number eight"
     persist_date: "2020-04-04"
     title: "Question number eight"
@@ -80,7 +80,7 @@ question:
     last_redaction_date: "2020-05-03 13:58:56"
 
   - id: 9
-    count_valuable: 1
+#    count_valuable: 1
     description: "some description for next question number nine"
     persist_date: "2020-04-04"
     title: "Question number nine"

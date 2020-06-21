@@ -36,6 +36,11 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     }
 
     @Override
+    public Optional<QuestionDto> getQuestionDtoById(Long id, Long userId) {
+        return questionDtoDao.getQuestionDtoById(id, userId);
+    }
+
+    @Override
     public List<QuestionDto> getQuestionDtoListByUserId(Long userId) {
         return questionDtoDao.getQuestionDtoListByUserId(userId);
     }
@@ -43,5 +48,25 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     @Override
     public Optional<QuestionDto> hasQuestionAnswer(Long questionId) {
         return questionDtoDao.hasQuestionAnswer(questionId);
+    }
+
+    @Override
+    public Integer getCountValuable(Long questionId) {
+        return questionDtoDao.getCountValuable(questionId);
+    }
+
+    @Override
+    public QuestionDto getCountValuableQuestionWithUserVote(Long questionId, Long userId) {
+        return questionDtoDao.getCountValuableQuestionWithUserVote(questionId, userId).orElseThrow(() -> new IllegalArgumentException("Не корректные параметры"));
+    }
+
+    @Override
+    public boolean isUserCanToVoteByQuestionUp(Long questionId, Long userId) {
+        return questionDtoDao.sumVotesUserByVote(questionId, userId) > 0;
+    }
+
+    @Override
+    public boolean isUserCanToVoteByQuestionDown(Long questionId, Long userId) {
+        return questionDtoDao.sumVotesUserByVote(questionId, userId) < 0;
     }
 }
