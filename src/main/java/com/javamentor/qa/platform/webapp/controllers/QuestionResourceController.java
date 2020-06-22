@@ -2,10 +2,13 @@ package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.exception.ApiRequestException;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.entity.question.Question;
+import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.service.impl.dto.QuestionDtoService;
+import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -33,14 +36,17 @@ public class QuestionResourceController {
     private final QuestionDtoService questionDtoService;
     private final QuestionService questionService;
     private final UserService userService;
+    private final QuestionConverter questionConverter;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public QuestionResourceController(QuestionDtoService questionDtoService,
                                       QuestionService questionService,
-                                      UserService userService) {
+                                      UserService userService,
+                                      QuestionConverter questionConverter) {
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
         this.userService = userService;
+        this.questionConverter = questionConverter;
     }
 
     @ApiOperation(value = "Получение списка вопросов, которые не удалены")
@@ -67,7 +73,7 @@ public class QuestionResourceController {
         return ResponseEntity.badRequest().body(String.format("No question with ID %d", id));
     }
 
-    @Validated(OnUpdate.class)
+    @Validated(OnCreate.class)
     @ApiOperation(value = "Изменение заголовка и описания вопроса (параметр ID обязателен)")
     @PutMapping(path = "/{id}")
     @ApiResponses(value = {
@@ -153,5 +159,18 @@ public class QuestionResourceController {
         } else {
             return ResponseEntity.ok(questionDtoService.getPaginationQuestion(page, size));
         }
+    }
+
+    @ApiOperation(value = "Добавление вопроса")
+    @PostMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Вопрос добавлен"),
+    })
+    @Validated(OnCreate.class)
+    public ResponseEntity<QuestionDto> addQuestion(@RequestBody QuestionDto questionDto) {
+        Question question = questionConverter.toEntity(questionDto);
+        questionService.persist(question);
+        logger.info(String.format("Вопрос с заголовком: %s добавлен в базу данных", questionDto.getTitle()));
+        return ResponseEntity.ok().body(questionDto);
     }
 }
