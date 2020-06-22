@@ -429,8 +429,11 @@ public class TestDataEntityService {
         VoteQuestion voteQuestion3 = new VoteQuestion(userService.getByKey(5L), question1, 1);
         VoteQuestion voteQuestion4 = new VoteQuestion(userService.getByKey(3L), question2, 1);
         VoteQuestion voteQuestion5 = new VoteQuestion(userService.getByKey(4L), question2, -1);
-        VoteQuestion voteQuestion6 = new VoteQuestion(userService.getByKey(5L), question2, 1);
-        VoteQuestion voteQuestion7 = new VoteQuestion(userService.getByKey(6L), question2, -1);
+        VoteQuestion voteQuestion6 = new VoteQuestion(userService.getByKey(5L), question4, 1);
+        VoteQuestion voteQuestion7 = new VoteQuestion(userService.getByKey(6L), question4, 1);
+        VoteQuestion voteQuestion8 = new VoteQuestion(userService.getByKey(9L), question3, 1);
+        VoteQuestion voteQuestion9 = new VoteQuestion(userService.getByKey(8L), question3, 1);
+        VoteQuestion voteQuestion10 = new VoteQuestion(userService.getByKey(7L), question4, 1);
 
         voteQuestionService.persist(voteQuestion1);
         voteQuestionService.persist(voteQuestion2);
@@ -439,6 +442,9 @@ public class TestDataEntityService {
         voteQuestionService.persist(voteQuestion5);
         voteQuestionService.persist(voteQuestion6);
         voteQuestionService.persist(voteQuestion7);
+        voteQuestionService.persist(voteQuestion8);
+        voteQuestionService.persist(voteQuestion9);
+        voteQuestionService.persist(voteQuestion10);
     }
 
     private void creatAnswerEntity() {

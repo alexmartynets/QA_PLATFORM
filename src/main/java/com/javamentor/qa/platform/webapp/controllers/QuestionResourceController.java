@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
@@ -42,6 +43,12 @@ public class QuestionResourceController {
     private final QuestionConverter questionConverter;
     private final VoteQuestionService voteQuestionService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private SearchQuestionDAO searchQuestionDAO;
+
+    @Autowired
+    private QuestionDtoDao questionDtoDao;
 
     public QuestionResourceController(QuestionDtoService questionDtoService,
                                       QuestionService questionService,
@@ -208,5 +215,17 @@ public class QuestionResourceController {
     })
     public ResponseEntity<?> checkForToVoteDown(@PathVariable @NotNull Long id, @RequestParam Long userId) {
         return ResponseEntity.ok(questionDtoService.isUserCanToVoteByQuestionDown(id, userId));
+    }
+
+    @ApiOperation(value = "Возможность голосования 'против' пользователю в данном вопросе")
+    @GetMapping(value = "/abc/check/")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Результат получен")
+    })
+    public ResponseEntity<?> check() {
+        List<QuestionDto> list = searchQuestionDAO.getQuestionsSortedByVotes();
+        list.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));
+        return ResponseEntity.ok(list);
+//        return ResponseEntity.ok(questionDtoService.isUserCanToVoteByQuestionDown(id, userId));
     }
 }

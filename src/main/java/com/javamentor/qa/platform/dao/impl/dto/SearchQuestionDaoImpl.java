@@ -27,14 +27,15 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
             "q.title, " +
             "q.description, " +
             "q.user.fullName, " +
-            "(SELECT SUM (v.vote) FROM Question qw RIGHT OUTER JOIN VoteQuestion v WHERE VoteQuestion.question.id = q.id), " +
+            "SUM(v.vote), " +
+//            "(SELECT SUM (v.vote) FROM Question qw RIGHT OUTER JOIN VoteQuestion v WHERE VoteQuestion.question.id = q.id), " +
             "q.user.reputationCount, " +
             "q.viewCount, " +
             "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-            "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id), " +
-            "t.id, " +
-            "t.name, " +
-            "t.description";
+            "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) ";
+//            "t.id, " +
+//            "t.name, " +
+//            "t.description";
 
     @SuppressWarnings("unchecked")
     @Override
@@ -107,7 +108,7 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
         try {
             questionDtoListSortedByVotes = entityManager.createQuery(QUERY +
                     //todo исправить
-                    " FROM Question q JOIN q.tags t INNER JOIN VoteQuestion v ON q.id = v.voteQuestionPK.question.id ORDER BY SUM (v.vote) DESC")
+                    " FROM Question q LEFT JOIN VoteQuestion v ON q.id = v.voteQuestionPK.question.id GROUP BY q.id ORDER BY SUM (v.vote) DESC")
                     .unwrap(Query.class)
                     .setResultTransformer(result())
                     .getResultList();
@@ -273,9 +274,9 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
                         .reputationCount(((Number)tuple[6]).intValue())
                         .build();
                 TagDto tagDto = TagDto.builder()
-                        .id((Long) tuple[10])
-                        .name((String) tuple[11])
-                        .description((String) tuple[12])
+//                        .id((Long) tuple[10])
+//                        .name((String) tuple[11])
+//                        .description((String) tuple[12])
                         .build();
                 List<TagDto> tagDtoList = new ArrayList<>();
                 tagDtoList.add(tagDto);
@@ -285,7 +286,7 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
                         .title((String) tuple[2])
                         .description((String) tuple[3])
                         .userDto(userDto)
-                        .countValuable(((Number) tuple[5]).intValue())
+                        .countValuable((tuple[5] == null ? 0 : ((Number) tuple[5]).intValue()))
                         .countAnswer(((Number) tuple[8]).intValue())
                         .isHelpful((Boolean) tuple[9])
                         .viewCount(((Number)tuple[7]).intValue())
@@ -295,14 +296,15 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
 
             @Override
             public List transformList(List collection) {
-                Map<Long, QuestionDto> result = new TreeMap<>(Comparator.reverseOrder());
-                for (Object obj : collection) {
-                    QuestionDto questionDto = (QuestionDto) obj;
-                    if (result.containsKey(questionDto.getId())) {
-                        result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
-                    } else result.put(questionDto.getId(), questionDto);
-                }
-                return new ArrayList<>(result.values());
+//                Map<Long, QuestionDto> result = new TreeMap<>(Comparator.reverseOrder());
+//                for (Object obj : collection) {
+//                    QuestionDto questionDto = (QuestionDto) obj;
+//                    if (result.containsKey(questionDto.getId())) {
+//                        result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
+//                    } else result.put(questionDto.getId(), questionDto);
+//                }
+//                return new ArrayList<>(result.values());
+                return collection;
             }
         };
     }
