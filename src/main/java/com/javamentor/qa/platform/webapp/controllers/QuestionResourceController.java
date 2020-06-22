@@ -4,11 +4,15 @@ import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.VoteQuestion;
 import com.javamentor.qa.platform.models.entity.user.User;
+import com.javamentor.qa.platform.models.entity.question.Question;
+import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.service.abstracts.model.VoteQuestionService;
+import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
+import com.javamentor.qa.platform.service.impl.dto.QuestionDtoService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -206,5 +210,18 @@ public class QuestionResourceController {
     })
     public ResponseEntity<?> checkForToVoteDown(@PathVariable @NotNull Long id, @RequestParam Long userId) {
         return ResponseEntity.ok(questionDtoService.isUserCanToVoteByQuestionDown(id, userId));
+    }
+
+    @ApiOperation(value = "Добавление вопроса")
+    @PostMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Вопрос добавлен"),
+    })
+    @Validated(OnCreate.class)
+    public ResponseEntity<QuestionDto> addQuestion(@RequestBody QuestionDto questionDto) {
+        Question question = questionConverter.toEntity(questionDto);
+        questionService.persist(question);
+        logger.info(String.format("Вопрос с заголовком: %s добавлен в базу данных", questionDto.getTitle()));
+        return ResponseEntity.ok().body(questionDto);
     }
 }
