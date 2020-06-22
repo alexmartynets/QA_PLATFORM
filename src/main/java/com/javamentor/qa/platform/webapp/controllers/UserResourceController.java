@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -107,14 +108,11 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка новых пользователей отсортированный по репутации")
     @GetMapping(path = "/new/reputation") // ?count=20&page=1&weeks=2
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListNewUsersByReputation(@RequestParam @NonNull Long count,
-                                                                                 @RequestParam @NonNull Long page,
-                                                                                 @RequestParam @NonNull Long weeks) {
-        if (userDtoService.isNegativeNumber(count, page, weeks)) {
-            throw new ApiRequestException("Значения должны быть больше нуля!");
-        }
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListNewUsersByReputation(@RequestParam @NonNull @Positive Long count,
+                                                                                 @RequestParam @NonNull @Positive Long page,
+                                                                                 @RequestParam @NonNull @Positive Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListNewUsersByReputation(page.intValue(), count.intValue(), weeks));
 
@@ -123,14 +121,11 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка новых пользователей отсортированный по дате создания")
     @GetMapping(path = "/new") // ?count=20&page=1&weeks=2
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByCreationDate(@RequestParam @NonNull Long count,
-                                                                                @RequestParam @NonNull Long page,
-                                                                                @RequestParam @NonNull Long weeks) {
-        if (userDtoService.isNegativeNumber(count, page, weeks)) {
-            throw new ApiRequestException("Значения должны быть больше нуля!");
-        }
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByCreationDate(@RequestParam @NonNull @Positive Long count,
+                                                                                @RequestParam @NonNull @Positive Long page,
+                                                                                @RequestParam @NonNull @Positive Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByCreationDate(page.intValue(), count.intValue(), weeks));
     }
@@ -138,14 +133,11 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка пользователей отсортированный по репутации")
     @GetMapping(path = "/reputation") // ?count=20&page=1&weeks=12
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByReputation(@RequestParam @NonNull Long count,
-                                                                              @RequestParam @NonNull Long page,
-                                                                              @RequestParam @NonNull Long weeks) {
-        if (userDtoService.isNegativeNumber(count, page, weeks)) {
-            throw new ApiRequestException("Значения должны быть больше нуля!");
-        }
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByReputation(@RequestParam @NonNull @Positive Long count,
+                                                                              @RequestParam @NonNull @Positive Long page,
+                                                                              @RequestParam @NonNull @Positive Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByReputation(page.intValue(), count.intValue(), weeks));
     }
@@ -153,14 +145,11 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка пользователей отсортированный по голосам")
     @GetMapping(path = "/voice") // ?count=20&page=1&weeks=12
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByVoice(@RequestParam @NonNull Long count,
-                                                                         @RequestParam @NonNull Long page,
-                                                                         @RequestParam @NonNull Long weeks) {
-        if (userDtoService.isNegativeNumber(count, page, weeks)) {
-            throw new ApiRequestException("Значения должны быть больше нуля!");
-        }
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByVoice(@RequestParam @NonNull @Positive Long count,
+                                                                         @RequestParam @NonNull @Positive Long page,
+                                                                         @RequestParam @NonNull @Positive Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByVoice(page.intValue(), count.intValue(), weeks));
     }
@@ -168,14 +157,11 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка редакторов")
     @GetMapping(path = "/editor") // ?count=20&page=1&weeks=12
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список редакторов получен")
+            @ApiResponse(code = 200, message = "Список редакторов получен"),
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByQuantityEditedText(@RequestParam @NonNull Long count,
-                                                                                      @RequestParam @NonNull Long page,
-                                                                                      @RequestParam @NonNull Long weeks) {
-        if (userDtoService.isNegativeNumber(count, page, weeks)) {
-            throw new ApiRequestException("Значения должны быть больше нуля!");
-        }
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByQuantityEditedText(@RequestParam @NonNull @Positive Long count,
+                                                                                      @RequestParam @NonNull @Positive Long page,
+                                                                                      @RequestParam @NonNull @Positive Long weeks) {
         return ResponseEntity.ok().body(userDtoService
                 .getListUsersByQuantityEditedText(page.intValue(), count.intValue(), weeks));
     }
@@ -183,7 +169,7 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка модераторов")
     @GetMapping(path = "/moderator")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByModerator() {
         return ResponseEntity.ok().body(userDtoService.getListUsersByModerator());
@@ -192,19 +178,15 @@ public class UserResourceController {
     @ApiOperation(value = "получение списка пользователей по имяни")
     @GetMapping(path = "/find") // ?count=20&page=1&weeks=12&name=Андрей
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull String name,
-                                                                                @RequestParam @NonNull Long count,
-                                                                                @RequestParam @NonNull Long page,
-                                                                                @RequestParam @NonNull Long weeks) {
-        if (userDtoService.isNegativeNumber(count, page, weeks)) {
-            throw new ApiRequestException("Значения должны быть больше нуля!");
-        }
-        if (userDtoService.isString(name)) {
-            return ResponseEntity.ok().body(userDtoService.getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
-        }
-        throw new ApiRequestException("Значение параметра name должно начинаться с буквы!");
+                                                                                @RequestParam @NonNull @Positive Long count,
+                                                                                @RequestParam @NonNull @Positive Long page,
+                                                                                @RequestParam @NonNull @Positive Long weeks) {
+
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
     }
 
 }

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class UserDto {
     @NotNull(groups = OnCreate.class, message = "Поле имя не должно быть пустым")
     @ApiModelProperty(notes = "Полное имя пользователя, поле не должно быть пустым",
             required = true, example = "Иванов Иван", position = 4)
+    @NotBlank(groups = OnCreate.class, message = "Поле имя не должно состоять из пробелов")
     private String fullName;
 
     @NotNull
@@ -41,6 +43,7 @@ public class UserDto {
     @NotNull(groups = OnCreate.class, message = "Поле password не должно быть пустым")
     @ApiModelProperty(notes = "Должен содержать минимум 8 символов, 1 заглавную букву и 1 цифру",
             required = true, example = "Qwerty12", position = 3)
+    @NotBlank(groups = OnCreate.class, message = "Поле password не должно состоять из пробелов")
     private String password;
 
     @Null(groups = OnCreate.class, message = "Автоматически назначается при создании всем пользователям, " +

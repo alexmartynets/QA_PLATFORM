@@ -64,7 +64,6 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().is4xxClientError());
     }
 
-    // todo сделать проверку в контролере code 200
     @Test
     void create_User_Name_Null() throws Exception {
         this.mockMvc.perform(post("/api/user")
@@ -128,7 +127,6 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().is4xxClientError());
     }
 
-    // todo сделать проверку в контролере code 200
     @Test
     void create_User_Password_Null() throws Exception {
         this.mockMvc.perform(post("/api/user")
@@ -440,34 +438,4 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
 }
 
 
-//    @Test
-//    void getListUsersByNameToSearch() throws Exception {
-//        mockMvc.perform(get("/api/user/{count}/page/{page}/name?name=Андрей", 3L, 1L))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-//                .andExpect(jsonPath("$.key").value(""))   // List
-//                .andExpect(jsonPath("$.value").value(""));  // count
-//                .andExpect(jsonPath("$.value", Matchers.is(2)));
-//    }
-
-
-/*    @Test
-    public void listStudents() throws Exception {
-        MvcResult result =
-            mMockMvc.perform(get("/students/list"))
-            .andDo(print())
-            .andExpect(jsonPath("$", hasSize(mStudentList.size())))
-            .andExpect(jsonPath("$.[*].name", hasItems("Peter Venkman", "Egon Spengler", "Raymond Stantz", "Winston Zeddemore")))
-            .andExpect(status().isOk())
-                .andReturn();
-
-        // alternate way of verifying, convert JSON to list of objects, and verify.
-        String content = result.getResponse().getContentAsString();
-        List<Student> students = mapFromJsonToList(content, Student.class);
-        for (int i = 0; i < students.size(); i++) {
-            Student student1 = students.get(i);
-            assertEquals(mStudentList.get(i).getName(), student1.getName());
-        }
-    }*/
 

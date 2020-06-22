@@ -25,8 +25,4 @@ public interface UserDtoService {
     Pair<List<UserDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks);
 
     Pair<List<UserDto>, Long> getListUsersByModerator();
-
-    boolean isNegativeNumber(Long count, Long page, Long weeks);
-
-    boolean isString (String name);
 }

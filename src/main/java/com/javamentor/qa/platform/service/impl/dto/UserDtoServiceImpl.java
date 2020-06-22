@@ -77,16 +77,6 @@ public class UserDtoServiceImpl implements UserDtoService {
         long countUsers = moderatorDtoList.size();
         return new Pair<>(moderatorDtoList, countUsers);
     }
-
-    @Override
-    public boolean isNegativeNumber(Long count, Long page, Long weeks) {
-        return count <= 0 || page <= 0 || weeks <= 0;
-    }
-
-    @Override
-    public boolean isString(@NotNull String name) {
-        return name.matches("[а-яА-ЯёЁa-zA-Z]+.*$");
-    }
 }
 
 
