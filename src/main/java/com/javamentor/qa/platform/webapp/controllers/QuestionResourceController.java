@@ -1,7 +1,5 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
-import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
-import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.VoteQuestion;
@@ -19,7 +17,6 @@ import io.swagger.annotations.ApiResponses;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,12 +40,6 @@ public class QuestionResourceController {
     private final QuestionConverter questionConverter;
     private final VoteQuestionService voteQuestionService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    private SearchQuestionDAO searchQuestionDAO;
-
-    @Autowired
-    private QuestionDtoDao questionDtoDao;
 
     public QuestionResourceController(QuestionDtoService questionDtoService,
                                       QuestionService questionService,
@@ -111,7 +102,7 @@ public class QuestionResourceController {
     }
 
     @ApiOperation(value = "Голосование за вопрос (параметр ID обязателен)")
-    @PutMapping(path = "/{questionId}/upVote")
+    @PostMapping(path = "/{questionId}/upVote")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Голос учтён"),
             @ApiResponse(code = 400, message = "Голос не учтён")
@@ -133,7 +124,7 @@ public class QuestionResourceController {
     }
 
     @ApiOperation(value = "Голосование за вопрос (параметр ID обязателен)")
-    @PutMapping(path = "/{questionId}/downVote")
+    @PostMapping(path = "/{questionId}/downVote")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Голос учтён"),
             @ApiResponse(code = 400, message = "Голос не учтён")
@@ -215,17 +206,5 @@ public class QuestionResourceController {
     })
     public ResponseEntity<?> checkForToVoteDown(@PathVariable @NotNull Long id, @RequestParam Long userId) {
         return ResponseEntity.ok(questionDtoService.isUserCanToVoteByQuestionDown(id, userId));
-    }
-
-    @ApiOperation(value = "Возможность голосования 'против' пользователю в данном вопросе")
-    @GetMapping(value = "/abc/check/")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Результат получен")
-    })
-    public ResponseEntity<?> check() {
-        List<QuestionDto> list = searchQuestionDAO.getQuestionsSortedByVotes();
-        list.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));
-        return ResponseEntity.ok(list);
-//        return ResponseEntity.ok(questionDtoService.isUserCanToVoteByQuestionDown(id, userId));
     }
 }

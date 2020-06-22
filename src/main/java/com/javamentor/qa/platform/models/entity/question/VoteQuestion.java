@@ -30,6 +30,17 @@ public class VoteQuestion {
 
     private int vote;
 
+    @PrePersist
+    private void prePersistFunction() {
+        checkConstraints();
+    }
+
+    private void checkConstraints(){
+        if (vote != 1 && vote != -1){
+            throw new RuntimeException("В сущности VoteQuestion допускается передача значения в поле vote только 1 или -1");
+        }
+    }
+
     @Embeddable
     @Getter
     @Setter
@@ -44,7 +55,6 @@ public class VoteQuestion {
         @ManyToOne
         private Question question;
 
-        @CreationTimestamp
         @Field(store = Store.YES)
         @Column(name = "persist_date", updatable = false)
         @Type(type = "org.hibernate.type.LocalDateTimeType")

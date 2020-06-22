@@ -274,7 +274,6 @@ public class TestDataEntityService {
                 .viewCount(3)
                 .description("Question1 description")
                 .user(userService.getByKey(2L))
-//                .countValuable(2)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList1 = new ArrayList<>();
@@ -289,7 +288,6 @@ public class TestDataEntityService {
                 .viewCount(4)
                 .description("Question2 description")
                 .user(userService.getByKey(3L))
-//                .countValuable(2)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList2 = new ArrayList<>();
@@ -302,7 +300,6 @@ public class TestDataEntityService {
                 .viewCount(5)
                 .description("Question3 description")
                 .user(userService.getByKey(4L))
-//                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList3 = new ArrayList<>();
@@ -317,7 +314,6 @@ public class TestDataEntityService {
                 .viewCount(5)
                 .description("Question4 description")
                 .user(userService.getByKey(3L))
-//                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList4 = new ArrayList<>();
@@ -330,7 +326,6 @@ public class TestDataEntityService {
                 .viewCount(5)
                 .description("Question5 description")
                 .user(userService.getByKey(5L))
-//                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList5 = new ArrayList<>();
@@ -343,7 +338,6 @@ public class TestDataEntityService {
                 .viewCount(5)
                 .description("Question6 description")
                 .user(userService.getByKey(4L))
-//                .countValuable(6)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList6 = new ArrayList<>();
@@ -360,7 +354,6 @@ public class TestDataEntityService {
                 .viewCount(8)
                 .description("Question7 description")
                 .user(userService.getByKey(3L))
-//                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList7 = new ArrayList<>();
@@ -375,7 +368,6 @@ public class TestDataEntityService {
                 .viewCount(7)
                 .description("Question8 description")
                 .user(userService.getByKey(2L))
-//                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList8 = new ArrayList<>();
@@ -388,7 +380,6 @@ public class TestDataEntityService {
                 .viewCount(9)
                 .description("Question9 description")
                 .user(userService.getByKey(5L))
-//                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList9 = new ArrayList<>();
@@ -401,7 +392,6 @@ public class TestDataEntityService {
                 .viewCount(10)
                 .description("Question10 description")
                 .user(userService.getByKey(3L))
-//                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList10 = new ArrayList<>();

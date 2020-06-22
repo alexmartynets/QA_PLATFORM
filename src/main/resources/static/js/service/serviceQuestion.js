@@ -180,7 +180,7 @@ function putCountValuableMinus(id) {
 
             $.ajax({
                 url: '/api/user/question/' + data.id + '/downVote?userId=' + userId,
-                method: 'PUT',
+                method: 'POST',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
@@ -211,7 +211,7 @@ function putCountValuablePlus(id) {
 
             $.ajax({
                 url: '/api/user/question/' + data.id + '/upVote?userId=' + userId,
-                method: 'PUT',
+                method: 'POST',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {

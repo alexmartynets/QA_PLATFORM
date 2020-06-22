@@ -54,11 +54,6 @@ public class Question {
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
 
-//    @NotNull
-//    @Field(store = Store.YES)
-//    @Column(name = "count_valuable")
-//    private Integer countValuable = 0;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     @IndexedEmbedded(includePaths = {"fullName", "reputationCount"})
@@ -108,7 +103,6 @@ public class Question {
                 Objects.equals(viewCount, question.viewCount) &&
                 Objects.equals(description, question.description) &&
                 Objects.equals(persistDateTime, question.persistDateTime) &&
-//                Objects.equals(countValuable, question.countValuable) &&
                 Objects.equals(user, question.user) &&
                 Objects.equals(tags, question.tags) &&
                 Objects.equals(lastUpdateDateTime, question.lastUpdateDateTime) &&

@@ -345,7 +345,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.user.fullName, " +
                 "q.user.reputationCount, " +
                 "q.viewCount, " +
-                "(SELECT SUM (q.vote) FROM VoteQuestion q WHERE q.voteQuestionPK.question.id = :id), " +
+                "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = q.id), " +
                 "q.persistDateTime, " +
                 "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
                 "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id), " +
@@ -366,7 +366,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                         .reputationCount((Integer) objects[3])
                                         .build())
                                 .viewCount((Integer) objects[4])
-                                .countValuable((objects[7] == null ? 0 : ((Number) objects[5]).intValue()))
+                                .countValuable((objects[5] == null ? 0 : ((Number) objects[5]).intValue()))
                                 .persistDateTime((LocalDateTime) objects[6])
                                 .countAnswer(((Number) objects[7]).intValue())
                                 .isHelpful((Boolean) objects[8])
@@ -450,6 +450,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
     @Override
     public Optional<QuestionDto> getCountValuableQuestionWithUserVote(Long questionId, Long userId) {
         return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("SELECT " +
+                "q.id," +
                 "(SELECT SUM (q.vote) FROM VoteQuestion q WHERE q.voteQuestionPK.question.id = :questionId), " +
                 "(SELECT SUM (q.vote) FROM VoteQuestion q WHERE q.voteQuestionPK.question.id = :questionId AND q.voteQuestionPK.user.id = :userId) " +
                 "FROM Question q WHERE q.id =: questionId ")
@@ -460,8 +461,9 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return QuestionDto.builder()
-                                .countValuable((objects[0] == null ? 0 : ((Number) objects[0]).intValue()))
-                                .voteByUser((objects[1] == null ? 0 : ((Number) objects[1]).intValue()))
+                                .id((Long) objects[0])
+                                .countValuable((objects[1] == null ? 0 : ((Number) objects[1]).intValue()))
+                                .voteByUser((objects[2] == null ? 0 : ((Number) objects[2]).intValue()))
                                 .build();
                     }
 
