@@ -1,0 +1,32 @@
+reputation:
+  - id: 1
+    count: 30
+    persist_date: "2020-05-02 13:58:56"
+    user_id: 1
+
+  - id: 2
+    count: 20
+    persist_date: "2020-05-02 13:58:56"
+    user_id: 2
+
+  - id: 3
+    count: 10
+    persist_date: "2020-05-01 13:58:56"
+    user_id: 2
+
+  - id: 4
+    count: 30
+    persist_date: "2020-05-02 13:58:56"
+    user_id: 4
+
+  - id: 5
+    count: 100
+    persist_date: "2020-05-02 13:58:56"
+    user_id: 6
+
+  - id: 6
+    count: 30
+    persist_date: "2020-05-02 13:58:56"
+    user_id: 5
+
+

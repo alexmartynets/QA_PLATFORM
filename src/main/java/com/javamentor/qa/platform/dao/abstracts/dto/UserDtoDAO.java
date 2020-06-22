@@ -17,4 +17,6 @@ public interface UserDtoDAO {
 
     //    methods for statistics
     List<UserBadgesDto> getUserBadges(Long user_id);
+
+    Long getAllViews(Long user_id);
 }

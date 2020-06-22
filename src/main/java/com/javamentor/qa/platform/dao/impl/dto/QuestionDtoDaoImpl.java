@@ -377,7 +377,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     }
                 }).getResultList();
 
-        return questionDtoList;
+        return questionDtoList.isEmpty()? Collections.emptyList() : questionDtoList;
     }
 
     @Override
@@ -418,6 +418,6 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     }
                 }).getResultList();
 
-        return list;
+        return list.isEmpty()? Collections.emptyList() : list;
     }
 }

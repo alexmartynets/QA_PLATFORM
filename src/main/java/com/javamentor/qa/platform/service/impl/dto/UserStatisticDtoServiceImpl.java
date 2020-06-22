@@ -3,14 +3,12 @@ package com.javamentor.qa.platform.service.impl.dto;
 import com.javamentor.qa.platform.dao.abstracts.dto.AnswerDtoDAO;
 import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
-import com.javamentor.qa.platform.dao.abstracts.dto.UserStatisticDtoDAO;
 import com.javamentor.qa.platform.dao.abstracts.model.ReputationDAO;
 import com.javamentor.qa.platform.dao.abstracts.model.UserFavoriteQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.dto.UserStatisticDto;
-import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.service.abstracts.dto.UserStatisticDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,8 +33,7 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
     private final UserFavoriteQuestionDAO userFavoriteQuestionDAO;
 
     @Autowired
-    public UserStatisticDtoServiceImpl(UserStatisticDtoDAO userStatisticDtoDAO,
-                                       AnswerDtoDAO answerDtoDAO,
+    public UserStatisticDtoServiceImpl(AnswerDtoDAO answerDtoDAO,
                                        QuestionDtoDao questionDtoDao,
                                        UserDtoDAO userDtoDAO,
                                        ReputationDAO reputationDAO,
@@ -54,15 +51,16 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
         this.page = page;
         setSorting(sort);
         userStatisticDto = UserStatisticDto.builder()
-                .totalUserReputation(reputationDAO.getSummOfUserReputation(this.user.getId()))
-                .totalUserQuestions(questionDtoDao.getQuestionCountByUserId(this.user.getId()))
-                .totalUserAnswers(answerDtoDAO.getAnswerCountByUserId(this.user.getId()))
+                .totalUserReputation(reputationDAO.getSummOfUserReputation(user.getId()))
+                .totalUserQuestions(questionDtoDao.getQuestionCountByUserId(user.getId()))
+                .totalUserAnswers(answerDtoDAO.getAnswerCountByUserId(user.getId()))
+                .allViews(userDtoDAO.getAllViews(user.getId()))
                 .userDto(user)
                 .build();
 
         switch (tab) {
             case "answers":
-                userStatisticDto.setAnswerList(answerDtoDAO.getAnswerDtoByUserId(this.user.getId(), answerSort, this.page));
+                userStatisticDto.setAnswerList(answerDtoDAO.getAnswerDtoByUserId(user.getId(), answerSort, page));
                 return userStatisticDto;
 
             case "questions":
@@ -74,11 +72,11 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
                 return userStatisticDto;
 
             case "badges":
-                userStatisticDto.setUserBadges(userDtoDAO.getUserBadges(this.user.getId()));
+                userStatisticDto.setUserBadges(userDtoDAO.getUserBadges(user.getId()));
                 return userStatisticDto;
 
             case "reputation":
-                userStatisticDto.setUserReputation(reputationDAO.getReputationByUserId(this.user.getId()));
+                userStatisticDto.setUserReputation(reputationDAO.getReputationByUserId(user.getId()));
                 return userStatisticDto;
 
             case "bookmarks":
@@ -87,9 +85,9 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
 
             default:
                 setSorting("votes");
-                userStatisticDto.setUserBadges(userDtoDAO.getUserBadges(this.user.getId()));
-                userStatisticDto.setUserReputation(reputationDAO.getReputationByUserId(this.user.getId()));
-                userStatisticDto.setAnswerList(answerDtoDAO.getAnswerDtoByUserId(this.user.getId(), answerSort, this.page));
+                userStatisticDto.setUserBadges(userDtoDAO.getUserBadges(user.getId()));
+                userStatisticDto.setUserReputation(reputationDAO.getReputationByUserId(user.getId()));
+                userStatisticDto.setAnswerList(answerDtoDAO.getAnswerDtoByUserId(user.getId(), answerSort, page));
                 setQuestionDtoFromDB();
                 setTagDtoFromDB();
                 setBookmarks();

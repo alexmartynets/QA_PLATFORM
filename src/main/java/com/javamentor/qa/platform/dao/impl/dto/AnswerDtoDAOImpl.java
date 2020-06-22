@@ -155,7 +155,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                         return collection;
                     }
                 }).getResultList();
-        return answerList;
+        return answerList.isEmpty() ? Collections.emptyList() : answerList;
     }
 
     @Override

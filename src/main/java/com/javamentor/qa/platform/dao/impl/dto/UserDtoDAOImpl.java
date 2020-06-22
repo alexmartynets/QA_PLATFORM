@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
+import javax.websocket.OnClose;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -209,13 +210,21 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     }
                 })
                 .getResultList();
-        return userBadgesList;
+        return userBadgesList.isEmpty()? Collections.emptyList() : userBadgesList;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
-    public List<Long> getUserStatistics(Long user_id){
-//        List<QuestionDto> statistics = entityManager.createQuery("SELECT " +
-//                "(SELECT SUM(q.viewCount) FROM Question q )")
-        return null;
+    public Long getAllViews(Long user_id){
+        Long Qlong = entityManager.createQuery("SELECT SUM(q.viewCount) " +
+                "FROM Question q WHERE q.user.id = :user_id", Long.class)
+                .setParameter("user_id", user_id)
+                .getSingleResult();
+        Long Along = entityManager.createQuery("SELECT SUM(a.question.viewCount) " +
+                "FROM Answer a WHERE a.user.id = :user_id", Long.class)
+                .setParameter("user_id", user_id)
+                .getSingleResult();
+        Long result = Long.sum(Qlong, Along);
+        return result;
     }
 }
