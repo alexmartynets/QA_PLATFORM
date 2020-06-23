@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.service.search.patterns;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.service.search.abstracts.Search;
@@ -15,9 +16,12 @@ public class TwoPoint implements SearchPattern {
 
     private final SearchQuestionDAO searchQuestionDAO;
 
+    private final QuestionDtoDao questionDtoDao;
+
     @Autowired
-    public TwoPoint(SearchQuestionDAO searchQuestionDAO) {
+    public TwoPoint(SearchQuestionDAO searchQuestionDAO, QuestionDtoDao questionDtoDao) {
         this.searchQuestionDAO = searchQuestionDAO;
+        this.questionDtoDao = questionDtoDao;
     }
 
     @Override
@@ -32,6 +36,8 @@ public class TwoPoint implements SearchPattern {
         if (map.containsKey(split[0])) {
             return (List<QuestionDto>) map.get(split[0]).getList(split[1]);
         }
-        return searchQuestionDAO.getQuestionsSortedByVotes();
+        List<QuestionDto> list = searchQuestionDAO.getQuestionsSortedByVotes();
+        list.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));
+        return list;
     }
 }
