@@ -103,8 +103,9 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
     }
 
     private void setTagDtoFromDB() {
-        List<TagDto> tagDtoList = questionDtoDao.getTagsByUserId(user.getId());
-        userStatisticDto.setTagDtoList(deleteDuplicateTags(tagDtoList));
+        List<TagDto> tagDtoListQ = questionDtoDao.getTagsByUserId(user.getId());
+        List<TagDto> tagDtoListA = answerDtoDAO.getTagsFromAnswerByUserId(user.getId());
+//        userStatisticDto.setTagDtoList(deleteDuplicateTags(tagDtoList));
     }
 
     private void setBookmarks(){
@@ -118,7 +119,7 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
         Long tid = 0l;
         Long qid = 0l;
         for (TagDto t : tagDtoList) {
-            if (t.getId() != tid || t.getQuestionId() != qid) {
+            if (t.getId() != tid || t.getId() != qid) {
                 TagDto tagDto = TagDto.builder().id(t.getId())
                         .name(t.getName())
                         .description(t.getDescription())
@@ -130,7 +131,7 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
                 }
             }
             tid = t.getId();
-            qid = t.getQuestionId();
+            qid = t.getId();
         }
         return map;
     }

@@ -166,4 +166,39 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .getSingleResult();
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<TagDto> getTagsFromAnswerByUserId(long user_id)  {
+        List<TagDto> list = entityManager.createQuery("SELECT " +
+//                "q.id, " +
+                "t.id, " +
+                "t.name, " +
+                "t.description " +
+                "FROM Question q " +
+//                "LEFT JOIN Answer a ON q.id = a.question.id " +
+                "JOIN q.tags t " +
+                "WHERE q.user.id = :user_id ")
+//                " OR a.user.id = :user_id")
+                .setParameter("user_id", user_id)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] tuple, String[] aliases) {
+                        return TagDto.builder()
+                                .id((Long) tuple[0])
+                                .name((String) tuple[1])
+                                .description((String) tuple[2])
+//                                .questionId((Long) tuple[0])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                }).getResultList();
+
+        return list.isEmpty()? Collections.emptyList() : list;
+    }
+
 }

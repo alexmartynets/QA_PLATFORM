@@ -18,4 +18,6 @@ public interface AnswerDtoDAO {
     List<AnswerDto> getAnswerDtoByUserId(Long user_id, String sort, int page);
 
     Long getAnswerCountByUserId(long user_id);
+
+    List<TagDto> getTagsFromAnswerByUserId(long user_id);
 }
