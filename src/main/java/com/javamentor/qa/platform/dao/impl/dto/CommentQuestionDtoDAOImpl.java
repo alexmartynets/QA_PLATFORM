@@ -60,14 +60,13 @@ public class CommentQuestionDtoDAOImpl extends ReadWriteDAOImpl<Comment, Long> i
     }
 
     @Override
-    public int hasUserCommentQuestion(Long questionId, Long userId) {
-        Number a = (Long) entityManager.createQuery("SELECT " +
-                "COUNT (c) FROM Comment AS c JOIN CommentQuestion AS sq ON c.id = sq.id " +
+    public Boolean hasUserCommentQuestion(Long questionId, Long userId) {
+        return (Boolean) entityManager.createQuery("SELECT " +
+                "CASE WHEN COUNT (c)>0 THEN TRUE ELSE FALSE END FROM Comment AS c JOIN CommentQuestion AS sq ON c.id = sq.id " +
                 "WHERE c.user.id = :userId AND sq.question.id = :questionId")
                 .unwrap(Query.class)
                 .setParameter("questionId", questionId)
                 .setParameter("userId", userId)
                 .getSingleResult();
-        return a == null ? 0 : a.intValue();
     }
 }

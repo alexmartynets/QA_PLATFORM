@@ -10,5 +10,5 @@ public interface CommentQuestionDtoDAO extends ReadWriteDAO<Comment, Long> {
 
     List<CommentDto> getCommentsToQuestion(Long questionId);
 
-    int hasUserCommentQuestion (Long questionId, Long userId);
+    Boolean hasUserCommentQuestion (Long questionId, Long userId);
 }

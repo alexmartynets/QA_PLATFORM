@@ -28,6 +28,6 @@ public class CommentQuestionServiceDtoImpl extends ReadWriteServiceImpl<Comment,
 
     @Override
     public boolean hasUserToCommentQuestion(Long questionId, Long userId) {
-        return commentQuestionDtoDao.hasUserCommentQuestion(questionId, userId) > 0;
+        return commentQuestionDtoDao.hasUserCommentQuestion(questionId, userId);
     }
 }
