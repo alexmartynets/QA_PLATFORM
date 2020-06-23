@@ -7,6 +7,7 @@ import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import com.javamentor.qa.platform.service.abstracts.dto.UserStatisticDtoService;
+import com.javamentor.qa.platform.service.abstracts.dto.UserStatisticsDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import io.swagger.annotations.Api;
@@ -17,6 +18,7 @@ import javafx.util.Pair;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,16 +40,21 @@ public class UserResourceController {
     private final UserDtoService userDtoService;
     private final UserConverter userConverter;
     private final UserStatisticDtoService userStatisticDtoService;
+    private final UserStatisticsDtoService userStatisticsDtoService;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
     public UserResourceController(UserService userService,
                                   UserDtoService userDtoService,
                                   UserConverter userConverter,
-                                  UserStatisticDtoService userStatisticDtoService) {
+                                  UserStatisticDtoService userStatisticDtoService,
+                                  UserStatisticsDtoService userStatisticsDtoService) {
         this.userService = userService;
         this.userDtoService = userDtoService;
         this.userConverter = userConverter;
         this.userStatisticDtoService = userStatisticDtoService;
+        this.userStatisticsDtoService = userStatisticsDtoService;
     }
 
     @ApiOperation(value = "Добавление пользователя")
@@ -131,7 +138,7 @@ public class UserResourceController {
         Optional<UserDto> optionalUserDto = userDtoService.getUserDtoById(id);
         if (optionalUserDto.isPresent()) {
             UserDto userDto = optionalUserDto.get();
-            UserStatisticDto userStatisticDto = userStatisticDtoService.getUserStatistic(userDto, tab, sort, page);
+            UserStatisticDto userStatisticDto = userStatisticsDtoService.getUserStatistic(userDto, tab, sort, page);
             return ResponseEntity.ok(userStatisticDto);
         } else {
             logger.info(String.format("Пользователь с указанным ID: %d не найден!", id));

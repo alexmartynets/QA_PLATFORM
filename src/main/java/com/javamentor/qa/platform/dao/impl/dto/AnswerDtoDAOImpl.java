@@ -175,9 +175,9 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "t.name, " +
                 "t.description " +
                 "FROM Question q " +
-//                "LEFT JOIN Answer a ON q.id = a.question.id " +
+                "LEFT JOIN Answer a ON q.id = a.question.id " +
                 "JOIN q.tags t " +
-                "WHERE q.user.id = :user_id ")
+                "WHERE a.user.id = :user_id ")
 //                " OR a.user.id = :user_id")
                 .setParameter("user_id", user_id)
                 .unwrap(Query.class)
