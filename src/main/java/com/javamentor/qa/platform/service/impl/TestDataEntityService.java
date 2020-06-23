@@ -678,4 +678,9 @@ public class TestDataEntityService {
             }
         }
     }
+
+    private void createReputation(){
+        reputationService.updateOrInsert(userService.getByKey(1l), 15);
+        reputationService.updateOrInsert(userService.getByKey(1l), 15);
+    }
 }
