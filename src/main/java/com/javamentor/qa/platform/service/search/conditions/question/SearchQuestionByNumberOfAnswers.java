@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.service.search.conditions.question;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.service.search.abstracts.Search;
@@ -13,9 +14,12 @@ public class SearchQuestionByNumberOfAnswers implements Search {
 
     private final SearchQuestionDAO searchQuestionDAO;
 
+    private final QuestionDtoDao questionDtoDao;
+
     @Autowired
-    public SearchQuestionByNumberOfAnswers(SearchQuestionDAO searchQuestionDAO) {
+    public SearchQuestionByNumberOfAnswers(SearchQuestionDAO searchQuestionDAO, QuestionDtoDao questionDtoDao) {
         this.searchQuestionDAO = searchQuestionDAO;
+        this.questionDtoDao = questionDtoDao;
     }
 
     @Override
@@ -23,6 +27,8 @@ public class SearchQuestionByNumberOfAnswers implements Search {
         if (searchAnswer.chars().allMatch(Character::isDigit)) {
             return searchQuestionDAO.getQuestionsByNumberOfAnswers(Long.parseLong(searchAnswer));
         }
-        return searchQuestionDAO.getQuestionsSortedByVotes();
+        List<QuestionDto> list = searchQuestionDAO.getQuestionsSortedByVotes();
+        list.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));
+        return list;
     }
 }

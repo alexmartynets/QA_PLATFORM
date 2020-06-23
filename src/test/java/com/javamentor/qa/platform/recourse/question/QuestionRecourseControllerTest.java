@@ -16,17 +16,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "question/answerQuestionApi.yml",
         "question/questionQuestionApi.yml",
         "question/tagQuestionApi.yml",
-        "question/question_has_tagQuestionApi.yml"}, cleanBefore = true, cleanAfter = true)
+        "question/question_has_tagQuestionApi.yml",
+        "question/votes_on_question.yml"}, cleanBefore = true, cleanAfter = true)
 public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void addQuestion() throws  Exception {
+    void addQuestion() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":2},\"description\":\"Question1 description\",\"tags\":{\"id\":1},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
+                .content("{\"id\":null," +
+                        "\"title\":\"Question1 title\"," +
+                        "\"userDto\":{\"id\":2}," +
+                        "\"description\":\"Question1 description\"," +
+                        "\"tags\":[{\"id\":1}]," +
+                        "\"viewCount\":0" +
+                        "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -35,7 +42,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void addQuestionNullUserId() throws  Exception {
+    void addQuestionNullUserId() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":1},\"description\":\"Question1 description\",\"tags\":{\"id\": null},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
@@ -46,7 +53,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void addQuestionNullTagId() throws  Exception {
+    void addQuestionNullTagId() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":1},\"description\":\"Question1 description\",\"tags\":{\"id\": null},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
@@ -57,7 +64,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void addQuestionNullTittle() throws  Exception {
+    void addQuestionNullTittle() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":null,\"title\": null,\"userDto\":{\"id\":1},\"description\":\"Question1 description\",\"tags\":{\"id\": 1},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
@@ -68,7 +75,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void addQuestionNullDescription() throws  Exception {
+    void addQuestionNullDescription() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":1},\"description\": null,\"tags\":{\"id\": 1},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
@@ -88,7 +95,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
 
     @Test
     void getQuestionIsPresent() throws Exception {
-        this.mockMvc.perform(get("/api/user/question/1"))
+        this.mockMvc.perform(get("/api/user/question/1?userId=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
@@ -108,12 +115,12 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.isHelpful").value("true"))
                 .andExpect(jsonPath("$.lastAnswerName").value("Tot"))
                 .andExpect(jsonPath("$.isHelpful").value("true"))
-                .andExpect(jsonPath("$.length()").value("13"));
+                .andExpect(jsonPath("$.length()").value("14"));
     }
 
     @Test
     void getQuestionNotPresent() throws Exception {
-        this.mockMvc.perform(get("/api/user/question/1234"))
+        this.mockMvc.perform(get("/api/user/question/1234?userId=1"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().string("No question with ID 1234"));
@@ -121,14 +128,14 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
 
     @Test
     void searchNotNumberForQuestionId() throws Exception {
-        this.mockMvc.perform(get("/api/user/question/abc"))
+        this.mockMvc.perform(get("/api/user/question/abc?userId=1"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
     void getQuestionWithDeleteTrue() throws Exception {
-        this.mockMvc.perform(get("/api/user/question/4"))
+        this.mockMvc.perform(get("/api/user/question/4?userId=1"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().string("No question with ID 4"));
@@ -136,7 +143,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
 
     @Test
     void deleteQuestionByIdNoPresent() throws Exception {
-        this.mockMvc.perform(delete("/api/user/question/1234"))
+        this.mockMvc.perform(delete("/api/user/question/1234?userId=1"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().string("Can't find Question with ID 1234"));
@@ -147,7 +154,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(delete("/api/user/question/3"))
                 .andDo(print())
                 .andExpect(status().isOk());
-        this.mockMvc.perform(get("/api/user/question/3"))
+        this.mockMvc.perform(get("/api/user/question/3?userId=1"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
         this.mockMvc.perform(get("/api/user/question/"))
@@ -200,7 +207,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                         "}"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("13"))
+                .andExpect(jsonPath("$.length()").value("14"))
                 .andExpect(jsonPath("$.id").value("3"))
                 .andExpect(jsonPath("$.title").value("Question3 title New"))
                 .andExpect(jsonPath("$.description").value("Question3 description New"));
@@ -246,7 +253,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void    updateQuestionWrongIdNotNumber() throws Exception {
+    void updateQuestionWrongIdNotNumber() throws Exception {
         this.mockMvc.perform(put("/api/user/question/3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
@@ -279,6 +286,19 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                         "\"id\": 3," +
                         "\"title\": \"               \"," +
                         "\"description\": \"Question3 description New\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void updateQuestionWrongDescription() throws Exception {
+        this.mockMvc.perform(put("/api/user/question/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 3," +
+                        "\"title\": \"Question3 title New\"," +
+                        "\"description\": null" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -324,64 +344,43 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void updateQuestionWrongDescription() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/3")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{" +
-                        "\"id\": 3," +
-                        "\"title\": \"Question3 title New\"," +
-                        "\"description\": null" +
-                        "}"))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
     void toVoteForQuestionSuccessPositive() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/1"))
+        this.mockMvc.perform(post("/api/user/question/2/upVote?userId=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("13"))
-                .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.countValuable").value("2"));
+                .andExpect(jsonPath("$.length()").value("14"))
+                .andExpect(jsonPath("$.id").value("2"))
+                .andExpect(jsonPath("$.countValuable").value("1"));
     }
 
     @Test
     void toVoteForQuestionNegativePositive() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/0"))
+        this.mockMvc.perform(post("/api/user/question/1/downVote?userId=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("13"))
+                .andExpect(jsonPath("$.length()").value("14"))
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.countValuable").value("0"));
     }
 
     @Test
-    void toVoteForQuestionNotSuccessPositive() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/2"))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void toVoteForQuestionNotSuccessNegative() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/-1"))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void toVoteForQuestionNotSuccessNotNumber() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/1/abc"))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     void toVoteForQuestionNotSuccessWrongQuestionId() throws Exception {
-        this.mockMvc.perform(put("/api/user/question/10/1"))
+        this.mockMvc.perform(post("/api/user/question/10/upVote?userId=1"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Can't find Question with ID 10"));
+    }
+
+    @Test
+    void toVoteForQuestionDoubleVoteUp() throws Exception {
+        this.mockMvc.perform(post("/api/user/question/2/upVote?userId=1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.countValuable").value("1"));
+
+        this.mockMvc.perform(post("/api/user/question/2/upVote?userId=1"))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Only one time User can to vote by Question."));
     }
 }
