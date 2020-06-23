@@ -24,10 +24,16 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    void addQuestion() throws  Exception {
+    void addQuestion() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":2},\"description\":\"Question1 description\",\"tags\":{\"id\":1},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
+                .content("{\"id\":null," +
+                        "\"title\":\"Question1 title\"," +
+                        "\"userDto\":{\"id\":2}," +
+                        "\"description\":\"Question1 description\"," +
+                        "\"tags\":[{\"id\":1}]," +
+                        "\"viewCount\":0" +
+                        "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -36,7 +42,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void addQuestionNullUserId() throws  Exception {
+    void addQuestionNullUserId() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":1},\"description\":\"Question1 description\",\"tags\":{\"id\": null},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
@@ -47,7 +53,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void addQuestionNullTagId() throws  Exception {
+    void addQuestionNullTagId() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":1},\"description\":\"Question1 description\",\"tags\":{\"id\": null},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
@@ -58,7 +64,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void addQuestionNullTittle() throws  Exception {
+    void addQuestionNullTittle() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":null,\"title\": null,\"userDto\":{\"id\":1},\"description\":\"Question1 description\",\"tags\":{\"id\": 1},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
@@ -69,7 +75,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void addQuestionNullDescription() throws  Exception {
+    void addQuestionNullDescription() throws Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":1},\"description\": null,\"tags\":{\"id\": 1},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
@@ -247,7 +253,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void    updateQuestionWrongIdNotNumber() throws Exception {
+    void updateQuestionWrongIdNotNumber() throws Exception {
         this.mockMvc.perform(put("/api/user/question/3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
@@ -365,7 +371,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(content().string("Can't find Question with ID 10"));
     }
 
-     @Test
+    @Test
     void toVoteForQuestionDoubleVoteUp() throws Exception {
         this.mockMvc.perform(post("/api/user/question/2/upVote?userId=1"))
                 .andDo(print())
