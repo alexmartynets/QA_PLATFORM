@@ -1,11 +1,15 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
+import com.javamentor.qa.platform.dao.abstracts.model.TagDAO;
 import com.javamentor.qa.platform.exception.ApiRequestException;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
+import com.javamentor.qa.platform.models.entity.question.Tag;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
+import com.javamentor.qa.platform.service.abstracts.model.TagService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.service.impl.dto.QuestionDtoService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
@@ -37,16 +41,22 @@ public class QuestionResourceController {
     private final QuestionService questionService;
     private final UserService userService;
     private final QuestionConverter questionConverter;
+    private final TagService tagService;
+    private final TagDAO tagDAO;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public QuestionResourceController(QuestionDtoService questionDtoService,
                                       QuestionService questionService,
                                       UserService userService,
-                                      QuestionConverter questionConverter) {
+                                      QuestionConverter questionConverter,
+                                      TagService tagService,
+                                      TagDAO tagDAO) {
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
         this.userService = userService;
         this.questionConverter = questionConverter;
+        this.tagService = tagService;
+        this.tagDAO = tagDAO;
     }
 
     @ApiOperation(value = "Получение списка вопросов, которые не удалены")
@@ -167,8 +177,9 @@ public class QuestionResourceController {
             @ApiResponse(code = 200, message = "Вопрос добавлен"),
     })
     @Validated(OnCreate.class)
-    public ResponseEntity<QuestionDto> addQuestion(@RequestBody QuestionDto questionDto) {
+    public ResponseEntity<QuestionDto> addQuestion(@RequestBody @Valid QuestionDto questionDto) {
         Question question = questionConverter.toEntity(questionDto);
+//        question.getTags().forEach(f -> System.out.println(f.getName()));
         questionService.persist(question);
         logger.info(String.format("Вопрос с заголовком: %s добавлен в базу данных", questionDto.getTitle()));
         return ResponseEntity.ok().body(questionDto);

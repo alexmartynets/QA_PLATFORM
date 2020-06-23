@@ -24,9 +24,23 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
 
     @Test
     void addQuestion() throws  Exception {
-        this.mockMvc.perform(post("/api/user/question/")
+        this.mockMvc.perform(post("/api/user/question/rest")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":2},\"description\":\"Question1 description\",\"tags\":{\"id\":1},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
+                .content("{" +
+                        "\"id\": null," +
+                        "\"title\": \"QuestionTest22 title\"," +
+                        "\"userDto\": {" +
+                        "\"id\": 3" +
+                        "}," +
+                        "\"description\": \"QuestionTest22 description\"," +
+                        "\"tags\": [" +
+                        "{" +
+                        "\"id\": 2" +
+                        "}" +
+                        "]," +
+                        "\"viewCount\": 0," +
+                        "\"countValuable\": 0" +
+                        "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

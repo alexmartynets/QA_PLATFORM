@@ -3,6 +3,7 @@ package com.javamentor.qa.platform.models.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 @NoArgsConstructor
 @AllArgsConstructor
