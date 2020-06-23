@@ -165,6 +165,10 @@ function setButtonState(userVote) {
         document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
         document.getElementById("btnDownCountMinus").removeAttribute("disabled");
     }
+    if (userVote === 2){
+        document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
+        document.getElementById("btnDownCountMinus").setAttribute("disabled", true);
+    }
 }
 
 function putCountValuableMinus(id) {
@@ -177,7 +181,7 @@ function putCountValuableMinus(id) {
             let count = data.countValuable;
             count--;
             data.countValuable = count;
-            setButtonState(-1);
+            setButtonState(2);
 
             $.ajax({
                 url: '/api/user/question/' + data.id + '/downVote?userId=' + userId,
@@ -208,7 +212,7 @@ function putCountValuablePlus(id) {
             let count = data.countValuable;
             count++;
             data.countValuable = count;
-            setButtonState(1);
+            setButtonState(2);
 
             $.ajax({
                 url: '/api/user/question/' + data.id + '/upVote?userId=' + userId,
