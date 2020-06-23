@@ -60,8 +60,11 @@ public class CommentResourceController {
     }
 
     @PostMapping("/question/{questionId}/comment")
-    public ResponseEntity<CommentDto> saveCommentQuestion(@RequestBody @NonNull CommentDto commentDto,
-                                                          @PathVariable @NonNull Long questionId) {
+    public ResponseEntity<?> saveCommentQuestion(@RequestBody @NonNull CommentDto commentDto,
+                                                 @PathVariable @NonNull Long questionId) {
+        if (commentQuestionServiceDto.hasUserToCommentQuestion(questionId, commentDto.getUserId())) {
+            return ResponseEntity.badRequest().body("Только один комментарий можно оставлять");
+        }
         CommentQuestion commentQuestion = questionConverter.toCommentQuestion(commentDto, questionId);
         commentQuestionService.persist(commentQuestion);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
