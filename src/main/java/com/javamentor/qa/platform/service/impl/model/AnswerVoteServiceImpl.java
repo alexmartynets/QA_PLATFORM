@@ -43,6 +43,7 @@ public class AnswerVoteServiceImpl extends ReadWriteServiceImpl<AnswerVote, Long
                 .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
                         .answer(answer)
                         .user(user)
+                        .persistDateTime(LocalDateTime.now())
                         .build())
                 .build();
         if (count) {
