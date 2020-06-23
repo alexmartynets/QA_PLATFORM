@@ -26,7 +26,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.dateAcceptTime, " +
             "a.updateDateTime, " +
 //            "a.countValuable, " +
-            "(select sum (av.vote) from AnswerVote av where av.answer.id = a.id), " +
+            "(select sum (av.vote) from AnswerVote av where av.answer.id = a.id) as vc, " +
             "a.isHelpful, " +
             "a.isDeleted, " +
             "a.user.id, " +
@@ -34,8 +34,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.user.imageUser, " +
             "a.user.reputationCount " +
             "from " +
-            "Answer a " +
-            "where ";
+            "Answer a ";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -46,7 +45,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId) {
         return entityManager
                 .createQuery(HQL +
-                        "a.question.id = :questionId order by a.updateDateTime desc")
+                        "where a.question.id = :questionId order by a.updateDateTime desc")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
@@ -59,7 +58,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId) {
         return entityManager
                 .createQuery(HQL +
-                        "a.question.id = :questionId order by a.countValuable desc")
+                        "join AnswerVote av group by a.id where a.question.id = :questionId order by ")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
@@ -72,7 +71,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
         return entityManager
                 .createQuery(HQL +
-                        "a.question.id = :questionId order by a.persistDateTime asc")
+                        "where a.question.id = :questionId order by a.persistDateTime asc")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())

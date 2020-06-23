@@ -14,7 +14,7 @@ public class AnswerVoteDAOImpl extends ReadWriteDAOImpl<AnswerVote, Long> implem
     @Override
     public List<AnswerVote> getAllVotesByAnswerId(Long answerId) {
         return entityManager
-                .createQuery("select v from AnswerVote v where v.answer.id = :answerId", AnswerVote.class)
+                .createQuery("select v from AnswerVote v where v.voteAnswerPK.answer.id = :answerId", AnswerVote.class)
                 .setParameter("answerId", answerId)
                 .getResultList();
     }
@@ -22,11 +22,10 @@ public class AnswerVoteDAOImpl extends ReadWriteDAOImpl<AnswerVote, Long> implem
     @Transactional
     @Override
     public List<AnswerVote> getVotesOfUserByAnswer(Long answerId, Long userId) {
-        List<AnswerVote> list = entityManager
-                .createQuery("select v from AnswerVote v where v.answer.id = :answerId and v.user.id = :userId", AnswerVote.class)
+        return entityManager
+                .createQuery("select v from AnswerVote v where v.voteAnswerPK.answer.id = :answerId and v.voteAnswerPK.user.id = :userId", AnswerVote.class)
                 .setParameter("answerId", answerId)
                 .setParameter("userId", userId)
                 .getResultList();
-        return list;
     }
 }
