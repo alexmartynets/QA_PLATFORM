@@ -1,6 +1,5 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
-import com.javamentor.qa.platform.exception.ApiRequestException;
 import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
@@ -21,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +31,9 @@ import java.util.Optional;
 @Api(value = "UserApi", description = "Операции с пользователем (создание, изменение, получение списка, получение пользователя по ID)")
 @Validated
 public class UserResourceController {
+
+    private final String regexps = "[а-яА-ЯёЁa-zA-Z]+.*$";
+    private final String messages = "Параметр name должен начинаться с буквы";
 
     private final UserService userService;
     private final UserDtoService userDtoService;
@@ -180,7 +183,9 @@ public class UserResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список пользователей получен"),
     })
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull String name,
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull
+                                                                                @Pattern(regexp = regexps,
+                                                                                         message = messages) String name,
                                                                                 @RequestParam @NonNull @Positive Long count,
                                                                                 @RequestParam @NonNull @Positive Long page,
                                                                                 @RequestParam @NonNull @Positive Long weeks) {
