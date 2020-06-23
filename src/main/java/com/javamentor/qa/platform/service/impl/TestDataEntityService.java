@@ -53,14 +53,18 @@ public class TestDataEntityService {
     private final ReputationService reputationService;
     private final BadgesService badgesService;
     private final UserBadgesService userBadgesService;
+    private final VoteQuestionService voteQuestionService;
+
 
     @Autowired
     public TestDataEntityService(ReputationService reputationService,
                                  BadgesService badgesService,
-                                 UserBadgesService userBadgesService) {
+                                 UserBadgesService userBadgesService,
+                                 VoteQuestionService voteQuestionService) {
         this.reputationService = reputationService;
         this.badgesService = badgesService;
         this.userBadgesService = userBadgesService;
+        this.voteQuestionService = voteQuestionService;
     }
 
     public void createEntity() {
