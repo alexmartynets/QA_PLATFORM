@@ -154,18 +154,14 @@ function putAnswerCountValuablePlus(id, questionId, countValuable, isHelpful) {
 
 function setButtonState(userVote) {
     if (userVote < 0){
+        document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
         document.getElementById("btnDownCountMinus").setAttribute("disabled", true);
-        document.getElementById("btnUpCountPlus").removeAttribute("disabled");
     }
     if (userVote === 0){
         document.getElementById("btnDownCountMinus").removeAttribute("disabled");
         document.getElementById("btnUpCountPlus").removeAttribute("disabled");
     }
     if (userVote > 0){
-        document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
-        document.getElementById("btnDownCountMinus").removeAttribute("disabled");
-    }
-    if (userVote === 2){
         document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
         document.getElementById("btnDownCountMinus").setAttribute("disabled", true);
     }
@@ -181,7 +177,7 @@ function putCountValuableMinus(id) {
             let count = data.countValuable;
             count--;
             data.countValuable = count;
-            setButtonState(2);
+            setButtonState(-1);
 
             $.ajax({
                 url: '/api/user/question/' + data.id + '/downVote?userId=' + userId,
@@ -212,7 +208,7 @@ function putCountValuablePlus(id) {
             let count = data.countValuable;
             count++;
             data.countValuable = count;
-            setButtonState(2);
+            setButtonState(1);
 
             $.ajax({
                 url: '/api/user/question/' + data.id + '/upVote?userId=' + userId,
