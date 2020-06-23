@@ -177,6 +177,7 @@ function putCountValuableMinus(id) {
             let count = data.countValuable;
             count--;
             data.countValuable = count;
+            setButtonState(-1);
 
             $.ajax({
                 url: '/api/user/question/' + data.id + '/downVote?userId=' + userId,
@@ -185,7 +186,6 @@ function putCountValuableMinus(id) {
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
-                    setButtonState(data.voteByUser);
                 },
                 error: function () {
                     alert("Можно проголосовать только один раз.");
@@ -208,6 +208,7 @@ function putCountValuablePlus(id) {
             let count = data.countValuable;
             count++;
             data.countValuable = count;
+            setButtonState(1);
 
             $.ajax({
                 url: '/api/user/question/' + data.id + '/upVote?userId=' + userId,
@@ -216,7 +217,6 @@ function putCountValuablePlus(id) {
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     document.getElementById("countValuableQuestion").innerHTML = data.countValuable;
-                    setButtonState(data.voteByUser);
                 },
 
                 error: function () {
