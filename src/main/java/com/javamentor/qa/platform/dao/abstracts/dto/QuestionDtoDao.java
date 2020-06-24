@@ -14,6 +14,8 @@ public interface QuestionDtoDao {
 
     Optional<QuestionDto> getQuestionDtoById(Long id);
 
+    Optional<QuestionDto> getQuestionDtoById(Long questionId, Long userId);
+
     List<QuestionDto> getQuestionDtoListByUserId(Long userId);
 
     Optional<QuestionDto> hasQuestionAnswer(Long questionId);
@@ -23,6 +25,17 @@ public interface QuestionDtoDao {
     List<TagDto> getTagList(long q_id);
 
     Long getCount();
+
+    Integer getCountValuableWithFalse(Long questionId);
+
+    Integer getCountValuableWithTrue(Long questionId);
+
+    Integer getCountValuable(Long questionId);
+
+    Optional<QuestionDto> getCountValuableQuestionWithUserVote(Long questionId, Long userId);
+
+    Integer sumVotesUserByVote(Long questionId, Long userId);
+
 
 //    new methods
 
@@ -35,4 +48,5 @@ public interface QuestionDtoDao {
     List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long user_id);
 
     List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long user_id);
+
 }

@@ -12,7 +12,7 @@ public interface SearchQuestionDAO {
 
     List<QuestionDto> getQuestionsByNumberOfAnswers(Long numberOfAnswers);
 
-    List<QuestionDto> getQuestionsByNumberOfVotes(Integer numberOfVotes);
+    List<QuestionDto> getQuestionsByNumberOfVotes(Long numberOfVotes);
 
     List<QuestionDto> getQuestionsByFieldHelpfulFalse();
 

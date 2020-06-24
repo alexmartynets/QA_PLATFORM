@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long> implements ReputationService {
@@ -31,10 +32,11 @@ public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long
                 .user(user)
                 .count(count)
                 .build();
-        Reputation candidate = reputationDAO.findByUserIdAndDate(user);
-        if (candidate != null) {
+        Optional<Reputation> optional = reputationDAO.findByUserIdAndDate(user);
+        if (optional.isPresent()) {
+            Reputation candidate = optional.get();
             candidate.setCount(candidate.getCount() + reputation.getCount());
-            if(candidate.getCount() < 0) {
+            if (candidate.getCount() < 0) {
                 candidate.setCount(0);
             }
             reputation.setId(candidate.getId());
@@ -43,7 +45,7 @@ public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long
         } else {
             super.persist(reputation);
         }
-        if(count > 0) {
+        if (count > 0) {
             checkAndUpdateUserBadges(reputation);
         }
     }

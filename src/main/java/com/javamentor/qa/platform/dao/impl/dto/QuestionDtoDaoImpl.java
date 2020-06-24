@@ -29,7 +29,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "q.user.reputationCount, " +
                     "q.user.imageUser, " +
                     "q.viewCount, " +
-                    "q.countValuable, " +
+                    "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = q.id), " +
                     "q.persistDateTime,  " +
                     "t.id, " +
                     "t.name, " +
@@ -59,7 +59,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .title((String) objects[1])
                                     .userDto(userDto)
                                     .viewCount((Integer) objects[6])
-                                    .countValuable((Integer) objects[7])
+                                    .countValuable((objects[7] == null ? 0 : ((Number) objects[7]).intValue()))
                                     .persistDateTime((LocalDateTime) objects[8])
                                     .tags(tagDtoList)
                                     .countAnswer(((Number) objects[12]).intValue())
@@ -99,7 +99,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.user.reputationCount, " +
                 "q.user.imageUser, " +
                 "q.viewCount, " +
-                "q.countValuable, " +
+                "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = :id), " +
                 "q.persistDateTime, " +
                 "q.lastUpdateDateTime, " +
                 "q.description, " +
@@ -134,7 +134,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .title((String) objects[1])
                                 .userDto(userDto)
                                 .viewCount((Integer) objects[6])
-                                .countValuable((Integer) objects[7])
+                                .countValuable((objects[7] == null ? 0 : ((Number) objects[7]).intValue()))
                                 .persistDateTime((LocalDateTime) objects[8])
                                 .lastUpdateDateTime((LocalDateTime) objects[9])
                                 .description((String) objects[10])
@@ -165,6 +165,84 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
 
     @SuppressWarnings("unchecked")
     @Override
+    public Optional<QuestionDto> getQuestionDtoById(Long questionId, Long userId) {
+        return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("SELECT " +
+                "q.id, " +
+                "q.title, " +
+                "q.user.id, " +
+                "q.user.fullName, " +
+                "q.user.reputationCount, " +
+                "q.user.imageUser, " +
+                "q.viewCount, " +
+                "(SELECT SUM (q.vote) FROM VoteQuestion q WHERE q.voteQuestionPK.question.id = :questionId), " +
+                "q.persistDateTime, " +
+                "q.lastUpdateDateTime, " +
+                "q.description, " +
+                "t.id, " +
+                "t.name, " +
+                "t.description, " +
+                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id)," +
+                "(SELECT a.user.fullName FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)), " +
+                "(SELECT a.persistDateTime FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)), " +
+                "(SELECT SUM (q.vote) FROM VoteQuestion q WHERE q.voteQuestionPK.question.id = :questionId AND q.voteQuestionPK.user.id = :userId) " +
+                "FROM Question q JOIN q.tags t WHERE q.id =: questionId ")
+                .unwrap(Query.class)
+                .setParameter("questionId", questionId)
+                .setParameter("userId", userId)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        UserDto userDto = UserDto.builder()
+                                .id(((Number) objects[2]).longValue())
+                                .fullName((String) objects[3])
+                                .reputationCount((Integer) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .build();
+                        TagDto tagDto = TagDto.builder()
+                                .id((Long) objects[11])
+                                .name((String) objects[12])
+                                .description((String) objects[13])
+                                .build();
+                        List<TagDto> tagDtoList = new ArrayList<>();
+                        tagDtoList.add(tagDto);
+                        return QuestionDto.builder()
+                                .id((Long) objects[0])
+                                .title((String) objects[1])
+                                .userDto(userDto)
+                                .viewCount((Integer) objects[6])
+                                .countValuable((objects[7] == null ? 0 : ((Number) objects[7]).intValue()))
+                                .persistDateTime((LocalDateTime) objects[8])
+                                .lastUpdateDateTime((LocalDateTime) objects[9])
+                                .description((String) objects[10])
+                                .tags(tagDtoList)
+                                .countAnswer(((Number) objects[14]).intValue())
+                                .isHelpful((Boolean) objects[15])
+                                .lastAnswerDate((LocalDateTime) objects[17])
+                                .lastAnswerName((String) objects[16])
+                                .voteByUser((objects[18] == null ? 0 : ((Number) objects[18]).intValue()))
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        Map<Long, QuestionDto> result = new TreeMap<>(Comparator.reverseOrder());
+                        for (Object obj : list) {
+                            QuestionDto questionDto = (QuestionDto) obj;
+                            if (result.containsKey(questionDto.getId())) {
+                                result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
+                            } else {
+                                result.put(questionDto.getId(), questionDto);
+                            }
+                        }
+                        return new ArrayList<>(result.values());
+                    }
+                })
+        );
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public List<QuestionDto> getQuestionDtoListByUserId(Long userId) {
         List<QuestionDto> questionDtoList = new ArrayList<>();
         try {
@@ -173,7 +251,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                     "q.title, " +
                     "q.user.id, " +
                     "q.viewCount, " +
-                    "q.countValuable, " +
+                    "(SELECT SUM (q.vote) FROM VoteQuestion q WHERE q.voteQuestionPK.question.id = :id), " +
                     "q.persistDateTime, " +
                     "q.lastUpdateDateTime, " +
                     "q.description," +
@@ -202,7 +280,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                     .title((String) objects[1])
                                     .userDto(userDto)
                                     .viewCount((Integer) objects[3])
-                                    .countValuable((Integer) objects[4])
+                                    .countValuable((objects[7] == null ? 0 : ((Number) objects[4]).intValue()))
                                     .persistDateTime((LocalDateTime) objects[5])
                                     .lastUpdateDateTime((LocalDateTime) objects[6])
                                     .description((String) objects[7])
@@ -267,7 +345,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.user.fullName, " +
                 "q.user.reputationCount, " +
                 "q.viewCount, " +
-                "q.countValuable, " +
+                "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = q.id), " +
                 "q.persistDateTime, " +
                 "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
                 "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id), " +
@@ -288,7 +366,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                         .reputationCount((Integer) objects[3])
                                         .build())
                                 .viewCount((Integer) objects[4])
-                                .countValuable((Integer) objects[5])
+                                .countValuable((objects[5] == null ? 0 : ((Number) objects[5]).intValue()))
                                 .persistDateTime((LocalDateTime) objects[6])
                                 .countAnswer(((Number) objects[7]).intValue())
                                 .isHelpful((Boolean) objects[8])
@@ -336,6 +414,76 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
     public Long getCount() {
         return (Long) entityManager.createQuery("SELECT COUNT(q) FROM Question q")
                 .getSingleResult();
+    }
+
+    @Override
+    public Integer getCountValuableWithFalse(Long questionId) {
+        Number a = (Long) entityManager.createQuery("SELECT " +
+                "COUNT (q) FROM VoteQuestion q WHERE q.vote = '-1' AND q.voteQuestionPK.question.id = :id")
+                .unwrap(Query.class)
+                .setParameter("id", questionId)
+                .getSingleResult();
+        return a.intValue();
+    }
+
+    @Override
+    public Integer getCountValuableWithTrue(Long questionId) {
+        Number a = (Long) entityManager.createQuery("SELECT " +
+                "COUNT (q) FROM VoteQuestion q WHERE q.vote = '1' AND q.voteQuestionPK.question.id = :id")
+                .unwrap(Query.class)
+                .setParameter("id", questionId)
+                .getSingleResult();
+        return a.intValue();
+    }
+
+    @Override
+    public Integer getCountValuable(Long questionId) {
+        Number a = (Long) entityManager.createQuery("SELECT SUM (q.vote) FROM VoteQuestion q " +
+                "WHERE q.voteQuestionPK.question.id = :id")
+                .unwrap(Query.class)
+                .setParameter("id", questionId)
+                .getSingleResult();
+        return a.intValue();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Optional<QuestionDto> getCountValuableQuestionWithUserVote(Long questionId, Long userId) {
+        return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("SELECT " +
+                "q.id," +
+                "(SELECT SUM (q.vote) FROM VoteQuestion q WHERE q.voteQuestionPK.question.id = :questionId), " +
+                "(SELECT SUM (q.vote) FROM VoteQuestion q WHERE q.voteQuestionPK.question.id = :questionId AND q.voteQuestionPK.user.id = :userId) " +
+                "FROM Question q WHERE q.id =: questionId ")
+                .unwrap(Query.class)
+                .setParameter("questionId", questionId)
+                .setParameter("userId", userId)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return QuestionDto.builder()
+                                .id((Long) objects[0])
+                                .countValuable((objects[1] == null ? 0 : ((Number) objects[1]).intValue()))
+                                .voteByUser((objects[2] == null ? 0 : ((Number) objects[2]).intValue()))
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+        );
+    }
+
+    @Override
+    public Integer sumVotesUserByVote(Long questionId, Long userId) {
+        Number a = (Long) entityManager.createQuery("SELECT SUM (q.vote) FROM VoteQuestion q " +
+                "WHERE q.voteQuestionPK.question.id = :questionId AND q.voteQuestionPK.user.id = :userId")
+                .unwrap(Query.class)
+                .setParameter("questionId", questionId)
+                .setParameter("userId", userId)
+                .getSingleResult();
+        return a == null ? 0 : a.intValue();
     }
 
 //  new methods

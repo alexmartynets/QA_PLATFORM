@@ -7,5 +7,8 @@ import com.javamentor.qa.platform.service.abstracts.model.ReadWriteService;
 import java.util.List;
 
 public interface CommentQuestionServiceDto extends ReadWriteService<Comment, Long> {
+
     List<CommentDto> getCommentsToQuestion(Long questionId);
+
+    boolean hasUserToCommentQuestion(Long questionId, Long userId);
 }

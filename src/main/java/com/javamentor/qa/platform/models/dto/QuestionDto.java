@@ -75,4 +75,7 @@ public class QuestionDto {
 
     @ApiModelProperty(notes = "Количество пользователей, которые добавили вопрос в свои закладки", example = "10")
     private Integer countFavorite;
+
+    @ApiModelProperty(name = "Итоговый результат голосования по вопросу от запросившего пользователя")
+    private Integer voteByUser;
 }
