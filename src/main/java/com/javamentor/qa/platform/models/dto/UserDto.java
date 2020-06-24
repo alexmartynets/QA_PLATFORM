@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @Builder
 public class UserDto {
 
-    @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании")
-    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении")
+    @Null(groups = OnCreate.class, message = "Поле id должно принимать null значение при создании")
+    @NotNull(groups = OnUpdate.class, message = "Поле id не должно принимать null значение при обновлении")
     @ApiModelProperty(notes = "Автоматически генерируемый ID пользователя. Не указывать при создании, " +
             "обязательно указывать при изменении учетной записи", position = 1)
     private Long id;
@@ -26,12 +26,11 @@ public class UserDto {
 
     @ApiModelProperty(notes = "Полное имя пользователя, поле не должно быть пустым",
             required = true, example = "Иванов Иван", position = 4)
-    @NotNull(groups = OnCreate.class, message = "Поле имя должно быть Null при создании")
-    @NotBlank(groups = OnCreate.class, message = "Поле имя не должно состоять из пробелов")
+    @NotNull(groups = OnCreate.class, message = "Поле имя не должно быть Null при создании")
     @Pattern(groups = OnCreate.class, regexp = "[а-яА-ЯёЁa-zA-Z]+.*$", message = "Поле имя должен начинаться с буквы")
     private String fullName;
 
-    @NotNull
+    @NotNull(groups = OnCreate.class, message = "Поле Email не должно быть Null при создании")
     @ApiModelProperty(notes = "Email должен быть корректным, смотрите пример",
             required = true, example = "email@email.com", position = 2)
     @Email(regexp = "^[a-zA-Z0-9]{1,}" + "((\\.|\\_|-{0,})[a-zA-Z0-9]{1,})*" + "@" + "[a-zA-Z0-9]{1,}" +
@@ -44,7 +43,7 @@ public class UserDto {
             required = true, example = "Qwerty12", position = 3)
     @NotNull(groups = OnCreate.class, message = "Поле password не должно быть Null при создании")
     @NotBlank(groups = OnCreate.class, message = "Поле password не должно состоять из пробелов")
-    @Pattern(groups = OnCreate.class, regexp = "[a-zA-Z][0-9]+", message = "Поле password должен содержать 1 цифру, 1 заглавную букву.")
+    @Pattern(groups = OnCreate.class, regexp = "^(?=.*\\d)(?=.*[A-Z])[a-zA-Z0-9]+$", message = "Поле password должен содержать 1 цифру, 1 заглавную букву.")
     @Size(groups = OnCreate.class, min = 8, message = "Поле password должен быть не мение 8 символов.")
     private String password;
 
@@ -92,7 +91,7 @@ public class UserDto {
 
     @ApiModelProperty(notes = "Дата создания учетной записи Модератор",
             example = "не указывать", hidden = true)
-    private LocalDateTime dateAppointedModerator;
+    private LocalDateTime dateAssignmentModerator;
 
     @ApiModelProperty(notes = "Дата создания учетной записи пользователя, "
             + "явно указывать не нужно, назначается автоматически при создании",

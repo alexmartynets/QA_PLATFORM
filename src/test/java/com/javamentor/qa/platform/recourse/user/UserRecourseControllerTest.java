@@ -30,7 +30,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
                         "\"email\": \"admin@admin.ru\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -46,7 +46,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"id\": 2," +
                         "\"fullName\": \"Админ\"," +
                         "\"email\": \"admin@admin.ru\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -58,20 +58,33 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"email\": \"admin@admin.ru\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void create_User_Name_Null() throws Exception {
+    void create_User_Name_Blank() throws Exception {
         this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"fullName\": \"      \"," +
                         "\"email\": \"admin@admin.ru\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void create_User_Invalid_Name() throws Exception {
+        this.mockMvc.perform(post("/api/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"fullName\": \"4Артем\"," +
+                        "\"email\": \"admin@admin.ru\"," +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -83,20 +96,20 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void create_User_Email_Null() throws Exception {
+    void create_User_Email_Blank() throws Exception {
         this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
                         "\"email\": \"       \"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -109,7 +122,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
                         "\"email\": \"admin@.ru\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -128,7 +141,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void create_User_Password_Null() throws Exception {
+    void create_User_Password_Blank() throws Exception {
         this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
@@ -160,7 +173,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
                         "\"email\": \"admin@admin.ru\"," +
-                        "\"password\": \"Qwertyuio\"" +
+                        "\"password\": \"Qwertyuior\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -173,7 +186,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
                         "\"email\": \"admin@admin.ru\"," +
-                        "\"password\": \"qwertys12\"" +
+                        "\"password\": \"qwertys123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -186,7 +199,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
                         "\"email\": \"admin@admin.ru\"," +
-                        "\"password\": \"Qwerty12\"," +
+                        "\"password\": \"Qwerty123\"," +
                         "\"role\": 1" +
                         "}"))
                 .andDo(print())
@@ -201,7 +214,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"id\": 3," +
                         "\"fullName\": \"Update\"," +
                         "\"email\": \"Update@email.com\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -217,21 +230,21 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .content("{" +
                         "\"fullName\": \"Василий update\"," +
                         "\"email\": \"vasiliy@email.com\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void update_User_Id_Null() throws Exception {
+    void update_User_Id_Blank() throws Exception {
         this.mockMvc.perform(put("/api/user/{id}", 3L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"id\": \"   \"," +
                         "\"fullName\": \"Василий update\"," +
                         "\"email\": \"vasiliy@email.com\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -245,7 +258,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"id\": 3," +
                         "\"fullName\": \"Василий update\"," +
                         "\"email\": \"vasiliy@email.com\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -259,7 +272,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"id\": 4," +
                         "\"fullName\": \"Василий update\"," +
                         "\"email\": \"vasiliy@email.com\"," +
-                        "\"password\": \"Qwerty12\"" +
+                        "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());

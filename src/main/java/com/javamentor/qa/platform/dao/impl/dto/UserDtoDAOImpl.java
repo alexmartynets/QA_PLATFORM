@@ -220,7 +220,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    // todo
     @Override
     public Long getCountUsersByQuantityEditedText(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -377,7 +376,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
-    // todo
+
+    // todo запрос из двух таблиц
     @Override
     public Long getCountUsersByVoice(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -386,7 +386,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setParameter("data", data)
                 .getSingleResult();
     }
-    // todo
+    // todo запрос из двух таблиц
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByVoice(int page, int count, long weeks) {
@@ -442,7 +442,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .fullName((String) objects[1])
                                 .city((String) objects[2])
                                 .imageUser((byte[]) objects[3])
-                                .dateAppointedModerator((LocalDateTime)(objects[4]))
+                                .dateAssignmentModerator((LocalDateTime)(objects[4]))
                                 .reputationCount(getInteger(objects[5]))
                                 .build();
                     }
