@@ -5,15 +5,15 @@ function add() {
     let str = $("#tag").val();
     str = str.replace(/ +/g, ' ').trim();
     let tags = str.split(",");
-    let tag = new Object;
     let tag1 = new Array();
     var j = -1;
-    tags.forEach(function (item, i, tags) {
+    for (item in tags){
+        let tag = new Object;
         j++;
-        item = item.trim();
-        tag.name = item;
+        s = tags[item].trim();
+        tag.name = s;
         tag1[j] = tag;
-    });
+    }
     let user = {
         id: id
     };
@@ -22,13 +22,12 @@ function add() {
         title: title,
         description: body,
         tags: tag1,
-        userDto: user,
-        viewCount: 0,
-        countValuable: 0
+        userDto: user
     };
+    console.log(JSON.stringify(questionDto));
     $.ajax({
         type: 'post',
-        url: "/api/user/question",
+        url: "/api/user/question/",
         contentType: 'application/json',
         data: JSON.stringify(questionDto),
         dataType: 'json',

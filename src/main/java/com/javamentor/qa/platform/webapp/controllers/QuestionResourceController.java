@@ -42,21 +42,18 @@ public class QuestionResourceController {
     private final UserService userService;
     private final QuestionConverter questionConverter;
     private final TagService tagService;
-    private final TagDAO tagDAO;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public QuestionResourceController(QuestionDtoService questionDtoService,
                                       QuestionService questionService,
                                       UserService userService,
                                       QuestionConverter questionConverter,
-                                      TagService tagService,
-                                      TagDAO tagDAO) {
+                                      TagService tagService) {
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
         this.userService = userService;
         this.questionConverter = questionConverter;
         this.tagService = tagService;
-        this.tagDAO = tagDAO;
     }
 
     @ApiOperation(value = "Получение списка вопросов, которые не удалены")
@@ -177,11 +174,13 @@ public class QuestionResourceController {
             @ApiResponse(code = 200, message = "Вопрос добавлен"),
     })
     @Validated(OnCreate.class)
-    public ResponseEntity<QuestionDto> addQuestion(@RequestBody @Valid QuestionDto questionDto) {
+    public ResponseEntity<?> addQuestion(@RequestBody @Valid QuestionDto questionDto) {
+        questionDto.getTags().forEach(f -> f.setId(tagService.checkOrPersists(f.getName())));
+        questionDto.setViewCount(0);
+        questionDto.setCountValuable(0);
         Question question = questionConverter.toEntity(questionDto);
-//        question.getTags().forEach(f -> System.out.println(f.getName()));
         questionService.persist(question);
         logger.info(String.format("Вопрос с заголовком: %s добавлен в базу данных", questionDto.getTitle()));
-        return ResponseEntity.ok().body(questionDto);
+        return ResponseEntity.ok().body(String.format("The question was added successfully."));
     }
 }

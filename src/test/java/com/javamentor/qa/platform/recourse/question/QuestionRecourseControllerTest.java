@@ -24,7 +24,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
 
     @Test
     void addQuestion() throws  Exception {
-        this.mockMvc.perform(post("/api/user/question/rest")
+        this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"id\": null," +
@@ -35,11 +35,9 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                         "\"description\": \"QuestionTest22 description\"," +
                         "\"tags\": [" +
                         "{" +
-                        "\"id\": 2" +
+                        "\"name\": \"java\"" +
                         "}" +
-                        "]," +
-                        "\"viewCount\": 0," +
-                        "\"countValuable\": 0" +
+                        "]" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -52,10 +50,23 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     void addQuestionNullUserId() throws  Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":1},\"description\":\"Question1 description\",\"tags\":{\"id\": null},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
+                .content("{" +
+                        "\"id\": null," +
+                        "\"title\": \"QuestionTest22 title\"," +
+                        "\"userDto\": {" +
+                        "\"id\": null" +
+                        "}," +
+                        "\"description\": \"QuestionTest22 description\"," +
+                        "\"tags\": [" +
+                        "{" +
+                        "\"name\": \"java\"" +
+                        "}" +
+                        "]" +
+                        "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(content().string("User id can not be null on update."))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -63,7 +74,15 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     void addQuestionNullTagId() throws  Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":1},\"description\":\"Question1 description\",\"tags\":{\"id\": null},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
+                .content("{" +
+                        "\"id\": null," +
+                        "\"title\": \"QuestionTest22 title\"," +
+                        "\"userDto\": {" +
+                        "\"id\": 3" +
+                        "}," +
+                        "\"description\": \"QuestionTest22 description\"," +
+                        "\"tags\": " +
+                        "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
@@ -74,8 +93,19 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     void addQuestionNullTittle() throws  Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"title\": null,\"userDto\":{\"id\":1},\"description\":\"Question1 description\",\"tags\":{\"id\": 1},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
-                .accept(MediaType.APPLICATION_JSON))
+                .content("{" +
+                        "\"id\": null," +
+                        "\"title\": null," +
+                        "\"userDto\": {" +
+                        "\"id\": 3" +
+                        "}," +
+                        "\"description\": \"QuestionTest22 description\"," +
+                        "\"tags\": [" +
+                        "{" +
+                        "\"name\": \"java\"" +
+                        "}" +
+                        "]" +
+                        "}").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -85,7 +115,19 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
     void addQuestionNullDescription() throws  Exception {
         this.mockMvc.perform(post("/api/user/question/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"title\":\"Question1 title\",\"userDto\":{\"id\":1},\"description\": null,\"tags\":{\"id\": 1},\"viewCount\":0,\"countAnswer\":0,\"countValuable\":0,\"persistDateTime\":\"2020-06-21T21:26:46\",\"lastUpdateDateTime\":\"2020-06-21T21:26:46\",\"isHelpful\":false,\"lastAnswerName\":\"Иван Иванович Иванов\",\"lastAnswerDate\":\"2020-06-21T21:26:46\"}")
+                .content("{" +
+                        "\"id\": null," +
+                        "\"title\": \"QuestionTest22 title\"," +
+                        "\"userDto\": {" +
+                        "\"id\": 3" +
+                        "}," +
+                        "\"description\": null," +
+                        "\"tags\": [" +
+                        "{" +
+                        "\"name\": \"java\"" +
+                        "}" +
+                        "]" +
+                        "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
