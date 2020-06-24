@@ -7,16 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component("reputation")
-public class GetUserReputation implements Tabs {
+public class UsersReputation implements Tabs {
     private final ReputationDAO reputationDAO;
 
     @Autowired
-    public GetUserReputation(ReputationDAO reputationDAO) {
+    public UsersReputation(ReputationDAO reputationDAO) {
         this.reputationDAO = reputationDAO;
     }
 
     @Override
-    public UserStatisticDto getList(String sortType, Long userId) {
+    public UserStatisticDto getList(String sortType, Long userId, Integer page) {
         return UserStatisticDto.builder()
                 .userReputation(reputationDAO.getReputationByUserId(userId))
                 .build();

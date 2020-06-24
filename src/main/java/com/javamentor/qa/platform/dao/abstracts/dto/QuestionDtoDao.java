@@ -39,14 +39,12 @@ public interface QuestionDtoDao {
 
 //    new methods
 
-    Long getQuestionCountByUserId(long user_id);
+    Long getQuestionCountByUserId(Long userId);
 
-    List<TagDto> getTagsByUserId(long user_id);
+    List<QuestionDto> getQuestionDtoByUserIdSortByDate(Long userId);
 
-    List<QuestionDto> getQuestionDtoByUserIdSortByDate(Long user_id);
+    List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long userId);
 
-    List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long user_id);
-
-    List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long user_id);
+    List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long userId);
 
 }

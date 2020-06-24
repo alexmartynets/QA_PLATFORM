@@ -1,32 +1,39 @@
 package com.javamentor.qa.platform.service.statistics.impl;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
+import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.dto.UserStatisticDto;
 import com.javamentor.qa.platform.service.statistics.abstracts.Tabs;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component("question")
-public class GetUserQuestionDto implements Tabs {
+public class UsersQuestionDto implements Tabs {
     private final QuestionDtoDao questionDtoDao;
 
     @Autowired
-    public GetUserQuestionDto(QuestionDtoDao questionDtoDao) {
+    public UsersQuestionDto(QuestionDtoDao questionDtoDao) {
         this.questionDtoDao = questionDtoDao;
     }
 
     @Override
-    public UserStatisticDto getList(String sortType, Long userId) {
+    public UserStatisticDto getList(String sortType, Long userId, Integer page) {
         UserStatisticDto userStatisticDto = UserStatisticDto.builder().build();
+        List<QuestionDto> questionDto;
+
         if (sortType.equals("newest")) {
-            userStatisticDto.setQuestionDtoList(questionDtoDao.getQuestionDtoByUserIdSortByDate(userId));
+            questionDto = questionDtoDao.getQuestionDtoByUserIdSortByDate(userId);
         } else if (sortType.equals("views")) {
-            userStatisticDto.setQuestionDtoList(questionDtoDao.getQuestionDtoByUserIdSortByViews(userId));
+            questionDto = questionDtoDao.getQuestionDtoByUserIdSortByViews(userId);
         } else {
-            userStatisticDto.setQuestionDtoList(questionDtoDao.getQuestionDtoByUserIdSortByVotes(userId));
+            questionDto = questionDtoDao.getQuestionDtoByUserIdSortByVotes(userId);
         }
+
+        questionDto.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));
+        userStatisticDto.setQuestionDtoList(new Pair<>(questionDtoDao.getQuestionCountByUserId(userId), questionDto));
         return userStatisticDto;
     }
 }

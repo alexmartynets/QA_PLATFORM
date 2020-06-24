@@ -82,7 +82,7 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
 
     @Override
     @SuppressWarnings("unchecked")
-    public Long getSummOfUserReputation(Long user_id){
+    public Long getSumOfUserReputation(Long user_id){
         Long reputation = entityManager.createQuery("SELECT " +
                 "SUM(r.count) " +
                 "FROM Reputation r WHERE r.user.id = :userId", Long.class)

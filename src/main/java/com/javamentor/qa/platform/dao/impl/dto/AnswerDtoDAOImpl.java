@@ -122,51 +122,16 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
 
     // new methods
     @Override
-    public Long getAnswerCountByUserId(long user_id) {
+    public Long getAnswerCountByUserId(Long useId) {
         return (Long) entityManager.createQuery("SELECT COUNT(a) " +
-                "FROM Answer a WHERE a.user.id = :user_id")
-                .setParameter("user_id", user_id)
+                "FROM Answer a WHERE a.user.id = :userId")
+                .setParameter("userId", useId)
                 .getSingleResult();
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<TagDto> getTagsFromAnswerByUserId(long user_id)  {
-        List<TagDto> list = entityManager.createQuery("SELECT " +
-//                "q.id, " +
-                "t.id, " +
-                "t.name, " +
-                "t.description " +
-                "FROM Question q " +
-                "LEFT JOIN Answer a ON q.id = a.question.id " +
-                "JOIN q.tags t " +
-                "WHERE a.user.id = :user_id ")
-//                " OR a.user.id = :user_id")
-                .setParameter("user_id", user_id)
-                .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] tuple, String[] aliases) {
-                        return TagDto.builder()
-                                .id((Long) tuple[0])
-                                .name((String) tuple[1])
-                                .description((String) tuple[2])
-//                                .questionId((Long) tuple[0])
-                                .build();
-                    }
-
-                    @Override
-                    public List transformList(List list) {
-                        return list;
-                    }
-                }).getResultList();
-
-        return list.isEmpty()? Collections.emptyList() : list;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
-    public List<AnswerDto> getAnswerDtoByUserIdSortByDate(Long user_id) {
+    public List<AnswerDto> getAnswerDtoByUserIdSortByDate(Long userId, Integer page) {
         List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
                 "a.id, " +
                 "a.persistDateTime, " +
@@ -174,9 +139,11 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "a.countValuable, " +
                 "a.question.id, " +
                 "a.question.title " +
-                "FROM Answer a WHERE a.user.id = :user_id " +
+                "FROM Answer a WHERE a.user.id = :userId " +
                 "ORDER BY a.persistDateTime DESC")
-                .setParameter("user_id", user_id)
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
@@ -201,7 +168,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<AnswerDto> getAnswerDtoByUserIdSortByViews(Long user_id) {
+    public List<AnswerDto> getAnswerDtoByUserIdSortByViews(Long userId, Integer page) {
         List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
                 "a.id, " +
                 "a.persistDateTime, " +
@@ -210,9 +177,11 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "a.question.id, " +
                 "a.question.title, " +
                 "a.question.viewCount " +
-                "FROM Answer a WHERE a.user.id = :user_id " +
+                "FROM Answer a WHERE a.user.id = :userId " +
                 "ORDER BY a.question.viewCount DESC")
-                .setParameter("user_id", user_id)
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
@@ -237,7 +206,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<AnswerDto> getAnswerDtoByUserIdSortByVotes(Long user_id) {
+    public List<AnswerDto> getAnswerDtoByUserIdSortByVotes(Long userId, Integer page) {
         List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
                 "a.id, " +
                 "a.persistDateTime, " +
@@ -245,9 +214,11 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "a.countValuable, " +
                 "a.question.id, " +
                 "a.question.title " +
-                "FROM Answer a WHERE a.user.id = :user_id " +
+                "FROM Answer a WHERE a.user.id = :userId " +
                 "ORDER BY a.countValuable DESC")
-                .setParameter("user_id", user_id)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
+                .setParameter("userId", userId)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override

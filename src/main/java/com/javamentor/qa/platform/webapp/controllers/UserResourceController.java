@@ -133,8 +133,7 @@ public class UserResourceController {
         Optional<UserDto> optionalUserDto = userDtoService.getUserDtoById(id);
         if (optionalUserDto.isPresent()) {
             UserDto userDto = optionalUserDto.get();
-            String tyTabsAndSort = tab.toLowerCase()+":"+sort.toLowerCase();
-            UserStatisticDto userStatisticDto = userStatisticDtoService.getUserStatistic(userDto, tyTabsAndSort);
+            UserStatisticDto userStatisticDto = userStatisticDtoService.getUserStatistic(userDto, tab, sort, page);
             return ResponseEntity.ok(userStatisticDto);
         } else {
             logger.info(String.format("Пользователь с указанным ID: %d не найден!", id));

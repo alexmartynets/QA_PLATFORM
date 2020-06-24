@@ -181,18 +181,18 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-
-    //    methods for statistics
     @Override
     @SuppressWarnings("unchecked")
-    public List<UserBadgesDto> getUserBadges(Long user_id) {
+    public List<UserBadgesDto> getUserBadges(Long userId, Integer page) {
         List<UserBadgesDto> userBadgesList = entityManager.createQuery("SELECT " +
                 "b.id, " +
                 "b.description, " +
                 "b.badges " +
                 "FROM UserBadges ub JOIN Badges b ON ub.badges.id = b.id " +
-                "WHERE ub.user.id = :user_id AND ub.ready = true ")
-                .setParameter("user_id", user_id)
+                "WHERE ub.user.id = :userId AND ub.ready = true ")
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 42)
+                .setMaxResults(42)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
@@ -215,14 +215,25 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
     @Override
     @SuppressWarnings("unchecked")
-    public Long getAllViews(Long user_id) {
+    public Long getCountOfUserBadges(Long userId) {
+        return entityManager.createQuery("SELECT " +
+                "COUNT(b.id) " +
+                "FROM UserBadges ub JOIN Badges b ON ub.badges.id = b.id " +
+                "WHERE ub.user.id = :userId AND ub.ready = true", Long.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Long getAllViews(Long userId) {
         Long Qlong = entityManager.createQuery("SELECT SUM(q.viewCount) " +
-                "FROM Question q WHERE q.user.id = :user_id", Long.class)
-                .setParameter("user_id", user_id)
+                "FROM Question q WHERE q.user.id = :userId", Long.class)
+                .setParameter("userId", userId)
                 .getSingleResult();
         Long Along = entityManager.createQuery("SELECT SUM(a.question.viewCount) " +
-                "FROM Answer a WHERE a.user.id = :user_id", Long.class)
-                .setParameter("user_id", user_id)
+                "FROM Answer a WHERE a.user.id = :userId", Long.class)
+                .setParameter("userId", userId)
                 .getSingleResult();
         Long result = Long.sum(Qlong == null ? 0l : Qlong, Along == null ? 0l : Along);
         return result;

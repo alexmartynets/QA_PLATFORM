@@ -4,16 +4,11 @@ import com.javamentor.qa.platform.dao.abstracts.dto.AnswerDtoDAO;
 import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.abstracts.model.ReputationDAO;
-import com.javamentor.qa.platform.dao.abstracts.model.UserFavoriteQuestionDAO;
 import com.javamentor.qa.platform.models.dto.*;
 import com.javamentor.qa.platform.service.abstracts.dto.UserStatisticDtoService;
 import com.javamentor.qa.platform.service.statistics.main.GetUserStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
@@ -40,13 +35,14 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
     }
 
     @Override
-    public UserStatisticDto getUserStatistic(UserDto user, String typeTabsAndSort) {
+    public UserStatisticDto getUserStatistic(UserDto user, String tab, String sort, Integer page) {
         this.user = user;
-        typeTabsAndSort +=":"+user.getId();
-        UserStatisticDto userStatisticDto = getUserStatistics.getResult(typeTabsAndSort);
-        userStatisticDto.setTotalUserAnswers(reputationDAO.getSummOfUserReputation(user.getId()));
+        String typeTabsAndSort =tab + ":" + sort +":" +user.getId();
+        UserStatisticDto userStatisticDto = getUserStatistics.getResult(typeTabsAndSort.replace(" ", ""), page);
+
+        userStatisticDto.setTotalUserAnswers(answerDtoDAO.getAnswerCountByUserId(user.getId()));
         userStatisticDto.setTotalUserQuestions(questionDtoDao.getQuestionCountByUserId(user.getId()));
-        userStatisticDto.setTotalUserReputation(reputationDAO.getSummOfUserReputation(user.getId()));
+        userStatisticDto.setTotalUserReputation(reputationDAO.getSumOfUserReputation(user.getId()));
         userStatisticDto.setAllViews(userDtoDAO.getAllViews(user.getId()));
         userStatisticDto.setUserDto(user);
         return userStatisticDto;

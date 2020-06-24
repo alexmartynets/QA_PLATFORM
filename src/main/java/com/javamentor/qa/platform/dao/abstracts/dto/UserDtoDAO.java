@@ -16,7 +16,9 @@ public interface UserDtoDAO {
     List<UserDto> getListUsersForPagination(int page, int count);
 
     //    methods for statistics
-    List<UserBadgesDto> getUserBadges(Long user_id);
+    List<UserBadgesDto> getUserBadges(Long userId, Integer page);
 
-    Long getAllViews(Long user_id);
+    Long getCountOfUserBadges(Long userId);
+
+    Long getAllViews(Long userId);
 }
