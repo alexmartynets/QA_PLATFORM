@@ -15,9 +15,13 @@ public interface AnswerDtoDAO {
     List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId);
 
 //    new methods
-    List<AnswerDto> getAnswerDtoByUserId(Long user_id, String sort, int page);
-
     Long getAnswerCountByUserId(long user_id);
 
     List<TagDto> getTagsFromAnswerByUserId(long user_id);
+
+    List<AnswerDto> getAnswerDtoByUserIdSortByDate(Long user_id);
+
+    List<AnswerDto> getAnswerDtoByUserIdSortByViews(Long user_id);
+
+    List<AnswerDto> getAnswerDtoByUserIdSortByVotes(Long user_id);
 }

@@ -19,7 +19,7 @@ public class UserFavoriteQuestionDAOImpl
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<QuestionDto> getUserFavorite(Long user_id, String sort, int page) {
+    public List<QuestionDto> getUserFavorite(Long user_id) {
         List<QuestionDto> favoriteQuestionDto = entityManager.createQuery("SELECT " +
                 "q.id, " +
                 "q.title, " +
@@ -30,11 +30,8 @@ public class UserFavoriteQuestionDAOImpl
                 "q.persistDateTime " +
                 "FROM Question q " +
                 "LEFT JOIN UserFavoriteQuestion uf ON q.id = uf.question.id " +
-                "WHERE uf.user.id = :user_id " +
-                "ORDER BY "+ sort +" DESC")
+                "WHERE uf.user.id = :user_id ")
                 .setParameter("user_id", user_id)
-                .setFirstResult((page - 1) * 20)
-                .setMaxResults(20)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override

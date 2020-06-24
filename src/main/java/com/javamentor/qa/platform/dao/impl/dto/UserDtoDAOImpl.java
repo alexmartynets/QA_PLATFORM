@@ -210,12 +210,12 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     }
                 })
                 .getResultList();
-        return userBadgesList.isEmpty()? Collections.emptyList() : userBadgesList;
+        return userBadgesList.isEmpty() ? Collections.emptyList() : userBadgesList;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Long getAllViews(Long user_id){
+    public Long getAllViews(Long user_id) {
         Long Qlong = entityManager.createQuery("SELECT SUM(q.viewCount) " +
                 "FROM Question q WHERE q.user.id = :user_id", Long.class)
                 .setParameter("user_id", user_id)
@@ -224,7 +224,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "FROM Answer a WHERE a.user.id = :user_id", Long.class)
                 .setParameter("user_id", user_id)
                 .getSingleResult();
-        Long result = Long.sum(Qlong, Along);
+        Long result = Long.sum(Qlong == null ? 0l : Qlong, Along == null ? 0l : Along);
         return result;
     }
 }

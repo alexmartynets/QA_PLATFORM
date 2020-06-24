@@ -26,9 +26,13 @@ public interface QuestionDtoDao {
 
 //    new methods
 
-    List<QuestionDto> getSortingQuestionDtoByUserId(Long user_id, String sort, int page);
-
     Long getQuestionCountByUserId(long user_id);
 
     List<TagDto> getTagsByUserId(long user_id);
+
+    List<QuestionDto> getQuestionDtoByUserIdSortByDate(Long user_id);
+
+    List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long user_id);
+
+    List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long user_id);
 }

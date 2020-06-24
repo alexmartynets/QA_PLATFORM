@@ -7,7 +7,6 @@ import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
 import com.javamentor.qa.platform.service.abstracts.dto.UserStatisticDtoService;
-import com.javamentor.qa.platform.service.abstracts.dto.UserStatisticsDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import io.swagger.annotations.Api;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,7 +38,6 @@ public class UserResourceController {
     private final UserDtoService userDtoService;
     private final UserConverter userConverter;
     private final UserStatisticDtoService userStatisticDtoService;
-    private final UserStatisticsDtoService userStatisticsDtoService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -48,13 +45,11 @@ public class UserResourceController {
     public UserResourceController(UserService userService,
                                   UserDtoService userDtoService,
                                   UserConverter userConverter,
-                                  UserStatisticDtoService userStatisticDtoService,
-                                  UserStatisticsDtoService userStatisticsDtoService) {
+                                  UserStatisticDtoService userStatisticDtoService) {
         this.userService = userService;
         this.userDtoService = userDtoService;
         this.userConverter = userConverter;
         this.userStatisticDtoService = userStatisticDtoService;
-        this.userStatisticsDtoService = userStatisticsDtoService;
     }
 
     @ApiOperation(value = "Добавление пользователя")
@@ -138,7 +133,8 @@ public class UserResourceController {
         Optional<UserDto> optionalUserDto = userDtoService.getUserDtoById(id);
         if (optionalUserDto.isPresent()) {
             UserDto userDto = optionalUserDto.get();
-            UserStatisticDto userStatisticDto = userStatisticsDtoService.getUserStatistic(userDto, tab, sort, page);
+            String tyTabsAndSort = tab.toLowerCase()+":"+sort.toLowerCase();
+            UserStatisticDto userStatisticDto = userStatisticDtoService.getUserStatistic(userDto, tyTabsAndSort);
             return ResponseEntity.ok(userStatisticDto);
         } else {
             logger.info(String.format("Пользователь с указанным ID: %d не найден!", id));

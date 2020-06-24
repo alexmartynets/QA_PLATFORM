@@ -121,43 +121,6 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     }
 
     // new methods
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<AnswerDto> getAnswerDtoByUserId(Long user_id, String sort, int page) {
-        List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
-                "a.id, " +
-                "a.persistDateTime, " +
-                "a.isHelpful, " +
-                "a.countValuable, " +
-                "a.question.id, " +
-                "a.question.title " +
-                "FROM Answer a WHERE a.user.id = :user_id " +
-                "ORDER BY " + sort + " DESC")
-                .setParameter("user_id", user_id)
-                .setFirstResult((page - 1) * 20)
-                .setMaxResults(20)
-                .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] objects, String[] aliases) {
-                        return AnswerDto.builder()
-                                .id((Long) objects[0])
-                                .persistDateTime((LocalDateTime) objects[1])
-                                .isHelpful((Boolean) objects[2])
-                                .countValuable((Integer) objects[3])
-                                .questionId((Long) objects[4])
-                                .htmlBody((String) objects[5])
-                                .build();
-                    }
-
-                    @Override
-                    public List transformList(List collection) {
-                        return collection;
-                    }
-                }).getResultList();
-        return answerList.isEmpty() ? Collections.emptyList() : answerList;
-    }
-
     @Override
     public Long getAnswerCountByUserId(long user_id) {
         return (Long) entityManager.createQuery("SELECT COUNT(a) " +
@@ -199,6 +162,112 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 }).getResultList();
 
         return list.isEmpty()? Collections.emptyList() : list;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AnswerDto> getAnswerDtoByUserIdSortByDate(Long user_id) {
+        List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
+                "a.id, " +
+                "a.persistDateTime, " +
+                "a.isHelpful, " +
+                "a.countValuable, " +
+                "a.question.id, " +
+                "a.question.title " +
+                "FROM Answer a WHERE a.user.id = :user_id " +
+                "ORDER BY a.persistDateTime DESC")
+                .setParameter("user_id", user_id)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] aliases) {
+                        return AnswerDto.builder()
+                                .id((Long) objects[0])
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .isHelpful((Boolean) objects[2])
+                                .countValuable((Integer) objects[3])
+                                .questionId((Long) objects[4])
+                                .htmlBody((String) objects[5])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List collection) {
+                        return collection;
+                    }
+                }).getResultList();
+        return answerList.isEmpty() ? Collections.emptyList() : answerList;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AnswerDto> getAnswerDtoByUserIdSortByViews(Long user_id) {
+        List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
+                "a.id, " +
+                "a.persistDateTime, " +
+                "a.isHelpful, " +
+                "a.countValuable, " +
+                "a.question.id, " +
+                "a.question.title, " +
+                "a.question.viewCount " +
+                "FROM Answer a WHERE a.user.id = :user_id " +
+                "ORDER BY a.question.viewCount DESC")
+                .setParameter("user_id", user_id)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] aliases) {
+                        return AnswerDto.builder()
+                                .id((Long) objects[0])
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .isHelpful((Boolean) objects[2])
+                                .countValuable((Integer) objects[3])
+                                .questionId((Long) objects[4])
+                                .htmlBody((String) objects[5])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List collection) {
+                        return collection;
+                    }
+                }).getResultList();
+        return answerList.isEmpty() ? Collections.emptyList() : answerList;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AnswerDto> getAnswerDtoByUserIdSortByVotes(Long user_id) {
+        List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
+                "a.id, " +
+                "a.persistDateTime, " +
+                "a.isHelpful, " +
+                "a.countValuable, " +
+                "a.question.id, " +
+                "a.question.title " +
+                "FROM Answer a WHERE a.user.id = :user_id " +
+                "ORDER BY a.countValuable DESC")
+                .setParameter("user_id", user_id)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] aliases) {
+                        return AnswerDto.builder()
+                                .id((Long) objects[0])
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .isHelpful((Boolean) objects[2])
+                                .countValuable((Integer) objects[3])
+                                .questionId((Long) objects[4])
+                                .htmlBody((String) objects[5])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List collection) {
+                        return collection;
+                    }
+                }).getResultList();
+        return answerList.isEmpty() ? Collections.emptyList() : answerList;
     }
 
 }
