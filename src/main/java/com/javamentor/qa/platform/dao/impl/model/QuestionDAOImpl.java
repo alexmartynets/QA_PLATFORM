@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class QuestionDAOImpl extends ReadWriteDAOImpl<Question, Long> implements QuestionDAO {
+
 }

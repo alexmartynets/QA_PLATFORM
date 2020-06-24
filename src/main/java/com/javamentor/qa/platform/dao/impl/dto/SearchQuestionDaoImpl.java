@@ -5,6 +5,7 @@ import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.dto.TagDto;
+import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import org.hibernate.query.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -26,7 +27,7 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
             "q.title, " +
             "q.description, " +
             "q.user.fullName, " +
-            "q.countValuable, " +
+            "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = q.id), " +
             "q.user.reputationCount, " +
             "q.viewCount, " +
             "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
@@ -75,7 +76,9 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
                             QuestionDto questionDto = (QuestionDto) obj;
                             if (result.containsKey(questionDto.getId())) {
                                 result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
-                            } else result.put(questionDto.getId(), questionDto);
+                            } else {
+                                result.put(questionDto.getId(), questionDto);
+                            }
                         }
                         return new ArrayList<>(result.values());
                     }
@@ -104,10 +107,20 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
     public List<QuestionDto> getQuestionsSortedByVotes() {
         List<QuestionDto> questionDtoListSortedByVotes = new ArrayList<>();
         try {
-            questionDtoListSortedByVotes = entityManager.createQuery(QUERY +
-                    " FROM Question q JOIN q.tags t ORDER BY q.countValuable DESC")
+            questionDtoListSortedByVotes = entityManager.createQuery("SELECT " +
+                    "q.id, " +
+                    "q.persistDateTime, " +
+                    "q.title, " +
+                    "q.description, " +
+                    "q.user.fullName, " +
+                    "SUM(v.vote), " +
+                    "q.user.reputationCount, " +
+                    "q.viewCount, " +
+                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                    "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                    "FROM Question q LEFT JOIN VoteQuestion v ON q.id = v.voteQuestionPK.question.id GROUP BY q.id ORDER BY SUM (v.vote) DESC")
                     .unwrap(Query.class)
-                    .setResultTransformer(result())
+                    .setResultTransformer(resultWithSumVotes())
                     .getResultList();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -134,14 +147,24 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<QuestionDto> getQuestionsByNumberOfVotes(Integer numberOfVotes) {
+    public List<QuestionDto> getQuestionsByNumberOfVotes(Long numberOfVotes) {
         List<QuestionDto> questionDtoListByNumberOfVotes = new ArrayList<>();
         try {
-            questionDtoListByNumberOfVotes = entityManager.createQuery(QUERY +
-                    " FROM Question q JOIN q.tags t WHERE q.countValuable >= :numberOfVotes ORDER BY q.countValuable ASC")
+            questionDtoListByNumberOfVotes = entityManager.createQuery("SELECT " +
+                    "q.id, " +
+                    "q.persistDateTime, " +
+                    "q.title, " +
+                    "q.description, " +
+                    "q.user.fullName, " +
+                    "SUM(v.vote), " +
+                    "q.user.reputationCount, " +
+                    "q.viewCount, " +
+                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                    "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                    "FROM Question q LEFT JOIN VoteQuestion v ON q.id = v.voteQuestionPK.question.id GROUP BY q.id HAVING SUM (v.vote) >= : numberOfVotes ORDER BY SUM (v.vote) ASC")
                     .setParameter("numberOfVotes", numberOfVotes)
                     .unwrap(Query.class)
-                    .setResultTransformer(result())
+                    .setResultTransformer(resultWithSumVotes())
                     .getResultList();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -244,10 +267,12 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
                                 .id(((Number) tuple[0]).longValue())
                                 .title((String) tuple[2])
                                 .description((String) tuple[1])
-                                .countValuable(((Number) tuple[3]).intValue())
+                                .countValuable((tuple[3] == null ? 0 : ((Number) tuple[3]).intValue()))
                                 .persistDateTime((LocalDateTime) tuple[4])
-                                .username((String) tuple[5])
-                                .reputationCount(((Number) tuple[6]).intValue())
+                                .userDto(UserDto.builder()
+                                        .fullName((String) tuple[5])
+                                        .reputationCount(((Number) tuple[6]).intValue())
+                                        .build())
                                 .viewCount(((Number) tuple[7]).intValue())
                                 .build();
                     }
@@ -264,6 +289,10 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
         return new ResultTransformer() {
             @Override
             public Object transformTuple(Object[] tuple, String[] aliases) {
+                UserDto userDto = UserDto.builder()
+                        .fullName((String) tuple[4])
+                        .reputationCount(((Number) tuple[6]).intValue())
+                        .build();
                 TagDto tagDto = TagDto.builder()
                         .id((Long) tuple[10])
                         .name((String) tuple[11])
@@ -276,12 +305,11 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
                         .persistDateTime((LocalDateTime) tuple[1])
                         .title((String) tuple[2])
                         .description((String) tuple[3])
-                        .username((String) tuple[4])
-                        .countValuable(((Number) tuple[5]).intValue())
+                        .userDto(userDto)
+                        .countValuable((tuple[5] == null ? 0 : ((Number) tuple[5]).intValue()))
                         .countAnswer(((Number) tuple[8]).intValue())
                         .isHelpful((Boolean) tuple[9])
-                        .viewCount(((Number)tuple[7]).intValue())
-                        .reputationCount(((Number)tuple[6]).intValue())
+                        .viewCount(((Number) tuple[7]).intValue())
                         .tags(tagDtoList)
                         .build();
             }
@@ -293,9 +321,41 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
                     QuestionDto questionDto = (QuestionDto) obj;
                     if (result.containsKey(questionDto.getId())) {
                         result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
-                    } else result.put(questionDto.getId(), questionDto);
+                    } else {
+                        result.put(questionDto.getId(), questionDto);
+                    }
                 }
                 return new ArrayList<>(result.values());
+            }
+        };
+    }
+
+    private ResultTransformer resultWithSumVotes() {
+        return new ResultTransformer() {
+            @Override
+            public Object transformTuple(Object[] tuple, String[] aliases) {
+                UserDto userDto = UserDto.builder()
+                        .fullName((String) tuple[4])
+                        .reputationCount(((Number) tuple[6]).intValue())
+                        .build();
+                List<TagDto> tagDtoList = new ArrayList<>();
+                return QuestionDto.builder()
+                        .id(((Number) tuple[0]).longValue())
+                        .persistDateTime((LocalDateTime) tuple[1])
+                        .title((String) tuple[2])
+                        .description((String) tuple[3])
+                        .userDto(userDto)
+                        .countValuable((tuple[5] == null ? 0 : ((Number) tuple[5]).intValue()))
+                        .countAnswer(((Number) tuple[8]).intValue())
+                        .isHelpful((Boolean) tuple[9])
+                        .viewCount(((Number) tuple[7]).intValue())
+                        .tags(tagDtoList)
+                        .build();
+            }
+
+            @Override
+            public List transformList(List collection) {
+                return collection;
             }
         };
     }
