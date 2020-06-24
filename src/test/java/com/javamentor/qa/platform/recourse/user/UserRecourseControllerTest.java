@@ -141,13 +141,39 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void create_User_With_Invalid_Password() throws Exception {
+    void create_User_With_Short_Password() throws Exception {
         this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
                         "\"email\": \"admin@admin.ru\"," +
-                        "\"password\": \"Qwerty\"" +
+                        "\"password\": \"Qwert1\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void create_User_With_No_Number_Password() throws Exception {
+        this.mockMvc.perform(post("/api/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"fullName\": \"Админ\"," +
+                        "\"email\": \"admin@admin.ru\"," +
+                        "\"password\": \"Qwertyuio\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void create_User_With_No_Capital_Letter_Password() throws Exception {
+        this.mockMvc.perform(post("/api/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"fullName\": \"Админ\"," +
+                        "\"email\": \"admin@admin.ru\"," +
+                        "\"password\": \"qwertys12\"" +
                         "}"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());

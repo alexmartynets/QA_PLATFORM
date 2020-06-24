@@ -26,7 +26,7 @@ public class UserDto {
 
     @ApiModelProperty(notes = "Полное имя пользователя, поле не должно быть пустым",
             required = true, example = "Иванов Иван", position = 4)
-    @NotNull(groups = OnCreate.class, message = "Поле имя не должно быть Null")
+    @NotNull(groups = OnCreate.class, message = "Поле имя должно быть Null при создании")
     @NotBlank(groups = OnCreate.class, message = "Поле имя не должно состоять из пробелов")
     @Pattern(groups = OnCreate.class, regexp = "[а-яА-ЯёЁa-zA-Z]+.*$", message = "Поле имя должен начинаться с буквы")
     private String fullName;
@@ -39,12 +39,13 @@ public class UserDto {
             message = "Email должен быть корректным")
     private String email;
 
-//    @NotNull(groups = OnCreate.class, message = "Поле password не должно быть пустым")
+
     @ApiModelProperty(notes = "Должен содержать минимум 8 символов, 1 заглавную букву и 1 цифру",
             required = true, example = "Qwerty12", position = 3)
+    @NotNull(groups = OnCreate.class, message = "Поле password не должно быть Null при создании")
     @NotBlank(groups = OnCreate.class, message = "Поле password не должно состоять из пробелов")
-    @Pattern(groups = OnCreate.class, regexp = "[a-zA-Z0-9]+", message = "Поле password должен содержать 1 цифру, 1 букву.")
-    @Size(groups = OnCreate.class, min = 7, message = "Поле password должен быть не мение 8 символов.")
+    @Pattern(groups = OnCreate.class, regexp = "[a-zA-Z][0-9]+", message = "Поле password должен содержать 1 цифру, 1 заглавную букву.")
+    @Size(groups = OnCreate.class, min = 8, message = "Поле password должен быть не мение 8 символов.")
     private String password;
 
     @Null(groups = OnCreate.class, message = "Автоматически назначается при создании всем пользователям, " +

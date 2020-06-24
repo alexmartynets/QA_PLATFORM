@@ -140,7 +140,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.about, " +
                 "u.city, " +
                 "u.imageUser, " +
-                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDateTime > :data GROUP BY u.id) AS reputationCount " +
+                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDate > :data GROUP BY u.id) AS reputationCount " +
                 "FROM User AS u WHERE u.persistDateTime > :data ORDER BY reputationCount DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -190,7 +190,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.about, " +
                 "u.city, " +
                 "u.imageUser, " +
-                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDateTime > :data GROUP BY u.id) " +
+                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDate > :data GROUP BY u.id) " +
                 "FROM User AS u WHERE u.persistDateTime > :data ORDER BY u.persistDateTime DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -242,7 +242,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.city, " +
                 "u.imageUser, " +
                 "SUM(e.count)," +
-                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDateTime > :data GROUP BY u.id) " +
+                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDate > :data GROUP BY u.id) " +
                 "FROM Editor AS e JOIN User AS u ON e.user.id = u.id WHERE e.persistDate > :data " +
                 "GROUP BY e.user.id ORDER BY SUM(e.count) DESC")
                 .setParameter("data", data)
@@ -278,7 +278,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     public Long getCountUsersByName(String name, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
-                "WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%')", Long.class)
+                "WHERE r.persistDate > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%')", Long.class)
                 .setParameter("data", data)
                 .setParameter("searchKeyword", name.toLowerCase())
                 .getSingleResult();
@@ -296,7 +296,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.city, " +
                 "u.imageUser, " +
                 "SUM(r.count)" +
-                "FROM Reputation AS r JOIN User AS u ON r.user.id = u.id WHERE r.persistDateTime > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%') " +
+                "FROM Reputation AS r JOIN User AS u ON r.user.id = u.id WHERE r.persistDate > :data AND r.user.fullName LIKE CONCAT(:searchKeyword, '%') " +
                 "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
                 .setParameter("data", data)
                 .setParameter("searchKeyword", name.toLowerCase())
@@ -331,7 +331,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     public Long getCountUsersByReputation(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
-                "WHERE r.persistDateTime > :data", Long.class)
+                "WHERE r.persistDate > :data", Long.class)
                 .setParameter("data", data)
                 .getSingleResult();
     }
@@ -348,7 +348,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.city, " +
                 "u.imageUser, " +
                 "SUM(r.count)" +
-                "FROM Reputation AS r JOIN User AS u ON r.user.id = u.id WHERE r.persistDateTime > :data " +
+                "FROM Reputation AS r JOIN User AS u ON r.user.id = u.id WHERE r.persistDate > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -382,7 +382,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     public Long getCountUsersByVoice(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
-                "WHERE r.persistDateTime > :data", Long.class)
+                "WHERE r.persistDate > :data", Long.class)
                 .setParameter("data", data)
                 .getSingleResult();
     }
@@ -400,7 +400,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "r.user.city, " +
                 "r.user.imageUser, " +
                 "SUM(r.count)" +
-                "FROM Reputation as r WHERE r.persistDateTime > :data " +
+                "FROM Reputation as r WHERE r.persistDate > :data " +
                 "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))

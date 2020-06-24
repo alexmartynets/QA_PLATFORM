@@ -46,6 +46,15 @@ public class UserResourceController {
         this.userConverter = userConverter;
     }
 
+    @ApiOperation(value = "получение списка доступных пользователей")
+    @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен")
+    })
+    public ResponseEntity<List<UserDto>> findAllUsers() {
+        return ResponseEntity.ok(userDtoService.getUserDtoList());
+    }
+
     @ApiOperation(value = "Добавление пользователя")
     @PostMapping
     @ApiResponses(value = {
@@ -56,15 +65,6 @@ public class UserResourceController {
         userService.persist(userConverter.toEntity(userDto));
         logger.info(String.format("Пользователь с email: %s добавлен в базу данных", userDto.getEmail()));
         return ResponseEntity.ok().body(userDto);
-    }
-
-    @ApiOperation(value = "получение списка доступных пользователей")
-    @GetMapping
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
-    })
-    public ResponseEntity<List<UserDto>> findAllUsers() {
-        return ResponseEntity.ok(userDtoService.getUserDtoList());
     }
 
     @ApiOperation(value = "Изменение пользователя (параметр ID обязателен)")
