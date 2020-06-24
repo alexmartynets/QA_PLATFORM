@@ -140,7 +140,6 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().is4xxClientError());
     }
 
-    // todo сделать проверку в контролере code 200
     @Test
     void create_User_With_Invalid_Password() throws Exception {
         this.mockMvc.perform(post("/api/user")

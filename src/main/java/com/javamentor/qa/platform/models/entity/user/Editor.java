@@ -1,6 +1,5 @@
-package com.javamentor.qa.platform.models.entity;
+package com.javamentor.qa.platform.models.entity.user;
 
-import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -26,7 +25,7 @@ public class Editor {
     @CreationTimestamp
     @Column(name = "persist_date", updatable = false)
     @Type(type = "org.hibernate.type.LocalDateTimeType")
-    private LocalDateTime persistDateTime;
+    private LocalDateTime persistDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -41,12 +40,12 @@ public class Editor {
         if (o == null || getClass() != o.getClass()) return false;
         Editor editor = (Editor) o;
         return Objects.equals(id, editor.id) &&
-                Objects.equals(persistDateTime, editor.persistDateTime) &&
+                Objects.equals(persistDate, editor.persistDate) &&
                 Objects.equals(count, editor.count);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, persistDateTime, count);
+        return Objects.hash(id, persistDate, count);
     }
 }

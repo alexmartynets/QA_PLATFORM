@@ -4,7 +4,6 @@ import com.javamentor.qa.platform.models.entity.Badges;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.*;
-import com.javamentor.qa.platform.models.entity.*;
 import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.RelatedTag;
@@ -19,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,29 +54,25 @@ public class TestDataEntityService {
     private final BadgesService badgesService;
     private final UserBadgesService userBadgesService;
     private final VoteQuestionService voteQuestionService;
+    private final EditorService editorService;
+    private final ModeratorService moderatorService;
 
 
     @Autowired
     public TestDataEntityService(ReputationService reputationService,
                                  BadgesService badgesService,
                                  UserBadgesService userBadgesService,
-                                 VoteQuestionService voteQuestionService) {
+                                 VoteQuestionService voteQuestionService, 
+                                 EditorService editorService, 
+                                 ModeratorService moderatorService) {
         this.reputationService = reputationService;
         this.badgesService = badgesService;
         this.userBadgesService = userBadgesService;
         this.voteQuestionService = voteQuestionService;
+        this.editorService = editorService;
+        this.moderatorService = moderatorService;
     }
-
-    @Autowired
-    private ReputationService reputationService;
-
-    @Autowired
-    private EditorService editorService;
-
-    @Autowired
-    private ModeratorService moderatorService;
-
-
+    
     public void createEntity() {
         creatUserEntity();
         creatTagEntity();
@@ -485,11 +479,11 @@ public class TestDataEntityService {
                 .build();
         userService.persist(user17);
 
-//        Reputation reputation17 = Reputation.builder()
-//                .count(1)
-//                .user(user17)
-//                .build();
-//        reputationService.persist(reputation17);
+        Reputation reputation17 = Reputation.builder()
+                .count(1)
+                .user(user17)
+                .build();
+        reputationService.persist(reputation17);
 
         User user18 = User.builder()
                 .email("user18@user.ru")
@@ -613,11 +607,11 @@ public class TestDataEntityService {
                 .build();
         reputationService.persist(reputation32);
 
-//        Reputation reputation33 = Reputation.builder()
-//                .count(1)
-//                .user(userService.getByKey(18L))
-//                .build();
-//        reputationService.persist(reputation33);
+        Reputation reputation33 = Reputation.builder()
+                .count(1)
+                .user(userService.getByKey(18L))
+                .build();
+        reputationService.persist(reputation33);
 
         Reputation reputation34 = Reputation.builder()
                 .count(1)
@@ -812,7 +806,6 @@ public class TestDataEntityService {
                 .viewCount(3)
                 .description("Question1 description")
                 .user(userService.getByKey(2L))
-                .countValuable(2)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList1 = new ArrayList<>();
@@ -827,7 +820,6 @@ public class TestDataEntityService {
                 .viewCount(4)
                 .description("Question2 description")
                 .user(userService.getByKey(3L))
-                .countValuable(2)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList2 = new ArrayList<>();
@@ -840,7 +832,6 @@ public class TestDataEntityService {
                 .viewCount(5)
                 .description("Question3 description")
                 .user(userService.getByKey(4L))
-                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList3 = new ArrayList<>();
@@ -855,7 +846,6 @@ public class TestDataEntityService {
                 .viewCount(5)
                 .description("Question4 description")
                 .user(userService.getByKey(3L))
-                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList4 = new ArrayList<>();
@@ -868,7 +858,6 @@ public class TestDataEntityService {
                 .viewCount(5)
                 .description("Question5 description")
                 .user(userService.getByKey(5L))
-                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList5 = new ArrayList<>();
@@ -881,7 +870,6 @@ public class TestDataEntityService {
                 .viewCount(5)
                 .description("Question6 description")
                 .user(userService.getByKey(4L))
-                .countValuable(6)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList6 = new ArrayList<>();
@@ -898,7 +886,6 @@ public class TestDataEntityService {
                 .viewCount(8)
                 .description("Question7 description")
                 .user(userService.getByKey(3L))
-                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList7 = new ArrayList<>();
@@ -913,7 +900,6 @@ public class TestDataEntityService {
                 .viewCount(7)
                 .description("Question8 description")
                 .user(userService.getByKey(2L))
-                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList8 = new ArrayList<>();
@@ -926,7 +912,6 @@ public class TestDataEntityService {
                 .viewCount(9)
                 .description("Question9 description")
                 .user(userService.getByKey(5L))
-                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList9 = new ArrayList<>();
@@ -939,7 +924,6 @@ public class TestDataEntityService {
                 .viewCount(10)
                 .description("Question10 description")
                 .user(userService.getByKey(3L))
-                .countValuable(3)
                 .isDeleted(false)
                 .build();
         List<Tag> tagList10 = new ArrayList<>();

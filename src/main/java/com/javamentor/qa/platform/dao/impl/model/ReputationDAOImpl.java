@@ -9,6 +9,7 @@ import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
                                 .id((Long) objects[0])
                                 .user(user)
                                 .count((Integer) objects[1])
-                                .persistDate((LocalDate) objects[2])
+                                .persistDate((LocalDateTime) objects[2])
                                 .build();
                     }
 

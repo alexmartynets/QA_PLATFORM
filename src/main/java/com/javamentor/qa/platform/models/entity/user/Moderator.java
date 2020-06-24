@@ -1,6 +1,5 @@
-package com.javamentor.qa.platform.models.entity;
+package com.javamentor.qa.platform.models.entity.user;
 
-import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -24,7 +23,7 @@ public class Moderator {
     @CreationTimestamp
     @Column(name = "persist_date", updatable = false)
     @Type(type = "org.hibernate.type.LocalDateTimeType")
-    private LocalDateTime persistDateTime;
+    private LocalDateTime persistDate;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
@@ -36,11 +35,11 @@ public class Moderator {
         if (o == null || getClass() != o.getClass()) return false;
         Moderator moderator = (Moderator) o;
         return Objects.equals(id, moderator.id) &&
-                Objects.equals(persistDateTime, moderator.persistDateTime);
+                Objects.equals(persistDate, moderator.persistDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, persistDateTime);
+        return Objects.hash(id, persistDate);
     }
 }

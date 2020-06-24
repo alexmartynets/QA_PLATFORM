@@ -225,7 +225,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     public Long getCountUsersByQuantityEditedText(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         return entityManager.createQuery("SELECT COUNT(DISTINCT e.user.id) FROM Editor as e " +
-                "WHERE e.persistDateTime > :data", Long.class)
+                "WHERE e.persistDate > :data", Long.class)
                 .setParameter("data", data)
                 .getSingleResult();
     }
@@ -243,7 +243,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.imageUser, " +
                 "SUM(e.count)," +
                 "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id AND r.persistDateTime > :data GROUP BY u.id) " +
-                "FROM Editor AS e JOIN User AS u ON e.user.id = u.id WHERE e.persistDateTime > :data " +
+                "FROM Editor AS e JOIN User AS u ON e.user.id = u.id WHERE e.persistDate > :data " +
                 "GROUP BY e.user.id ORDER BY SUM(e.count) DESC")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -430,7 +430,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.fullName, " +
                 "u.city, " +
                 "u.imageUser, " +
-                "m.persistDateTime, " +
+                "m.persistDate, " +
                 "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id GROUP BY u.id)" +
                 "FROM Moderator AS m JOIN User AS u ON m.user.id = u.id")
                 .unwrap(Query.class)
