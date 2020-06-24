@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page for adding question</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/add_question.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/header.css"/>
+
+</head>
+
+<body>
+<!--Header begin-->
+<!--------------------------------------------------------------------------------------------------------------------->
+<nav class="navbar navbar-expand-sm navbar-light fixed-top">
+    <div class="container-fluid ">
+        <div class="dropdown m-2 header__dropdown">
+            <a class="btn btn-secondary dropdown-toggle " href="#" role="button" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Menu
+            </a>
+            <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Главная</a>
+                <a class="dropdown-item" href="#">Вопросы</a>
+                <a class="dropdown-item" href="#">Метки</a>
+                <a class="dropdown-item" href="#">Участники</a>
+            </div>
+        </div>
+        <a href="#" class="navbar-brand">Home</a>
+
+        <div class="input-group input-group-sm mb-3 search-users">
+            <input id="header__input" type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-sm" placeholder="Поиск...">
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="#" class="btn btn-primary btn-block">User</a>
+                </li>
+                <label class="interval-label"></label>
+                <li class="nav-item">
+                    <a href="#" class="btn btn-primary btn-block">User</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--------------------------------------------------------------------------------------------------------------------->
+<!--Header end-->
+
+<!--Content begin-->
+<!--------------------------------------------------------------------------------------------------------------------->
+<div class="container mt-5 pt-3 p-0 header">
+    <div class="row">
+        <div class="col-md-5 m-3 p-3">
+            <span class="header__span">
+                Задать вопрос
+            </span>
+        </div>
+        <div class="col-md-4">
+            <img src="../static/images/1.png" class="d-inline-block align-top"
+                 alt="">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 pr-3 body">
+            <nav class="navbar navbar-inverse pl-0 border-radius"
+                 style="background-color: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);">
+                <div class="container-fluid">
+                    <div class="navbar-header mt-2">
+                        <p class="body__p">Полезная информиция </p>
+                        <hr>
+                    </div>
+                    <div>
+                        <ul class="nav navbar-nav">
+                            <li class="active"><p class="body__p12">Сообщество здесь, чтобы помочь вам с
+                                конкретными проблемами по программированию, алгоритмам, языкам программирования.
+                                <br><br>Избегайте публикации вопросов, на которые невозможно дать объективный ответ.</p>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="body__digit">1.</span>
+                                    <span style="font-size: 13px">Опишите проблему кратко</span>
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu body__ul ml-2">
+                                    <ul>
+                                        <li class="none_style_li">
+                                            <span class="body__span">Включите подробную информацию о вашей цели</span>
+                                        </li>
+                                        <li class="none_style_li">
+                                            <span class="body__span">Опишите, что вы ожидали и что получили</span>
+                                        </li>
+                                        <li class="none_style_li">
+                                            <span class="body__span">Добавьте сообщения об ошибках</span>
+                                        </li>
+                                    </ul>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="body__digit">2.</span>
+                                    <span style="font-size: 13px">Опишите, что вы пробовали</span>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" style="border: none">
+                                    <li class="pl-4">
+                                        <span class="body__span">
+                                            Покажите, что вы пробовали, что вы нашли (на этом сайте или в другом месте), и
+                                            почему это не решает вашу проблему. Вы можете получить лучшие ответы, когда
+                                            продемонстрируете ваше исследование.
+                                        </span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <nav class="navbar navbar-inverse pl-0 mt-3 border-radius body__boxShadow">
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span style="font-size: 18px">Больше полезных ссылок</span>
+                                <span class="caret"></span></a>
+                            <hr class="p-0 m-0">
+                            <ul class="dropdown-menu pt-0 mt-0 pl-2" style="border: none">
+                                <li>
+                                    <span class="body__span">
+                                        Подробнее о том, как задать качественный вопрос.
+                                        <br>Посетите справочный центр.
+                                        <br>Вопросы о правилах и работе сайта можно задать на Мете.
+                                    </span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="col-md-9 border-radius body__boxShadow" id="question_div">
+            <div id="question_title" class="p-3">
+                <h5 class="p-0 m-0">
+                    Заголовок
+                </h5>
+                <p class="m-0 body__p12">
+                    Будьте конкретны. Представьте, что вы задаёте вопрос другому человеку.
+                </p>
+                <input type="text" class="border-radius p-1 body__firstInput" id="title"
+                       placeholder="В чем заключается ваш вопрос? Будьте корректны">
+            </div>
+            <div id="question-content" class="p-3">
+                <div>
+                    <h5 class="p-0 m-0">
+                        Основная часть
+                    </h5>
+                    <p class=" m-0">
+                        Добавьте всю информацию, которая может понадобиться для ответа на ваш вопрос
+                    </p>
+                    <div>
+                        <textarea id="summernote"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="tags" class="p-3">
+                <h5 class="p-0 m-0">
+                    Метки
+                </h5>
+                <p class=" m-0">
+                    Добавьте не более 5 меток.
+                </p>
+                <input id="tag" type="text" class="border-radius p-1 body__firstInput"
+                       placeholder="теги">
+            </div>
+            <div class="text-center m-3">
+                <button onclick="add()" type="button" class="btn btn-primary">Add question</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------------------------------------------------------------------------------------->
+<!--Content end-->
+
+<!--footer begin-->
+<!--------------------------------------------------------------------------------------------------------------------->
+<div class="container-fluid footer">
+    <div class="row mt-5 p-4" style="background: #242729;">
+
+        <div class="col-md-2 ml-5 m-0 p-0">
+            <a href="#" class="footer__span_a">
+                <span class="">STSCKOVERMENTOR</span>
+            </a>
+            <ul>
+                <li class="none_style_li">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-2 m-0 p-0">
+            <a href="#" class="footer__span_a">
+                <span>SOMETHING 1</span>
+            </a>
+            <ul>
+                <li class="none_style_li ">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-2 m-0 p-0">
+            <a href="#" class="footer__span_a">
+                <span>SOMETHING 2</span>
+            </a>
+            <ul>
+                <li class="none_style_li ">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-2 m-0 p-0">
+            <a href="#" class="footer__span_a">
+                <span>SOMETHING 3</span>
+            </a>
+            <ul>
+                <li class="none_style_li ">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+                <li class="none_style_li footer__a">
+                    <a href="#" class="footer__a"> Something</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-3 m-0 p-0">
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="#" class="footer_a">
+                        <span class="footer__span">Facebook</span>
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a href="#" class="footer_a">
+                        <span class="footer__span"> Twitter </span>
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a href="#" class="footer_a">
+                        <span class="footer__span"> LinkedIn </span>
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a href="#" class="footer_a">
+                        <span class="footer__span"> Instagram </span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col footer__copy">
+                    <span class="footer__span">
+                        site design / logo © 2020 Stack Exchange Inc; user contributions licensed under cc by-sa. rev 2020.6.10.37019
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------------------------------------------------------------------------->
+<!--footer end-->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
+<script src="../static/js/util/summernote-ru-RU.js"></script>
+<script src="../static/js/util/add_question.js"></script>
+<script src="../static/js/init/init_add_question.js"></script>
+
+<script>
+
+</script>
+
+</body>
+</html>

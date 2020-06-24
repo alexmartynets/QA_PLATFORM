@@ -3,11 +3,8 @@ package com.javamentor.qa.platform.service.impl.dto;
 import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
-import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
-import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
 import javafx.util.Pair;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,13 +13,9 @@ import java.util.Optional;
 public class QuestionDtoServiceImpl implements QuestionDtoService {
 
     private final QuestionDtoDao questionDtoDao;
-    private final QuestionConverter questionConverter;
-    private final QuestionService questionService;
 
-    public QuestionDtoServiceImpl(QuestionDtoDao questionDtoDao, QuestionConverter questionConverter, QuestionService questionService) {
+    public QuestionDtoServiceImpl(QuestionDtoDao questionDtoDao) {
         this.questionDtoDao = questionDtoDao;
-        this.questionConverter = questionConverter;
-        this.questionService = questionService;
     }
 
     @Override
@@ -43,6 +36,11 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     }
 
     @Override
+    public Optional<QuestionDto> getQuestionDtoById(Long id, Long userId) {
+        return questionDtoDao.getQuestionDtoById(id, userId);
+    }
+
+    @Override
     public List<QuestionDto> getQuestionDtoListByUserId(Long userId) {
         return questionDtoDao.getQuestionDtoListByUserId(userId);
     }
@@ -53,36 +51,22 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     }
 
     @Override
-    @Transactional
-    public Optional<QuestionDto> toUpdateQuestionDtoTitleOrDescription(QuestionDto questionDtoFromClient) {
-        Optional<QuestionDto> dtoById = questionDtoDao.getQuestionDtoById(questionDtoFromClient.getId());
-        if (!dtoById.isPresent()) {
-            return Optional.empty();
-        }
-        QuestionDto questionDto = dtoById.get();
-        questionDto.setTitle(questionDtoFromClient.getTitle());
-        questionDto.setDescription(questionDtoFromClient.getDescription());
-        questionService.update(questionConverter.toEntity(questionDto));
-        return questionDtoDao.getQuestionDtoById(questionDto.getId());
+    public Integer getCountValuable(Long questionId) {
+        return questionDtoDao.getCountValuable(questionId);
     }
 
     @Override
-    @Transactional
-    public Optional<QuestionDto> toVoteForQuestion(Long id, int vote) {
-        Optional<QuestionDto> questionDtoById = getQuestionDtoById(id);
-        if (!questionDtoById.isPresent()) {
-            return Optional.empty();
-        }
-        QuestionDto questionDto = questionDtoById.get();
-        switch (vote) {
-            case 0:
-                vote = questionDto.getCountValuable() - 1;
-                break;
-            case 1:
-                vote = questionDto.getCountValuable() + 1;
-        }
-        questionDto.setCountValuable(vote);
-        questionService.update(questionConverter.toEntity(questionDto));
-        return questionDtoDao.getQuestionDtoById(id);
+    public QuestionDto getCountValuableQuestionWithUserVote(Long questionId, Long userId) {
+        return questionDtoDao.getCountValuableQuestionWithUserVote(questionId, userId).orElseThrow(() -> new IllegalArgumentException("Не корректные параметры"));
+    }
+
+    @Override
+    public boolean isUserCanToVoteByQuestionUp(Long questionId, Long userId) {
+        return questionDtoDao.sumVotesUserByVote(questionId, userId) > 0;
+    }
+
+    @Override
+    public boolean isUserCanToVoteByQuestionDown(Long questionId, Long userId) {
+        return questionDtoDao.sumVotesUserByVote(questionId, userId) < 0;
     }
 }
