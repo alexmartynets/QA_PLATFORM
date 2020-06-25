@@ -21,7 +21,8 @@ public class TagDAOImpl extends ReadWriteDAOImpl<Tag, Long> implements TagDAO {
                 "t.name, " +
                 "t.description, " +
                 "(SELECT COUNT(qu.id) FROM Question qu JOIN qu.tags tu WHERE tu.id = t.id AND qu.user.id = :userId), " +
-                "(SELECT COUNT(DISTINCT qa.id) FROM Question qa LEFT JOIN Answer a ON qa.id = a.question.id JOIN qa.tags ta WHERE ta.id = t.id AND a.user.id = :userId) " +
+                "(SELECT COUNT(DISTINCT qa.id) FROM Question qa LEFT JOIN Answer a ON qa.id = a.question.id JOIN qa.tags ta " +
+                    "WHERE ta.id = t.id AND a.user.id = :userId AND qa.user.id <> a.user.id) " +
                 "FROM Tag t ")
                 .setFirstResult((page - 1) * 42)
                 .setMaxResults(42)

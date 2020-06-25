@@ -15,8 +15,8 @@ answer:
     html_body: "second answer for Q1"
     is_deleted: 0
     is_helpful: 0
-    persist_date: "2020-05-28 14:00:00"
-    update_date: "2020-05-28 14:00:00"
+    persist_date: "2020-05-30 14:00:00"
+    update_date: "2020-05-30 14:00:00"
     question_id: 2
     user_id: 1
 
@@ -42,13 +42,13 @@ answer:
 
   - id: 5
     count_valuable: 10
-    date_accept_time: "2020-05-28 13:58:56"
+    date_accept_time: "2020-06-10 13:58:56"
     html_body: "first answer for Q2"
     is_deleted: 0
     is_helpful: 1
-    persist_date: "2020-05-26 13:00:00"
-    update_date: "2020-05-29 14:00:00"
-    question_id: 2
+    persist_date: "2020-06-10 13:00:00"
+    update_date: "2020-06-11 14:00:00"
+    question_id: 4
     user_id: 1
 
   - id: 6

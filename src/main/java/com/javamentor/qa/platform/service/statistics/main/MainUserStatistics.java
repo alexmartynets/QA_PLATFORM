@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class GetUserStatistics {
+public class MainUserStatistics {
 
     private final Map<String, Tabs> map;
 
     @Autowired
-    public GetUserStatistics(Map<String, Tabs> map) {
+    public MainUserStatistics(Map<String, Tabs> map) {
         this.map = map;
     }
 
@@ -22,13 +22,13 @@ public class GetUserStatistics {
         if (map.containsKey(str[0])) {
             return map.get(str[0]).getList(str[1], Long.parseLong(str[2]), page);
         }
-//        String[] str = typeTabsAndSort.split(":");
         UserStatisticDto userStatisticDto = UserStatisticDto.builder()
                 .answerList(map.get("answer").getList(str[1], Long.parseLong(str[2]), 1).getAnswerList())
                 .questionDtoList(map.get("question").getList(str[1], Long.parseLong(str[2]), 1).getQuestionDtoList())
                 .userBadges(map.get("badges").getList(str[1], Long.parseLong(str[2]), 1).getUserBadges())
                 .userFavoriteQuestions(map.get("bookmarks").getList(str[1], Long.parseLong(str[2]), 1).getUserFavoriteQuestions())
                 .userReputation(map.get("reputation").getList(str[1], Long.parseLong(str[2]), 1).getUserReputation())
+                .tagDtoList(map.get("tags").getList(str[1], Long.parseLong(str[2]), 1).getTagDtoList())
                 .build();
         return userStatisticDto;
     }

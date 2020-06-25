@@ -232,7 +232,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setParameter("userId", userId)
                 .getSingleResult();
         Long Along = entityManager.createQuery("SELECT SUM(a.question.viewCount) " +
-                "FROM Answer a WHERE a.user.id = :userId", Long.class)
+                "FROM Answer a JOIN Question q ON a.question.id = q.id " +
+                "WHERE a.user.id = :userId AND a.user.id <> q.user.id", Long.class)
                 .setParameter("userId", userId)
                 .getSingleResult();
         Long result = Long.sum(Qlong == null ? 0l : Qlong, Along == null ? 0l : Along);

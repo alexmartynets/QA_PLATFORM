@@ -477,7 +477,7 @@ public class TestDataEntityService {
         answerService.persist(answer1_2);
 
         Answer answer1_3 = Answer.builder()
-                .user(userService.getByKey(2L))
+                .user(userService.getByKey(5L))
                 .countValuable(1)
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
@@ -487,7 +487,7 @@ public class TestDataEntityService {
         answerService.persist(answer1_3);
 
         Answer answer1_4 = Answer.builder()
-                .user(userService.getByKey(2L))
+                .user(userService.getByKey(7L))
                 .countValuable(4)
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
@@ -517,7 +517,7 @@ public class TestDataEntityService {
         answerService.persist(answer2_2);
 
         Answer answer2_3 = Answer.builder()
-                .user(userService.getByKey(2L))
+                .user(userService.getByKey(8L))
                 .countValuable(2)
                 .question(questionService.getByKey(2L))
                 .isHelpful(false)
