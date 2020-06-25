@@ -226,6 +226,6 @@ public class QuestionResourceController {
         Question question = questionConverter.toEntity(questionDto);
         questionService.persist(question);
         logger.info(String.format("Вопрос с заголовком: %s добавлен в базу данных", questionDto.getTitle()));
-        return ResponseEntity.ok().body(String.format("The question was added successfully."));
+        return ResponseEntity.ok().body(question.getId());
     }
 }

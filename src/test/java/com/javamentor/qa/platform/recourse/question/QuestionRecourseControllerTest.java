@@ -43,7 +43,6 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("The question was added successfully."))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
