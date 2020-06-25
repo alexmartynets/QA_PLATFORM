@@ -40,16 +40,20 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
 
 
     @Override
-    public Answer updateAnswerHelpful(Long answerId, Long questionId, Boolean isHelpful) {
+    public Answer updateAnswerHelpful(Long answerId, Long questionId, Long userId, Boolean isHelpful) {
         Answer answer = answerDAO.getByKey(answerId);
         Question question = questionDAO.getByKey(questionId);
-        if(answer == null){
+        if (answer == null) {
             logger.error(String.format("Answer with id %s does not exist in DB", answerId));
             throw new EntityNotFoundException(String.format("Answer with id %s does not exist in DB", answerId));
         }
-        if(question == null){
+        if (question == null) {
             logger.error(String.format("Question with id %s does not exist in DB", questionId));
             throw new EntityNotFoundException(String.format("Question with id %s does not exist in DB", questionId));
+        }
+        if (!question.getUser().getId().equals(userId)) {
+            logger.error(String.format("Question with id %s does not match user with id %s isHelpful cannot be change.", questionId, userId));
+            throw new EntityNotFoundException(String.format("Question with id %s does not match user with id %s isHelpful cannot be change.", questionId, userId));
         }
         if (answer.getQuestion().getId().equals(questionId)) {
             resetIsHelpful(answer.getQuestion().getId());
@@ -62,30 +66,32 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
         } else {
             logger.error(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
             throw new EntityNotFoundException(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
-
         }
     }
 
     @Override
-    public Answer updateAnswerBody(Long answerId, Long questionId, String htmlBody) {
+    public Answer updateAnswerBody(Long answerId, Long questionId, Long userId, String htmlBody) {
         Answer answer = answerDAO.getByKey(answerId);
         Question question = questionDAO.getByKey(questionId);
-        if(answer == null){
+        if (answer == null) {
             logger.error(String.format("Answer with id %s does not exist in DB", answerId));
             throw new EntityNotFoundException(String.format("Answer with id %s does not exist in DB", answerId));
         }
-        if(question == null){
+        if (question == null) {
             logger.error(String.format("Question with id %s does not exist in DB", questionId));
             throw new EntityNotFoundException(String.format("Question with id %s does not exist in DB", questionId));
         }
-        if (answer.getQuestion().getId().equals(questionId)) {
+        if (!answer.getQuestion().getId().equals(questionId)) {
+            logger.error(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
+            throw new EntityNotFoundException(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
+        }
+        if (answer.getUser().getId().equals(userId)) {
             answer.setHtmlBody(htmlBody);
             update(answer);
             return answer;
         } else {
-            logger.error(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
-            throw new EntityNotFoundException(String.format("Question with id %s does not match answer with id %s", questionId, answerId));
-
+            logger.error(String.format("Answer with id %s does not match user with id %s", answerId, userId));
+            throw new EntityNotFoundException(String.format("Answer with id %s does not match user with id %s", answerId, userId));
         }
     }
 }

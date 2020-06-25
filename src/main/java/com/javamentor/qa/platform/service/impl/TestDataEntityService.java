@@ -440,7 +440,6 @@ public class TestDataEntityService {
     private void creatAnswerEntity() {
         Answer answer1_1 = Answer.builder()
                 .user(userService.getByKey(3L))
-                .countValuable(0)
                 .isHelpful(true)
                 .isDeleted(false)
                 .question(questionService.getByKey(1L))
@@ -450,7 +449,6 @@ public class TestDataEntityService {
 
         Answer answer1_2 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(0)
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -470,7 +468,6 @@ public class TestDataEntityService {
 
         Answer answer1_4 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(0)
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -480,7 +477,6 @@ public class TestDataEntityService {
 
         Answer answer2_1 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(0)
                 .question(questionService.getByKey(2L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -490,7 +486,6 @@ public class TestDataEntityService {
 
         Answer answer2_2 = Answer.builder()
                 .user(userService.getByKey(4L))
-                .countValuable(0)
                 .question(questionService.getByKey(2L))
                 .isHelpful(true)
                 .isDeleted(false)
@@ -500,7 +495,6 @@ public class TestDataEntityService {
 
         Answer answer2_3 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(0)
                 .question(questionService.getByKey(2L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -510,7 +504,6 @@ public class TestDataEntityService {
 
         Answer answer3_1 = Answer.builder()
                 .user(userService.getByKey(4L))
-                .countValuable(0)
                 .question(questionService.getByKey(3L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -520,7 +513,6 @@ public class TestDataEntityService {
 
         Answer answer3_2 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(0)
                 .question(questionService.getByKey(3L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -530,7 +522,6 @@ public class TestDataEntityService {
 
         Answer answer4_1 = Answer.builder()
                 .user(userService.getByKey(4L))
-                .countValuable(0)
                 .question(questionService.getByKey(4L))
                 .isHelpful(true)
                 .isDeleted(false)

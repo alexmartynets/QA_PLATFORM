@@ -35,7 +35,6 @@ public class AnswerVote {
         @ManyToOne
         private Answer answer;
 
-        @CreationTimestamp
         @Column(name = "persist_date", updatable = false)
         @Type(type = "org.hibernate.type.LocalDateTimeType")
         private LocalDateTime persistDateTime;

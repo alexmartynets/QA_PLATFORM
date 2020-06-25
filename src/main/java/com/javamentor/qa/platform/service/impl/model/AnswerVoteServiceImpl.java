@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class AnswerVoteServiceImpl extends ReadWriteServiceImpl<AnswerVote, Long> implements AnswerVoteService {
@@ -36,26 +35,7 @@ public class AnswerVoteServiceImpl extends ReadWriteServiceImpl<AnswerVote, Long
 
 
     @Override
-    public void addAnswerVote(Long answerId, Long userId, Boolean count) {
-        Answer answer = answerDAO.getByKey(answerId);
-        User user = userDAO.getByKey(userId);
-        AnswerVote answerVote = AnswerVote.builder()
-                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
-                        .answer(answer)
-                        .user(user)
-                        .persistDateTime(LocalDateTime.now())
-                        .build())
-                .build();
-        if (count) {
-            answerVote.setVote(1);
-        } else {
-            answerVote.setVote(-1);
-        }
-        answerVoteDAO.persist(answerVote);
-    }
-
-    @Override
-    public Integer getVoteOfUserByAnswer(Long answerId, Long questionId, Long userId) {
+    public Boolean addAnswerVote(Long questionId, Long answerId, Long userId, Boolean count) {
         Answer answer = answerDAO.getByKey(answerId);
         User user = userDAO.getByKey(userId);
         Question question = questionDAO.getByKey(questionId);
@@ -71,21 +51,52 @@ public class AnswerVoteServiceImpl extends ReadWriteServiceImpl<AnswerVote, Long
             logger.info(String.format("User id %d does not exist in DB.", userId));
             throw new EntityNotFoundException(String.format("User id %d does not exist in DB.", userId));
         }
-        List<AnswerVote> votes = answerVoteDAO.getVotesOfUserByAnswer(answerId, userId);
-        int userVote = 0;
-        for (AnswerVote vote : votes) {
-            userVote += vote.getVote();
+        if (!answer.getQuestion().getId().equals(questionId)) {
+            logger.info(String.format("Answer id %d does not match question id %d.", answerId, questionId));
+            throw new EntityNotFoundException(String.format("Answer id %d does not match question id %d.", answerId, questionId));
         }
-        return userVote;
+        if ((answerVoteDAO.getVotesOfUserByAnswer(answerId, userId) == 0) && !answer.getUser().getId().equals(userId)) {
+            AnswerVote answerVote = AnswerVote.builder()
+                    .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                            .answer(answer)
+                            .user(user)
+                            .persistDateTime(LocalDateTime.now())
+                            .build())
+                    .build();
+            if (count) {
+                answerVote.setVote(1);
+            } else {
+                answerVote.setVote(-1);
+            }
+            answerVoteDAO.persist(answerVote);
+            return true;
+        } else {
+            return false;
+        }
     }
+
+//    @Override
+//    public Boolean getVoteOfUserByAnswer(Long answerId, Long questionId, Long userId) {
+//        Answer answer = answerDAO.getByKey(answerId);
+//        User user = userDAO.getByKey(userId);
+//        Question question = questionDAO.getByKey(questionId);
+//        if (question == null) {
+//            logger.info(String.format("Question id %d does not exist in DB.", questionId));
+//            throw new EntityNotFoundException(String.format("Question id %d does not exist in DB.", questionId));
+//        }
+//        if (answer == null) {
+//            logger.info(String.format("Answer id %d does not exist in DB.", answerId));
+//            throw new EntityNotFoundException(String.format("Answer id %d does not exist in DB.", answerId));
+//        }
+//        if (user == null) {
+//            logger.info(String.format("User id %d does not exist in DB.", userId));
+//            throw new EntityNotFoundException(String.format("User id %d does not exist in DB.", userId));
+//        }
+//        return answerVoteDAO.getVotesOfUserByAnswer(answerId, userId) == 0;
+//    }
 
     @Override
     public Integer getVotesOfAnswer(Long answerId) {
-        List<AnswerVote> votes = answerVoteDAO.getAllVotesByAnswerId(answerId);
-        int answerVotes = 0;
-        for (AnswerVote vote : votes) {
-            answerVotes += vote.getVote();
-        }
-        return answerVotes;
+        return answerVoteDAO.getAllVotesByAnswerId(answerId);
     }
 }

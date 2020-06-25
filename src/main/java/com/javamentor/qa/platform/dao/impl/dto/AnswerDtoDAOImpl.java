@@ -25,8 +25,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.persistDateTime, " +
             "a.dateAcceptTime, " +
             "a.updateDateTime, " +
-//            "a.countValuable, " +
-            "(select sum (av.vote) from AnswerVote av where av.answer.id = a.id) as vc, " +
+            "sum (v.vote), " +
             "a.isHelpful, " +
             "a.isDeleted, " +
             "a.user.id, " +
@@ -34,7 +33,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.user.imageUser, " +
             "a.user.reputationCount " +
             "from " +
-            "Answer a ";
+            "Answer a left join AnswerVote v on a.id = v.voteAnswerPK.answer.id ";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -44,8 +43,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId) {
         return entityManager
-                .createQuery(HQL +
-                        "where a.question.id = :questionId order by a.updateDateTime desc")
+                .createQuery(HQL + "where a.question.id = :questionId group by a.id order by a.updateDateTime desc")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
@@ -57,8 +55,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId) {
         return entityManager
-                .createQuery(HQL +
-                        "join AnswerVote av group by a.id where a.question.id = :questionId order by ")
+                .createQuery(HQL + "where a.question.id = :questionId group by a.id order by sum (v.vote) desc ")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
@@ -70,8 +67,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
         return entityManager
-                .createQuery(HQL +
-                        "where a.question.id = :questionId order by a.persistDateTime asc")
+                .createQuery(HQL + "where a.question.id = :questionId group by a.id order by a.persistDateTime asc")
                 .setParameter("questionId", questionId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
