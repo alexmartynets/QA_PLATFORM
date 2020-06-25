@@ -59,6 +59,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                     .linkVk((String) objects[12])
                                     .build();
                         }
+
                         @Override
                         public List transformList(List list) {
                             return list;
@@ -381,27 +382,37 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
     @Override
     public Long getCountUsersByVoice(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
-        return entityManager.createQuery("SELECT COUNT(DISTINCT r.user.id) FROM Reputation as r " +
-                "WHERE r.persistDate > :data", Long.class)
+        return entityManager.createQuery("SELECT COUNT(u.id) FROM User AS u " +
+                "WHERE u.persistDateTime > :data", Long.class)
                 .setParameter("data", data)
                 .getSingleResult();
     }
     // todo запрос из двух таблиц
+
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByVoice(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "r.id, " +
-                "r.user.id, " +
-                "r.user.persistDateTime, " +
-                "r.user.fullName, " +
-                "r.user.about, " +
-                "r.user.city, " +
-                "r.user.imageUser, " +
-                "SUM(r.count)" +
-                "FROM Reputation as r WHERE r.persistDate > :data " +
-                "GROUP BY r.user.id ORDER BY SUM(r.count) DESC")
+                "(SELECT COALESCE(SUM(vq.vote), 0) AS vq " +
+                "FROM VoteQuestion AS vq " +
+                "JOIN Question AS q ON vq.voteQuestionPK.question.id = q.id " +
+                "JOIN User u2 ON q.user.id = u2.id " +
+                "WHERE q.id = vq.voteQuestionPK.question.id AND u.id = u2.id) AS countQ, " +
+
+                "(SELECT COALESCE(sum(va.vote), 0) AS va " +
+                "FROM VoteAnswer AS va " +
+                "JOIN Answer a ON va.voteAnswerPK.answer.id = a.id " +
+                "JOIN User u3 ON a.user.id = u3.id " +
+                "WHERE a.id = va.voteAnswerPK.answer.id AND u.id = u3.id) AS countA, " +
+                "u.id, " +
+                "u.persistDateTime, " +
+                "u.fullName, " +
+                "u.about, " +
+                "u.city, " +
+                "u.imageUser, " +
+                "(countQ + countA) as countVote " +
+                "FROM User AS u WHERE u.persistDateTime > :data")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -409,7 +420,15 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
-                        return null;
+                        return UserDto.builder()
+                                .id(((Number) objects[0]).longValue())
+                                .persistDateTime((LocalDateTime) objects[1])
+                                .fullName((String) objects[2])
+                                .about((String) objects[3])
+                                .city((String) objects[4])
+                                .imageUser((byte[]) objects[5])
+                                .countVoice(getInteger(objects[6]))
+                                .build();
                     }
 
                     @Override
@@ -442,7 +461,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .fullName((String) objects[1])
                                 .city((String) objects[2])
                                 .imageUser((byte[]) objects[3])
-                                .dateAssignmentModerator((LocalDateTime)(objects[4]))
+                                .dateAssignmentModerator((LocalDateTime) (objects[4]))
                                 .reputationCount(getInteger(objects[5]))
                                 .build();
                     }
