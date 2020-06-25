@@ -1,11 +1,9 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.QuestionDto;
-import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.VoteQuestion;
 import com.javamentor.qa.platform.models.entity.user.User;
-import com.javamentor.qa.platform.models.entity.question.Tag;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
@@ -50,8 +48,7 @@ public class QuestionResourceController {
                                       QuestionService questionService,
                                       UserService userService,
                                       QuestionConverter questionConverter,
-                                      VoteQuestionService voteQuestionService) {
-                                      QuestionConverter questionConverter,
+                                      VoteQuestionService voteQuestionService,
                                       TagService tagService) {
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
