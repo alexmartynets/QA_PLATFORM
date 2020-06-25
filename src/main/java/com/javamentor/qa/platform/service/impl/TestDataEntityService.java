@@ -1,13 +1,12 @@
 package com.javamentor.qa.platform.service.impl;
 
+import com.javamentor.qa.platform.models.entity.Badges;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.*;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
-import com.javamentor.qa.platform.models.entity.user.Role;
-import com.javamentor.qa.platform.models.entity.user.User;
-import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
+import com.javamentor.qa.platform.models.entity.user.*;
 import com.javamentor.qa.platform.service.abstracts.model.*;
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentAnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentQuestionService;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +47,22 @@ public class TestDataEntityService {
     @Autowired
     private RelatedTagService relatedTagService;
 
+    private final ReputationService reputationService;
+    private final BadgesService badgesService;
+    private final UserBadgesService userBadgesService;
+    private final VoteQuestionService voteQuestionService;
+
+
     @Autowired
-    private VoteQuestionService voteQuestionService;
+    public TestDataEntityService(ReputationService reputationService,
+                                 BadgesService badgesService,
+                                 UserBadgesService userBadgesService,
+                                 VoteQuestionService voteQuestionService) {
+        this.reputationService = reputationService;
+        this.badgesService = badgesService;
+        this.userBadgesService = userBadgesService;
+        this.voteQuestionService = voteQuestionService;
+    }
 
     public void createEntity() {
         creatUserEntity();
@@ -57,9 +71,12 @@ public class TestDataEntityService {
         creatAnswerEntity();
         creatComment();
         creatUserFavoriteQuestion();
+        createBadges();
+        createUserBadges();
     }
 
     private void creatUserEntity() {
+        Integer reputationCount = 0;
 
         Role adminRole = Role.builder()
                 .name("ADMIN")
@@ -73,7 +90,7 @@ public class TestDataEntityService {
                 .email("admin@admin.ru")
                 .password("admin")
                 .fullName("Админ Админович Админов")
-                .reputationCount(5)
+                .reputationCount(reputationCount)
                 .city("Moscow")
                 .linkSite("site.admin.ru")
                 .linkGitHub("github.admin.ru")
@@ -88,7 +105,7 @@ public class TestDataEntityService {
                 .email("user1@user.ru")
                 .password("user1")
                 .fullName("Иван Иванович Иванов")
-                .reputationCount(4)
+                .reputationCount(reputationCount)
                 .city("Moscow")
                 .linkSite("site.user1.ru")
                 .linkGitHub("github.user1.ru")
@@ -104,7 +121,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user2")
                 .fullName("Петр2 Петрович2 Петров2")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
@@ -119,7 +136,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user3")
                 .fullName("Петр3 Петрович3 Петров3")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user3.ru")
                 .linkGitHub("github.user3.ru")
@@ -134,7 +151,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user4")
                 .fullName("Петр4 Петрович4 Петров4")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
@@ -149,7 +166,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user5")
                 .fullName("Петр5 Петрович5 Петров5")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user5.ru")
                 .linkGitHub("github.user5.ru")
@@ -164,7 +181,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user6")
                 .fullName("Петр6 Петрович6 Петров6")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user6.ru")
                 .linkGitHub("github.user6.ru")
@@ -179,7 +196,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user7")
                 .fullName("Петр7 Петрович7 Петров7")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user7.ru")
                 .linkGitHub("github.user7.ru")
@@ -194,7 +211,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user8")
                 .fullName("Петр8 Петрович8 Петров8")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user8.ru")
                 .linkGitHub("github.user8.ru")
@@ -209,7 +226,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user9")
                 .fullName("Петр9 Петрович9 Петров9")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user9.ru")
                 .linkGitHub("github.user9.ru")
@@ -224,7 +241,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user10")
                 .fullName("Петр10 Петрович10 Петров10")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user10.ru")
                 .linkGitHub("github.user10.ru")
@@ -578,5 +595,83 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(2L))
                 .build();
         userFavoriteQuestionService.persist(userFavoriteQuestion);
+    }
+
+    private void createBadges() {
+        Badges badges1 = Badges.builder()
+                .badges("Помощник")
+                .description("Награждается если в день заработать 50 баллов")
+                .reputationForMerit(50)
+                .build();
+        badgesService.persist(badges1);
+
+        Badges badges = Badges.builder()
+                .badges("Друг")
+                .description("Награждается если в день заработать 100 баллов")
+                .reputationForMerit(100)
+                .build();
+        badgesService.persist(badges);
+
+
+        Badges badges2 = Badges.builder()
+                .badges("Учитель")
+                .description("Награждается если в день заработать 150 баллов")
+                .reputationForMerit(150)
+                .build();
+        badgesService.persist(badges2);
+
+        Badges badges3 = Badges.builder()
+                .badges("Преподаватель")
+                .description("Награждается если в день заработать 200 баллов")
+                .reputationForMerit(200)
+                .build();
+        badgesService.persist(badges3);
+
+        Badges badges4 = Badges.builder()
+                .badges("Ментор")
+                .description("Награждается если в день заработать 250 баллов")
+                .reputationForMerit(250)
+                .build();
+        badgesService.persist(badges4);
+
+        Badges badges7 = Badges.builder()
+                .badges("JM Ментор")
+                .description("Награждается если в день заработать 300 баллов")
+                .reputationForMerit(300)
+                .build();
+        badgesService.persist(badges7);
+
+        Badges badges5 = Badges.builder()
+                .badges("Профессор")
+                .description("Награждается если в день заработать 400 баллов")
+                .reputationForMerit(400)
+                .build();
+        badgesService.persist(badges5);
+
+        Badges badges6 = Badges.builder()
+                .badges("Академик")
+                .description("Награждается если в день заработать 500 баллов")
+                .reputationForMerit(500)
+                .build();
+        badgesService.persist(badges6);
+
+    }
+
+    private void createUserBadges() {
+        for (long i = 1; i < 12; i++) {
+            for (long j = 1; j < 9; j++) {
+                UserBadges user1Badges1 = UserBadges.builder()
+                        .badges(badgesService.getByKey(j))
+                        .user(userService.getByKey(i))
+                        .ready(false)
+                        .build();
+                userBadgesService.persist(user1Badges1);
+            }
+        }
+    }
+
+    private void createReputation(){
+        reputationService.updateOrInsert(userService.getByKey(1l), 15);
+        reputationService.updateOrInsert(userService.getByKey(1l), 15);
     }
 }
