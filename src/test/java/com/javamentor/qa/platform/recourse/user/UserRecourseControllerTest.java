@@ -465,13 +465,33 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     }
 
 
-//    @Test
-//    void getListUsersByVoice() throws Exception {
-//        this.mockMvc.perform(get("/api/user/voice?count=5&page=1&weeks=12"))
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    void get_List_Users_By_Voice() throws Exception {
+        this.mockMvc.perform(get("/api/user/voice?count=5&page=1&weeks=12"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void get_List_Users_By_Voice_Request_Parameter_Negative() throws Exception {
+        this.mockMvc.perform(get("/api/user/voice?count=-5&page=1&weeks=12"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void get_List_Users_By_Voice_Request_Parameter_Zero() throws Exception {
+        this.mockMvc.perform(get("/api/user/voice?count=5&page=1&weeks=0"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void get_List_Users_By_Voice_Request_Parameter_Invalid() throws Exception {
+        this.mockMvc.perform(get("/api/user/voice?count=5&page=abc&weeks=12"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
 
 }
 

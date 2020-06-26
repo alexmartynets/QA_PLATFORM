@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "org.hibernate.hql.internal.ast.QuerySyntaxException",
+      "type": "java.lang.String",
+      "description": "Description for org.hibernate.hql.internal.ast.QuerySyntaxException."
+  }
+] }

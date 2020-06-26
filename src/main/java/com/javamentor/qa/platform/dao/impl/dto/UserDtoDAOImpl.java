@@ -375,7 +375,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
     }
 
-    // todo запрос из двух таблиц
     @Override
     public Long getCountUsersByVoice(long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
@@ -384,7 +383,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .setParameter("data", data)
                 .getSingleResult();
     }
-    // todo запрос из двух таблиц
+
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByVoice(int page, int count, long weeks) {
@@ -396,21 +395,19 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.about, " +
                 "u.city, " +
                 "u.imageUser, " +
-
-                "(SELECT COALESCE(SUM(vq.vote), 0) AS vq " +
+                "(SELECT SUM(r.count) FROM Reputation r WHERE u.id = r.user.id), " +
+                "((SELECT COALESCE(SUM(vq.vote), 0) AS vq " +
                 "FROM VoteQuestion AS vq " +
-                "JOIN Question AS q ON vq.voteQuestionPK.question.id = q.id "  +
+                "JOIN Question AS q ON vq.voteQuestionPK.question.id = q.id " +
                 "JOIN User u2 ON q.user.id = u2.id " +
                 "WHERE q.id = vq.voteQuestionPK.question.id " +
-                "AND u.id = u2.id AND vq.voteQuestionPK.localDateTime > :data), " +
-
+                "AND u.id = u2.id AND vq.voteQuestionPK.localDateTime > :data) + " +
                 "(SELECT COALESCE(sum(va.vote), 0) AS va " +
                 "FROM VoteAnswer AS va " +
                 "JOIN Answer a ON va.voteAnswerPK.answer.id = a.id " +
                 "JOIN User u3 ON a.user.id = u3.id " +
                 "WHERE a.id = va.voteAnswerPK.answer.id " +
-                "AND u.id = u3.id AND va.voteAnswerPK.localDateTime > :data) " +
-
+                "AND u.id = u3.id AND va.voteAnswerPK.localDateTime > :data)) " +
                 "FROM User AS u ")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
@@ -425,7 +422,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .about((String) objects[3])
                                 .city((String) objects[4])
                                 .imageUser((byte[]) objects[5])
-                                .countVoice(getInteger(objects[6]) + getInteger(objects[7]))
+                                .reputationCount(getInteger(objects[6]))
+                                .countVoice(getInteger(objects[7]))
                                 .build();
                     }
 
