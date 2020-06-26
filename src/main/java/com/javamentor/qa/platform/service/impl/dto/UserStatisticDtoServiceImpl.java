@@ -34,11 +34,10 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
 
     @Override
     public UserStatisticDto getUserStatistic(UserDto user, String tab, String sort, Integer page) {
-        String typeTabsAndSort = tab + ":" + sort + ":" + user.getId();
         if (page < 1) {
             page = 1;
         }
-        UserStatisticDto userStatisticDto = mainUserStatistics.getResult(typeTabsAndSort.replace(" ", ""), page);
+        UserStatisticDto userStatisticDto = mainUserStatistics.getResult(tab.toLowerCase(),sort.toLowerCase(), user.getId(), page);
 
         userStatisticDto.setTotalUserAnswers(answerDtoDAO.getAnswerCountByUserId(user.getId()));
         userStatisticDto.setTotalUserQuestions(questionDtoDao.getQuestionCountByUserId(user.getId()));

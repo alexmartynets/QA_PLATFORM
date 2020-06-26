@@ -25,11 +25,11 @@ public class UsersQuestionDto implements Tabs {
         List<QuestionDto> questionDto;
 
         if (sortType.equals("newest")) {
-            questionDto = questionDtoDao.getQuestionDtoByUserIdSortByDate(userId);
+            questionDto = questionDtoDao.getQuestionDtoByUserIdSortByDate(userId, page);
         } else if (sortType.equals("views")) {
-            questionDto = questionDtoDao.getQuestionDtoByUserIdSortByViews(userId);
+            questionDto = questionDtoDao.getQuestionDtoByUserIdSortByViews(userId, page);
         } else {
-            questionDto = questionDtoDao.getQuestionDtoByUserIdSortByVotes(userId);
+            questionDto = questionDtoDao.getQuestionDtoByUserIdSortByVotes(userId, page);
         }
 
         questionDto.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));

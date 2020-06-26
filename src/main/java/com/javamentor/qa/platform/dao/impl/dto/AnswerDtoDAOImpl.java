@@ -8,7 +8,9 @@ import com.javamentor.qa.platform.models.dto.UserDto;
 import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Query;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -133,36 +135,20 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswerDtoByUserIdSortByDate(Long userId, Integer page) {
         List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
-                "a.id, " +
-                "a.persistDateTime, " +
-                "a.isHelpful, " +
-                "a.countValuable, " +
-                "a.question.id, " +
-                "a.question.title " +
+                "a.id as id, " +
+                "a.persistDateTime as persistDateTime, " +
+                "a.isHelpful as isHelpful, " +
+                "a.countValuable as countValuable, " +
+                "a.question.id as questionId, " +
+                "a.question.title as htmlBody " +
                 "FROM Answer a WHERE a.user.id = :userId " +
                 "ORDER BY a.persistDateTime DESC")
                 .setParameter("userId", userId)
                 .setFirstResult((page - 1) * 20)
                 .setMaxResults(20)
                 .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] objects, String[] aliases) {
-                        return AnswerDto.builder()
-                                .id((Long) objects[0])
-                                .persistDateTime((LocalDateTime) objects[1])
-                                .isHelpful((Boolean) objects[2])
-                                .countValuable((Integer) objects[3])
-                                .questionId((Long) objects[4])
-                                .htmlBody((String) objects[5])
-                                .build();
-                    }
-
-                    @Override
-                    public List transformList(List collection) {
-                        return collection;
-                    }
-                }).getResultList();
+                .setResultTransformer(new AliasToBeanResultTransformer(AnswerDto.class))
+                .getResultList();
         return answerList.isEmpty() ? Collections.emptyList() : answerList;
     }
 
@@ -170,12 +156,12 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswerDtoByUserIdSortByViews(Long userId, Integer page) {
         List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
-                "a.id, " +
-                "a.persistDateTime, " +
-                "a.isHelpful, " +
-                "a.countValuable, " +
-                "a.question.id, " +
-                "a.question.title, " +
+                "a.id as id, " +
+                "a.persistDateTime as persistDateTime, " +
+                "a.isHelpful as isHelpful, " +
+                "a.countValuable as countValuable, " +
+                "a.question.id as questionId, " +
+                "a.question.title as htmlBody, " +
                 "a.question.viewCount " +
                 "FROM Answer a WHERE a.user.id = :userId " +
                 "ORDER BY a.question.viewCount DESC")
@@ -183,24 +169,8 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .setFirstResult((page - 1) * 20)
                 .setMaxResults(20)
                 .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] objects, String[] aliases) {
-                        return AnswerDto.builder()
-                                .id((Long) objects[0])
-                                .persistDateTime((LocalDateTime) objects[1])
-                                .isHelpful((Boolean) objects[2])
-                                .countValuable((Integer) objects[3])
-                                .questionId((Long) objects[4])
-                                .htmlBody((String) objects[5])
-                                .build();
-                    }
-
-                    @Override
-                    public List transformList(List collection) {
-                        return collection;
-                    }
-                }).getResultList();
+                .setResultTransformer(new AliasToBeanResultTransformer(AnswerDto.class))
+                .getResultList();
         return answerList.isEmpty() ? Collections.emptyList() : answerList;
     }
 
@@ -208,36 +178,20 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Override
     public List<AnswerDto> getAnswerDtoByUserIdSortByVotes(Long userId, Integer page) {
         List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
-                "a.id, " +
-                "a.persistDateTime, " +
-                "a.isHelpful, " +
-                "a.countValuable, " +
-                "a.question.id, " +
-                "a.question.title " +
+                "a.id as id, " +
+                "a.persistDateTime as persistDateTime, " +
+                "a.isHelpful as isHelpful, " +
+                "a.countValuable as countValuable, " +
+                "a.question.id as questionId, " +
+                "a.question.title as htmlBody " +
                 "FROM Answer a WHERE a.user.id = :userId " +
                 "ORDER BY a.countValuable DESC")
                 .setFirstResult((page - 1) * 20)
                 .setMaxResults(20)
                 .setParameter("userId", userId)
                 .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
-                    @Override
-                    public Object transformTuple(Object[] objects, String[] aliases) {
-                        return AnswerDto.builder()
-                                .id((Long) objects[0])
-                                .persistDateTime((LocalDateTime) objects[1])
-                                .isHelpful((Boolean) objects[2])
-                                .countValuable((Integer) objects[3])
-                                .questionId((Long) objects[4])
-                                .htmlBody((String) objects[5])
-                                .build();
-                    }
-
-                    @Override
-                    public List transformList(List collection) {
-                        return collection;
-                    }
-                }).getResultList();
+                .setResultTransformer(new AliasToBeanResultTransformer(AnswerDto.class))
+                .getResultList();
         return answerList.isEmpty() ? Collections.emptyList() : answerList;
     }
 

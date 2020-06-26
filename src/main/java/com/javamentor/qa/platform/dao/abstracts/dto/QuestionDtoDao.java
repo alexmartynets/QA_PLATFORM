@@ -41,10 +41,10 @@ public interface QuestionDtoDao {
 
     Long getQuestionCountByUserId(Long userId);
 
-    List<QuestionDto> getQuestionDtoByUserIdSortByDate(Long userId);
+    List<QuestionDto> getQuestionDtoByUserIdSortByDate(Long userId, Integer page);
 
-    List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long userId);
+    List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long userId, Integer page);
 
-    List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long userId);
+    List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long userId, Integer page);
 
 }

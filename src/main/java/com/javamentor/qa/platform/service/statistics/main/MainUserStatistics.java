@@ -17,18 +17,17 @@ public class MainUserStatistics {
         this.map = map;
     }
 
-    public UserStatisticDto getResult(String typeTabsAndSort, Integer page) {
-        String[] str = typeTabsAndSort.toLowerCase().split(":");
-        if (map.containsKey(str[0])) {
-            return map.get(str[0]).getList(str[1], Long.parseLong(str[2]), page);
+    public UserStatisticDto getResult(String tab, String sort, Long userId, Integer page) {
+        if (map.containsKey(tab)) {
+            return map.get(tab).getList(sort, userId, page);
         }
         UserStatisticDto userStatisticDto = UserStatisticDto.builder()
-                .answerList(map.get("answer").getList(str[1], Long.parseLong(str[2]), 1).getAnswerList())
-                .questionDtoList(map.get("question").getList(str[1], Long.parseLong(str[2]), 1).getQuestionDtoList())
-                .userBadges(map.get("badges").getList(str[1], Long.parseLong(str[2]), 1).getUserBadges())
-                .userFavoriteQuestions(map.get("bookmarks").getList(str[1], Long.parseLong(str[2]), 1).getUserFavoriteQuestions())
-                .userReputation(map.get("reputation").getList(str[1], Long.parseLong(str[2]), 1).getUserReputation())
-                .tagDtoList(map.get("tags").getList(str[1], Long.parseLong(str[2]), 1).getTagDtoList())
+                .answerList(map.get("answer").getList(sort, userId, 1).getAnswerList())
+                .questionDtoList(map.get("question").getList(sort, userId, 1).getQuestionDtoList())
+                .userBadges(map.get("badges").getList(sort, userId, 1).getUserBadges())
+                .userFavoriteQuestions(map.get("bookmarks").getList(sort, userId, 1).getUserFavoriteQuestions())
+                .userReputation(map.get("reputation").getList(sort, userId, 1).getUserReputation())
+                .tagDtoList(map.get("tags").getList(sort, userId, 1).getTagDtoList())
                 .build();
         return userStatisticDto;
     }

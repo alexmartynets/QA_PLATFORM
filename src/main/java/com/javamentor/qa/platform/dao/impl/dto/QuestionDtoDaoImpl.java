@@ -496,7 +496,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<QuestionDto> getQuestionDtoByUserIdSortByDate(Long userId) {
+    public List<QuestionDto> getQuestionDtoByUserIdSortByDate(Long userId, Integer page) {
         List<QuestionDto> questionDtoList = entityManager.createQuery("SELECT " +
                 "q.id, " +
                 "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = q.id), " +
@@ -504,25 +504,17 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.persistDateTime, " +
                 "q.title, " +
                 "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id), " +
-                "t.id, " +
-                "t.name, " +
-                "t.description " +
-                "FROM Question q JOIN q.tags t " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                "FROM Question q " +
                 "WHERE q.user.id = :userId " +
                 "ORDER BY q.persistDateTime DESC")
                 .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] aliases) {
-                        TagDto tagDto = TagDto.builder()
-                                .id((Long) objects[7])
-                                .name((String) objects[8])
-                                .description((String) objects[9])
-                                .build();
-                        List<TagDto> tagDtoList = new ArrayList<>();
-                        tagDtoList.add(tagDto);
                         return QuestionDto.builder()
                                 .id((Long) objects[0])
                                 .countValuable((objects[1] == null ? 0 : ((Number) objects[1]).intValue()))
@@ -531,22 +523,12 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .title((String) objects[4])
                                 .countAnswer(((Number) objects[5]).intValue())
                                 .isHelpful((Boolean) objects[6])
-                                .tags(tagDtoList)
                                 .build();
                     }
 
                     @Override
                     public List transformList(List list) {
-                        Map<Long, QuestionDto> result = new LinkedHashMap<>();
-                        for (Object obj : list) {
-                            QuestionDto questionDto = (QuestionDto) obj;
-                            if (result.containsKey(questionDto.getId())) {
-                                result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
-                            } else {
-                                result.put(questionDto.getId(), questionDto);
-                            }
-                        }
-                        return new ArrayList<>(result.values());
+                        return list;
                     }
                 }).getResultList();
 
@@ -555,7 +537,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long userId) {
+    public List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long userId, Integer page) {
         List<QuestionDto> questionDtoList = entityManager.createQuery("SELECT " +
                 "q.id, " +
                 "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = q.id), " +
@@ -563,25 +545,17 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "q.persistDateTime, " +
                 "q.title, " +
                 "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
-                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id), " +
-                "t.id, " +
-                "t.name, " +
-                "t.description " +
-                "FROM Question q JOIN q.tags t " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                "FROM Question q " +
                 "WHERE q.user.id = :userId " +
                 "ORDER BY q.viewCount DESC")
                 .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] aliases) {
-                        TagDto tagDto = TagDto.builder()
-                                .id((Long) objects[7])
-                                .name((String) objects[8])
-                                .description((String) objects[9])
-                                .build();
-                        List<TagDto> tagDtoList = new ArrayList<>();
-                        tagDtoList.add(tagDto);
                         return QuestionDto.builder()
                                 .id((Long) objects[0])
                                 .countValuable((objects[1] == null ? 0 : ((Number) objects[1]).intValue()))
@@ -590,22 +564,12 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                                 .title((String) objects[4])
                                 .countAnswer(((Number) objects[5]).intValue())
                                 .isHelpful((Boolean) objects[6])
-                                .tags(tagDtoList)
                                 .build();
                     }
 
                     @Override
                     public List transformList(List list) {
-                        Map<Long, QuestionDto> result = new LinkedHashMap<>();
-                        for (Object obj : list) {
-                            QuestionDto questionDto = (QuestionDto) obj;
-                            if (result.containsKey(questionDto.getId())) {
-                                result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
-                            } else {
-                                result.put(questionDto.getId(), questionDto);
-                            }
-                        }
-                        return new ArrayList<>(result.values());
+                        return list;
                     }
                 }).getResultList();
 
@@ -614,7 +578,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long userId) {
+    public List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long userId, Integer page) {
         List<QuestionDto> questionDtoList = entityManager.createQuery("SELECT " +
                 "q.id, " +
                 "q.viewCount, " +
@@ -628,6 +592,8 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "GROUP BY q.id " +
                 "ORDER BY SUM(v.vote) DESC")
                 .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
                     @Override
@@ -645,16 +611,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
 
                     @Override
                     public List transformList(List list) {
-                        Map<Long, QuestionDto> result = new LinkedHashMap<>();
-                        for (Object obj : list) {
-                            QuestionDto questionDto = (QuestionDto) obj;
-                            if (result.containsKey(questionDto.getId())) {
-                                result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
-                            } else {
-                                result.put(questionDto.getId(), questionDto);
-                            }
-                        }
-                        return new ArrayList<>(result.values());
+                        return list;
                     }
                 }).getResultList();
 
