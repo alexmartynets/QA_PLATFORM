@@ -9,10 +9,7 @@ import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements UserDtoDAO {
@@ -388,36 +385,37 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
     // todo запрос из двух таблиц
-
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersByVoice(int page, int count, long weeks) {
         LocalDateTime data = LocalDateTime.now().minusWeeks(weeks);
         List<UserDto> listUsers = entityManager.createQuery("SELECT " +
-                "(SELECT COALESCE(SUM(vq.vote), 0) AS vq " +
-                "FROM VoteQuestion AS vq " +
-                "JOIN Question AS q ON vq.voteQuestionPK.question.id = q.id " +
-                "JOIN User u2 ON q.user.id = u2.id " +
-                "WHERE q.id = vq.voteQuestionPK.question.id AND u.id = u2.id) AS countQ, " +
-
-                "(SELECT COALESCE(sum(va.vote), 0) AS va " +
-                "FROM VoteAnswer AS va " +
-                "JOIN Answer a ON va.voteAnswerPK.answer.id = a.id " +
-                "JOIN User u3 ON a.user.id = u3.id " +
-                "WHERE a.id = va.voteAnswerPK.answer.id AND u.id = u3.id) AS countA, " +
                 "u.id, " +
                 "u.persistDateTime, " +
                 "u.fullName, " +
                 "u.about, " +
                 "u.city, " +
                 "u.imageUser, " +
-                "(countQ + countA) as countVote " +
-                "FROM User AS u WHERE u.persistDateTime > :data")
+
+                "(SELECT COALESCE(SUM(vq.vote), 0) AS vq " +
+                "FROM VoteQuestion AS vq " +
+                "JOIN Question AS q ON vq.voteQuestionPK.question.id = q.id "  +
+                "JOIN User u2 ON q.user.id = u2.id " +
+                "WHERE q.id = vq.voteQuestionPK.question.id " +
+                "AND u.id = u2.id AND vq.voteQuestionPK.localDateTime > :data), " +
+
+                "(SELECT COALESCE(sum(va.vote), 0) AS va " +
+                "FROM VoteAnswer AS va " +
+                "JOIN Answer a ON va.voteAnswerPK.answer.id = a.id " +
+                "JOIN User u3 ON a.user.id = u3.id " +
+                "WHERE a.id = va.voteAnswerPK.answer.id " +
+                "AND u.id = u3.id AND va.voteAnswerPK.localDateTime > :data) " +
+
+                "FROM User AS u ")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
-                .unwrap(Query.class)
-                .setResultTransformer(new ResultTransformer() {
+                .unwrap(Query.class).setResultTransformer(new ResultTransformer() {
                     @Override
                     public Object transformTuple(Object[] objects, String[] strings) {
                         return UserDto.builder()
@@ -427,13 +425,15 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                 .about((String) objects[3])
                                 .city((String) objects[4])
                                 .imageUser((byte[]) objects[5])
-                                .countVoice(getInteger(objects[6]))
+                                .countVoice(getInteger(objects[6]) + getInteger(objects[7]))
                                 .build();
                     }
 
                     @Override
                     public List transformList(List list) {
-                        return list;
+                        List<UserDto> result = new ArrayList<UserDto>(list);
+                        result.sort(Comparator.comparingInt(UserDto::getCountVoice).reversed());
+                        return result;
                     }
                 })
                 .getResultList();
@@ -483,5 +483,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
         return ((Number) o).intValue();
     }
 }
+
+
+
 
 

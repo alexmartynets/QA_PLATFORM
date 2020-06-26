@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class UserDto {
+public class UserDto implements Serializable {
 
     @Null(groups = OnCreate.class, message = "Поле id должно принимать null значение при создании")
     @NotNull(groups = OnUpdate.class, message = "Поле id не должно принимать null значение при обновлении")
