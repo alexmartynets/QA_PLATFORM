@@ -17,7 +17,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "users/users.yml",
         "users/reputation.yml",
         "users/editor.yml",
-        "users/moderator.yml"}, cleanBefore = true, cleanAfter = true)
+        "users/moderator.yml",
+        "users/answer_u.yml",
+        "users/question_u.yml",
+        "users/votes_on_answer.yml",
+        "users/votes_on_question.yml"}, cleanBefore = true, cleanAfter = true)
 public class UserRecourseControllerTest extends AbstractIntegrationTest {
 
     @Autowired
