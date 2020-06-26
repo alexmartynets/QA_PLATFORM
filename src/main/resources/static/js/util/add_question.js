@@ -1,28 +1,45 @@
 function add() {
-
     let id = 1;         // нужно брать из html id user-а (пока отправляет 1)
     let title = $("#title").val();
     let body = $("#summernote").val();
-    let str = $("#tag").val();
-    str = str.replace(/ +/g, ' ').trim();
-
-    console.log(str);
-
-    let tags = str.split(",");
-    console.log(tags);
-
-    let tag;
-
-    tags.forEach(function (item, i, tags) {
-        if (i === 0) {
-            tag = '{'
+    if ($("#tag").val() === ""){
+        alert('Заполните все поля!');
+    } else {
+        let str = $("#tag").val();
+        str = str.replace(/ +/g, ' ').trim();
+        let tags = str.split(",");
+        let tag1 = new Array();
+        var j = -1;
+        for (item in tags) {
+            let tag = new Object;
+            j++;
+            s = tags[item].trim();
+            tag.name = s;
+            tag1[j] = tag;
         }
-        item = item.trim();
-        tag += '[name:"' + item + '"]'
-    });
-    tag += '}'
-    console.log(tag);
-    let l = JSON.stringify(tag);
-    console.log(l);
-
+        let user = {
+            id: id
+        };
+        let questionDto = {
+            id: null,
+            title: title,
+            description: body,
+            tags: tag1,
+            userDto: user
+        };
+        console.log(JSON.stringify(questionDto));
+        $.ajax({
+            type: 'post',
+            url: "/api/user/question/",
+            contentType: 'application/json',
+            data: JSON.stringify(questionDto),
+            dataType: 'json',
+            success: function (data) {
+                window.location.replace("http://localhost:5557/question/" + data);
+            },
+            error: function (error) {
+                alert('Заполните все поля!');
+            }
+        });
+    }
 };

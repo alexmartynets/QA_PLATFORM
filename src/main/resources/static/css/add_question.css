@@ -55,16 +55,16 @@ h1 {
     border: 1px solid grey !important;
 }
 
-.body__tagInput {
+.body__tagInput{
     width: 100% !important;
     border: 1px solid grey !important;
     color: blue;
+    border-color: red !important;
 }
-
-input.body__tagInput:focus {
+input.body__tagInput:focus{
     color: blue;
+    border-color: red !important;
 }
-
 .footer {
     color: #bbc0ba;
 }
