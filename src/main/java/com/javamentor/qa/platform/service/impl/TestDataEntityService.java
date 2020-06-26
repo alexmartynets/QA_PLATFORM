@@ -73,6 +73,7 @@ public class TestDataEntityService {
         creatUserFavoriteQuestion();
         createBadges();
         createUserBadges();
+        createUserReputation();
     }
 
     private void creatUserEntity() {
@@ -476,8 +477,8 @@ public class TestDataEntityService {
         answerService.persist(answer1_2);
 
         Answer answer1_3 = Answer.builder()
-                .user(userService.getByKey(2L))
-                .countValuable(0)
+                .user(userService.getByKey(5L))
+                .countValuable(1)
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -486,8 +487,8 @@ public class TestDataEntityService {
         answerService.persist(answer1_3);
 
         Answer answer1_4 = Answer.builder()
-                .user(userService.getByKey(2L))
-                .countValuable(0)
+                .user(userService.getByKey(7L))
+                .countValuable(4)
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -497,7 +498,7 @@ public class TestDataEntityService {
 
         Answer answer2_1 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(0)
+                .countValuable(7)
                 .question(questionService.getByKey(2L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -516,8 +517,8 @@ public class TestDataEntityService {
         answerService.persist(answer2_2);
 
         Answer answer2_3 = Answer.builder()
-                .user(userService.getByKey(2L))
-                .countValuable(0)
+                .user(userService.getByKey(8L))
+                .countValuable(2)
                 .question(questionService.getByKey(2L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -537,7 +538,7 @@ public class TestDataEntityService {
 
         Answer answer3_2 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(0)
+                .countValuable(2)
                 .question(questionService.getByKey(3L))
                 .isHelpful(false)
                 .isDeleted(false)
@@ -549,7 +550,7 @@ public class TestDataEntityService {
                 .user(userService.getByKey(4L))
                 .countValuable(0)
                 .question(questionService.getByKey(4L))
-                .isHelpful(true)
+                .isHelpful(false)
                 .isDeleted(false)
                 .htmlBody("Helpful answer for question 4")
                 .build();
@@ -599,11 +600,13 @@ public class TestDataEntityService {
     }
 
     private void creatUserFavoriteQuestion() {
-        UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
-                .user(userService.getByKey(2L))
-                .question(questionService.getByKey(2L))
-                .build();
-        userFavoriteQuestionService.persist(userFavoriteQuestion);
+        for (long i = 1l; i < 5; i++) {
+            UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
+                    .user(userService.getByKey(2L))
+                    .question(questionService.getByKey(i))
+                    .build();
+            userFavoriteQuestionService.persist(userFavoriteQuestion);
+        }
     }
 
     private void createBadges() {
@@ -679,8 +682,11 @@ public class TestDataEntityService {
         }
     }
 
-    private void createReputation(){
+    private void createUserReputation() {
         reputationService.updateOrInsert(userService.getByKey(1l), 15);
+        reputationService.updateOrInsert(userService.getByKey(2l), 15);
+        reputationService.updateOrInsert(userService.getByKey(3l), 15);
         reputationService.updateOrInsert(userService.getByKey(1l), 15);
+
     }
 }

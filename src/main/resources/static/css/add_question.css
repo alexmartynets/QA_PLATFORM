@@ -59,11 +59,12 @@ h1 {
     width: 100% !important;
     border: 1px solid grey !important;
     color: blue;
+    border-color: red !important;
 }
 input.body__tagInput:focus{
     color: blue;
+    border-color: red !important;
 }
-
 .footer {
     color: #bbc0ba;
 }

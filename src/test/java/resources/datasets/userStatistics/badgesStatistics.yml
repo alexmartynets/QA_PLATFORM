@@ -1,0 +1,16 @@
+badges:
+  - id: 1
+    badges: "Helper"
+    description: "If get 50 point for reputation in day"
+    reputations_for_merit: 50
+
+  - id: 2
+    badges: "Helper1"
+    description: "If get 100 point for reputation in day"
+    reputations_for_merit: 100
+
+
+  - id: 3
+    badges: "Helper2"
+    description: "If get 150 point for reputation in day"
+    reputations_for_merit: 150
