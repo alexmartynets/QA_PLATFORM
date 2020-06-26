@@ -8,7 +8,6 @@ import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.QuestionDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
-import com.javamentor.qa.platform.service.abstracts.model.TagService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.service.abstracts.model.VoteQuestionService;
 import com.javamentor.qa.platform.webapp.converter.QuestionConverter;
@@ -40,7 +39,6 @@ public class QuestionResourceController {
     private final QuestionService questionService;
     private final UserService userService;
     private final QuestionConverter questionConverter;
-    private final TagService tagService;
     private final VoteQuestionService voteQuestionService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -48,13 +46,11 @@ public class QuestionResourceController {
                                       QuestionService questionService,
                                       UserService userService,
                                       QuestionConverter questionConverter,
-                                      VoteQuestionService voteQuestionService,
-                                      TagService tagService) {
+                                      VoteQuestionService voteQuestionService) {
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
         this.userService = userService;
         this.questionConverter = questionConverter;
-        this.tagService = tagService;
         this.voteQuestionService = voteQuestionService;
     }
 
@@ -220,9 +216,6 @@ public class QuestionResourceController {
     })
     @Validated(OnCreate.class)
     public ResponseEntity<?> addQuestion(@RequestBody @Valid QuestionDto questionDto) {
-        questionDto.getTags().forEach(f -> f.setId(tagService.checkOrPersists(f.getName())));
-        questionDto.setViewCount(0);
-        questionDto.setCountValuable(0);
         Question question = questionConverter.toEntity(questionDto);
         questionService.persist(question);
         logger.info(String.format("Вопрос с заголовком: %s добавлен в базу данных", questionDto.getTitle()));

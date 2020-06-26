@@ -11,7 +11,7 @@ import java.util.Optional;
 public class TagDAOImpl extends ReadWriteDAOImpl<Tag, Long> implements TagDAO {
 
     @Override
-    public Optional<Long> getTagByName(String name) {
+    public Optional<Long> getTagIdByName(String name) {
             return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("SELECT t.id FROM Tag t WHERE t.name = :name", Long.class)
                     .setParameter("name", name));
     }

@@ -5,5 +5,5 @@ import com.javamentor.qa.platform.models.entity.question.Tag;
 import java.util.Optional;
 
 public interface TagDAO extends ReadWriteDAO<Tag, Long> {
-    Optional<Long> getTagByName(String name);
+    Optional<Long> getTagIdByName(String name);
 }
