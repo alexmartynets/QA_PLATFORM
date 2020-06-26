@@ -1,6 +1,7 @@
 package com.javamentor.qa.platform.models.entity.question;
 
 import com.javamentor.qa.platform.models.entity.user.User;
+import com.javamentor.qa.platform.models.util.action.OnCreate;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -13,6 +14,7 @@ import org.hibernate.search.annotations.Store;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
