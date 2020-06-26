@@ -20,22 +20,22 @@ public class AnswerDtoServiceImpl implements AnswerDtoService {
     }
 
     @Override
-    public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId) {
-        return answerDtoDao.getAnswersDtoByQuestionIdSortNew(questionId);
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId, Long userId) {
+        return answerDtoDao.getAnswersDtoByQuestionIdSortNew(questionId, userId);
     }
 
     @Override
-    public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId) {
-        return answerDtoDao.getAnswersDtoByQuestionIdSortCount(questionId);
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId, Long userId) {
+        return answerDtoDao.getAnswersDtoByQuestionIdSortCount(questionId, userId);
     }
 
     @Override
-    public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
-        return answerDtoDao.getAnswersDtoByQuestionIdSortDate(questionId);
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId, Long userId) {
+        return answerDtoDao.getAnswersDtoByQuestionIdSortDate(questionId, userId);
     }
 
     @Override
-    public Boolean isUserAlreadyAnswered(Long questionId, Long userId) {
-        return answerDtoDao.isUserAlreadyAnswered(questionId, userId);
+    public Boolean isUserNotAnswered(Long questionId, Long userId) {
+        return answerDtoDao.isUserNotAnswered(questionId, userId);
     }
 }

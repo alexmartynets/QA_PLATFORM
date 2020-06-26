@@ -616,7 +616,7 @@ public class TestDataEntityService {
         Comment comment1 = Comment.builder()
                 .commentType(CommentType.ANSWER)
                 .lastUpdateDateTime(LocalDateTime.now())
-                .text("Comment 1 text")
+                .text("Comment for answer 1")
                 .user(userService.getByKey(2L))
                 .build();
 
@@ -629,20 +629,33 @@ public class TestDataEntityService {
         Comment comment2 = Comment.builder()
                 .commentType(CommentType.ANSWER)
                 .lastUpdateDateTime(LocalDateTime.now())
-                .text("Comment 2 text")
+                .text("Comment for answer 2")
                 .user(userService.getByKey(2L))
                 .build();
 
         CommentAnswer commentAnswer2 = CommentAnswer.builder()
                 .comment(comment2)
-                .answer(answerService.getByKey(1L))
+                .answer(answerService.getByKey(2L))
                 .build();
         commentAnswerService.persist(commentAnswer2);
+
+        Comment comment4 = Comment.builder()
+                .commentType(CommentType.ANSWER)
+                .lastUpdateDateTime(LocalDateTime.now())
+                .text("Comment for answer 3")
+                .user(userService.getByKey(2L))
+                .build();
+
+        CommentAnswer commentAnswer4 = CommentAnswer.builder()
+                .comment(comment4)
+                .answer(answerService.getByKey(3L))
+                .build();
+        commentAnswerService.persist(commentAnswer4);
 
         Comment comment3 = Comment.builder()
                 .commentType(CommentType.QUESTION)
                 .lastUpdateDateTime(LocalDateTime.now())
-                .text("Comment 3 text")
+                .text("Comment for question 1")
                 .user(userService.getByKey(3L))
                 .build();
 

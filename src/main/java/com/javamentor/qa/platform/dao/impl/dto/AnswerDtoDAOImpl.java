@@ -31,7 +31,8 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
             "a.user.id, " +
             "a.user.fullName, " +
             "a.user.imageUser, " +
-            "a.user.reputationCount " +
+            "a.user.reputationCount, " +
+            "(select (sum(uv.vote)) from AnswerVote uv where uv.voteAnswerPK.user.id = :userId and uv.voteAnswerPK.answer.id = a.id )" +
             "from " +
             "Answer a left join AnswerVote v on a.id = v.voteAnswerPK.answer.id ";
 
@@ -41,10 +42,11 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Transactional
     @SuppressWarnings("unchecked")
     @Override
-    public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId) {
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId, Long userId) {
         return entityManager
                 .createQuery(HQL + "where a.question.id = :questionId group by a.id order by a.updateDateTime desc")
                 .setParameter("questionId", questionId)
+                .setParameter("userId", userId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
                 .getResultList();
@@ -53,10 +55,11 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Transactional
     @SuppressWarnings("unchecked")
     @Override
-    public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId) {
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId, Long userId) {
         return entityManager
                 .createQuery(HQL + "where a.question.id = :questionId group by a.id order by sum (v.vote) desc ")
                 .setParameter("questionId", questionId)
+                .setParameter("userId", userId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
                 .getResultList();
@@ -65,10 +68,11 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @Transactional
     @SuppressWarnings("unchecked")
     @Override
-    public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId) {
+    public List<AnswerDto> getAnswersDtoByQuestionIdSortDate(Long questionId, Long userId) {
         return entityManager
                 .createQuery(HQL + "where a.question.id = :questionId group by a.id order by a.persistDateTime asc")
                 .setParameter("questionId", questionId)
+                .setParameter("userId", userId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
                 .getResultList();
@@ -108,13 +112,14 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .isHelpful((Boolean) tuple[7])
                 .isDeleted((Boolean) tuple[8])
                 .userDto(userDto)
+                .voteOfUser(tuple[13] == null ? 0 : ((Number)tuple[13]).intValue())
                 .build();
     }
 
     @Transactional
     @SuppressWarnings("unchecked")
     @Override
-    public Boolean isUserAlreadyAnswered(Long questionId, Long userId) {
+    public Boolean isUserNotAnswered(Long questionId, Long userId) {
         List<AnswerDto> answerDto = entityManager
                 .createQuery("select a from Answer a where a.question.id = :questionId and a.user.id = :userId")
                 .setParameter("questionId", questionId)

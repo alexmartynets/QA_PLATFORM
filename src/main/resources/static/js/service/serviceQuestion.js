@@ -70,7 +70,7 @@ function getQuestionComment(id) {
 function putAnswerCountValuableMinus(id, questionId, countValuable, isHelpful) {
     let answerIdMinus = id;
     $.ajax({
-        url: '/api/user/question/' + questionId + '/answer/',
+        url: '/api/user/question/' + questionId + '/answer?userId=' + userId,
         method: 'GET',
         dataType: 'json',
 
@@ -88,8 +88,8 @@ function putAnswerCountValuableMinus(id, questionId, countValuable, isHelpful) {
 
                     let answerDTO = JSON.stringify(correctData);
                     $.ajax({
-                        url: '/api/user/question/' + questionId + '/answer/' + answerIdMinus,
-                        method: 'PUT',
+                        url: '/api/user/question/' + questionId + '/answer/' + answerIdMinus + '/vote?userId=' + userId + '&userVote=false',
+                        method: 'PATCH',
                         data: answerDTO,
                         contentType: 'application/json; charset=utf-8',
                         success: function (data) {
@@ -112,7 +112,7 @@ function putAnswerCountValuableMinus(id, questionId, countValuable, isHelpful) {
 function putAnswerCountValuablePlus(id, questionId, countValuable, isHelpful) {
     let answerIdPlus = id;
     $.ajax({
-        url: '/api/user/question/' + questionId + '/answer/',
+        url: '/api/user/question/' + questionId + '/answer?userId=' + userId,
         method: 'GET',
         dataType: 'json',
 
@@ -131,8 +131,9 @@ function putAnswerCountValuablePlus(id, questionId, countValuable, isHelpful) {
 
                     let answerDTO = JSON.stringify(correctData);
                     $.ajax({
-                        url: '/api/user/question/' + questionId + '/answer/' + answerIdPlus,
-                        method: 'PUT',
+                        url: '/api/user/question/' + questionId + '/answer/' + answerIdPlus + '/vote?userId=' + userId + '&userVote=true',
+                        // http://localhost:5557/api/user/question/1/answer/1/vote?userId=9&userVote=false
+                        method: 'PATCH',
                         data: answerDTO,
                         contentType: 'application/json; charset=utf-8',
                         success: function (data) {
@@ -153,17 +154,32 @@ function putAnswerCountValuablePlus(id, questionId, countValuable, isHelpful) {
 }
 
 function setButtonState(userVote) {
-    if (userVote < 0){
+    if (userVote < 0) {
         document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
         document.getElementById("btnDownCountMinus").setAttribute("disabled", true);
     }
-    if (userVote === 0){
+    if (userVote === 0) {
         document.getElementById("btnDownCountMinus").removeAttribute("disabled");
         document.getElementById("btnUpCountPlus").removeAttribute("disabled");
     }
-    if (userVote > 0){
+    if (userVote > 0) {
         document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
         document.getElementById("btnDownCountMinus").setAttribute("disabled", true);
+    }
+}
+
+function setButtonStateAnswer(voteOfUser, answerId) {
+    if (voteOfUser < 0) {
+        document.getElementById("btnCountAnswerPlus"+answerId).setAttribute("disabled", true);
+        document.getElementById("btnCountAnswerMinus"+answerId).setAttribute("disabled", true);
+    }
+    if (voteOfUser === 0) {
+        document.getElementById("btnCountAnswerPlus"+answerId).removeAttribute("disabled");
+        document.getElementById("btnCountAnswerMinus"+answerId).removeAttribute("disabled");
+    }
+    if (voteOfUser > 0) {
+        document.getElementById("btnCountAnswerPlus"+answerId).setAttribute("disabled", true);
+        document.getElementById("btnCountAnswerMinus"+answerId).setAttribute("disabled", true);
     }
 }
 
@@ -295,7 +311,7 @@ function convertDate(date) {
 function getTextOfQuestion(id) {
 
     $.ajax({
-        url: '/api/user/question/' + id + '/answer/',
+        url: '/api/user/question/' + id + '/answer?userId=' + userId,
         method: 'GET',
         dataType: 'json',
 
@@ -305,7 +321,6 @@ function getTextOfQuestion(id) {
             tableBody.empty();
             let num = 0;
             $(data).each(function (index, val) {
-
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
                     method: 'GET',
@@ -322,8 +337,8 @@ function getTextOfQuestion(id) {
 
 
                             tableBody.append(`<tr>
-        <td  width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
-                                                    title="Ответ полезен">
+        <td  width="50" rowspan="1"><button id='btnCountAnswerPlus${value.id}' onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
+                                                    title="Ответ полезен" disabled="false">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
                                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -333,8 +348,8 @@ function getTextOfQuestion(id) {
 
                                             <div id="answerCountValuable" class=" ml-3 " >${val.countValuable}</div>
 
-                                            <button onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class="btn btn-link- outline-dark"
-                                                    title="Ответ не является полезеным">
+                                            <button id = "btnCountAnswerMinus${value.id}" onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class="btn btn-link- outline-dark"
+                                                    title="Ответ не является полезеным" disabled="true">
                                                 <svg class="bi bi-caret-down-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
                                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -383,6 +398,7 @@ function getTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
+                            $(setButtonStateAnswer(val.voteOfUser, val.id));
                             $(isAnswerComment(val.id, dataAnswerComment));
                             $(popover());
                         });
@@ -396,7 +412,7 @@ function getTextOfQuestion(id) {
 function getSortDateTextOfQuestion(id) {
 
     $.ajax({
-        url: '/api/user/question/' + id + '/answer/sort/date',
+        url: '/api/user/question/' + id + '/answer/sort/date?userId=' + userId,
         method: 'GET',
         dataType: 'json',
 
@@ -421,7 +437,7 @@ function getSortDateTextOfQuestion(id) {
                             let questionId = val.questionId;
                             let persistDateTime = convertDateToString(val.persistDateTime);
                             tableBody.append(`<tr>
-        <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
+        <td width="50" rowspan="1"><button id="btnCountAnswerPlus${value.id}" onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -432,7 +448,7 @@ function getSortDateTextOfQuestion(id) {
 
                                             <div id="answerCountValuable" class=" ml-3 " >${val.countValuable}</div>
 
-                                            <button onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class="btn btn-link- outline-dark"
+                                            <button id="btnCountAnswerMinus${value.id}" onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class="btn btn-link- outline-dark"
                                                     title="Ответ не является полезеным">
                                                 <svg class="bi bi-caret-down-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -482,6 +498,7 @@ function getSortDateTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
+                            $(setButtonStateAnswer(val.voteOfUser, val.id));
                             $(isAnswerComment(val.id, dataAnswerComment));
                             $(popover());
                         });
@@ -495,7 +512,7 @@ function getSortDateTextOfQuestion(id) {
 function getSortReputationTextOfQuestion(id) {
 
     $.ajax({
-        url: '/api/user/question/' + id + '/answer/sort/count',
+        url: '/api/user/question/' + id + '/answer/sort/count?userId=' + userId,
         method: 'GET',
         dataType: 'json',
 
@@ -520,7 +537,7 @@ function getSortReputationTextOfQuestion(id) {
                             let questionId = val.questionId;
                             let persistDateTime = convertDateToString(val.persistDateTime);
                             tableBody.append(`<tr>
-        <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
+        <td width="50" rowspan="1"><button id="btnCountAnswerPlus${value.id}" onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -531,7 +548,7 @@ function getSortReputationTextOfQuestion(id) {
 
                                             <div id="answerCountValuable" class=" ml-3 " >${val.countValuable}</div>
 
-                                            <button onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class="btn btn-link- outline-dark"
+                                            <button id="btnCountAnswerMinus${value.id}" onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class="btn btn-link- outline-dark"
                                                     title="Ответ не является полезеным">
                                                 <svg class="bi bi-caret-down-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
@@ -580,8 +597,10 @@ function getSortReputationTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
+                            $(setButtonStateAnswer(val.voteOfUser, val.id));
                             $(isAnswerComment(val.id, dataAnswerComment));
                             $(popover());
+
                         });
                     },
                 });

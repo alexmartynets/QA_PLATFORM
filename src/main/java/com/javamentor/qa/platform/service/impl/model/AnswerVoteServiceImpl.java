@@ -55,7 +55,11 @@ public class AnswerVoteServiceImpl extends ReadWriteServiceImpl<AnswerVote, Long
             logger.info(String.format("Answer id %d does not match question id %d.", answerId, questionId));
             throw new EntityNotFoundException(String.format("Answer id %d does not match question id %d.", answerId, questionId));
         }
-        if ((answerVoteDAO.getVotesOfUserByAnswer(answerId, userId) == 0) && !answer.getUser().getId().equals(userId)) {
+        if(answer.getUser().getId().equals(userId)){//проверка задавал ли пользователь вопрос
+            logger.info(String.format("User id %d can`t vote fore his answer id %d.", userId, answerId));
+            throw new EntityNotFoundException(String.format("User id %d can`t vote fore his answer id %d.", userId, answerId));
+        }
+        if (answerVoteDAO.getVotesOfUserByAnswer(answerId, userId) == 0) {
             AnswerVote answerVote = AnswerVote.builder()
                     .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
                             .answer(answer)
