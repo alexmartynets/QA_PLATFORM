@@ -1,8 +1,6 @@
 comment_answer:
-  - id: 1
-    comment_id: 1
+  - comment_id: 1
     answer_id: 1
 
-  - id: 2
-    comment_id: 2
+  - comment_id: 2
     answer_id: 2

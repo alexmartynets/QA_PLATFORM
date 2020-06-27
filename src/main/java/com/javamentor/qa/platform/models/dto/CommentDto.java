@@ -30,7 +30,7 @@ public class CommentDto {
             required = true, example = "Настройка Security Spring")
     @NotNull(groups = {OnCreate.class, OnUpdate.class}, message = "'text' Must not be null when creating and updating")
     @NotBlank(groups = {OnCreate.class, OnUpdate.class}, message = "'text' Must not consist of spaces")
-    @Size(groups = {OnUpdate.class, OnCreate.class}, min = 10)
+    @Size(groups = {OnUpdate.class, OnCreate.class}, min = 10, message = "'text' Must be greater than 10 characters")
     private String text;
 
     @ApiModelProperty(notes = "Тип комментария, показавыет связь комментария с вопросом или ответом",
