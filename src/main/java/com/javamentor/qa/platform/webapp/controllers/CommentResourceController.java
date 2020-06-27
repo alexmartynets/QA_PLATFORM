@@ -10,6 +10,7 @@ import com.javamentor.qa.platform.service.abstracts.dto.CommentAnswerServiceDto;
 import com.javamentor.qa.platform.service.abstracts.dto.CommentQuestionServiceDto;
 import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.QuestionService;
+import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentAnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentQuestionService;
 import com.javamentor.qa.platform.webapp.converter.CommentAnswerConverter;
@@ -46,6 +47,7 @@ public class CommentResourceController {
     private final QuestionService questionService;
     private final CommentAnswerConverter answerConverter;
     private final CommentQuestionConverter questionConverter;
+    private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public CommentResourceController(CommentQuestionServiceDto commentQuestionServiceDto,
@@ -56,7 +58,8 @@ public class CommentResourceController {
                                      AnswerService answerService,
                                      QuestionService questionService,
                                      CommentAnswerConverter answerConverter,
-                                     CommentQuestionConverter questionConverter) {
+                                     CommentQuestionConverter questionConverter,
+                                     UserService userService) {
         this.commentQuestionServiceDto = commentQuestionServiceDto;
         this.commentAnswerServiceDto = commentAnswerServiceDto;
         this.commentQuestionService = commentQuestionService;
@@ -66,6 +69,7 @@ public class CommentResourceController {
         this.questionService = questionService;
         this.answerConverter = answerConverter;
         this.questionConverter = questionConverter;
+        this.userService = userService;
     }
 
     @ApiOperation(value = "Получение списка комментариев для вопроса")
@@ -104,11 +108,15 @@ public class CommentResourceController {
     @ApiOperation(value = "Добавления комментария к вопросу(параметр ID обязателен для вопроса и автора комментария)")
     @PostMapping("/question/{questionId}/comment")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Комментариев к вопросу добавлен"),
+            @ApiResponse(code = 201, message = "Комментариев к вопросу добавлен"),
             @ApiResponse(code = 400, message = "Попутка оставить второй комментарий под вопросом")
     })
     public ResponseEntity<?> saveCommentQuestion(@RequestBody @Valid @NonNull CommentDto commentDto,
                                                  @PathVariable @NonNull Long questionId) {
+        if (!userService.existsById(commentDto.getUserId())){
+            logger.error(String.format("Пользователя с ID не найден: %d", commentDto.getUserId()));
+            return ResponseEntity.badRequest().body("Автор коментария не найден");
+        }
         if (commentQuestionServiceDto.hasUserToCommentQuestion(questionId, commentDto.getUserId())) {
             logger.error(String.format("Попутка оставить второй комментарий под вопросом с ID: %d", questionId));
             return ResponseEntity.badRequest().body("Под вопросом можно оставлять только один комментарий");
@@ -123,11 +131,16 @@ public class CommentResourceController {
     @ApiOperation(value = "Добавления комментария к ответу(параметр ID обязателен для ответа и автора комментария)")
     @PostMapping("/answer/{answerId}/comment")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Комментарий к ответу добавлен"),
+            @ApiResponse(code = 201, message = "Комментарий к ответу добавлен"),
             @ApiResponse(code = 400, message = "Попытка оставить второй комментарий под ответом")
     })
     public ResponseEntity<?> saveCommentAnswer(@RequestBody @Valid @NonNull CommentDto commentDto,
                                                @PathVariable @NonNull Long answerId) {
+        System.out.println(userService.existsById(commentDto.getUserId()));
+        if (!userService.existsById(commentDto.getUserId())){
+            logger.error(String.format("Пользователя с ID не найден: %d", commentDto.getUserId()));
+            return ResponseEntity.badRequest().body("Автор коментария не найден");
+        }
         if (commentAnswerServiceDto.hasUserToCommentAnswer(answerId, commentDto.getUserId())) {
             logger.error(String.format("Попытка оставить второй комментарий под ответом с ID: %d", answerId));
             return ResponseEntity.badRequest().body("Под ответом можно оставить только один комментарий");

@@ -1,0 +1,8 @@
+comment_question:
+  - id: 1
+    comment_id: 3
+    question_id: 1
+
+  - id: 2
+    comment_id: 4
+    question_id: 2

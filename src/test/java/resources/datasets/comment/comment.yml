@@ -1,0 +1,28 @@
+comment:
+  - id: 1
+    comment_type: 0
+    last_redaction_data: "2020-06-27 14:34:15"
+    persist_data: "2020-06-27 14:34:15"
+    text: "comment fom question 1"
+    user_id: 1
+
+  - id: 2
+    comment_type: 0
+    last_redaction_data: "2020-06-27 14:34:15"
+    persist_data: "2020-06-27 14:34:15"
+    text: "comment fom question 2"
+    user_id: 2
+
+  - id: 3
+    comment_type: 1
+    last_redaction_data: "2020-06-27 14:34:15"
+    persist_data: "2020-06-27 14:34:15"
+    text: "comment fom answer 1"
+    user_id: 3
+
+  - id: 4
+    comment_type: 1
+    last_redaction_data: "2020-06-27 14:34:15"
+    persist_data: "2020-06-27 14:34:15"
+    text: "comment fom answer 2"
+    user_id: 4
