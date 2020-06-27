@@ -1,0 +1,146 @@
+body {
+    height: 100%;
+    background-color: #fff;
+    color: #000;
+    margin: 4rem 0;
+}
+
+.navbar {
+    border-top-width: 2px;
+    border-top-style: solid;
+}
+
+.container {
+    max-width: 1500px;
+}
+
+.navbar-light {
+    background: #f7f7fafa;
+    opacity: 0.8;
+}
+
+.section-center {
+    top: 30px;
+}
+
+.search-users {
+    width: 600px; /* ширина блока */
+}
+
+#input {
+    left: 160px;
+    top: 8px;
+}
+
+.hides {
+    display: none;
+}
+
+#sorting-time a {
+    text-decoration: none;
+}
+
+#moderator {
+    display: none;
+    font-size: 16px;
+}
+
+.left-panel-blok .btn {
+    text-align: left;
+    font-size: 16px;
+}
+
+.left-panel-blok {
+    opacity: 0.9;
+    top: 110px;
+}
+
+#left-panel {
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+
+.left-panel {
+    border-right-width: 1px;
+    border-right-color: rgba(190, 178, 178, 0.801);
+}
+
+#search {
+    left: -15px;
+}
+
+#user-title {
+    font-size: 28px;
+}
+
+.btn-toolbar .btn {
+    font-size: 14px;
+}
+
+.panel-button-small a {
+    font-size: 12px;
+    margin-top: -20px;
+    padding-bottom: 10px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-radius: 0px;
+}
+
+.colors {
+    border-color: #ea7d2a;
+    font-weight: 600;
+}
+
+.contents {
+    padding-top: 60px;
+}
+
+.panel {
+    border-radius: 0.3rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.user-info {
+    border-radius: 0.3rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    width: 300px;
+    height: 120px;
+    font-size: 14px;
+    text-decoration: none;
+    /*overflow: hidden;*/
+}
+
+.page-item .page-link {
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 0.3rem;
+    color: #000;
+}
+
+#users {
+    padding-left: 15px;
+}
+
+.null{
+    height: 300px;
+    max-width: 1950px;
+}
+
+.footer-container {
+    color: white;
+}
+
+.top-footer {
+    background-color: #2E2E2E;
+    max-width: 1950px;
+}
+
+.bottom-footer {
+    background-color: #212121;
+    max-width: 1950px;
+}
+
+

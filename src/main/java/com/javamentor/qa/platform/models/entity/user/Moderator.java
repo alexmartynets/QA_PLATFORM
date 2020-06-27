@@ -14,10 +14,10 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "reputation")
-public class Reputation {
+@Table(name = "moderator")
+public class Moderator {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreationTimestamp
@@ -25,25 +25,21 @@ public class Reputation {
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     private User user;
-
-    @Column(name = "count")
-    private Integer count;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Reputation reputation = (Reputation) o;
-        return Objects.equals(id, reputation.id) &&
-                Objects.equals(persistDate, reputation.persistDate) &&
-                Objects.equals(count, reputation.count);
+        Moderator moderator = (Moderator) o;
+        return Objects.equals(id, moderator.id) &&
+                Objects.equals(persistDate, moderator.persistDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, persistDate, count);
+        return Objects.hash(id, persistDate);
     }
 }

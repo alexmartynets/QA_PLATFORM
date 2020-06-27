@@ -181,6 +181,7 @@ public class QuestionResourceController {
         return ResponseEntity.ok(questionDtoService.getQuestionDtoListByUserId(id));
     }
 
+
     @ApiOperation(value = "Получение списка пагинации из QuestionDto (без фильтра)")
     @GetMapping(value = "/pagination")
     @ApiResponses(value = {
