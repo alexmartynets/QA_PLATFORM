@@ -37,7 +37,6 @@ public class TestDataEntityService {
     private final RelatedTagService relatedTagService;
     private final ReputationService reputationService;
     private final BadgesService badgesService;
-    private final UserBadgesService userBadgesService;
     private final VoteQuestionService voteQuestionService;
     private final EditorService editorService;
     private final ModeratorService moderatorService;
@@ -47,7 +46,6 @@ public class TestDataEntityService {
     @Autowired
     public TestDataEntityService(ReputationService reputationService,
                                  BadgesService badgesService,
-                                 UserBadgesService userBadgesService,
                                  VoteQuestionService voteQuestionService,
                                  EditorService editorService,
                                  ModeratorService moderatorService,
@@ -62,7 +60,6 @@ public class TestDataEntityService {
                                  VoteAnswerService voteAnswerService) {
         this.reputationService = reputationService;
         this.badgesService = badgesService;
-        this.userBadgesService = userBadgesService;
         this.voteQuestionService = voteQuestionService;
         this.editorService = editorService;
         this.moderatorService = moderatorService;
@@ -85,7 +82,6 @@ public class TestDataEntityService {
         creatComment();
         creatUserFavoriteQuestion();
         createBadges();
-        createUserBadges();
         creatReputation();
         creatEditor();
         creatModerator();
@@ -1210,19 +1206,6 @@ public class TestDataEntityService {
                 .build();
         badgesService.persist(badges6);
 
-    }
-
-    private void createUserBadges() {
-        for (long i = 1; i < 12; i++) {
-            for (long j = 1; j < 9; j++) {
-                UserBadges user1Badges1 = UserBadges.builder()
-                        .badges(badgesService.getByKey(j))
-                        .user(userService.getByKey(i))
-                        .ready(false)
-                        .build();
-                userBadgesService.persist(user1Badges1);
-            }
-        }
     }
 
     private void createUserReputation() {

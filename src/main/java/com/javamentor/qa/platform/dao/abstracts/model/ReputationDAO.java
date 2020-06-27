@@ -8,9 +8,5 @@ import java.util.Optional;
 import java.util.List;
 
 public interface ReputationDAO extends ReadWriteDAO<Reputation, Long> {
-    Optional<Reputation> findByUserIdAndDate(User user);
 
-    List<Reputation> getReputationByUserId(Long userId);
-
-    Long getSumOfUserReputation(Long userId);
 }
