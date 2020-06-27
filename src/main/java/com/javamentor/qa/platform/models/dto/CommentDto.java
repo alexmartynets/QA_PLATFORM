@@ -36,7 +36,6 @@ public class CommentDto {
     @ApiModelProperty(notes = "Тип комментария, показавыет связь комментария с вопросом или ответом",
             required = true, example = "QUESTION или ANSWER")
     @NotNull(groups = {OnCreate.class, OnUpdate.class}, message = "'type' Must not be null when creating and updating")
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class}, message = "'type' Must not consist of spaces")
     private CommentType commentType;
 
     @ApiModelProperty(notes = "Дата публикования комментария, назначается автоматически при создании")

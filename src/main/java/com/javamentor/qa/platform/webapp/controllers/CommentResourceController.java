@@ -104,7 +104,8 @@ public class CommentResourceController {
     @ApiOperation(value = "Добавления комментария к вопросу(параметр ID обязателен для вопроса и автора комментария)")
     @PostMapping("/question/{questionId}/comment")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Комментариев к вопросу добавлен")
+            @ApiResponse(code = 200, message = "Комментариев к вопросу добавлен"),
+            @ApiResponse(code = 400, message = "Попутка оставить второй комментарий под вопросом")
     })
     public ResponseEntity<?> saveCommentQuestion(@RequestBody @Valid @NonNull CommentDto commentDto,
                                                  @PathVariable @NonNull Long questionId) {
@@ -122,7 +123,8 @@ public class CommentResourceController {
     @ApiOperation(value = "Добавления комментария к ответу(параметр ID обязателен для ответа и автора комментария)")
     @PostMapping("/answer/{answerId}/comment")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Комментарий к ответу добавлен")
+            @ApiResponse(code = 200, message = "Комментарий к ответу добавлен"),
+            @ApiResponse(code = 400, message = "Попытка оставить второй комментарий под ответом")
     })
     public ResponseEntity<?> saveCommentAnswer(@RequestBody @Valid @NonNull CommentDto commentDto,
                                                @PathVariable @NonNull Long answerId) {
