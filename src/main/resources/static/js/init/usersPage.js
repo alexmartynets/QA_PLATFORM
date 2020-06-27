@@ -20,7 +20,9 @@ jQuery(document).ready(function ($) {
     $('.search').click(function () {
         $('.search').removeClass("active");
 
-        // $('#find').val('');// todo
+        // location.reload(); // window.location.reload() todo
+
+        $('#find').val('');// todo
 
         $("#pagination").show();
         $('.sorting-time').removeClass("colors");
@@ -145,8 +147,6 @@ jQuery(document).ready(function ($) {
     let input = document.querySelector("#find");
     input.addEventListener("input", function (e) {
         let name = e.target.value;
-        console.log("значение input search users");
-        console.log(name);
         $('#moderator').hide();
         $("#pagination").show();
         // console.log(name);
@@ -183,13 +183,18 @@ jQuery(document).ready(function ($) {
             console.log("url_find в блоке search по имяни блок sorting-time");
             console.log(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
 
-            let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-            let list = media.getMediaList("reputation", dataMap.get("list"));
-            service.showUsers(list);
-            service.showPagination(media, data, dataMap, numberMedia, currentPage);
+            // let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+            // let list = media.getMediaList("reputation", dataMap.get("list"));
+            // service.showUsers(list);
+            // service.showPagination(media, data, dataMap, numberMedia, currentPage);
 
             $(this).toggleClass("colors");
         });
+
+        dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+        let list = media.getMediaList("reputation", dataMap.get("list"));
+        service.showUsers(list);
+        service.showPagination(media, data, dataMap, numberMedia, currentPage);
 
         // блок кода для динамического изменения данных для search
         $("#pagination").on("click", ".page-link", function () {
