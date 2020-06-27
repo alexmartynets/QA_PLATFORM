@@ -12,7 +12,7 @@
 <body>
 <nav class="navbar navbar-expand-sm navbar-light fixed-top">
     <div class="container">
-        <a href="#" class="navbar-brand">Home</a>
+        <a th:href="@{/index}" class="navbar-brand">Home</a>
 
         <div class="input-group input-group-sm mb-3 search-users">
             <input id="input" type="text" class="form-control" aria-label="Sizing example input"
@@ -22,11 +22,11 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="#" class="btn btn-primary btn-block">Log in</a>
+                    <a th:href="@{/user/login}" class="btn btn-primary btn-block">Log in</a>
                 </li>
                 <label class="interval-label"></label>
                 <li class="nav-item">
-                    <a href="#" class="btn btn-primary btn-block">Sign up</a>
+                    <a th:href="@{/registration}" class="btn btn-primary btn-block">Sign up</a>
                 </li>
             </ul>
         </div>
@@ -39,7 +39,7 @@
     <div class="row">
         <div id="left-panel" class="col-md-2 left-panel">
             <div class="col-md-12 btn-group-vertical position-fixed left-panel-blok">
-                <a href="#" class="btn btn-link text-dark">Главная</a>
+                <a th:href="@{/index}" class="btn btn-link text-dark">Главная</a>
                 <a href="#" class="btn btn-link text-dark">Вопросы</a>
                 <a href="#" class="btn btn-link text-dark">Метки</a>
                 <a th:href="@{/users}" class="btn btn-link text-dark">Участники</a>
@@ -140,109 +140,116 @@
     </div>
 </div>
 
+
+<!-- Footer Null-->
+<div class="container null">
+    <div class="row">
+    </div>
+</div>
+
 <!-- Footer -->
-<!--<footer class="page-footer font-small indigo footer-container">-->
-<!--    &lt;!&ndash; Footer Links &ndash;&gt;-->
-<!--    <div class="container text-center text-md-left top-footer">-->
-<!--        &lt;!&ndash; Grid row &ndash;&gt;-->
-<!--        <div class="row">-->
+<footer class="page-footer font-small indigo footer-container">
+    <!-- Footer Links -->
+    <div class="container text-center text-md-left top-footer">
+        <!-- Grid row -->
+        <div class="row">
 
-<!--            <div class="col-md-3 mx-auto">-->
+            <div class="col-md-3 mx-auto">
 
-<!--                &lt;!&ndash; Links &ndash;&gt;-->
-<!--                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>-->
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-<!--                <ul class="list-unstyled">-->
-<!--                    <li>-->
-<!--                        <a href="#!">Very long link 1</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Very long link 2</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Very long link 3</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Very long link 4</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Very long link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Very long link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Very long link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Very long link 4</a>
+                    </li>
+                </ul>
 
-<!--            </div>-->
-<!--            <hr class="clearfix w-100 d-md-none">-->
-<!--            <div class="col-md-3 mx-auto">-->
+            </div>
+            <hr class="clearfix w-100 d-md-none">
+            <div class="col-md-3 mx-auto">
 
-<!--                &lt;!&ndash; Links &ndash;&gt;-->
-<!--                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>-->
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-<!--                <ul class="list-unstyled">-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 1</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 2</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 3</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 4</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
 
-<!--            </div>-->
-<!--            <hr class="clearfix w-100 d-md-none">-->
-<!--            <div class="col-md-3 mx-auto">-->
+            </div>
+            <hr class="clearfix w-100 d-md-none">
+            <div class="col-md-3 mx-auto">
 
-<!--                &lt;!&ndash; Links &ndash;&gt;-->
-<!--                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>-->
-<!--                <ul class="list-unstyled">-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 1</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 2</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 3</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 4</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
 
-<!--            </div>-->
-<!--            <hr class="clearfix w-100 d-md-none">-->
-<!--            <div class="col-md-3 mx-auto">-->
+            </div>
+            <hr class="clearfix w-100 d-md-none">
+            <div class="col-md-3 mx-auto">
 
-<!--                &lt;!&ndash; Links &ndash;&gt;-->
-<!--                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>-->
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-<!--                <ul class="list-unstyled">-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 1</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 2</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 3</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#!">Link 4</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
 
-<!--            </div>-->
+            </div>
 
-<!--        </div>-->
-<!--    </div>-->
+        </div>
+    </div>
 
-<!--    &lt;!&ndash; Copyright &ndash;&gt;-->
-<!--    <div class="footer-copyright text-center py-3 bottom-footer">© 2020 java mentor:-->
-<!--        <a href="https://mdbootstrap.com/"> JM.com</a>-->
-<!--    </div>-->
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3 bottom-footer">© 2020 java mentor:
+        <a href="#"> JM.com</a>
+    </div>
 
-<!--</footer>-->
+</footer>
 
 <script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>

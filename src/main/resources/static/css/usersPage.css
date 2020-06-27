@@ -124,6 +124,11 @@ body {
     padding-left: 15px;
 }
 
+.null{
+    height: 300px;
+    max-width: 1950px;
+}
+
 .footer-container {
     color: white;
 }

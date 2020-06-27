@@ -49,12 +49,8 @@ class DataUsersPage {
                 }
             },
             error: function (xhr, status, error) {
-                if (xhr.status === 404) {
-                    alert('list User not found...');
-                } else {
-                    alert('The server does not answer...');
-                    console.log('Error - ' + xhr.status + ': ' + xhr.statusText + error);
-                }
+                // alert('The server does not answer...');
+                console.log('Error - ' + xhr.status + ': ' + xhr.statusText + error);
             }
         });
         console.log(map);
@@ -69,8 +65,12 @@ class DataUsersService {
 
     showPagination(media, data, dataMap, numberMedia, currentPage) {
         let countOfPages = data.getNumberOfPages(dataMap.get("count"), numberMedia);
+        console.log("method showPagination let countOfPages");
+        console.log(countOfPages);
         let listButtonPagination = data.generateRangePagination(currentPage, countOfPages);
         let listLi = media.mapperMediaPagination(listButtonPagination);
+        console.log("method showPagination let listButtonPagination");
+        console.log(listButtonPagination);
         $("#pagination").html($(listLi));
     }
 
@@ -128,22 +128,22 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = list[i].fullName;
-            name.style.fontWeight= "800";
+            name.style.fontWeight = "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = list[i].city;
-            city.style.fontSize= "12px";
+            city.style.fontSize = "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = list[i].reputationCount;
-            ratings.style.fontSize= "12px";
+            ratings.style.fontSize = "12px";
 
             const year = document.createElement("div");
             year.className = "user-year";
-            year.innerText = "выбран " + list[i].dateAppointedModerator.substr(0, 4);
+            year.innerText = "выбран " + list[i].dateAssignmentModerator.substr(0, 4);
             year.style.opacity = "0.4";
             year.style.fontWeight = "900";
 
@@ -180,25 +180,25 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = list[i].fullName;
-            name.style.fontWeight= "800";
+            name.style.fontWeight = "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = list[i].city;
-            city.style.fontSize= "12px";
+            city.style.fontSize = "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = list[i].reputationCount;
-            ratings.style.fontSize= "12px";
+            ratings.style.fontSize = "12px";
 
             const editor = document.createElement("div");
             editor.className = "user-editor";
             editor.innerText = list[i].countChanges + " правок";
             editor.style.opacity = "0.4";
             editor.style.fontWeight = "900";
-            editor.style.fontSize= "12px";
+            editor.style.fontSize = "12px";
 
             divs.appendChild(name);
 
@@ -234,25 +234,25 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = list[i].fullName;
-            name.style.fontWeight= "800";
+            name.style.fontWeight = "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = list[i].city;
-            city.style.fontSize= "12px";
+            city.style.fontSize = "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = list[i].reputationCount;
-            ratings.style.fontSize= "12px";
+            ratings.style.fontSize = "12px";
 
             const voice = document.createElement("div");
             voice.className = "user-voice";
             voice.innerText = list[i].countVoice + " голосов";
             voice.style.opacity = "0.4";
-            voice.style.fontWeight= "900";
-            voice.style.fontSize= "12px";
+            voice.style.fontWeight = "900";
+            voice.style.fontSize = "12px";
 
             divs.appendChild(name);
             divs.appendChild(city);
@@ -287,7 +287,7 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = list[i].fullName;
-            name.style.fontWeight= "800";
+            name.style.fontWeight = "800";
             name.style.color = "#343a40";
 
             // todo даты создания
@@ -300,8 +300,8 @@ class MediaFactory {
             ratings.className = "user-rating";
             ratings.innerText = list[i].reputationCount + " за " + days;
             ratings.style.opacity = "0.4";
-            ratings.style.fontWeight= "900";
-            ratings.style.fontSize= "12px";
+            ratings.style.fontWeight = "900";
+            ratings.style.fontSize = "12px";
 
             divs.appendChild(name);
             divs.appendChild(ratings);
@@ -334,13 +334,13 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = list[i].fullName;
-            name.style.fontWeight= "800";
+            name.style.fontWeight = "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = list[i].city;
-            city.style.fontSize= "12px";
+            city.style.fontSize = "12px";
 
             // расчет времяни от даты создания
             let today = new Date();
@@ -352,8 +352,8 @@ class MediaFactory {
             ratings.className = "user-rating";
             ratings.innerText = list[i].reputationCount + " за " + days + " дней";
             ratings.style.opacity = "0.4";
-            ratings.style.fontWeight= "900";
-            ratings.style.fontSize= "12px";
+            ratings.style.fontWeight = "900";
+            ratings.style.fontSize = "12px";
 
             const tags = document.createElement("a");
             tags.href = "/tags/" + list[i].about;
@@ -393,20 +393,20 @@ class MediaFactory {
             name.href = "/profile";
             name.className = "mt-0 user-name";
             name.innerText = list[i].fullName;
-            name.style.fontWeight= "800";
+            name.style.fontWeight = "800";
             name.style.color = "#343a40";
 
             const city = document.createElement("div");
             city.className = "user-location";
             city.innerText = list[i].city;
-            city.style.fontSize= "12px";
+            city.style.fontSize = "12px";
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
             ratings.innerText = list[i].reputationCount;
             ratings.style.opacity = "0.4";
-            ratings.style.fontWeight= "900";
-            ratings.style.fontSize= "12px";
+            ratings.style.fontWeight = "900";
+            ratings.style.fontSize = "12px";
 
             const tags = document.createElement("a");
             tags.href = "/tags/" + list[i].about;

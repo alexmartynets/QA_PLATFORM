@@ -407,8 +407,8 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "JOIN Answer a ON va.voteAnswerPK.answer.id = a.id " +
                 "JOIN User u3 ON a.user.id = u3.id " +
                 "WHERE a.id = va.voteAnswerPK.answer.id " +
-                "AND u.id = u3.id AND va.voteAnswerPK.localDateTime > :data)) " +
-                "FROM User AS u ")
+                "AND u.id = u3.id AND va.voteAnswerPK.localDateTime > :data)) AS vote " +
+                "FROM User AS u ORDER BY vote DESC ")
                 .setParameter("data", data)
                 .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
@@ -429,9 +429,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
 
                     @Override
                     public List transformList(List list) {
-                        List<UserDto> result = new ArrayList<UserDto>(list);
-                        result.sort(Comparator.comparingInt(UserDto::getCountVoice).reversed());
-                        return result;
+                        return list;
                     }
                 })
                 .getResultList();
