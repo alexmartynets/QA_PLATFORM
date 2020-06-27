@@ -75,4 +75,11 @@ public class QuestionDto {
 
     @ApiModelProperty(name = "Итоговый результат голосования по вопросу от запросившего пользователя")
     private Integer voteByUser;
+
+    @ApiModelProperty(notes = "Флаг, который помечает вопрос, являеться вопрос просматриваемым или нет.")
+    private Boolean watchTag;
+
+    @ApiModelProperty(notes = "Флаг, который помечает вопрос, являеться вопрос игнорируемым или нет.")
+    private Boolean ignoreTag;
+
 }
