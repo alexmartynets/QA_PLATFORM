@@ -8,5 +8,46 @@ p {
     /*background-color: #fbf2d4;*/
 }
 
+section article {
+    width: 25%;
+    float: left;
+    padding: 5px;
+    border: 1px solid var(--dark);
+    /*gap: 12px;*/
+}
 
+.grid-layout {
+    display: grid;
+    grid-gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.grid {
+    display: flex;
+}
+
+.fd-column {
+    flex-direction: column !important;
+}
+
+.s-card {
+    padding: 12px;
+    border: 1px solid var(--secondary);
+    border-radius: 3px;
+    background-color: var(--white);
+}
+
+section p {
+    margin: 5px 0;
+}
+
+section ul {
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 2.5rem;
+    /*letter-spacing: -5px;*/
+    margin-bottom: 10px;
+}
 
