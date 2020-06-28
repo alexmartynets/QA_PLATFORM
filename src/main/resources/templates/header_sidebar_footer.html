@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>header_sidebar_footer</title>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container-">
+    <nav class="navbar sticky-top navbar-light bg-light justify-content-between">
+        <a class="navbar-brand" href="#">
+            <img src="/images/question.png" width="30" height="30" class="d-inline-block align-top" alt="">StackOverMentor</a>
+        ​
+        <div class="nav-item col-8">
+            <form class="form-inline my-2 my-lg-0" style="">
+                <input class="form-control mr-sm-5 col-10" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <a href="#"><img src="/images/user.png" width="30" height="30" class="d-inline-block align-top" alt=""
+                         title="Последние Входящие Сообщения"/></a>
+        <a href="#"><img src="/images/goal.png" width="30" height="30" class="d-inline-block align-top" alt=""
+                         title="Последние достижения: репутация, знаки и привелегии"/></a>
+        <button type="button" class="btn btn-outline-primary">Войти</button>
+        <button type="button" class="btn btn-outline-primary">Зарегистрироваться</button>
+    </nav>
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="nav position-fixed flex-column nav-pills" id="v-pills-tab" role="tablist"
+                 aria-orientation="vertical">
+                <a class="nav-link text-primary" id="v-pills-home-tab" data-toggle="pill" onclick="location.href = 'http://localhost:5557/'"
+                   aria-controls="v-pills-home" aria-selected="false" >Главная</a>
+                <a class="nav-link show active " id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+                   aria-controls="v-pills-profile" aria-selected="true">Вопросы</a>
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
+                   aria-controls="v-pills-messages" aria-selected="false">Метки</a>
+                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
+                   aria-controls="v-pills-settings" aria-selected="false">Участники</a>
+            </div>
+        </div>
+        <div class="col-lg-10">
+
+        </div>
+    </div>
+</div>
+
+<footer class="fixed-bottom font-small bg-primary text-white">
+
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="https://www.java-mentor.com" class="text-white">JavaMentor.com</a>
+    </div>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
+
+</body>
+</html>
