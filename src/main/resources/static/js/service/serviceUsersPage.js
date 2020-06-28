@@ -65,12 +65,8 @@ class DataUsersService {
 
     showPagination(media, data, dataMap, numberMedia, currentPage) {
         let countOfPages = data.getNumberOfPages(dataMap.get("count"), numberMedia);
-        console.log("method showPagination let countOfPages");
-        console.log(countOfPages);
         let listButtonPagination = data.generateRangePagination(currentPage, countOfPages);
         let listLi = media.mapperMediaPagination(listButtonPagination);
-        console.log("method showPagination let listButtonPagination");
-        console.log(listButtonPagination);
         $("#pagination").html($(listLi));
     }
 

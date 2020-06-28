@@ -40,6 +40,10 @@ body {
     text-decoration: none;
 }
 
+#sorting-time-search a {
+    text-decoration: none;
+}
+
 #moderator {
     display: none;
     font-size: 16px;
@@ -90,6 +94,17 @@ body {
 .colors {
     border-color: #ea7d2a;
     font-weight: 600;
+}
+
+.colors-search {
+    border-color: #a4ea21;
+    font-weight: 600;
+}
+
+.blok-search {
+    background-color: aqua;
+    height: 100px;
+    width: 500px;
 }
 
 .contents {

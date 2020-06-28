@@ -99,10 +99,22 @@
                             <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="12">квартал</a>
                             <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="52">год</a>
                             <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="-1">все</a>
-                            <a href="#" class="btn btn-link text-dark sorting-time hides" data-search="new-reputation"
+
+                            <a href="#" class="btn btn-link text-dark sorting-time hides shows-hides" data-search="new-reputation"
                                data-path="new-reputation" data-weeks="8">по рейтингу</a>
-                            <a href="#" id="new" class="btn btn-link text-dark sorting-time hides" data-search="new"
+                            <a href="#" id="new" class="btn btn-link text-dark sorting-time hides shows-hides" data-search="new"
                                data-path="new" data-weeks="8">по дате</a>
+                        </div>
+
+                        <div id="sorting-time-search" class="btn-group text-dark float-right panel-button-small hides"
+                             role="group"
+                             aria-label="First group">
+                            <a href="#" class="btn btn-link text-dark sorting" data-weeks-search="1">за неделю</a>
+                            <a href="#" id="month-search" class="btn btn-link text-dark sorting" data-weeks-search="4">за
+                                месяц</a>
+                            <a href="#" class="btn btn-link text-dark sorting" data-weeks-search="12">квартал</a>
+                            <a href="#" class="btn btn-link text-dark sorting" data-weeks-search="52">год</a>
+                            <a href="#" class="btn btn-link text-dark sorting" data-weeks-search="-1">все</a>
                         </div>
                     </div>
                 </div>
@@ -124,6 +136,8 @@
             <!-- Users -->
             <div id="users" class="row row-cols-3">
                 <!-- List Users -->
+
+                <div id="blok-search hide"></div>
             </div>
 
             <!-- pagination -->
@@ -131,7 +145,15 @@
                 <div class="col">
                     <ul id="pagination" class="pagination panel justify-content-end">
                         <!-- List pagination -->
-                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- pagination search-->
+            <div id="pagination-search" class="row hides">
+                <div class="col">
+                    <ul id="search-pagination" class="pagination panel justify-content-end">
+                        <!-- List pagination -->
+                        <div><p>Hello!!!</p></div>
                     </ul>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 jQuery(document).ready(function ($) {
     $('#month').toggleClass("colors");
 
+
     let media = new MediaFactory();
     let data = new DataUsersPage();
     let service = new DataUsersService();
@@ -37,8 +38,11 @@ jQuery(document).ready(function ($) {
             $('.sorting-time').removeClass("colors");
             $('#new').toggleClass("colors");
 
+            $("#sorting-time-search").hide();
+            $("#pagination-search").hide();
+
             $('.shows').hide();
-            $('.hides').show();
+            $('.shows-hides').show();
 
             attr_search = $(this).attr("data-search");
             let attr_path = $('#new').attr("data-path");
@@ -56,6 +60,9 @@ jQuery(document).ready(function ($) {
             service.showUsers(list);
             console.log("url блок кнопок search else if где values moderator");
             console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+
+            $("#sorting-time-search").hide();
+            $("#pagination-search").hide();
 
             $("#pagination").hide();
             $('#sorting-time').hide();
@@ -147,10 +154,51 @@ jQuery(document).ready(function ($) {
     let input = document.querySelector("#find");
     input.addEventListener("input", function (e) {
         let name = e.target.value;
+        console.log(name);
         $('#moderator').hide();
-        $("#pagination").show();
-        // console.log(name);
-        let currentPage = 1;
+        $("#pagination").hide();
+        $("#sorting-time").hide();
+
+        $("#sorting-time-search").show();
+        $("#pagination-search").show();
+
+        $('.sorting').removeClass("colors-search");
+        $('#month-search').toggleClass("colors-search");
+
+        $("#users").html("<div class='blok-search'>Hello <b>world</b>!</div>");
+
+
+
+        $('#sorting-time-search').on("click", ".sorting", function () {
+            $('.sorting').removeClass("colors-search");
+            weeks = $(this).attr("data-weeks-search");
+            console.log(weeks);
+
+            $(this).toggleClass("colors-search");
+        });
+
+
+        // блок кода для динамического изменения данных для search
+        $("#search-pagination").on("click", ".page-link", function () {
+            let currentPage = $(this).text();
+            console.log(currentPage);
+            if (currentPage === '...') {
+                return;
+            }
+            // console.log("url_find в блоке search по имяни блок пагинация");
+            // console.log(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+            //
+            // let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+            // let list = media.getMediaList("reputation", dataMap.get("list"));
+            // service.showUsers(list);
+            // service.showPagination(media, data, dataMap, numberMedia, currentPage);
+        });
+    });
+
+});
+
+
+/*       let currentPage = 1;
         let url_find = service.getUrl("find");
         let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
         console.log("url_find в блоке search по имяни в начале");
@@ -187,30 +235,9 @@ jQuery(document).ready(function ($) {
             // let list = media.getMediaList("reputation", dataMap.get("list"));
             // service.showUsers(list);
             // service.showPagination(media, data, dataMap, numberMedia, currentPage);
+*/
 
-            $(this).toggleClass("colors");
-        });
-
-        dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+/*        dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
         let list = media.getMediaList("reputation", dataMap.get("list"));
         service.showUsers(list);
-        service.showPagination(media, data, dataMap, numberMedia, currentPage);
-
-        // блок кода для динамического изменения данных для search
-        $("#pagination").on("click", ".page-link", function () {
-            let currentPage = $(this).text();
-            // console.log(currentPage);
-            if (currentPage === '...') {
-                return;
-            }
-            console.log("url_find в блоке search по имяни блок пагинация");
-            console.log(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-
-            let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-            let list = media.getMediaList("reputation", dataMap.get("list"));
-            service.showUsers(list);
-            service.showPagination(media, data, dataMap, numberMedia, currentPage);
-        });
-    });
-
-});
+        service.showPagination(media, data, dataMap, numberMedia, currentPage);*/
