@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../static/css/add_question.css"/>
-    <link rel="stylesheet" type="text/css" href="../static/css/header.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/add_question.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/header.css"/>
 
 </head>
 
@@ -64,7 +64,7 @@
             </span>
         </div>
         <div class="col-md-4">
-            <img src="../static/images/1.png" class="d-inline-block align-top"
+            <img src="/images/1.png" class="d-inline-block align-top"
                  alt="">
         </div>
     </div>
@@ -176,11 +176,11 @@
                 <h5 class="p-0 m-0">
                     Метки
                 </h5>
-                <p class=" m-0">
-                    Добавьте не более 5 меток.
+                <p class="m-0 body__p12">
+                    Добавьте не более 5 меток. Метки следует писать через запятую
                 </p>
-                <input id="tag" type="text" class="border-radius p-1 body__firstInput"
-                       placeholder="теги">
+                <input id="tag" type="text" class="border-radius p-1 body__tagInput "
+                       placeholder="java, js, c++">
             </div>
             <div class="text-center m-3">
                 <button onclick="add()" type="button" class="btn btn-primary">Add question</button>
@@ -326,13 +326,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
-<script src="../static/js/util/summernote-ru-RU.js"></script>
-<script src="../static/js/util/add_question.js"></script>
-<script src="../static/js/init/init_add_question.js"></script>
-
-<script>
-
-</script>
+<script src="/js/util/summernote-ru-RU.js"></script>
+<script src="/js/init/init_add_question.js"></script>
+<script src="/js/util/add_question.js"></script>
 
 </body>
 </html>

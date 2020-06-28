@@ -2,8 +2,10 @@ package com.javamentor.qa.platform.dao.abstracts.dto;
 
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.dto.TagDto;
+import com.javamentor.qa.platform.models.entity.user.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface QuestionDtoDao {
@@ -33,6 +35,18 @@ public interface QuestionDtoDao {
     Optional<QuestionDto> getCountValuableQuestionWithUserVote(Long questionId, Long userId);
 
     Integer sumVotesUserByVote(Long questionId, Long userId);
+
+
+//    new methods
+
+    Long getQuestionCountByUserId(Long userId);
+
+    List<QuestionDto> getQuestionDtoByUserIdSortByDate(Long userId, Integer page);
+
+    List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long userId, Integer page);
+
+    List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long userId, Integer page);
+
 
     List<QuestionDto> getQuestionsByTagId(Long tagId);
 }

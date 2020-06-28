@@ -54,11 +54,14 @@ h1 {
     width: 100% !important;
     border: 1px solid grey !important;
 }
-input:focus{
+
+.body__tagInput{
+    width: 100% !important;
+    border: 1px solid grey !important;
     color: blue;
     border-color: red !important;
 }
-input:active{
+input.body__tagInput:focus{
     color: blue;
     border-color: red !important;
 }
