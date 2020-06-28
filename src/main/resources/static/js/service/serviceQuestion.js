@@ -304,7 +304,7 @@ function getTextOfQuestion(id) {
 
         success: function (data) {
             $(data).each(function (index, val) {
-                sleep(1);
+                sleep(10);
 
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
@@ -417,7 +417,7 @@ function getSortDateTextOfQuestion(id) {
 
         success: function (data) {
             $(data).each(function (index, val) {
-                sleep(1);
+                sleep(10);
 
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
@@ -526,7 +526,7 @@ function getSortReputationTextOfQuestion(id) {
 
         success: function (data) {
             $(data).each(function (index, val) {
-                sleep(1);
+                sleep(10);
 
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
