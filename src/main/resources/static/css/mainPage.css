@@ -1,3 +1,29 @@
 p {
      display:block;
  }
+
+#recentTags{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.post-tag{
+    display: flex;
+    /*max-width: 24%;*/
+
+    color: #39739d;
+    margin: 2px 2px 10px 0;
+    font-size: 13px;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    text-align: center;
+}
+
+#recentTags a{
+    text-decoration: none;
+    padding: 5px 5px;
+    background-color: #e1ecf4;
+    border-radius: 3px;
+}

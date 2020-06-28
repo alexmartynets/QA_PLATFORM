@@ -27,4 +27,6 @@ public interface QuestionDtoService {
     boolean isUserCanToVoteByQuestionUp(Long questionId, Long userId);
 
     boolean isUserCanToVoteByQuestionDown(Long questionId, Long userId);
+
+    List<QuestionDto> getQuestionsByTagId(Long tagId);
 }

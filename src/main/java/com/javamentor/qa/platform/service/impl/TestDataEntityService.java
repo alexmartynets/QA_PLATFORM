@@ -255,7 +255,7 @@ public class TestDataEntityService {
     }
 
     private void creatTagEntity() {
-        Tag tag1 = Tag.builder()
+        /*Tag tag1 = Tag.builder()
                 .name("Main tag1")
                 .description("Description tag1")
                 .build();
@@ -277,11 +277,58 @@ public class TestDataEntityService {
                 .mainTag(tag1)
                 .childTag(tag2)
                 .build();
-        relatedTagService.persist(relatedTag);
+        relatedTagService.persist(relatedTag);*/
 
+        Tag python = Tag.builder()
+                .name("python")
+                .description("Description python")
+                .build();
+        tagService.persist(python);
+
+        Tag python_3 = Tag.builder()
+                .name("python_3")
+                .description("Description python_3")
+                .build();
+        tagService.persist(python_3);
+
+        Tag django = Tag.builder()
+                .name("django")
+                .description("Description django")
+                .build();
+        tagService.persist(django);
+
+        Tag android = Tag.builder()
+                .name("android")
+                .description("Description android")
+                .build();
+        tagService.persist(android);
+
+        Tag android_studio = Tag.builder()
+                .name("android_studio")
+                .description("Description android")
+                .build();
+        tagService.persist(android_studio);
+
+        RelatedTag relatedTagPython = RelatedTag.builder()
+                .mainTag(python)
+                .childTag(python_3)
+                .build();
+        relatedTagService.persist(relatedTagPython);
+
+        RelatedTag relatedTagPython2 = RelatedTag.builder()
+                .mainTag(python)
+                .childTag(django)
+                .build();
+        relatedTagService.persist(relatedTagPython2);
+
+        RelatedTag relatedTagAndroid = RelatedTag.builder()
+                .mainTag(android)
+                .childTag(android_studio)
+                .build();
+        relatedTagService.persist(relatedTagAndroid);
     }
 
-    private void creatQuestionEntity() {
+    /*private void creatQuestionEntity() {
 
         List<Question> questionList1 = new ArrayList<>();
         List<Question> questionList2 = new ArrayList<>();
@@ -431,6 +478,180 @@ public class TestDataEntityService {
         tagService.getByKey(1L).setQuestions(questionList1);
         tagService.getByKey(2L).setQuestions(questionList2);
         tagService.getByKey(3L).setQuestions(questionList3);
+
+        VoteQuestion voteQuestion1 = new VoteQuestion(userService.getByKey(3L), question1, 1);
+        VoteQuestion voteQuestion2 = new VoteQuestion(userService.getByKey(4L), question1, 1);
+        VoteQuestion voteQuestion3 = new VoteQuestion(userService.getByKey(5L), question1, 1);
+        VoteQuestion voteQuestion4 = new VoteQuestion(userService.getByKey(3L), question2, 1);
+        VoteQuestion voteQuestion5 = new VoteQuestion(userService.getByKey(4L), question2, -1);
+        VoteQuestion voteQuestion6 = new VoteQuestion(userService.getByKey(5L), question4, 1);
+        VoteQuestion voteQuestion7 = new VoteQuestion(userService.getByKey(6L), question4, 1);
+        VoteQuestion voteQuestion8 = new VoteQuestion(userService.getByKey(9L), question3, 1);
+        VoteQuestion voteQuestion9 = new VoteQuestion(userService.getByKey(8L), question3, 1);
+        VoteQuestion voteQuestion10 = new VoteQuestion(userService.getByKey(7L), question4, 1);
+
+        voteQuestionService.persist(voteQuestion1);
+        voteQuestionService.persist(voteQuestion2);
+        voteQuestionService.persist(voteQuestion3);
+        voteQuestionService.persist(voteQuestion4);
+        voteQuestionService.persist(voteQuestion5);
+        voteQuestionService.persist(voteQuestion6);
+        voteQuestionService.persist(voteQuestion7);
+        voteQuestionService.persist(voteQuestion8);
+        voteQuestionService.persist(voteQuestion9);
+        voteQuestionService.persist(voteQuestion10);
+    }*/
+
+    private void creatQuestionEntity() {
+        List<Question> questionList1 = new ArrayList<>();
+        List<Question> questionList2 = new ArrayList<>();
+        List<Question> questionList3 = new ArrayList<>();
+
+        Question question1 = Question.builder()
+                .title("Question1 title")
+                .viewCount(3)
+                .description("Question1 description")
+                .user(userService.getByKey(2L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList1 = new ArrayList<>();
+        tagList1.add(tagService.getByKey(1L));
+        tagList1.add(tagService.getByKey(2L));
+        question1.setTags(tagList1);
+        questionList1.add(question1);
+        questionList2.add(question1);
+
+        Question question2 = Question.builder()
+                .title("Question2 title")
+                .viewCount(4)
+                .description("Question2 description")
+                .user(userService.getByKey(3L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList2 = new ArrayList<>();
+        tagList2.add(tagService.getByKey(2L));
+        question2.setTags(tagList2);
+        questionList2.add(question2);
+
+        Question question3 = Question.builder()
+                .title("Question3 title")
+                .viewCount(5)
+                .description("Question3 description")
+                .user(userService.getByKey(3L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList3 = new ArrayList<>();
+        tagList3.add(tagService.getByKey(2L));
+        tagList3.add(tagService.getByKey(1L));
+        question3.setTags(tagList3);
+        questionList1.add(question3);
+        questionList2.add(question3);
+
+        Question question4 = Question.builder()
+                .title("Question4 title")
+                .viewCount(5)
+                .description("Question4 description")
+                .user(userService.getByKey(3L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList4 = new ArrayList<>();
+        tagList4.add(tagService.getByKey(3L));
+        question4.setTags(tagList4);
+        questionList3.add(question4);
+
+        Question question5 = Question.builder()
+                .title("Question5 title")
+                .viewCount(5)
+                .description("Question5 description")
+                .user(userService.getByKey(3L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList5 = new ArrayList<>();
+        tagList5.add(tagService.getByKey(3L));
+        question5.setTags(tagList5);
+        questionList3.add(question5);
+
+        Question question6 = Question.builder()
+                .title("Question6 title")
+                .viewCount(5)
+                .description("Question6 description")
+                .user(userService.getByKey(3L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList6 = new ArrayList<>();
+        tagList6.add(tagService.getByKey(1L));
+        tagList6.add(tagService.getByKey(2L));
+        tagList6.add(tagService.getByKey(3L));
+        question6.setTags(tagList6);
+        questionList1.add(question6);
+        questionList2.add(question6);
+        questionList3.add(question6);
+
+        Question question7 = Question.builder()
+                .title("Question7 title")
+                .viewCount(8)
+                .description("Question7 description")
+                .user(userService.getByKey(3L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList7 = new ArrayList<>();
+        tagList7.add(tagService.getByKey(4L));
+        question7.setTags(tagList7);
+        questionList2.add(question7);
+        questionList3.add(question7);
+
+        Question question8 = Question.builder()
+                .title("Question8 title")
+                .viewCount(7)
+                .description("Question8 description")
+                .user(userService.getByKey(5L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList8 = new ArrayList<>();
+        tagList8.add(tagService.getByKey(5L));
+        question8.setTags(tagList8);
+        questionList3.add(question8);
+
+        Question question9 = Question.builder()
+                .title("Question9 title")
+                .viewCount(9)
+                .description("Question9 description")
+                .user(userService.getByKey(3L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList9 = new ArrayList<>();
+        tagList9.add(tagService.getByKey(4L));
+        tagList9.add(tagService.getByKey(5L));
+        question9.setTags(tagList9);
+        questionList1.add(question9);
+
+        Question question10 = Question.builder()
+                .title("Question10 title")
+                .viewCount(10)
+                .description("Question10 description")
+                .user(userService.getByKey(3L))
+                .isDeleted(false)
+                .build();
+        List<Tag> tagList10 = new ArrayList<>();
+        tagList10.add(tagService.getByKey(1L));
+        question10.setTags(tagList10);
+        questionList2.add(question10);
+
+        questionService.persist(question1);
+        questionService.persist(question2);
+        questionService.persist(question3);
+        questionService.persist(question4);
+        questionService.persist(question5);
+        questionService.persist(question6);
+        questionService.persist(question7);
+        questionService.persist(question8);
+        questionService.persist(question9);
+        questionService.persist(question10);
+
+        tagService.getByKey(1L).setQuestions(questionList1);
+        tagService.getByKey(2L).setQuestions(questionList2);
+        tagService.getByKey(3L).setQuestions(questionList3);
+
 
         VoteQuestion voteQuestion1 = new VoteQuestion(userService.getByKey(3L), question1, 1);
         VoteQuestion voteQuestion2 = new VoteQuestion(userService.getByKey(4L), question1, 1);

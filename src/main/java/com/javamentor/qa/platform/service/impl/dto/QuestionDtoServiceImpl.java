@@ -69,4 +69,10 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     public boolean isUserCanToVoteByQuestionDown(Long questionId, Long userId) {
         return questionDtoDao.sumVotesUserByVote(questionId, userId) < 0;
     }
+
+
+    @Override
+    public List<QuestionDto> getQuestionsByTagId(Long mainTagId) {
+        return questionDtoDao.getQuestionsByTagId(mainTagId);
+    }
 }

@@ -14,8 +14,8 @@ jQuery(function ($) {
     });
 
     function getTags(list) {
-        var tags ="";
-        for (var i = 0; i < list.length; i++){
+        let tags ="";
+        for (let i = 0; i < list.length; i++){
             tags += ('<button type="button" class="btn btn-primary btn-sm mr-1">'+ list[i] +'</button>')
         }
         return tags;
@@ -23,7 +23,7 @@ jQuery(function ($) {
 
     function addRow(data) {
 
-        var newRow = "";
+        let newRow = "";
         newRow += ('<li class="list-group-item">');
         newRow += ('<div class="container">');
         newRow += ('<div class="row">');
@@ -53,4 +53,29 @@ jQuery(function ($) {
         $("#getQuestions").append(newRow);
     }
 
+    // My block
+    getListOfTags();
+
+    $('#v-pills-profile-tab').on('click', function () {
+        window.location = "/questions";
+    })
 });
+
+function getListOfTags() {
+    $.ajax({
+        url: '/api/tags',
+        type: 'GET',
+        dataType: 'json',
+        success: function (listOfTags) {
+            let tagData = '';
+            $.each(listOfTags, function (i, tag) {
+                tagData += `<li class="post-tag"><a id="href" value="${tag.id}"  href="questions/tagged/${tag.id}">${tag.name}</a></li>`;
+            });
+
+            $('#recentTags').html(tagData);
+        },
+        error: function () {
+            alert("TagsError");
+        }
+    })
+}
