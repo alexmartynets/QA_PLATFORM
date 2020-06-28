@@ -109,13 +109,14 @@ public class CommentResourceController {
     @PostMapping("/question/{questionId}/comment")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Комментариев к вопросу добавлен"),
-            @ApiResponse(code = 400, message = "Попутка оставить второй комментарий под вопросом")
+            @ApiResponse(code = 400, message = "Попутка оставить второй комментарий под вопросом"),
+            @ApiResponse(code = 404, message = "Автор коментария не найден")
     })
     public ResponseEntity<?> saveCommentQuestion(@RequestBody @Valid @NonNull CommentDto commentDto,
                                                  @PathVariable @NonNull Long questionId) {
         if (!userService.existsById(commentDto.getUserId())){
             logger.error(String.format("Пользователя с ID не найден: %d", commentDto.getUserId()));
-            return ResponseEntity.badRequest().body("Автор коментария не найден");
+            return ResponseEntity.notFound().build();
         }
         if (commentQuestionServiceDto.hasUserToCommentQuestion(questionId, commentDto.getUserId())) {
             logger.error(String.format("Попутка оставить второй комментарий под вопросом с ID: %d", questionId));
@@ -132,14 +133,14 @@ public class CommentResourceController {
     @PostMapping("/answer/{answerId}/comment")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Комментарий к ответу добавлен"),
-            @ApiResponse(code = 400, message = "Попытка оставить второй комментарий под ответом")
+            @ApiResponse(code = 400, message = "Попытка оставить второй комментарий под ответом"),
+            @ApiResponse(code = 404, message = "Автор коментария не найден")
     })
     public ResponseEntity<?> saveCommentAnswer(@RequestBody @Valid @NonNull CommentDto commentDto,
                                                @PathVariable @NonNull Long answerId) {
-        System.out.println(userService.existsById(commentDto.getUserId()));
         if (!userService.existsById(commentDto.getUserId())){
             logger.error(String.format("Пользователя с ID не найден: %d", commentDto.getUserId()));
-            return ResponseEntity.badRequest().body("Автор коментария не найден");
+            return ResponseEntity.notFound().build();
         }
         if (commentAnswerServiceDto.hasUserToCommentAnswer(answerId, commentDto.getUserId())) {
             logger.error(String.format("Попытка оставить второй комментарий под ответом с ID: %d", answerId));
