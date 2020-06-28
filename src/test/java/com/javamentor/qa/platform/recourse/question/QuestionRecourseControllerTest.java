@@ -164,7 +164,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.isHelpful").value("true"))
                 .andExpect(jsonPath("$.lastAnswerName").value("Tot"))
                 .andExpect(jsonPath("$.isHelpful").value("true"))
-                .andExpect(jsonPath("$.length()").value("14"));
+                .andExpect(jsonPath("$.length()").value("15"));
     }
 
     @Test
@@ -256,7 +256,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                         "}"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("14"))
+                .andExpect(jsonPath("$.length()").value("15"))
                 .andExpect(jsonPath("$.id").value("3"))
                 .andExpect(jsonPath("$.title").value("Question3 title New"))
                 .andExpect(jsonPath("$.description").value("Question3 description New"));
@@ -397,7 +397,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(post("/api/user/question/2/upVote?userId=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("14"))
+                .andExpect(jsonPath("$.length()").value("15"))
                 .andExpect(jsonPath("$.id").value("2"))
                 .andExpect(jsonPath("$.countValuable").value("1"));
     }
@@ -407,7 +407,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(post("/api/user/question/1/downVote?userId=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("14"))
+                .andExpect(jsonPath("$.length()").value("15"))
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.countValuable").value("0"));
     }

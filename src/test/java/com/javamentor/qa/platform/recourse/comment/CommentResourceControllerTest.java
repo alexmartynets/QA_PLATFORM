@@ -145,7 +145,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "\"id\": 3," +
                         "\"text\": \"Comment test text\"," +
                         "\"commentType\": \"QUESTION\"," +
-                        "\"userId\": 10" +
+                        "\"userId\": 100" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
