@@ -33,4 +33,6 @@ public interface QuestionDtoDao {
     Optional<QuestionDto> getCountValuableQuestionWithUserVote(Long questionId, Long userId);
 
     Integer sumVotesUserByVote(Long questionId, Long userId);
+
+    List<QuestionDto> getQuestionsByTagId(Long tagId);
 }

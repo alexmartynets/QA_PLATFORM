@@ -69,6 +69,7 @@ public class QuestionResourceController {
             @ApiResponse(code = 200, message = "Вопрос найден"),
             @ApiResponse(code = 404, message = "Вопрос не найден")
     })
+
     public ResponseEntity<?> getQuestionById(@PathVariable @NotNull Long id, @RequestParam Long userId) {
         Optional<QuestionDto> questionDto = questionDtoService.getQuestionDtoById(id, userId);
         if (questionDto.isPresent()) {
@@ -221,4 +222,6 @@ public class QuestionResourceController {
         logger.info(String.format("Вопрос с заголовком: %s добавлен в базу данных", questionDto.getTitle()));
         return ResponseEntity.ok().body(questionDto);
     }
+
+
 }

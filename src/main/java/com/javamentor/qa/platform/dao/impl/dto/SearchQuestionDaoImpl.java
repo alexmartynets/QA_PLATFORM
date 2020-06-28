@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.dao.impl.dto;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
@@ -13,6 +14,7 @@ import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.transform.ResultTransformer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -20,6 +22,12 @@ import java.util.*;
 
 @Repository
 public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> implements SearchQuestionDAO {
+    private final QuestionDtoDao questionDtoDao;
+
+    @Autowired
+    public SearchQuestionDaoImpl(QuestionDtoDao questionDtoDao) {
+        this.questionDtoDao = questionDtoDao;
+    }
 
     private static final String QUERY = "SELECT " +
             "q.id, " +
@@ -126,6 +134,38 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
             e.printStackTrace();
         }
         return questionDtoListSortedByVotes;
+    }
+
+    private ResultTransformer resultWithSumVotes() {
+        return new ResultTransformer() {
+            @Override
+            public Object transformTuple(Object[] tuple, String[] aliases) {
+                UserDto userDto = UserDto.builder()
+                        .fullName((String) tuple[4])
+                        .reputationCount(((Number) tuple[6]).intValue())
+                        .build();
+                List<TagDto> tagDtoList = new ArrayList<>();
+                return QuestionDto.builder()
+                        .id(((Number) tuple[0]).longValue())
+                        .persistDateTime((LocalDateTime) tuple[1])
+                        .title((String) tuple[2])
+                        .description((String) tuple[3])
+                        .userDto(userDto)
+                        .countValuable((tuple[5] == null ? 0 : ((Number) tuple[5]).intValue()))
+                        .countAnswer(((Number) tuple[8]).intValue())
+                        .isHelpful((Boolean) tuple[9])
+                        .viewCount(((Number) tuple[7]).intValue())
+                        .tags(tagDtoList)
+                        .build();
+            }
+
+            @Override
+            public List transformList(List list) {
+                List<QuestionDto> newList = list;
+                newList.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));
+                return list;
+            }
+        };
     }
 
     @SuppressWarnings("unchecked")
@@ -320,7 +360,7 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
                 for (Object obj : collection) {
                     QuestionDto questionDto = (QuestionDto) obj;
                     if (result.containsKey(questionDto.getId())) {
-                        result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
+                            result.get(questionDto.getId()).getTags().addAll(questionDto.getTags());
                     } else {
                         result.put(questionDto.getId(), questionDto);
                     }
@@ -330,33 +370,4 @@ public class SearchQuestionDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> i
         };
     }
 
-    private ResultTransformer resultWithSumVotes() {
-        return new ResultTransformer() {
-            @Override
-            public Object transformTuple(Object[] tuple, String[] aliases) {
-                UserDto userDto = UserDto.builder()
-                        .fullName((String) tuple[4])
-                        .reputationCount(((Number) tuple[6]).intValue())
-                        .build();
-                List<TagDto> tagDtoList = new ArrayList<>();
-                return QuestionDto.builder()
-                        .id(((Number) tuple[0]).longValue())
-                        .persistDateTime((LocalDateTime) tuple[1])
-                        .title((String) tuple[2])
-                        .description((String) tuple[3])
-                        .userDto(userDto)
-                        .countValuable((tuple[5] == null ? 0 : ((Number) tuple[5]).intValue()))
-                        .countAnswer(((Number) tuple[8]).intValue())
-                        .isHelpful((Boolean) tuple[9])
-                        .viewCount(((Number) tuple[7]).intValue())
-                        .tags(tagDtoList)
-                        .build();
-            }
-
-            @Override
-            public List transformList(List collection) {
-                return collection;
-            }
-        };
-    }
 }

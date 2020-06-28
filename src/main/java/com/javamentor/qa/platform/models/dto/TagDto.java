@@ -21,5 +21,5 @@ public class TagDto {
     @NotNull
     private String description;
 
-    Integer QuestionTagCount = 0;
+    private Long questionTagCount;
 }
