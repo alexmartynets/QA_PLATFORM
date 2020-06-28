@@ -48,8 +48,8 @@ jQuery(document).ready(function ($) {
             let attr_path = $('#new').attr("data-path");
             url = service.getUrl(attr_path);
             weeks = $('#new').attr("data-weeks");
-            console.log("url блок кнопок search if где values new");
-            console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+            // console.log("url блок кнопок search if где values new");
+            // console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         } else if (values === 'moderator') {
             // console.log(values);
@@ -58,8 +58,8 @@ jQuery(document).ready(function ($) {
             let dataMap = data.getListUsers(url);
             let list = media.getMediaList(attr_search, dataMap.get("list"));
             service.showUsers(list);
-            console.log("url блок кнопок search else if где values moderator");
-            console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+            // console.log("url блок кнопок search else if где values moderator");
+            // console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
             $("#sorting-time-search").hide();
             $("#pagination-search").hide();
@@ -79,12 +79,12 @@ jQuery(document).ready(function ($) {
             attr_search = $(this).attr("data-search");
             url = service.getUrl(attr_search);
             weeks = $('#month').attr("data-weeks");
-            console.log("url блок кнопок search else где values все остальные");
-            console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+            // console.log("url блок кнопок search else где values все остальные");
+            // console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         }
 
-        console.log("url в конце блока кнопок search");
-        console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+        // console.log("url в конце блока кнопок search");
+        // console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         // данные для страницы
         let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         let list = media.getMediaList(attr_search, dataMap.get("list"));
@@ -104,16 +104,16 @@ jQuery(document).ready(function ($) {
             let attr_path = $(this).attr("data-path");
             url = service.getUrl(attr_path);
             attr_search = $(this).attr("data-search");
-            console.log("url блока кнопок sorting-time if где text равен 'по рейтингу' или 'по дате' для new кнопки поиска");
-            console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+            // console.log("url блока кнопок sorting-time if где text равен 'по рейтингу' или 'по дате' для new кнопки поиска");
+            // console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         }
 
         // получаем число недель от даты создания приложения
         if (weeks === '-1') {
             weeks = service.getCountWeeksDateCreation();
         }
-        console.log("url блока кнопок sorting-time для всех врененых промежутков");
-        console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+        // console.log("url блока кнопок sorting-time для всех врененых промежутков");
+        // console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
         let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
         let list = media.getMediaList(attr_search, dataMap.get("list"));
@@ -122,8 +122,8 @@ jQuery(document).ready(function ($) {
 
         $(this).toggleClass("colors");
     });
-    console.log("url в конце блока кнопок sorting-time");
-    console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
+    // console.log("url в конце блока кнопок sorting-time");
+    // console.log(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
 
     let dataMap = data.getListUsers(url + numberMedia + "&page=" + currentPage + "&weeks=" + weeks);
     let list = media.getMediaList(attr_search, dataMap.get("list"));
@@ -154,7 +154,7 @@ jQuery(document).ready(function ($) {
     let input = document.querySelector("#find");
     input.addEventListener("input", function (e) {
         let name = e.target.value;
-        console.log(name);
+        // console.log(name);
         $('#moderator').hide();
         $("#pagination").hide();
         $("#sorting-time").hide();
@@ -165,17 +165,50 @@ jQuery(document).ready(function ($) {
         $('.sorting').removeClass("colors-search");
         $('#month-search').toggleClass("colors-search");
 
-        $("#users").html("<div class='blok-search'>Hello <b>world</b>!</div>");
+        let currentPage = 1;
+        let url_find = service.getUrl("find");
+        let weeks = $('#month-search').attr("data-weeks-search");
+        let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+        // console.log("url_find в блоке search по имяни в начале");
+        // console.log(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
 
+        if (dataMap.get("list").length === 1) {
+            location.assign("http://localhost:5557/profile");
+            return;
+        }
 
+        if (dataMap.get("list").length === 0) {
+            let message = document.createElement("div");
+            message.textContent = "Участник с таким именем не наден";
+            $("#users").html($(message));
+            $("#pagination-search").hide();
+            return;
+        }
 
-        $('#sorting-time-search').on("click", ".sorting", function () {
+        $('.sorting').click(function () {
             $('.sorting').removeClass("colors-search");
             weeks = $(this).attr("data-weeks-search");
-            console.log(weeks);
+            // console.log(weeks);
+
+            if (weeks === '-1') {
+                weeks = service.getCountWeeksDateCreation();
+            }
+            // console.log("url_find в блоке search по имяни click sorting-time-search");
+            // console.log(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+
+            dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+            let list = media.getMediaList("reputation", dataMap.get("list"));
+            service.showUsers(list);
+            service.showPaginationSearch(media, data, dataMap, numberMedia, currentPage);
 
             $(this).toggleClass("colors-search");
         });
+
+
+        dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
+        let list = media.getMediaList("reputation", dataMap.get("list"));
+        service.showUsers(list);
+        service.showPaginationSearch(media, data, dataMap, numberMedia, currentPage);
 
 
         // блок кода для динамического изменения данных для search
@@ -185,59 +218,13 @@ jQuery(document).ready(function ($) {
             if (currentPage === '...') {
                 return;
             }
-            // console.log("url_find в блоке search по имяни блок пагинация");
+            // console.log("url_find в блоке search по имяни блок search-pagination");
             // console.log(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-            //
-            // let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-            // let list = media.getMediaList("reputation", dataMap.get("list"));
-            // service.showUsers(list);
-            // service.showPagination(media, data, dataMap, numberMedia, currentPage);
-        });
-    });
 
-});
-
-
-/*       let currentPage = 1;
-        let url_find = service.getUrl("find");
-        let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-        console.log("url_find в блоке search по имяни в начале");
-        console.log(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-
-        if (dataMap.get("list").length == 1) {
-            location.assign("http://localhost:5557/profile");
-            return;
-        }
-
-        if (dataMap.get("list").length == 0) {
-            let message = document.createElement("div");
-            message.textContent = "Участник с таким именем не наден";
-            $("#users").html($(message));
-            $("#pagination").hide();
-        } else {
+            let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
             let list = media.getMediaList("reputation", dataMap.get("list"));
             service.showUsers(list);
-            service.showPagination(media, data, dataMap, numberMedia, currentPage);
-        }
-
-        $('.sorting-time').click(function () {
-            $('.sorting-time').removeClass("colors");
-
-            weeks = $(this).attr("data-weeks");
-
-            if (weeks === '-1') {
-                weeks = service.getCountWeeksDateCreation();
-            }
-            console.log("url_find в блоке search по имяни блок sorting-time");
-            console.log(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-
-            // let dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-            // let list = media.getMediaList("reputation", dataMap.get("list"));
-            // service.showUsers(list);
-            // service.showPagination(media, data, dataMap, numberMedia, currentPage);
-*/
-
-/*        dataMap = data.getListUsers(url_find + numberMedia + "&page=" + currentPage + "&weeks=" + weeks + "&name=" + name);
-        let list = media.getMediaList("reputation", dataMap.get("list"));
-        service.showUsers(list);
-        service.showPagination(media, data, dataMap, numberMedia, currentPage);*/
+            service.showPaginationSearch(media, data, dataMap, numberMedia, currentPage);
+        });
+    });
+});

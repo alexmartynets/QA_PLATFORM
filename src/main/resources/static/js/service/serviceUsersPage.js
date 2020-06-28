@@ -70,6 +70,13 @@ class DataUsersService {
         $("#pagination").html($(listLi));
     }
 
+    showPaginationSearch(media, data, dataMap, numberMedia, currentPage) {
+        let countOfPages = data.getNumberOfPages(dataMap.get("count"), numberMedia);
+        let listButtonPagination = data.generateRangePagination(currentPage, countOfPages);
+        let listLi = media.mapperMediaPagination(listButtonPagination);
+        $("#search-pagination").html($(listLi));
+    }
+
     showUsers(listUsers) {
         $("#users").html($(listUsers));
     }
