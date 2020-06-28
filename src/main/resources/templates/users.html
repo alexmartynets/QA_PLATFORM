@@ -57,13 +57,13 @@
                         <div class="btn-toolbar justify-content-between"
                              role="toolbar"
                              aria-label="Toolbar with button groups">
-
+                            <!-- user search field by name -->
                             <div class="input-group input-group-sm md-3 flex-nowrap">
                                 <input id="find" type="text" class="form-control"
                                        placeholder="Фильтрация по участникам"
                                        aria-describedby="addon-wrapping"/>
                             </div>
-
+                            <!-- user sorting buttons -->
                             <div>
                                 <button id="reputation" type="button" class="btn btn-light text-dark search active"
                                         data-search="reputation" value="reputation">Репутация
@@ -90,7 +90,7 @@
             <div class="row align-items-start py-2">
                 <div class="col">
                     <div class="panel">
-                        <!-- Users sorting-->
+                        <!-- user time sorting buttons -->
                         <div id="sorting-time" class="btn-group text-dark float-right panel-button-small"
                              role="group"
                              aria-label="First group">
@@ -106,7 +106,7 @@
                             <a href="#" id="new" class="btn btn-link text-dark sorting-time hides shows-hides" data-search="new"
                                data-path="new" data-weeks="8">по дате</a>
                         </div>
-                        <!-- Users search-->
+                        <!-- user time sorting buttons for search -->
                         <div id="sorting-time-search" class="btn-group text-dark float-right panel-button-small hides"
                              role="group"
                              aria-label="First group">
@@ -137,8 +137,6 @@
             <!-- Users -->
             <div id="users" class="row row-cols-3">
                 <!-- List Users -->
-
-                <div id="blok-search hide"></div>
             </div>
 
             <!-- pagination -->
