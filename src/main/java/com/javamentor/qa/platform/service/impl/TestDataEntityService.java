@@ -75,6 +75,7 @@ public class TestDataEntityService {
         creatUserFavoriteQuestion();
         createBadges();
         createUserBadges();
+        createUserReputation();
     }
 
     private void creatUserEntity() {
@@ -667,11 +668,13 @@ public class TestDataEntityService {
     }
 
     private void creatUserFavoriteQuestion() {
-        UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
-                .user(userService.getByKey(2L))
-                .question(questionService.getByKey(2L))
-                .build();
-        userFavoriteQuestionService.persist(userFavoriteQuestion);
+        for (long i = 1l; i < 5; i++) {
+            UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
+                    .user(userService.getByKey(2L))
+                    .question(questionService.getByKey(i))
+                    .build();
+            userFavoriteQuestionService.persist(userFavoriteQuestion);
+        }
     }
 
     private void createBadges() {
@@ -747,8 +750,11 @@ public class TestDataEntityService {
         }
     }
 
-    private void createReputation() {
+    private void createUserReputation() {
         reputationService.updateOrInsert(userService.getByKey(1l), 15);
+        reputationService.updateOrInsert(userService.getByKey(2l), 15);
+        reputationService.updateOrInsert(userService.getByKey(3l), 15);
         reputationService.updateOrInsert(userService.getByKey(1l), 15);
+
     }
 }

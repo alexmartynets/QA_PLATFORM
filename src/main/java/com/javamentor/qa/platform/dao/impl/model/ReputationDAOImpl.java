@@ -48,4 +48,47 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
                     }
                 }));
     }
+
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Reputation> getReputationByUserId(Long userId){
+        List<Reputation> reputation = entityManager.createQuery("SELECT " +
+                "r.id, " +
+                "r.count, " +
+                "r.persistDate " +
+                "FROM Reputation r WHERE r.user.id = :userId")
+                .setParameter("userId", userId)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return Reputation.builder()
+                                .id((Long) objects[0])
+                                .count((Integer) objects[1])
+                                .persistDate((LocalDate) objects[2])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+        return reputation;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Long getSumOfUserReputation(Long userId){
+        Long reputation = entityManager.createQuery("SELECT " +
+                "SUM(r.count) " +
+                "FROM Reputation r WHERE r.user.id = :userId", Long.class)
+                .setParameter("userId", userId).getSingleResult();
+        if (reputation == null)
+            return 0l;
+
+        return reputation;
+    }
 }
