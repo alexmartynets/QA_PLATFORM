@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class AnswerVoteServiceImpl extends ReadWriteServiceImpl<AnswerVote, Long> implements AnswerVoteService {
@@ -38,12 +36,12 @@ public class AnswerVoteServiceImpl extends ReadWriteServiceImpl<AnswerVote, Long
 
     @Override
     public Boolean addAnswerVotePlus(Long questionId, Long answerId, Long userId) {
-        return checkAttributes(questionId,answerId,userId,1);
+        return checkAttributes(questionId, answerId, userId, 1);
     }
 
     @Override
     public Boolean addAnswerVoteMinus(Long questionId, Long answerId, Long userId) {
-        return checkAttributes(questionId,answerId,userId,-1);
+        return checkAttributes(questionId, answerId, userId, -1);
     }
 
     @Override
@@ -51,7 +49,7 @@ public class AnswerVoteServiceImpl extends ReadWriteServiceImpl<AnswerVote, Long
         return answerVoteDAO.getAllVotesByAnswerId(answerId);
     }
 
-    private Boolean checkAttributes(Long questionId, Long answerId, Long userId, int count){
+    private Boolean checkAttributes(Long questionId, Long answerId, Long userId, int count) {
         Answer answer = answerDAO.getByKey(answerId);
         User user = userDAO.getByKey(userId);
         Question question = questionDAO.getByKey(questionId);
@@ -71,7 +69,7 @@ public class AnswerVoteServiceImpl extends ReadWriteServiceImpl<AnswerVote, Long
             logger.info(String.format("Answer id %d does not match question id %d.", answerId, questionId));
             throw new EntityNotFoundException(String.format("Answer id %d does not match question id %d.", answerId, questionId));
         }
-        if(answer.getUser().getId().equals(userId)){//проверка задавал ли пользователь вопрос
+        if (answer.getUser().getId().equals(userId)) {//проверка задавал ли пользователь вопрос
             logger.info(String.format("User id %d can`t vote fore his answer id %d.", userId, answerId));
             throw new EntityNotFoundException(String.format("User id %d can`t vote fore his answer id %d.", userId, answerId));
         }

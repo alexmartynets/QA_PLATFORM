@@ -88,7 +88,7 @@ function putAnswerCountValuableMinus(id, questionId, countValuable, isHelpful) {
 
                     let answerDTO = JSON.stringify(correctData);
                     $.ajax({
-                        url: '/api/user/question/' + questionId + '/answer/' + answerIdMinus + '/vote?userId=' + userId + '&userVote=false',
+                        url: '/api/user/question/' + questionId + '/answer/' + answerIdMinus + '/voteMinus?userId=' + userId,
                         method: 'PATCH',
                         data: answerDTO,
                         contentType: 'application/json; charset=utf-8',
@@ -131,7 +131,7 @@ function putAnswerCountValuablePlus(id, questionId, countValuable, isHelpful) {
 
                     let answerDTO = JSON.stringify(correctData);
                     $.ajax({
-                        url: '/api/user/question/' + questionId + '/answer/' + answerIdPlus + '/vote?userId=' + userId + '&userVote=true',
+                        url: '/api/user/question/' + questionId + '/answer/' + answerIdPlus + '/votePlus?userId=' + userId,
                         // http://localhost:5557/api/user/question/1/answer/1/vote?userId=9&userVote=false
                         method: 'PATCH',
                         data: answerDTO,

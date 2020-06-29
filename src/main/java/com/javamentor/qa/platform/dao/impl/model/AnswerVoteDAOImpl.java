@@ -3,7 +3,6 @@ package com.javamentor.qa.platform.dao.impl.model;
 import com.javamentor.qa.platform.dao.abstracts.model.AnswerVoteDAO;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.entity.question.answer.AnswerVote;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +16,6 @@ public class AnswerVoteDAOImpl extends ReadWriteDAOImpl<AnswerVote, Long> implem
     public Integer getAllVotesByAnswerId(Long answerId) {
         Optional<Number> sum = SingleResultUtil.getSingleResultOrNull(entityManager
                 .createQuery("select sum (v.vote) from AnswerVote v where v.voteAnswerPK.answer.id = :answerId", Number.class)
-//                .unwrap(Query.class)
                 .setParameter("answerId", answerId));
         return sum.map(Number::intValue).orElse(0);
     }
@@ -27,7 +25,6 @@ public class AnswerVoteDAOImpl extends ReadWriteDAOImpl<AnswerVote, Long> implem
     public Integer getVotesOfUserByAnswer(Long answerId, Long userId) {
         Optional<Number> sum = SingleResultUtil.getSingleResultOrNull(entityManager
                 .createQuery("select sum (v.vote) from AnswerVote v where v.voteAnswerPK.answer.id = :answerId and v.voteAnswerPK.user.id = :userId", Number.class)
-//                .unwrap(Query.class)
                 .setParameter("answerId", answerId)
                 .setParameter("userId", userId));
         return sum.map(Number::intValue).orElse(0);

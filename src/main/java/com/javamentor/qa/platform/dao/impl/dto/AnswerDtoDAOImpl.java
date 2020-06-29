@@ -112,7 +112,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .isHelpful((Boolean) tuple[7])
                 .isDeleted((Boolean) tuple[8])
                 .userDto(userDto)
-                .voteOfUser(tuple[13] == null ? 0 : ((Number)tuple[13]).intValue())
+                .voteOfUser(tuple[13] == null ? 0 : ((Number) tuple[13]).intValue())
                 .build();
     }
 
