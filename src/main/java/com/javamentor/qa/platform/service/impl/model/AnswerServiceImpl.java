@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implements AnswerService {
@@ -30,8 +31,9 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
 
     @Override
     public void resetIsHelpful(Long questionId) {
-        Answer answer = answerDAO.getHelpfulAnswerByQuestionId(questionId);
-        if (answer != null) {
+        Optional<Answer> answerOptional = answerDAO.getHelpfulAnswerByQuestionId(questionId);
+        if (answerOptional.isPresent()) {
+            Answer answer = answerOptional.get();
             answer.setIsHelpful(false);
             answer.setDateAcceptTime(null);
             answerDAO.update(answer);

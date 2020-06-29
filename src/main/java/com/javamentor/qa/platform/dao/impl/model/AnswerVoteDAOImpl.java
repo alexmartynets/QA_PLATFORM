@@ -1,10 +1,13 @@
 package com.javamentor.qa.platform.dao.impl.model;
 
 import com.javamentor.qa.platform.dao.abstracts.model.AnswerVoteDAO;
+import com.javamentor.qa.platform.dao.util.SingleResultUtil;
 import com.javamentor.qa.platform.models.entity.question.answer.AnswerVote;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Repository
 public class AnswerVoteDAOImpl extends ReadWriteDAOImpl<AnswerVote, Long> implements AnswerVoteDAO {
@@ -12,23 +15,21 @@ public class AnswerVoteDAOImpl extends ReadWriteDAOImpl<AnswerVote, Long> implem
     @Transactional
     @Override
     public Integer getAllVotesByAnswerId(Long answerId) {
-        Number sum = (Long) entityManager
-                .createQuery("select sum (v.vote) from AnswerVote v where v.voteAnswerPK.answer.id = :answerId")
-                .unwrap(Query.class)
-                .setParameter("answerId", answerId)
-                .getSingleResult();
-        return sum == null ? 0 : sum.intValue();
+        Optional<Number> sum = SingleResultUtil.getSingleResultOrNull(entityManager
+                .createQuery("select sum (v.vote) from AnswerVote v where v.voteAnswerPK.answer.id = :answerId", Number.class)
+//                .unwrap(Query.class)
+                .setParameter("answerId", answerId));
+        return sum.map(Number::intValue).orElse(0);
     }
 
     @Transactional
     @Override
     public Integer getVotesOfUserByAnswer(Long answerId, Long userId) {
-        Number sum = (Long) entityManager
-                .createQuery("select sum (v.vote) from AnswerVote v where v.voteAnswerPK.answer.id = :answerId and v.voteAnswerPK.user.id = :userId")
-                .unwrap(Query.class)
+        Optional<Number> sum = SingleResultUtil.getSingleResultOrNull(entityManager
+                .createQuery("select sum (v.vote) from AnswerVote v where v.voteAnswerPK.answer.id = :answerId and v.voteAnswerPK.user.id = :userId", Number.class)
+//                .unwrap(Query.class)
                 .setParameter("answerId", answerId)
-                .setParameter("userId", userId)
-                .getSingleResult();
-        return sum == null ? 0 : sum.intValue();
+                .setParameter("userId", userId));
+        return sum.map(Number::intValue).orElse(0);
     }
 }

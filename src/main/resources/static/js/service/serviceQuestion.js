@@ -338,7 +338,7 @@ function getTextOfQuestion(id) {
 
                             tableBody.append(`<tr>
         <td  width="50" rowspan="1"><button id='btnCountAnswerPlus${value.id}' onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
-                                                    title="Ответ полезен" disabled="false">
+                                                    title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
                                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -349,7 +349,7 @@ function getTextOfQuestion(id) {
                                             <div id="answerCountValuable" class=" ml-3 " >${val.countValuable}</div>
 
                                             <button id = "btnCountAnswerMinus${value.id}" onclick="putAnswerCountValuableMinus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class="btn btn-link- outline-dark"
-                                                    title="Ответ не является полезеным" disabled="true">
+                                                    title="Ответ не является полезеным">
                                                 <svg class="bi bi-caret-down-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16"
                                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
