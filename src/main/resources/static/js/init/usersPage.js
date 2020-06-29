@@ -14,16 +14,14 @@ jQuery(document).ready(function ($) {
     let attr_search = $('#reputation').attr("data-search");
     // получаем url для запроса
     url = service.getUrl(attr_search);
-    //получаем число недель для запроса
+    //получаем периуд для запроса
     weeks = $('#month').attr("data-weeks");
 
     // обработка кнопок в блоке "ПОИСК" по участникам
     $('.search').click(function () {
         $('.search').removeClass("active");
 
-        // location.reload(); // window.location.reload() todo
-
-        $('#find').val('');// todo
+        $('#find').val('');
 
         $("#pagination").show();
         $('.sorting-time').removeClass("colors");

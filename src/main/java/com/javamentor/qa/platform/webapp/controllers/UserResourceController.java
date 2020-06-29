@@ -94,7 +94,6 @@ public class UserResourceController {
     @GetMapping(path = "/{id}")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Пользователь найден по id"),
-            @ApiResponse(code = 400, message = "ID не совпадает с ID редактируемого пользователя"),
             @ApiResponse(code = 404, message = "Пользователь не найден по id")
     })
     public ResponseEntity<UserDto> findUser(@PathVariable Long id) {

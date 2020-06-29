@@ -530,6 +530,217 @@ public class TestDataEntityService {
                 .user(user19)
                 .build();
         reputationService.persist(reputation19);
+
+        User user20 = User.builder()
+                .email("user20@user.ru")
+                .isEnabled(true)
+                .password("user20")
+                .fullName("Сергей Васильевич Ким")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user20.ru")
+                .linkGitHub("github.user20.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user20")
+                .role(userRole)
+                .build();
+        userService.persist(user20);
+
+        Reputation reputation20 = Reputation.builder()
+                .count(2)
+                .user(user20)
+                .build();
+        reputationService.persist(reputation20);
+
+        User user21 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user21")
+                .fullName("Сергей Мельб")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user21")
+                .role(userRole)
+                .build();
+        userService.persist(user21);
+
+        Reputation reputation21 = Reputation.builder()
+                .count(3)
+                .user(user21)
+                .build();
+        reputationService.persist(reputation21);
+
+        User user22 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user19")
+                .fullName("Сергей Петрович Старадуб")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user22")
+                .role(userRole)
+                .build();
+        userService.persist(user22);
+
+        Reputation reputation22 = Reputation.builder()
+                .count(1)
+                .user(user22)
+                .build();
+        reputationService.persist(reputation22);
+
+        User user23 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user19")
+                .fullName("Генадий Петрович Старадуб")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user23")
+                .role(userRole)
+                .build();
+        userService.persist(user23);
+
+        Reputation reputation23 = Reputation.builder()
+                .count(1)
+                .user(user23)
+                .build();
+        reputationService.persist(reputation23);
+
+        User user24 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user19")
+                .fullName("Денис Петрович Старадуб")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user24")
+                .role(userRole)
+                .build();
+        userService.persist(user24);
+
+        Reputation reputation24 = Reputation.builder()
+                .count(1)
+                .user(user24)
+                .build();
+        reputationService.persist(reputation24);
+
+        User user25 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user19")
+                .fullName("Дмитрий Петрович Старадуб")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user25")
+                .role(userRole)
+                .build();
+        userService.persist(user25);
+
+        Reputation reputation25 = Reputation.builder()
+                .count(1)
+                .user(user25)
+                .build();
+        reputationService.persist(reputation25);
+
+        User user26 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user19")
+                .fullName("Сергей Петрович Старадуб")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user26")
+                .role(userRole)
+                .build();
+        userService.persist(user26);
+
+        Reputation reputation26 = Reputation.builder()
+                .count(1)
+                .user(user26)
+                .build();
+        reputationService.persist(reputation26);
+
+        User user28 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user19")
+                .fullName("Сергей Петрович Старадуб")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user28")
+                .role(userRole)
+                .build();
+        userService.persist(user28);
+
+        Reputation reputation28 = Reputation.builder()
+                .count(1)
+                .user(user28)
+                .build();
+        reputationService.persist(reputation28);
+
+        User user29 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user19")
+                .fullName("Сергей Петрович Старадуб")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user29")
+                .role(userRole)
+                .build();
+        userService.persist(user29);
+
+        Reputation reputation29 = Reputation.builder()
+                .count(5)
+                .user(user29)
+                .build();
+        reputationService.persist(reputation29);
+
+        User user30 = User.builder()
+                .email("user19@user.ru")
+                .isEnabled(true)
+                .password("user19")
+                .fullName("Сергей Петрович Старадуб")
+                .reputationCount(0)
+                .city("SPB")
+                .linkSite("site.user19.ru")
+                .linkGitHub("github.user19.ru")
+                .linkVk("vk.user19.ru")
+                .about("about user30")
+                .role(userRole)
+                .build();
+        userService.persist(user30);
+
+        Reputation reputation30 = Reputation.builder()
+                .count(1)
+                .user(user30)
+                .build();
+        reputationService.persist(reputation30);
+
     }
 
     private void creatReputation() {
@@ -612,7 +823,7 @@ public class TestDataEntityService {
         reputationService.persist(reputation32);
 
         Reputation reputation33 = Reputation.builder()
-                .count(1)
+                .count(2)
                 .user(userService.getByKey(18L))
                 .build();
         reputationService.persist(reputation33);
@@ -628,6 +839,36 @@ public class TestDataEntityService {
                 .user(userService.getByKey(19L))
                 .build();
         reputationService.persist(reputation35);
+
+        Reputation reputation36 = Reputation.builder()
+                .count(3)
+                .user(userService.getByKey(22L))
+                .build();
+        reputationService.persist(reputation36);
+
+        Reputation reputation37 = Reputation.builder()
+                .count(1)
+                .user(userService.getByKey(25L))
+                .build();
+        reputationService.persist(reputation37);
+
+        Reputation reputation38 = Reputation.builder()
+                .count(2)
+                .user(userService.getByKey(2L))
+                .build();
+        reputationService.persist(reputation38);
+
+        Reputation reputation39 = Reputation.builder()
+                .count(1)
+                .user(userService.getByKey(26L))
+                .build();
+        reputationService.persist(reputation39);
+
+        Reputation reputation40 = Reputation.builder()
+                .count(1)
+                .user(userService.getByKey(30L))
+                .build();
+        reputationService.persist(reputation40);
     }
 
     private void creatEditor() {

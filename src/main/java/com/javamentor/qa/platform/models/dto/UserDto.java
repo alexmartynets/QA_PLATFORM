@@ -44,7 +44,8 @@ public class UserDto implements Serializable {
             required = true, example = "Qwerty12", position = 3)
     @NotNull(groups = OnCreate.class, message = "Поле password не должно быть Null при создании")
     @NotBlank(groups = OnCreate.class, message = "Поле password не должно состоять из пробелов")
-    @Pattern(groups = OnCreate.class, regexp = "^(?=.*\\d)(?=.*[A-Z])[a-zA-Z0-9]+$", message = "Поле password должен содержать 1 цифру, 1 заглавную букву.")
+    @Pattern(groups = OnCreate.class, regexp = "^(?=.*\\d)(?=.*[A-Z])[a-zA-Z0-9]+$",
+            message = "Поле password должен содержать 1 цифру, 1 заглавную букву.")
     @Size(groups = OnCreate.class, min = 8, message = "Поле password должен быть не мение 8 символов.")
     private String password;
 
