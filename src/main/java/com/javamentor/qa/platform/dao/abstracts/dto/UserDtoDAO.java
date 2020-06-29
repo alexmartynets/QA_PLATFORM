@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.dao.abstracts.dto;
 
+import com.javamentor.qa.platform.models.dto.UserBadgesDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
 
 import java.util.List;
@@ -36,4 +37,11 @@ public interface UserDtoDAO {
     List<UserDto> getListUsersByNameToSearch(String name, int page, int count, long weeks);
 
     List<UserDto> getListUsersByModerator();
+
+    //    methods for statistics
+    List<UserBadgesDto> getUserBadges(Long userId, Integer page);
+
+    Long getCountOfUserBadges(Long userId);
+
+    Long getAllViews(Long userId);
 }

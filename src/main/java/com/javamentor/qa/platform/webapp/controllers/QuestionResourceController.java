@@ -216,10 +216,10 @@ public class QuestionResourceController {
             @ApiResponse(code = 200, message = "Вопрос добавлен"),
     })
     @Validated(OnCreate.class)
-    public ResponseEntity<QuestionDto> addQuestion(@RequestBody QuestionDto questionDto) {
+    public ResponseEntity<?> addQuestion(@RequestBody @Valid QuestionDto questionDto) {
         Question question = questionConverter.toEntity(questionDto);
         questionService.persist(question);
         logger.info(String.format("Вопрос с заголовком: %s добавлен в базу данных", questionDto.getTitle()));
-        return ResponseEntity.ok().body(questionDto);
+        return ResponseEntity.ok().body(question.getId());
     }
 }

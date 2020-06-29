@@ -18,11 +18,12 @@ public abstract class QuestionConverter {
 
     @Mappings({
             @Mapping(target = "user", source = "userDto"),
+            @Mapping(target = "viewCount", source = "viewCount", defaultValue = "0")
     })
     public abstract Question toEntity(QuestionDto questionDto);
 
     @Mappings({
-            @Mapping(target = "userDto", source = "user")
+            @Mapping(target = "userDto", source = "user"),
     })
     public abstract QuestionDto toDto(Question question);
 
