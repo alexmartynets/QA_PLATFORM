@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Questions Tab</title>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <link rel="stylesheet" href="css/questionsTab.css">
     <link rel="stylesheet" href="css/mainPage.css">
-
 </head>
 <body>
 <style>
@@ -42,11 +42,11 @@
     <div class="row">
         <div class="col">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Главная</a>
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Главная</a>
                 <a class="nav-link" id="v-pills-questions-tab" data-toggle="pill" href="#v-pills-questions" role="tab" aria-controls="v-pills-questions" aria-selected="false">Вопросы</a>
                 <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Метки</a>
                 <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Участники</a>
-                <a class="nav-link" id="v-pills-unanswered-tab" data-toggle="pill" href="#v-pills-unanswered" role="tab" aria-controls="v-pills-unanswered" aria-selected="false">Неотвеченные</a>
+                <a class="nav-link active" id="v-pills-unanswered-tab" data-toggle="pill" href="#v-pills-unanswered" role="tab" aria-controls="v-pills-unanswered" aria-selected="false">Неотвеченные</a>
             </div>
         </div>
         <div class="col-6">
@@ -54,38 +54,11 @@
                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                     <div class="row">
                         <div class="col">
-                            <h4 style="float:left;" class="ml-1 mt-3">Исследуйте вопросы на сайте</h4>
+                            <h4 style="float:left;" class="ml-1 mt-3">Неотвеченные вопросы</h4>
                             <button type="button" class="btn btn-primary mt-3" style="text-align:right;float:right;">Задать вопрос</button>
                         </div>
                     </div>
                     <div class="row">
-<!--                        <div class="col-4">-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">java</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">javaScript</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">front-End</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">back-End</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">jquery</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">html</button>-->
-<!--                        </div>-->
-                        <div class="col">
-                            <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Интересные</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Конкусрные</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Популярные</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="week-tab" data-toggle="tab" href="#week-tab" role="tab" aria-controls="week" aria-selected="false">За неделю</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="month-tab" data-toggle="tab" href="#month-tab" role="tab" aria-controls="month" aria-selected="false">За месяц</a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -119,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-<!--                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>-->
+                <!--                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>-->
                 <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
                 <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
             </div>
@@ -129,7 +102,6 @@
             <ul id="recentTags"></ul>
         </div>
     </div>
-
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -139,6 +111,9 @@
 <script crossorigin="anonymous"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="/js/unansweredTab.js"></script>
+<script src="/js/questionsTab.js"></script>
 <script src="/js/mainPage.js"></script>
+
 </body>
 </html>

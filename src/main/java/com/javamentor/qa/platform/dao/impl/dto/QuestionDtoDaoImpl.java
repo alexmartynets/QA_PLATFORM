@@ -685,4 +685,60 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
         }
         return questionsDtoByTagId;
     }
+
+    @Override
+    @SuppressWarnings({"unchecked", "deprecated"})
+    public List<QuestionDto> getUnansweredQuestions() {
+        List<QuestionDto> unansweredQuestions = new ArrayList<>();
+        try {
+            unansweredQuestions = entityManager.createQuery("SELECT " +
+                    "q.id, " +
+                    "q.persistDateTime, " +
+                    "q.title, " +
+                    "q.description, " +
+                    "q.user.fullName, " +
+                    "SUM(v.vote), " +
+                    "q.user.reputationCount, " +
+                    "q.viewCount, " +
+                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) as answerCount, " +
+                    "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                    "FROM Question q LEFT JOIN VoteQuestion v ON q.id = v.voteQuestionPK.question.id " +
+                    "GROUP BY q.id " +
+                    "ORDER BY answerCount, SUM (v.vote) DESC, q.viewCount DESC")
+                    .unwrap(Query.class)
+                    .setResultTransformer(new ResultTransformer() {
+                        @Override
+                        public Object transformTuple(Object[] tuple, String[] aliases) {
+                            UserDto userDto = UserDto.builder()
+                                    .fullName((String) tuple[4])
+                                    .reputationCount(((Number) tuple[6]).intValue())
+                                    .build();
+                            List<TagDto> tagDtoList = new ArrayList<>();
+                            return QuestionDto.builder()
+                                    .id(((Number) tuple[0]).longValue())
+                                    .persistDateTime((LocalDateTime) tuple[1])
+                                    .title((String) tuple[2])
+                                    .description((String) tuple[3])
+                                    .userDto(userDto)
+                                    .countValuable((tuple[5] == null ? 0 : ((Number) tuple[5]).intValue()))
+                                    .countAnswer(((Number) tuple[8]).intValue())
+                                    .isHelpful((Boolean) tuple[9])
+                                    .viewCount(((Number) tuple[7]).intValue())
+                                    .tags(tagDtoList)
+                                    .build();
+                        }
+
+                        @Override
+                        public List transformList(List list) {
+                            List<QuestionDto> newList = list;
+                            newList.forEach(f -> f.setTags(getTagList(f.getId())));
+                            return list;
+                        }
+                    })
+                    .getResultList();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return unansweredQuestions;
+    }
 }

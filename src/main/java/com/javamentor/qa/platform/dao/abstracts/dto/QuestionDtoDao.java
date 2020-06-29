@@ -49,4 +49,6 @@ public interface QuestionDtoDao {
 
 
     List<QuestionDto> getQuestionsByTagId(Long tagId);
+
+    List<QuestionDto> getUnansweredQuestions();
 }

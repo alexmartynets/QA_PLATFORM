@@ -54,10 +54,22 @@ jQuery(function ($) {
     }
 
     // My block
+
     getListOfTags();
 
-    $('#v-pills-profile-tab').on('click', function () {
+    /*$('.abc').click(function () {
+        $('.abc').removeClass("active");
+        $(this).toggleClass("active");
+    });
+*/
+    $('#v-pills-questions-tab').on('click', function () {
         window.location = "/questions";
+        $(this).toggleClass("active");
+    })
+
+    $('#v-pills-unanswered-tab').on('click', function () {
+        window.location = "/unanswered";
+        $(this).toggleClass("active");
     })
 });
 
