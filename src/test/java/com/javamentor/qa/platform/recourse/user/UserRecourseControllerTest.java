@@ -539,8 +539,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
                 .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
                 .andExpect(jsonPath("$.answerList.key").value("2"))
-                .andExpect(jsonPath("$.answerList.value[0].id").value("2"))
-                .andExpect(jsonPath("$.answerList.value[-1].id").value("5"))
+                .andExpect(jsonPath("$.answerList.value[0].id").value("5"))
+                .andExpect(jsonPath("$.answerList.value[-1].id").value("2"))
                 .andExpect(jsonPath("$.answerList.value.size()").value("2"));
     }
 

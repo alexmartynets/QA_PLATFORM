@@ -67,7 +67,7 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
                         return Reputation.builder()
                                 .id((Long) objects[0])
                                 .count((Integer) objects[1])
-                                .persistDate((LocalDate) objects[2])
+                                .persistDate((LocalDateTime) objects[2])
                                 .build();
                     }
 

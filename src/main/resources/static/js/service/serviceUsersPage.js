@@ -53,7 +53,7 @@ class DataUsersPage {
                 console.log('Error - ' + xhr.status + ': ' + xhr.statusText + error);
             }
         });
-        console.log(map);
+        // console.log(map);
         return map;
     }
 }
