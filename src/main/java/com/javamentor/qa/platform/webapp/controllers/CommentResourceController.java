@@ -78,14 +78,14 @@ public class CommentResourceController {
             @ApiResponse(code = 200, message = "Список комментариев для вопроса получен"),
             @ApiResponse(code = 404, message = "Вопрос не найден")
     })
-    public ResponseEntity<List<CommentDto>> getCommentsToQuestion(@PathVariable @NonNull Long questionId) {
+    public ResponseEntity<?> getCommentsToQuestion(@PathVariable @NonNull Long questionId) {
         if (questionService.existsById(questionId)) {
             List<CommentDto> list = commentQuestionServiceDto.getCommentsToQuestion(questionId);
             logger.info(String.format("Комментарии к вопросу с ID: %d найдены", questionId));
             return ResponseEntity.ok().body(list);
         }
-        logger.error(String.format("Вопрос с ID: %d не найден", questionId));
-        return ResponseEntity.notFound().build();
+        logger.error(String.format("question with ID: %d not found", questionId));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("question with ID: %d not found", questionId));
     }
 
     @ApiOperation(value = "Получение списка комментариев для ответа")
@@ -94,14 +94,14 @@ public class CommentResourceController {
             @ApiResponse(code = 200, message = "Список комментариев для ответа получен"),
             @ApiResponse(code = 404, message = "Ответ не найден")
     })
-    public ResponseEntity<List<CommentDto>> getCommentsToAnswer(@PathVariable @NonNull Long answerId) {
+    public ResponseEntity<?> getCommentsToAnswer(@PathVariable @NonNull Long answerId) {
         if (answerService.existsById(answerId)) {
             List<CommentDto> list = commentAnswerServiceDto.getCommentsToAnswer(answerId);
             logger.info(String.format("Комментарии к ответу с ID: %d найдены", answerId));
             return ResponseEntity.ok().body(list);
         }
-        logger.error(String.format("Ответ с ID: %d не найден", answerId));
-        return ResponseEntity.notFound().build();
+        logger.error(String.format("answer with ID: %d not found", answerId));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("answer with ID: %d not found", answerId));
     }
 
     @Validated(OnCreate.class)
@@ -110,17 +110,23 @@ public class CommentResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Комментариев к вопросу добавлен"),
             @ApiResponse(code = 400, message = "Попутка оставить второй комментарий под вопросом"),
-            @ApiResponse(code = 404, message = "Автор коментария не найден")
+            @ApiResponse(code = 404, message = "Автор коментария или Вопрос не найдены")
     })
     public ResponseEntity<?> saveCommentQuestion(@RequestBody @Valid @NonNull CommentDto commentDto,
                                                  @PathVariable @NonNull Long questionId) {
-        if (!userService.existsById(commentDto.getUserId())){
-            logger.error(String.format("Пользователя с ID не найден: %d", commentDto.getUserId()));
-            return ResponseEntity.notFound().build();
+        if (!userService.existsById(commentDto.getUserId())) {
+            logger.error(String.format("user with ID: %d not found", commentDto.getUserId()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("user with ID: %d not found", commentDto.getUserId()));
+        }
+        if (!questionService.existsById(questionId)) {
+            logger.error(String.format("question with ID: %d not found", questionId));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("question with ID: %d not found", questionId));
         }
         if (commentQuestionServiceDto.hasUserToCommentQuestion(questionId, commentDto.getUserId())) {
             logger.error(String.format("Попутка оставить второй комментарий под вопросом с ID: %d", questionId));
-            return ResponseEntity.badRequest().body("Под вопросом можно оставлять только один комментарий");
+            return ResponseEntity.badRequest().body("You can leave only one comment in question");
         }
         CommentQuestion commentQuestion = questionConverter.toCommentQuestion(commentDto, questionId);
         commentQuestionService.persist(commentQuestion);
@@ -134,17 +140,23 @@ public class CommentResourceController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Комментарий к ответу добавлен"),
             @ApiResponse(code = 400, message = "Попытка оставить второй комментарий под ответом"),
-            @ApiResponse(code = 404, message = "Автор коментария не найден")
+            @ApiResponse(code = 404, message = "Автор коментария или Ответ не найдены")
     })
     public ResponseEntity<?> saveCommentAnswer(@RequestBody @Valid @NonNull CommentDto commentDto,
                                                @PathVariable @NonNull Long answerId) {
-        if (!userService.existsById(commentDto.getUserId())){
-            logger.error(String.format("Пользователя с ID не найден: %d", commentDto.getUserId()));
-            return ResponseEntity.notFound().build();
+        if (!userService.existsById(commentDto.getUserId())) {
+            logger.error(String.format("user with ID: %d not found", commentDto.getUserId()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("user with ID: %d not found", commentDto.getUserId()));
+        }
+        if (!answerService.existsById(answerId)) {
+            logger.error(String.format("answer with ID: %d not found", answerId));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("answer with ID: %d not found", answerId));
         }
         if (commentAnswerServiceDto.hasUserToCommentAnswer(answerId, commentDto.getUserId())) {
             logger.error(String.format("Попытка оставить второй комментарий под ответом с ID: %d", answerId));
-            return ResponseEntity.badRequest().body("Под ответом можно оставить только один комментарий");
+            return ResponseEntity.badRequest().body("Only one comment can be left under the answer");
         }
         CommentAnswer commentAnswer = answerConverter.toCommentAnswer(commentDto, answerId);
         commentAnswerService.persist(commentAnswer);
@@ -159,7 +171,7 @@ public class CommentResourceController {
             @ApiResponse(code = 200, message = "Текст комментария обновленн под вопросом"),
             @ApiResponse(code = 404, message = "Комментария не найден")
     })
-    public ResponseEntity<CommentDto> updateCommentQuestion(@RequestBody @Valid @NonNull CommentDto commentDto) {
+    public ResponseEntity<?> updateCommentQuestion(@RequestBody @Valid @NonNull CommentDto commentDto) {
         if (commentQuestionService.existsById(commentDto.getId())) {
             Comment comment = commentQuestionServiceDto.getByKey(commentDto.getId());
             comment.setText(commentDto.getText());
@@ -167,8 +179,9 @@ public class CommentResourceController {
             logger.info(String.format("Комментарии с ID: %d обновленн", commentDto.getId()));
             return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
         }
-        logger.error(String.format("Комментарий с ID: %d не найден", commentDto.getId()));
-        return ResponseEntity.notFound().build();
+        logger.error(String.format("comment with ID: %d not found", commentDto.getId()));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(String.format("comment with ID: %d not found", commentDto.getId()));
 
     }
 
@@ -179,7 +192,7 @@ public class CommentResourceController {
             @ApiResponse(code = 200, message = "Текст комментария обновлен под ответом"),
             @ApiResponse(code = 404, message = "Комментария не найден")
     })
-    public ResponseEntity<CommentDto> updateCommentAnswer(@RequestBody @Valid @NonNull CommentDto commentDto) {
+    public ResponseEntity<?> updateCommentAnswer(@RequestBody @Valid @NonNull CommentDto commentDto) {
         if (commentAnswerService.existsById(commentDto.getId())) {
             Comment comment = commentAnswerServiceDto.getByKey(commentDto.getId());
             comment.setText(commentDto.getText());
@@ -187,7 +200,8 @@ public class CommentResourceController {
             logger.info(String.format("Комментарии с ID: %d обновленн", commentDto.getId()));
             return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
         }
-        logger.error(String.format("Комментарий с ID: %d не найден", commentDto.getId()));
-        return ResponseEntity.notFound().build();
+        logger.error(String.format("comment with ID: %d not found", commentDto.getId()));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(String.format("comment with ID: %d not found", commentDto.getId()));
     }
 }

@@ -9,8 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @DataSet(value = {
@@ -30,14 +29,32 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
     void get_Comments_To_Question() throws Exception {
         this.mockMvc.perform(get("/api/user/question/{questionId}/comment", 1))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value("3"));
+    }
+
+    @Test
+    void get_Comments_To_Question_Question_Id_Not_Exist() throws Exception {
+        this.mockMvc.perform(get("/api/user/question/{questionId}/comment", 18))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("question with ID: 18 not found"));
     }
 
     @Test
     void get_Comments_To_Answer() throws Exception {
         this.mockMvc.perform(get("/api/user/answer/{answerId}/comment", 1))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value("3"));
+    }
+
+    @Test
+    void get_Comments_To_Answer_Answer_Id_Not_Exist() throws Exception {
+        this.mockMvc.perform(get("/api/user/answer/{answerId}/comment", 19))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("answer with ID: 19 not found"));
     }
 
     @Test
@@ -45,13 +62,14 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(post("/api/user/question/{questionId}/comment", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
-                        "\"text\": \"Comment test text\"," +
+                        "\"text\": \"text of the new comment to question\"," +
                         "\"commentType\": \"QUESTION\"," +
-                        "\"userId\": 2" +
+                        "\"userId\": 7" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.text").value("text of the new comment to question"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -66,7 +84,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'text' Must be greater than 10 characters CommentDto.class"));
     }
 
     @Test
@@ -80,7 +99,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'text' Must not consist of spaces CommentDto.class"));
     }
 
     @Test
@@ -88,12 +108,14 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(post("/api/user/question/{questionId}/comment", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
+                        "\"id\": null," +
                         "\"text\": \"Comment test text\"," +
                         "\"commentType\": \"QUESTION\"" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("author 'id' Must not be null when creating CommentDto.class"));
     }
 
     @Test
@@ -106,7 +128,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'type' Must not be null when creating and updating CommentDto.class"));
     }
 
     @Test
@@ -116,11 +139,13 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                 .content("{" +
                         "\"text\": \"Comment test text\"," +
                         "\"commentType\": \"ANSWER\"," +
-                        "\"userId\": 2" +
+                        "\"userId\": 7" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("У экземпляра Comment, " +
+                        "связанного с CommentQuestion, поле commentType должно принимать значение CommentType.QUESTION"));
     }
 
     @Test
@@ -134,7 +159,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("You can leave only one comment in question"));
     }
 
     @Test
@@ -142,14 +168,29 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(post("/api/user/question/{questionId}/comment", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
-                        "\"id\": 3," +
                         "\"text\": \"Comment test text\"," +
                         "\"commentType\": \"QUESTION\"," +
                         "\"userId\": 100" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("user with ID: 100 not found"));
+    }
+
+    @Test
+    void save_Comment_Question_Question_Id_Not_Exist() throws Exception {
+        this.mockMvc.perform(post("/api/user/question/{questionId}/comment", 12)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"text\": \"Comment test text\"," +
+                        "\"commentType\": \"QUESTION\"," +
+                        "\"userId\": 1" +
+                        "}")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("question with ID: 12 not found"));
     }
 
     @Test
@@ -157,13 +198,14 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(post("/api/user/answer/{answerId}/comment", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
-                        "\"text\": \"Comment test text\"," +
+                        "\"text\": \"text of the new comment to answer\"," +
                         "\"commentType\": \"ANSWER\"," +
                         "\"userId\": 3" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.text").value("text of the new comment to answer"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -178,7 +220,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'text' Must be greater than 10 characters CommentDto.class"));
     }
 
     @Test
@@ -192,7 +235,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'text' Must not consist of spaces CommentDto.class"));
     }
 
     @Test
@@ -201,11 +245,13 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"text\": \"Comment test text\"," +
-                        "\"commentType\": \"ANSWER\"" +
+                        "\"commentType\": \"ANSWER\"," +
+                        "\"userId\": null" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("author 'id' Must not be null when creating CommentDto.class"));
     }
 
     @Test
@@ -218,7 +264,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'type' Must not be null when creating and updating CommentDto.class"));
     }
 
     @Test
@@ -228,11 +275,13 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                 .content("{" +
                         "\"text\": \"Comment test text\"," +
                         "\"commentType\": \"QUESTION\"," +
-                        "\"userId\": 4" +
+                        "\"userId\": 6" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("У экземпляра Comment, " +
+                        "связанного с CommentAnswer, поле commentType должно принимать значение CommentType.ANSWER"));
     }
 
     @Test
@@ -246,7 +295,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("Only one comment can be left under the answer"));
     }
 
     @Test
@@ -254,14 +304,29 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(post("/api/user/answer/{answerId}/comment", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
-                        "\"id\": 2," +
                         "\"text\": \"Comment test text\"," +
                         "\"commentType\": \"ANSWER\"," +
                         "\"userId\": 28" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("user with ID: 28 not found"));
+    }
+
+    @Test
+    void save_Comment_Answer_Answer_Id_Not_Exist() throws Exception {
+        this.mockMvc.perform(post("/api/user/answer/{answerId}/comment", 13)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"text\": \"Comment test text\"," +
+                        "\"commentType\": \"ANSWER\"," +
+                        "\"userId\": 2" +
+                        "}")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("answer with ID: 13 not found"));
     }
 
     @Test
@@ -270,13 +335,14 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"id\": 3," +
-                        "\"text\": \"Comment test text\"," +
+                        "\"text\": \"new comment text to answer\"," +
                         "\"commentType\": \"QUESTION\"," +
                         "\"userId\": 3" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.text").value("new comment text to answer"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -292,7 +358,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'text' Must be greater than 10 characters CommentDto.class"));
     }
 
     @Test
@@ -307,8 +374,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
-        ;
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'text' Must not consist of spaces CommentDto.class"));
     }
 
     @Test
@@ -316,29 +383,31 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(put("/api/user/question/comment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
+                        "\"id\": null," +
                         "\"text\": \"Comment test text\"," +
                         "\"commentType\": \"QUESTION\"," +
                         "\"userId\": 3" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
-        ;
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'id' Must not accept null values when updating CommentDto.class"));
     }
 
     @Test
-    void update_Comment_Question_No_User_Id() throws Exception {
+    void update_Comment_Question_Comment_Id_Not_Exist() throws Exception {
         this.mockMvc.perform(put("/api/user/question/comment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
-                        "\"id\": 3," +
+                        "\"id\": 22," +
                         "\"text\": \"Comment test text\"," +
-                        "\"commentType\": \"QUESTION\"" +
+                        "\"commentType\": \"QUESTION\"," +
+                        "\"userId\": 3" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
-        ;
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("comment with ID: 22 not found"));
     }
 
     @Test
@@ -346,14 +415,14 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(put("/api/user/question/comment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
-                        "\"id\": 3," +
+                        "\"id\": 2," +
                         "\"text\": \"Comment test text\"," +
                         "\"userId\": 3" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
-        ;
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'type' Must not be null when creating and updating CommentDto.class"));
     }
 
     @Test
@@ -362,15 +431,15 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"id\": 2," +
-                        "\"text\": \"Comment test text\"," +
+                        "\"text\": \"new comment text to answer\"," +
                         "\"commentType\": \"ANSWER\"," +
                         "\"userId\": 2" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.text").value("new comment text to answer"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        ;
     }
 
     @Test
@@ -385,7 +454,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'text' Must be greater than 10 characters CommentDto.class"));
     }
 
     @Test
@@ -400,7 +470,8 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'text' Must not consist of spaces CommentDto.class"));
     }
 
     @Test
@@ -408,27 +479,31 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(put("/api/user/answer/comment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
+                        "\"id\": null," +
                         "\"text\": \"Comment test text\"," +
                         "\"commentType\": \"ANSWER\"," +
                         "\"userId\": 2" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'id' Must not accept null values when updating CommentDto.class"));
     }
 
     @Test
-    void update_Comment_Answer_No_User_Id() throws Exception {
+    void update_Comment_Answer_Answer_Id_Not_Exist() throws Exception {
         this.mockMvc.perform(put("/api/user/answer/comment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
-                        "\"id\": 2," +
+                        "\"id\": 27," +
                         "\"text\": \"Comment test text\"," +
-                        "\"commentType\": \"ANSWER\"" +
+                        "\"commentType\": \"ANSWER\"," +
+                        "\"userId\": 2" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("comment with ID: 27 not found"));
     }
 
     @Test
@@ -442,6 +517,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'type' Must not be null when creating and updating CommentDto.class"));
     }
 }

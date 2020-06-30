@@ -2,5 +2,11 @@ comment_answer:
   - comment_id: 1
     answer_id: 1
 
+  - comment_id: 5
+    answer_id: 1
+
+  - comment_id: 6
+    answer_id: 1
+
   - comment_id: 2
     answer_id: 2
