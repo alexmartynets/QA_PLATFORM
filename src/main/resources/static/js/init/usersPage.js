@@ -5,7 +5,7 @@ jQuery(document).ready(function ($) {
     let media = new MediaFactory();
     let data = new DataUsersPage();
     let service = new DataUsersService();
-    let numberMedia = 20; // количество карточек на странице по умолчанию 20
+    let numberMedia = 5; // количество карточек на странице по умолчанию 20
     let weeks;
     let currentPage = 1;
     let url;

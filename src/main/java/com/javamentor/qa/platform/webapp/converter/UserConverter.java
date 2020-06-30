@@ -72,7 +72,7 @@ public abstract class UserConverter {
                 role = "USER";
             }
             return roleService.getByRoleName(role).get();
-        }catch (NoSuchElementException n){
+        } catch (NoSuchElementException n) {
             throw new EntityNotFoundException(String.format("Role с инянем %s не существует", role));
         }
     }
