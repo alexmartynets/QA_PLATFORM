@@ -170,16 +170,16 @@ function setButtonState(userVote) {
 
 function setButtonStateAnswer(voteOfUser, answerId) {
     if (voteOfUser < 0) {
-        document.getElementById("btnCountAnswerPlus"+answerId).setAttribute("disabled", true);
-        document.getElementById("btnCountAnswerMinus"+answerId).setAttribute("disabled", true);
+        document.getElementById("btnCountAnswerPlus" + answerId).setAttribute("disabled", true);
+        document.getElementById("btnCountAnswerMinus" + answerId).setAttribute("disabled", true);
     }
     if (voteOfUser === 0) {
-        document.getElementById("btnCountAnswerPlus"+answerId).removeAttribute("disabled");
-        document.getElementById("btnCountAnswerMinus"+answerId).removeAttribute("disabled");
+        document.getElementById("btnCountAnswerPlus" + answerId).removeAttribute("disabled");
+        document.getElementById("btnCountAnswerMinus" + answerId).removeAttribute("disabled");
     }
     if (voteOfUser > 0) {
-        document.getElementById("btnCountAnswerPlus"+answerId).setAttribute("disabled", true);
-        document.getElementById("btnCountAnswerMinus"+answerId).setAttribute("disabled", true);
+        document.getElementById("btnCountAnswerPlus" + answerId).setAttribute("disabled", true);
+        document.getElementById("btnCountAnswerMinus" + answerId).setAttribute("disabled", true);
     }
 }
 
@@ -347,7 +347,7 @@ function getTextOfQuestion(id) {
                                     let persistDateTime = convertDateToString(val.persistDateTime);
 
 
-                            tableBody.append(`<tr>
+                                    tableBody.append(`<tr>
         <td  width="50" rowspan="1"><button id='btnCountAnswerPlus${value.id}' onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
@@ -409,10 +409,10 @@ function getTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
-                            $(setButtonStateAnswer(val.voteOfUser, val.id));
-                            $(isAnswerComment(val.id, dataAnswerComment));
-                            $(popover());
-                        });
+                                    $(setButtonStateAnswer(val.voteOfUser, val.id));
+                                    $(isAnswerComment(val.id, dataAnswerComment));
+                                    $(popover());
+                                });
 
                             });
                             dataAnswerCommentArr = [];
@@ -454,12 +454,12 @@ function getSortDateTextOfQuestion(id) {
                                 i++;
                                 $(val).each(function (index, value) {
                                     num++;
-                            document.getElementById("countAnswer").innerHTML = num;
-                            let userInfoDto = value.userDto;
-                            let href = window.location.href;
-                            let questionId = val.questionId;
-                            let persistDateTime = convertDateToString(val.persistDateTime);
-                            tableBody.append(`<tr>
+                                    document.getElementById("countAnswer").innerHTML = num;
+                                    let userInfoDto = value.userDto;
+                                    let href = window.location.href;
+                                    let questionId = val.questionId;
+                                    let persistDateTime = convertDateToString(val.persistDateTime);
+                                    tableBody.append(`<tr>
         <td width="50" rowspan="1"><button id="btnCountAnswerPlus${value.id}" onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
@@ -521,10 +521,10 @@ function getSortDateTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
-                            $(setButtonStateAnswer(val.voteOfUser, val.id));
-                            $(isAnswerComment(val.id, dataAnswerComment));
-                            $(popover());
-                        });
+                                    $(setButtonStateAnswer(val.voteOfUser, val.id));
+                                    $(isAnswerComment(val.id, dataAnswerComment));
+                                    $(popover());
+                                });
 
                             });
                             dataAnswerCommentArr = [];
@@ -565,12 +565,12 @@ function getSortReputationTextOfQuestion(id) {
                                 i++;
                                 $(val).each(function (index, value) {
                                     num++;
-                            document.getElementById("countAnswer").innerHTML = num;
-                            let userInfoDto = value.userDto;
-                            let href = window.location.href;
-                            let questionId = val.questionId;
-                            let persistDateTime = convertDateToString(val.persistDateTime);
-                            tableBody.append(`<tr>
+                                    document.getElementById("countAnswer").innerHTML = num;
+                                    let userInfoDto = value.userDto;
+                                    let href = window.location.href;
+                                    let questionId = val.questionId;
+                                    let persistDateTime = convertDateToString(val.persistDateTime);
+                                    tableBody.append(`<tr>
         <td width="50" rowspan="1"><button id="btnCountAnswerPlus${value.id}" onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
@@ -631,11 +631,11 @@ function getSortReputationTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
-                            $(setButtonStateAnswer(val.voteOfUser, val.id));
-                            $(isAnswerComment(val.id, dataAnswerComment));
-                            $(popover());
+                                    $(setButtonStateAnswer(val.voteOfUser, val.id));
+                                    $(isAnswerComment(val.id, dataAnswerComment));
+                                    $(popover());
 
-                        });
+                                });
 
                             });
                             dataAnswerCommentArr = [];
