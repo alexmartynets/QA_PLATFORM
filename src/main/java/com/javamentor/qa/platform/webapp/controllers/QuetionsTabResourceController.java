@@ -38,7 +38,6 @@ public class QuetionsTabResourceController {
         return ResponseEntity.ok(questionDtoService.getQuestionsByTagId(mainTagId));
     }
 
-
     @ApiOperation(value = "Получение списка с watchTag")
     @PostMapping("/watchTag")
     @ApiResponses(value = {
