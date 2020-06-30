@@ -39,7 +39,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.fullName").value("Админ"))
-                .andExpect(jsonPath("$.email").value("admin@admin.ru"));
+                .andExpect(jsonPath("$.email").value("admin@admin.ru"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -53,7 +54,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("Поле id должно принимать null значение при создании"));
     }
 
     @Test
@@ -232,6 +234,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(put("/api/user/{id}", 3L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
+                        "\"id\": null," +
                         "\"fullName\": \"Василий update\"," +
                         "\"email\": \"vasiliy@email.com\"," +
                         "\"password\": \"Qwerty123\"" +
