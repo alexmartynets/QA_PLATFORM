@@ -2,22 +2,26 @@ package com.javamentor.qa.platform.dao.impl.dto;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.AnswerDtoDAO;
 import com.javamentor.qa.platform.models.dto.AnswerDto;
+import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
+import com.javamentor.qa.platform.models.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Query;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
 public class AnswerDtoDAOImpl implements AnswerDtoDAO {
-
     private final String HQL = "select " +
             "a.id, " +
             "a.question.id, " +
@@ -117,4 +121,78 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 .userDto(userDto)
                 .build();
     }
+
+    // new methods
+    @Override
+    public Long getAnswerCountByUserId(Long useId) {
+        return (Long) entityManager.createQuery("SELECT COUNT(a) " +
+                "FROM Answer a WHERE a.user.id = :userId")
+                .setParameter("userId", useId)
+                .getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AnswerDto> getAnswerDtoByUserIdSortByDate(Long userId, Integer page) {
+        List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
+                "a.id as id, " +
+                "a.persistDateTime as persistDateTime, " +
+                "a.isHelpful as isHelpful, " +
+                "a.countValuable as countValuable, " +
+                "a.question.id as questionId, " +
+                "a.question.title as htmlBody " +
+                "FROM Answer a WHERE a.user.id = :userId " +
+                "ORDER BY a.persistDateTime DESC")
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
+                .unwrap(Query.class)
+                .setResultTransformer(new AliasToBeanResultTransformer(AnswerDto.class))
+                .getResultList();
+        return answerList.isEmpty() ? Collections.emptyList() : answerList;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AnswerDto> getAnswerDtoByUserIdSortByViews(Long userId, Integer page) {
+        List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
+                "a.id as id, " +
+                "a.persistDateTime as persistDateTime, " +
+                "a.isHelpful as isHelpful, " +
+                "a.countValuable as countValuable, " +
+                "a.question.id as questionId, " +
+                "a.question.title as htmlBody, " +
+                "a.question.viewCount " +
+                "FROM Answer a WHERE a.user.id = :userId " +
+                "ORDER BY a.question.viewCount DESC")
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
+                .unwrap(Query.class)
+                .setResultTransformer(new AliasToBeanResultTransformer(AnswerDto.class))
+                .getResultList();
+        return answerList.isEmpty() ? Collections.emptyList() : answerList;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AnswerDto> getAnswerDtoByUserIdSortByVotes(Long userId, Integer page) {
+        List<AnswerDto> answerList = entityManager.createQuery("SELECT " +
+                "a.id as id, " +
+                "a.persistDateTime as persistDateTime, " +
+                "a.isHelpful as isHelpful, " +
+                "a.countValuable as countValuable, " +
+                "a.question.id as questionId, " +
+                "a.question.title as htmlBody " +
+                "FROM Answer a WHERE a.user.id = :userId " +
+                "ORDER BY a.countValuable DESC")
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
+                .setParameter("userId", userId)
+                .unwrap(Query.class)
+                .setResultTransformer(new AliasToBeanResultTransformer(AnswerDto.class))
+                .getResultList();
+        return answerList.isEmpty() ? Collections.emptyList() : answerList;
+    }
+
 }

@@ -73,6 +73,9 @@ public class QuestionDto {
     @ApiModelProperty(notes = "Дата последнего ответа на вопрос. Если вопроса нет - дата публикации вопроса.")
     private LocalDateTime lastAnswerDate;
 
+    @ApiModelProperty(notes = "Количество пользователей, которые добавили вопрос в свои закладки", example = "10")
+    private Integer countFavorite;
+
     @ApiModelProperty(name = "Итоговый результат голосования по вопросу от запросившего пользователя")
     private Integer voteByUser;
 

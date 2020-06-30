@@ -485,4 +485,136 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 .getSingleResult();
         return a == null ? 0 : a.intValue();
     }
+
+    @Override
+    public Long getQuestionCountByUserId(Long userId) {
+        return (Long) entityManager.createQuery("SELECT COUNT(q) " +
+                "FROM Question q WHERE q.user.id = :user_id")
+                .setParameter("user_id", userId)
+                .getSingleResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<QuestionDto> getQuestionDtoByUserIdSortByDate(Long userId, Integer page) {
+        List<QuestionDto> questionDtoList = entityManager.createQuery("SELECT " +
+                "q.id, " +
+                "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = q.id), " +
+                "q.viewCount, " +
+                "q.persistDateTime, " +
+                "q.title, " +
+                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                "FROM Question q " +
+                "WHERE q.user.id = :userId " +
+                "ORDER BY q.persistDateTime DESC")
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] aliases) {
+                        return QuestionDto.builder()
+                                .id((Long) objects[0])
+                                .countValuable((objects[1] == null ? 0 : ((Number) objects[1]).intValue()))
+                                .viewCount((Integer) objects[2])
+                                .persistDateTime((LocalDateTime) objects[3])
+                                .title((String) objects[4])
+                                .countAnswer(((Number) objects[5]).intValue())
+                                .isHelpful((Boolean) objects[6])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                }).getResultList();
+
+        return questionDtoList.isEmpty()? Collections.emptyList() : questionDtoList;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long userId, Integer page) {
+        List<QuestionDto> questionDtoList = entityManager.createQuery("SELECT " +
+                "q.id, " +
+                "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = q.id), " +
+                "q.viewCount, " +
+                "q.persistDateTime, " +
+                "q.title, " +
+                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                "FROM Question q " +
+                "WHERE q.user.id = :userId " +
+                "ORDER BY q.viewCount DESC")
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] aliases) {
+                        return QuestionDto.builder()
+                                .id((Long) objects[0])
+                                .countValuable((objects[1] == null ? 0 : ((Number) objects[1]).intValue()))
+                                .viewCount((Integer) objects[2])
+                                .persistDateTime((LocalDateTime) objects[3])
+                                .title((String) objects[4])
+                                .countAnswer(((Number) objects[5]).intValue())
+                                .isHelpful((Boolean) objects[6])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                }).getResultList();
+
+        return questionDtoList.isEmpty()? Collections.emptyList() : questionDtoList;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<QuestionDto> getQuestionDtoByUserIdSortByVotes(Long userId, Integer page) {
+        List<QuestionDto> questionDtoList = entityManager.createQuery("SELECT " +
+                "q.id, " +
+                "q.viewCount, " +
+                "SUM(v.vote), " +
+                "q.persistDateTime, " +
+                "q.title, " +
+                "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                "FROM Question q LEFT JOIN VoteQuestion v ON q.id = v.voteQuestionPK.question.id " +
+                "WHERE q.user.id = :userId " +
+                "GROUP BY q.id " +
+                "ORDER BY SUM(v.vote) DESC")
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 20)
+                .setMaxResults(20)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] aliases) {
+                        return QuestionDto.builder()
+                                .id((Long) objects[0])
+                                .viewCount((Integer) objects[1])
+                                .countValuable(objects[2]==null ? 0 : ((Number) objects[2]).intValue())
+                                .persistDateTime((LocalDateTime) objects[3])
+                                .title((String) objects[4])
+                                .countAnswer(((Number) objects[5]).intValue())
+                                .isHelpful((Boolean) objects[6])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                }).getResultList();
+
+        return questionDtoList.isEmpty()? Collections.emptyList() : questionDtoList;
+    }
 }

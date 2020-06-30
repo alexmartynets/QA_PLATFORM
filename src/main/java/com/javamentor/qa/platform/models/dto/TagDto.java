@@ -18,6 +18,8 @@ public class TagDto {
     @Null(groups = OnCreate.class, message = "Поле Id должно принимать null значение при создании")
     private Long id;
 
+//    private Long questionId;
+
     @NotNull
     private String name;
 
