@@ -41,4 +41,5 @@ public class ApplicationControllerAdvice extends ResponseEntityExceptionHandler 
         String[] m = ex.getCause().getMessage().split(":");
         return ResponseEntity.badRequest().body(m[0]);
     }
+
 }
