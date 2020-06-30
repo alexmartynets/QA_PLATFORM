@@ -153,15 +153,15 @@ function putAnswerCountValuablePlus(id, questionId, countValuable, isHelpful) {
 }
 
 function setButtonState(userVote) {
-    if (userVote < 0){
+    if (userVote < 0) {
         document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
         document.getElementById("btnDownCountMinus").setAttribute("disabled", true);
     }
-    if (userVote === 0){
+    if (userVote === 0) {
         document.getElementById("btnDownCountMinus").removeAttribute("disabled");
         document.getElementById("btnUpCountPlus").removeAttribute("disabled");
     }
-    if (userVote > 0){
+    if (userVote > 0) {
         document.getElementById("btnUpCountPlus").setAttribute("disabled", true);
         document.getElementById("btnDownCountMinus").setAttribute("disabled", true);
     }
@@ -292,6 +292,9 @@ function convertDate(date) {
     return result;
 }
 
+let dataAnswerCommentArr = [];
+
+//1 for rempair
 function getTextOfQuestion(id) {
 
     $.ajax({
@@ -300,28 +303,36 @@ function getTextOfQuestion(id) {
         dataType: 'json',
 
         success: function (data) {
-
-            let tableBody = $('#tblTextOfQuestion tbody');
-            tableBody.empty();
-            let num = 0;
             $(data).each(function (index, val) {
+                sleep(10);
 
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
                     method: 'GET',
                     dataType: 'json',
+
                     success: function (dataAnswerComment) {
+                        dataAnswerCommentArr.push(dataAnswerComment);
+                        console.log(dataAnswerCommentArr);
+                        if (dataAnswerCommentArr.length == data.length) {
+                            let tableBody = $('#tblTextOfQuestion tbody');
+                            tableBody.empty();
+                            let num = 0;
+                            let i = 0;
 
-                        $(val).each(function (index, value) {
-                            num++;
-                            document.getElementById("countAnswer").innerHTML = num;
-                            let userInfoDto = value.userDto;
-                            let href = window.location.href;
-                            let questionId = val.questionId;
-                            let persistDateTime = convertDateToString(val.persistDateTime);
+                            $(data).each(function (index, val) {
+                                let dataAnswerComment = dataAnswerCommentArr[i];
+                                i++;
+                                $(val).each(function (index, value) {
+                                    num++;
+                                    document.getElementById("countAnswer").innerHTML = num;
+                                    let userInfoDto = value.userDto;
+                                    let href = window.location.href;
+                                    let questionId = val.questionId;
+                                    let persistDateTime = convertDateToString(val.persistDateTime);
 
 
-                            tableBody.append(`<tr>
+                                    tableBody.append(`<tr>
         <td  width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
@@ -383,16 +394,20 @@ function getTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
-                            $(isAnswerComment(val.id, dataAnswerComment));
-                            $(popover());
-                        });
+                                    $(isAnswerComment(val.id, dataAnswerComment));
+                                    $(popover());
+                                });
+                            });
+                            dataAnswerCommentArr = [];
+                        }
                     },
                 });
-            })
+            });
         },
-    })
+    });
 }
 
+//second for repair
 function getSortDateTextOfQuestion(id) {
 
     $.ajax({
@@ -401,26 +416,33 @@ function getSortDateTextOfQuestion(id) {
         dataType: 'json',
 
         success: function (data) {
-
-            let tableBody = $('#tblTextOfQuestion tbody');
-            tableBody.empty();
-            let num = 0;
             $(data).each(function (index, val) {
+                sleep(10);
 
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
                     method: 'GET',
                     dataType: 'json',
-                    success: function (dataAnswerComment) {
 
-                        $(val).each(function (index, value) {
-                            num++;
-                            document.getElementById("countAnswer").innerHTML = num;
-                            let userInfoDto = value.userDto;
-                            let href = window.location.href;
-                            let questionId = val.questionId;
-                            let persistDateTime = convertDateToString(val.persistDateTime);
-                            tableBody.append(`<tr>
+                    success: function (dataAnswerComment) {
+                        dataAnswerCommentArr.push(dataAnswerComment);
+                        if (dataAnswerCommentArr.length == data.length) {
+                            let tableBody = $('#tblTextOfQuestion tbody');
+                            tableBody.empty();
+                            let num = 0;
+                            let i = 0;
+
+                            $(data).each(function (index, val) {
+                                let dataAnswerComment = dataAnswerCommentArr[i];
+                                i++;
+                                $(val).each(function (index, value) {
+                                    num++;
+                                    document.getElementById("countAnswer").innerHTML = num;
+                                    let userInfoDto = value.userDto;
+                                    let href = window.location.href;
+                                    let questionId = val.questionId;
+                                    let persistDateTime = convertDateToString(val.persistDateTime);
+                                    tableBody.append(`<tr>
         <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
@@ -482,14 +504,17 @@ function getSortDateTextOfQuestion(id) {
                                     </button>
 </div><hr class="my-0" color="gainsboro"></td>                                                                          
     </tr>`);
-                            $(isAnswerComment(val.id, dataAnswerComment));
-                            $(popover());
-                        });
+                                    $(isAnswerComment(val.id, dataAnswerComment));
+                                    $(popover());
+                                });
+                            });
+                            dataAnswerCommentArr = [];
+                        }
                     },
                 });
-            })
+            });
         },
-    })
+    });
 }
 
 function getSortReputationTextOfQuestion(id) {
@@ -500,26 +525,33 @@ function getSortReputationTextOfQuestion(id) {
         dataType: 'json',
 
         success: function (data) {
-
-            let tableBody = $('#tblTextOfQuestion tbody');
-            tableBody.empty();
-            let num = 0;
             $(data).each(function (index, val) {
+                sleep(10);
 
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
                     method: 'GET',
                     dataType: 'json',
-                    success: function (dataAnswerComment) {
 
-                        $(val).each(function (index, value) {
-                            num++;
-                            document.getElementById("countAnswer").innerHTML = num;
-                            let userInfoDto = value.userDto;
-                            let href = window.location.href;
-                            let questionId = val.questionId;
-                            let persistDateTime = convertDateToString(val.persistDateTime);
-                            tableBody.append(`<tr>
+                    success: function (dataAnswerComment) {
+                        dataAnswerCommentArr.push(dataAnswerComment);
+                        if (dataAnswerCommentArr.length == data.length) {
+                            let tableBody = $('#tblTextOfQuestion tbody');
+                            tableBody.empty();
+                            let num = 0;
+                            let i = 0;
+
+                            $(data).each(function (index, val) {
+                                let dataAnswerComment = dataAnswerCommentArr[i];
+                                i++;
+                                $(val).each(function (index, value) {
+                                    num++;
+                                    document.getElementById("countAnswer").innerHTML = num;
+                                    let userInfoDto = value.userDto;
+                                    let href = window.location.href;
+                                    let questionId = val.questionId;
+                                    let persistDateTime = convertDateToString(val.persistDateTime);
+                                    tableBody.append(`<tr>
         <td width="50" rowspan="1"><button onclick="putAnswerCountValuablePlus(${val.id},${questionId},${val.countValuable},${val.isHelpful})" class=" btn btn-link- outline-dark"
                                                     title="Ответ полезен">
                                                 <svg class="bi bi-caret-up-fill" width="1em" height="1em"
@@ -537,13 +569,13 @@ function getSortReputationTextOfQuestion(id) {
                                                      viewBox="0 0 16 16"
                                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
-                                                </svg>                                                                      
+                                                </svg>
                                             </button>
                                             <div class="pb-3  ml-1">${isHelpful(val.isHelpful)}</div></td>
         <td>${val.htmlBody}</td>
     </tr>
     <tr>
-        <td colspan="2"> <button type="button" class="btn btn-link" data-container="body"                          
+        <td colspan="2"> <button type="button" class="btn btn-link" data-container="body"
                                             data-toggle="popover" data-placement="bottom"
                                             data-content="<a>${href}</a>"
                                             data-html="true"
@@ -567,7 +599,7 @@ function getSortReputationTextOfQuestion(id) {
     </tr>
 <tr>
         <td style="padding: 0" colspan="2">
-         <a class="btn btn-link" title="Используйте комментарии для запроса дополнительной информации или предложения улучшений. Избегайте публикации ответа на вопросы в комментариях." data-toggle="collapse" href="#collapseComment${val.id}" role="button" aria-expanded="false" aria-controls="collapseComment${val.id}"> 
+         <a class="btn btn-link" title="Используйте комментарии для запроса дополнительной информации или предложения улучшений. Избегайте публикации ответа на вопросы в комментариях." data-toggle="collapse" href="#collapseComment${val.id}" role="button" aria-expanded="false" aria-controls="collapseComment${val.id}">
                добавить комментарий </a>
                <div class="collapse" id="collapseComment${val.id}">
   <div class="card card-body">
@@ -578,17 +610,30 @@ function getSortReputationTextOfQuestion(id) {
                                             style="text-align:left;float:left;">
                                         добавить комментарий
                                     </button>
-</div><hr class="my-0" color="gainsboro"></td>                                                                          
+</div><hr class="my-0" color="gainsboro"></td>
     </tr>`);
-                            $(isAnswerComment(val.id, dataAnswerComment));
-                            $(popover());
-                        });
+                                    $(isAnswerComment(val.id, dataAnswerComment));
+                                    $(popover());
+                                });
+                            });
+                            dataAnswerCommentArr = [];
+                        }
                     },
                 });
-            })
+            });
         },
-    })
+    });
 }
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
+
 
 function isHelpful(isHelpful) {
     let x = "";
