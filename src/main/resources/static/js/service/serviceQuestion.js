@@ -308,6 +308,9 @@ function convertDate(date) {
     return result;
 }
 
+let dataAnswerCommentArr = [];
+
+//1 for rempair
 function getTextOfQuestion(id) {
 
     $.ajax({
@@ -316,24 +319,32 @@ function getTextOfQuestion(id) {
         dataType: 'json',
 
         success: function (data) {
-
-            let tableBody = $('#tblTextOfQuestion tbody');
-            tableBody.empty();
-            let num = 0;
             $(data).each(function (index, val) {
+                sleep(10);
+
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
                     method: 'GET',
                     dataType: 'json',
                     success: function (dataAnswerComment) {
+                        dataAnswerCommentArr.push(dataAnswerComment);
+                        console.log(dataAnswerCommentArr);
+                        if (dataAnswerCommentArr.length == data.length) {
+                            let tableBody = $('#tblTextOfQuestion tbody');
+                            tableBody.empty();
+                            let num = 0;
+                            let i = 0;
 
-                        $(val).each(function (index, value) {
-                            num++;
-                            document.getElementById("countAnswer").innerHTML = num;
-                            let userInfoDto = value.userDto;
-                            let href = window.location.href;
-                            let questionId = val.questionId;
-                            let persistDateTime = convertDateToString(val.persistDateTime);
+                            $(data).each(function (index, val) {
+                                let dataAnswerComment = dataAnswerCommentArr[i];
+                                i++;
+                                $(val).each(function (index, value) {
+                                    num++;
+                                    document.getElementById("countAnswer").innerHTML = num;
+                                    let userInfoDto = value.userDto;
+                                    let href = window.location.href;
+                                    let questionId = val.questionId;
+                                    let persistDateTime = convertDateToString(val.persistDateTime);
 
 
                             tableBody.append(`<tr>
@@ -402,13 +413,18 @@ function getTextOfQuestion(id) {
                             $(isAnswerComment(val.id, dataAnswerComment));
                             $(popover());
                         });
+
+                            });
+                            dataAnswerCommentArr = [];
+                        }
                     },
                 });
-            })
+            });
         },
-    })
+    });
 }
 
+//second for repair
 function getSortDateTextOfQuestion(id) {
 
     $.ajax({
@@ -417,20 +433,27 @@ function getSortDateTextOfQuestion(id) {
         dataType: 'json',
 
         success: function (data) {
-
-            let tableBody = $('#tblTextOfQuestion tbody');
-            tableBody.empty();
-            let num = 0;
             $(data).each(function (index, val) {
+                sleep(10);
 
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
                     method: 'GET',
                     dataType: 'json',
-                    success: function (dataAnswerComment) {
 
-                        $(val).each(function (index, value) {
-                            num++;
+                    success: function (dataAnswerComment) {
+                        dataAnswerCommentArr.push(dataAnswerComment);
+                        if (dataAnswerCommentArr.length == data.length) {
+                            let tableBody = $('#tblTextOfQuestion tbody');
+                            tableBody.empty();
+                            let num = 0;
+                            let i = 0;
+
+                            $(data).each(function (index, val) {
+                                let dataAnswerComment = dataAnswerCommentArr[i];
+                                i++;
+                                $(val).each(function (index, value) {
+                                    num++;
                             document.getElementById("countAnswer").innerHTML = num;
                             let userInfoDto = value.userDto;
                             let href = window.location.href;
@@ -502,11 +525,15 @@ function getSortDateTextOfQuestion(id) {
                             $(isAnswerComment(val.id, dataAnswerComment));
                             $(popover());
                         });
+
+                            });
+                            dataAnswerCommentArr = [];
+                        }
                     },
                 });
-            })
+            });
         },
-    })
+    });
 }
 
 function getSortReputationTextOfQuestion(id) {
@@ -517,20 +544,27 @@ function getSortReputationTextOfQuestion(id) {
         dataType: 'json',
 
         success: function (data) {
-
-            let tableBody = $('#tblTextOfQuestion tbody');
-            tableBody.empty();
-            let num = 0;
             $(data).each(function (index, val) {
+                sleep(10);
 
                 $.ajax({
                     url: '/api/user/answer/' + val.id + '/comment/',
                     method: 'GET',
                     dataType: 'json',
-                    success: function (dataAnswerComment) {
 
-                        $(val).each(function (index, value) {
-                            num++;
+                    success: function (dataAnswerComment) {
+                        dataAnswerCommentArr.push(dataAnswerComment);
+                        if (dataAnswerCommentArr.length == data.length) {
+                            let tableBody = $('#tblTextOfQuestion tbody');
+                            tableBody.empty();
+                            let num = 0;
+                            let i = 0;
+
+                            $(data).each(function (index, val) {
+                                let dataAnswerComment = dataAnswerCommentArr[i];
+                                i++;
+                                $(val).each(function (index, value) {
+                                    num++;
                             document.getElementById("countAnswer").innerHTML = num;
                             let userInfoDto = value.userDto;
                             let href = window.location.href;
@@ -602,12 +636,26 @@ function getSortReputationTextOfQuestion(id) {
                             $(popover());
 
                         });
+
+                            });
+                            dataAnswerCommentArr = [];
+                        }
                     },
                 });
-            })
+            });
         },
-    })
+    });
 }
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
+
 
 function isHelpful(isHelpful) {
     let x = "";
