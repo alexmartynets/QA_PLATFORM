@@ -105,6 +105,13 @@ class MediaFactory {
     constructor() {
     }
 
+    getWordDependingOnNumber(number, dec) {
+        return dec[number % 10 === 1
+        && number % 100 !== 11 ? 0 : number % 10 >= 2
+        && number % 10 <= 4
+        && (number % 100 < 10 || number % 100 >= 20) ? 1 : 2];
+    }
+
     getMediaList(key, list) {
         if (key === "reputation") return this.mapperMediaUsers(list);
         if (key === "voice") return this.mapperMediaVoice(list);
@@ -167,6 +174,8 @@ class MediaFactory {
     }
 
     mapperMediaEditor(list) {
+        let dec = ["правка", "правки", "правок"];
+
         let listMedia = [];
 
         for (let i = 0; i < list.length; i++) {
@@ -198,7 +207,7 @@ class MediaFactory {
 
             const editor = document.createElement("div");
             editor.className = "user-editor";
-            editor.innerText = list[i].countChanges + " правок";
+            editor.innerText = list[i].countChanges + " " + this.getWordDependingOnNumber(list[i].countChanges, dec);
             editor.style.opacity = "0.4";
             editor.style.fontWeight = "900";
             editor.style.fontSize = "12px";
@@ -221,6 +230,7 @@ class MediaFactory {
     }
 
     mapperMediaVoice(list) {
+        let dec = ["голос", "голоса", "голосов"];
         let listMedia = [];
 
         for (let i = 0; i < list.length; i++) {
@@ -252,7 +262,7 @@ class MediaFactory {
 
             const voice = document.createElement("div");
             voice.className = "user-voice";
-            voice.innerText = list[i].countVoice + " голосов";
+            voice.innerText = list[i].countVoice + " " + this.getWordDependingOnNumber(list[i].countVoice, dec);
             voice.style.opacity = "0.4";
             voice.style.fontWeight = "900";
             voice.style.fontSize = "12px";
@@ -321,6 +331,7 @@ class MediaFactory {
     }
 
     mapperMediaNewUsersReputation(list) {
+        let dec = ["день", "дня", "дней"];
         let listMedia = [];
 
         for (let i = 0; i < list.length; i++) {
@@ -353,7 +364,7 @@ class MediaFactory {
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = list[i].reputationCount + " за " + days + " дней";
+            ratings.innerText = list[i].reputationCount + " за " + " " + this.getWordDependingOnNumber(days, dec);
             ratings.style.opacity = "0.4";
             ratings.style.fontWeight = "900";
             ratings.style.fontSize = "12px";
