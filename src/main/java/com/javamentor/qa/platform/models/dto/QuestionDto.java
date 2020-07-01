@@ -30,7 +30,7 @@ public class QuestionDto {
     @NotNull(groups = {OnUpdate.class, OnCreate.class}, message = "Поле title не должно быть пустым")
     @Size(groups = {OnUpdate.class, OnCreate.class}, min = 10)
     @ApiModelProperty(notes = "Заголовок вопроса, поле не должно быть пустым", required = true, example = "Настройка Security Spring")
-    @NotBlank
+    @NotBlank(groups = {OnUpdate.class, OnCreate.class}, message = "Поле 'title' не должно быть пустым")
     private String title;
 
     @Null(groups = OnUpdate.class)
@@ -41,7 +41,7 @@ public class QuestionDto {
     @NotNull(groups = {OnUpdate.class, OnCreate.class}, message = "Поле description не должно принимать null значение")
     @ApiModelProperty(notes = "Описание вопроса", required = true)
     @Size(groups = {OnUpdate.class, OnCreate.class}, min = 10)
-    @NotBlank
+    @NotBlank(groups = OnCreate.class, message = "Поле 'description' не должно быть пустым")
     private String description;
 
     @NotNull(groups = OnCreate.class, message = "Поле tags не должно принимать null значение")

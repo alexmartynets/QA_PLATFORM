@@ -93,6 +93,13 @@ public class Question {
         if (this.isDeleted == null) {
             this.isDeleted = false;
         }
+        try {
+            if (this.user.getId() <= 0) {
+                throw new EntityNotFoundException("User id must be > 0 on create or update.");
+            }
+        } catch (NullPointerException e) {
+            throw new EntityNotFoundException("User id must be not null on create.");
+        }
     }
 
     @Override
