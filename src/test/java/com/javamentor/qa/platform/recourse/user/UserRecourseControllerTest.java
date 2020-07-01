@@ -371,6 +371,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(get("/api/user/new/reputation?count=5&page=1&weeks=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.key[0].id").value("2"))
                 .andExpect(jsonPath("$.key[0].fullName").value("Igor"))
                 .andExpect(jsonPath("$.value").value("3"));
     }
@@ -405,6 +406,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(get("/api/user/new?count=5&page=1&weeks=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.key[0].id").value("1"))
                 .andExpect(jsonPath("$.key[0].fullName").value("Артем"))
                 .andExpect(jsonPath("$.value").value("3"));
     }
@@ -439,6 +441,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     void get_List_Users_By_Reputation_For_week() throws Exception {
         this.mockMvc.perform(get("/api/user/reputation?count=5&page=1&weeks=1"))
                 .andDo(print())
+                .andExpect(jsonPath("$.key[0].id").value("2"))
                 .andExpect(jsonPath("$.key[0].fullName").value("Igor"))
                 .andExpect(jsonPath("$.value").value("3"));
     }
@@ -472,6 +475,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     void get_List_Users_By_Quantity_Edited_Text_For_Week() throws Exception {
         this.mockMvc.perform(get("/api/user/editor?count=5&page=1&weeks=1"))
                 .andDo(print())
+                .andExpect(jsonPath("$.key[0].id").value("1"))
                 .andExpect(jsonPath("$.key[0].fullName").value("Артем"))
                 .andExpect(jsonPath("$.value").value("3"));
     }
@@ -515,6 +519,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(get("/api/user/find?count=5&page=1&weeks=12&name=Евгений"))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.key[0].id").value("3"))
                 .andExpect(jsonPath("$.key[0].fullName").value("Евгений"))
                 .andExpect(jsonPath("$.key[0].reputationCount").value("4"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -557,6 +562,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     void get_List_Users_By_Voice_For_Week() throws Exception {
         this.mockMvc.perform(get("/api/user/voice?count=5&page=1&weeks=1"))
                 .andDo(print())
+                .andExpect(jsonPath("$.key[0].id").value("1"))
                 .andExpect(jsonPath("$.key[0].fullName").value("Артем"))
                 .andExpect(jsonPath("$.value").value("3"));
     }

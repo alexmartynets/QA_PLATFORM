@@ -133,6 +133,10 @@ jQuery(document).ready(function ($) {
     let input = document.querySelector("#find");
     input.addEventListener("input", function (e) {
         let name = e.target.value;
+        if (name === "") {
+            location.assign("http://localhost:5557/users");
+            return;
+        }
         // console.log(name);
         $('#moderator').hide();
         $("#pagination").hide();

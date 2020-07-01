@@ -11,7 +11,6 @@ users:
     persist_date: "JS: new Date().toISOString().split('T')[0]"
     role_id: 2
 
-
   - id: 2
     email: "igor@email.com"
     reputation_count: 0
@@ -36,7 +35,6 @@ users:
     persist_date: "JS: new Date().toISOString().split('T')[0]"
     role_id: 1
 
-
   - id: 4
     email: "aleksey@email.com"
     reputation_count: 0
@@ -48,7 +46,6 @@ users:
     last_redaction_date: "2020-05-10 13:58:56"
     persist_date: "2020-06-01 13:58:56"
     role_id: 1
-
 
   - id: 5
     email: "ivan@email.com"

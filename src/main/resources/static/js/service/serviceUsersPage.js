@@ -148,7 +148,7 @@ class MediaFactory {
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = list[i].reputationCount;
+            ratings.innerText = list[i].reputationCount  + " репутации";
             ratings.style.fontSize = "12px";
 
             const year = document.createElement("div");
@@ -202,7 +202,7 @@ class MediaFactory {
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = list[i].reputationCount;
+            ratings.innerText = list[i].reputationCount  + " репутации";
             ratings.style.fontSize = "12px";
 
             const editor = document.createElement("div");
@@ -257,7 +257,7 @@ class MediaFactory {
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = list[i].reputationCount;
+            ratings.innerText = list[i].reputationCount + " репутации";
             ratings.style.fontSize = "12px";
 
             const voice = document.createElement("div");
@@ -417,7 +417,7 @@ class MediaFactory {
 
             const ratings = document.createElement("div");
             ratings.className = "user-rating";
-            ratings.innerText = list[i].reputationCount;
+            ratings.innerText = list[i].reputationCount  + " репутации";
             ratings.style.opacity = "0.4";
             ratings.style.fontWeight = "900";
             ratings.style.fontSize = "12px";
