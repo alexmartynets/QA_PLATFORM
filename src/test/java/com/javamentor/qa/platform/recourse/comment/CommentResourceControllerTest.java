@@ -70,6 +70,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.text").value("text of the new comment to question"))
+                .andExpect(jsonPath("$.userId").value("7"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -206,6 +207,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.text").value("text of the new comment to answer"))
+                .andExpect(jsonPath("$.userId").value("3"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
