@@ -7,10 +7,7 @@ users:
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-05-28 13:58:56"
     role_id: 1
-    reputation_count: 5
     id: 1
-
-
 
   - email: "2020-04-04"
     password: "2020-04-04"
@@ -20,6 +17,7 @@ users:
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-05-28 13:58:56"
     role_id: 1
+    id: 2
 
   - email: "2020-04-04"
     password: "2020-04-04"
@@ -29,6 +27,7 @@ users:
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-05-28 13:58:56"
     role_id: 1
+    id: 3
 
   - email: "2020-04-04"
     password: "2020-04-04"
@@ -38,6 +37,7 @@ users:
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-05-28 13:58:56"
     role_id: 1
+    id: 4
 
   - email: "2020-04-04"
     password: "2020-04-04"
@@ -47,6 +47,7 @@ users:
     last_redaction_date: "2020-05-28 13:58:56"
     persist_date: "2020-05-28 13:58:56"
     role_id: 1
+    id: 5
 
 
 
