@@ -23,13 +23,11 @@ public class TagResourceController {
 
     @GetMapping
     public ResponseEntity<List<TagDto>> getAllMainTagsSortedByFrequency() {
-        List<TagDto> abc = tagDtoService.getAllMainTagsSortedByFrequency();
         return ResponseEntity.ok(tagDtoService.getAllMainTagsSortedByFrequency());
     }
 
     @GetMapping("/relatedTags/{mainTagId}")
     public ResponseEntity<List<TagDto>> getRelatedTags(@PathVariable Long mainTagId) {
-        List<TagDto> abc = tagDtoService.getRelatedTags(mainTagId);
         return ResponseEntity.ok(tagDtoService.getRelatedTags(mainTagId));
     }
 }

@@ -432,4 +432,18 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Only one time User can to vote by Question."));
     }
+
+    @Test
+    void getUnansweredQuestions() throws Exception {
+        this.mockMvc.perform(get("/api/unanswered"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getUnansweredQuestions1() throws Exception {
+        this.mockMvc.perform(get("/api/questions/tagged/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 }
