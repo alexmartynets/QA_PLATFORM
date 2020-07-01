@@ -26,7 +26,7 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
                     "JOIN t.questions " +
                     /*"JOIN RelatedTag rt " +
                     "on t.id <> rt.childTag.id " +*/
-                    "group by t.id order by i desc")
+                    "GROUP BY t.id order by i desc")
                     .unwrap(Query.class)
                     .setResultTransformer(new ResultTransformer() {
                         @Override

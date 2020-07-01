@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     getQuestionsSortedByVotes();
 
     // getListOfTags is a method from mainPage.js
@@ -12,7 +13,7 @@ function getQuestionsSortedByVotes() {
         dataType: 'json',
         success: function (listOfQuestion) {
             $.each(listOfQuestion, function (i, q) {
-                $('#getQuestions').append(fillQuestionBlock(q));
+                $('#getQuestionsQ').append(fillQuestionBlock(q));
             });
         }
     })
@@ -38,7 +39,7 @@ function fillQuestionBlock(q) {
                 '</div>' +
 
                 '<div class="text-block">' +
-                    '<h3 class="question-title mt-3">' + q.title + '</h3>' +
+                    '<a id="qTitle" href="/question/' + q.id + '"> <h3 class="question-title mt-3">' + q.title + '</h3></a>' +
                     '<p class="question-body">' + q.description + '</p>' +
                     '<div class="question-foot">' +
                         '<div class="tags-block">' +
@@ -47,7 +48,7 @@ function fillQuestionBlock(q) {
                     '</div>' + //question-foot
                  '</div>'  + //text-block
                 '<div class="user-info">' +
-                // '<p class="timeOfQuestion">задан <span>' + q.persistDateTime - new Date($.now()) + '</span> минут назад</p>' +
+                    // '<p class="timeOfQuestion">задан <span>' + q.persistDateTime - new Date($.now()) + '</span> минут назад</p>' +
                     '<p class="user-name">' + q.userDto.fullName + '</p>' +
                 '</div>' +
             '</div>' +

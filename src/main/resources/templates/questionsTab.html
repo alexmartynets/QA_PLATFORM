@@ -3,26 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Questions Tab</title>
+
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
-    <link rel="stylesheet" href="css/questionsTab.css">
-    <link rel="stylesheet" href="css/mainPage.css">
+<!--    <link rel="stylesheet" href="css/questionsTab.css">-->
+<!--    <link rel="stylesheet" href="css/mainPage.css">-->
 
 </head>
 <body>
 <style>
-    .btn-square
-    {
-        width: 80px !important;
-        height: 80px !important;
-        font-size: 12px;
-    }
-    ​
-    .btn-square:hover
-    {
-        border: 5px solid #ffffff;
-    }
-
+    @import url("/css/mainPage.css");
+    @import url("/css/questionsTab.css");
 </style>
 <div class="container-">
     <nav class="navbar navbar-light bg-light justify-content-between">
@@ -66,7 +57,7 @@
                         <div class="col">
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <ul class="list-group questionsTab" id="getQuestions">
+                                    <ul class="list-group questionsTab" id="getQuestionsQ">
 
                                     </ul>
                                 </div>
@@ -113,8 +104,9 @@
 <script crossorigin="anonymous"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="/js/questionsTab.js"></script>
+
 <script src="/js/mainPage.js"></script>
+<script src="/js/questionsTab.js"></script>
 
 </body>
 </html>

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     getUnansweredQuestion();
 
     // getListOfTags is a method from mainPage.js
@@ -14,7 +15,7 @@ function getUnansweredQuestion() {
         success: function (listOfQuestion) {
             $.each(listOfQuestion, function (i, q) {
                 // fillQuestionBlock is a method from questionTab.js
-                $('#getQuestions').append(fillQuestionBlock(q));
+                $('#getQuestionsU').append(fillQuestionBlock(q));
             });
         }
     })

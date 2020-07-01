@@ -36,6 +36,7 @@ $(document).ready(function () {
     $('#SortReputationTextOfQuestion').click(function () {
         getSortReputationTextOfQuestion(id);
     });
+
     getQuestion(id);
     getQuestionComment(id);
     getTextOfQuestion(id);

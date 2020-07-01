@@ -292,6 +292,15 @@ function convertDate(date) {
     return result;
 }
 
+function convertDateToString(date) {
+    let newDate = new Date(date);
+    let hours = newDate.getHours();
+    let minutes = newDate.getMinutes();
+    let convertDate = newDate.toLocaleDateString();
+    let result = convertDate + " " + hours + ":" + minutes;
+    return result;
+}
+
 function getTextOfQuestion(id) {
 
     $.ajax({
@@ -615,15 +624,6 @@ function popover() {
     $('[data-toggle="popover"]').popover();
     $("[data-toggle=popover]")
         .popover({html: true});
-}
-
-function convertDateToString(date) {
-    let newDate = new Date(date);
-    let hours = newDate.getHours();
-    let minutes = newDate.getMinutes();
-    let convertDate = newDate.toLocaleDateString();
-    let result = convertDate + " " + hours + ":" + minutes;
-    return result;
 }
 
 function putComment(id, questionId) {
