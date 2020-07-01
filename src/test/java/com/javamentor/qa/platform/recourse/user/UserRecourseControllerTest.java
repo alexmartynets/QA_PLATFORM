@@ -157,20 +157,6 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void create_User_Password_Blank() throws Exception {
-        this.mockMvc.perform(post("/api/user")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{" +
-                        "\"fullName\": \"Админ\"," +
-                        "\"email\": \"admin@admin.ru\"," +
-                        "\"password\": \"       \"" +
-                        "}"))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Поле password должен содержать 1 цифру, 1 заглавную букву."));
-    }
-
-    @Test
     void create_User_With_Short_Password() throws Exception {
         this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -381,11 +367,12 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-        // todo
-    void get_List_New_Users_By_Reputation() throws Exception {
-        this.mockMvc.perform(get("/api/user/new/reputation?count=5&page=1&weeks=12"))
+    void get_List_New_Users_By_Reputation_For_Week() throws Exception {
+        this.mockMvc.perform(get("/api/user/new/reputation?count=5&page=1&weeks=1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.key[0].fullName").value("Igor"))
+                .andExpect(jsonPath("$.value").value("3"));
     }
 
     @Test
@@ -414,11 +401,12 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-        // todo
-    void get_List_Users_By_Creation_Date() throws Exception {
-        this.mockMvc.perform(get("/api/user/new?count=5&page=1&weeks=12"))
+    void get_List_Users_By_Creation_Date_For_Week() throws Exception {
+        this.mockMvc.perform(get("/api/user/new?count=5&page=1&weeks=1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.key[0].fullName").value("Артем"))
+                .andExpect(jsonPath("$.value").value("3"));
     }
 
     @Test
@@ -448,11 +436,11 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-        // todo
-    void get_List_Users_By_Reputation() throws Exception {
-        this.mockMvc.perform(get("/api/user/reputation?count=5&page=1&weeks=12"))
+    void get_List_Users_By_Reputation_For_week() throws Exception {
+        this.mockMvc.perform(get("/api/user/reputation?count=5&page=1&weeks=1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(jsonPath("$.key[0].fullName").value("Igor"))
+                .andExpect(jsonPath("$.value").value("3"));
     }
 
     @Test
@@ -481,11 +469,11 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-        // todo
-    void get_List_Users_By_Quantity_Edited_Text() throws Exception {
-        this.mockMvc.perform(get("/api/user/editor?count=5&page=1&weeks=12"))
+    void get_List_Users_By_Quantity_Edited_Text_For_Week() throws Exception {
+        this.mockMvc.perform(get("/api/user/editor?count=5&page=1&weeks=1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(jsonPath("$.key[0].fullName").value("Артем"))
+                .andExpect(jsonPath("$.value").value("3"));
     }
 
     @Test
@@ -565,13 +553,12 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(content().string("Параметр name должен начинаться с буквы"));
     }
 
-
     @Test
-        // todo
-    void get_List_Users_By_Voice() throws Exception {
-        this.mockMvc.perform(get("/api/user/voice?count=5&page=1&weeks=12"))
+    void get_List_Users_By_Voice_For_Week() throws Exception {
+        this.mockMvc.perform(get("/api/user/voice?count=5&page=1&weeks=1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(jsonPath("$.key[0].fullName").value("Артем"))
+                .andExpect(jsonPath("$.value").value("3"));
     }
 
     @Test
@@ -929,8 +916,6 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.userFavoriteQuestions.key").value("2"))
                 .andExpect(jsonPath("$.userReputation.size()").value("2"));
     }
-
-
 }
 
 

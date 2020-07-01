@@ -1,16 +1,16 @@
 editor:
   - count: 1
-    persist_date: "2020-03-10 13:58:56"
+    persist_date: "JS: new Date().toISOString().split('T')[0]"
     user_id: 1
     id: 1
 
   - count: 1
-    persist_date: "2020-05-01 13:58:56"
+    persist_date: "JS: new Date().toISOString().split('T')[0]"
     user_id: 2
     id: 2
 
   - count: 1
-    persist_date: "2020-05-15 13:58:56"
+    persist_date: "JS: new Date().toISOString().split('T')[0]"
     user_id: 3
     id: 3
 
@@ -25,7 +25,7 @@ editor:
     id: 5
 
   - count: 3
-    persist_date: "2020-06-15 13:58:56"
+    persist_date: "JS: new Date().toISOString().split('T')[0]"
     user_id: 1
     id: 6
 
