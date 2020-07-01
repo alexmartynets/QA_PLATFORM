@@ -18,6 +18,7 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -85,7 +86,7 @@ public class UserResourceController {
             @ApiResponse(code = 404, message = "Пользователь не найден по id")
     })
     @Validated(OnUpdate.class)
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
         if (Objects.equals(id, userDto.getId())) {
             User user = userConverter.toEntity(userDto);
             if (userService.existsById(userDto.getId())) {
@@ -94,10 +95,10 @@ public class UserResourceController {
                 return ResponseEntity.ok().body(userConverter.toDto(user));
             }
             logger.info(String.format("Пользователь с ID: %d не существует", userDto.getId()));
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("User with ID: %d does not exist", userDto.getId()));
         }
-        logger.info(String.format("Внимание! Указанный ID: %d не совпадает с ID пользователя %s, проверьте указанные данные", id, userDto.getEmail()));
-        return ResponseEntity.badRequest().build();
+        logger.info(String.format("Указанный ID: %d не совпадает с ID пользователя %d", id, userDto.getId()));
+        return ResponseEntity.badRequest().body(String.format("Specified ID: %d does not match user ID: %d", id, userDto.getId()));
     }
 
     @ApiOperation(value = "Поиск пользователя по ID")
@@ -106,15 +107,15 @@ public class UserResourceController {
             @ApiResponse(code = 200, message = "Пользователь найден по id"),
             @ApiResponse(code = 404, message = "Пользователь не найден по id")
     })
-    public ResponseEntity<UserDto> findUser(@PathVariable Long id) {
+    public ResponseEntity<?> findUser(@PathVariable Long id) {
         Optional<UserDto> optionalUserDto = userDtoService.getUserDtoById(id);
         if (optionalUserDto.isPresent()) {
             UserDto userDto = optionalUserDto.get();
             return ResponseEntity.ok(userDto);
-        } else {
-            logger.info(String.format("Пользователь с указанным ID: %d не найден!", id));
-            return ResponseEntity.notFound().build();
         }
+        logger.info(String.format("Пользователь с указанным ID: %d не найден!", id));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("User with ID: %d does not exist", id));
+
     }
 
     @ApiOperation(value = "получение списка новых пользователей отсортированный по репутации")
@@ -194,7 +195,7 @@ public class UserResourceController {
     })
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull
                                                                                 @Pattern(regexp = regexps,
-                                                                                         message = messages) String name,
+                                                                                        message = messages) String name,
                                                                                 @RequestParam @NonNull @Positive Long count,
                                                                                 @RequestParam @NonNull @Positive Long page,
                                                                                 @RequestParam @NonNull @Positive Long weeks) {

@@ -27,8 +27,8 @@ users:
   - id: 3
     email: "evgeniy@email.com"
     reputation_count: 0
-    password: "Qwerty12"
-    about: "description 2"
+    password: "Qwerty123"
+    about: "description 3"
     full_name: "Евгений"
     city: "Kiev"
     is_enabled: 1

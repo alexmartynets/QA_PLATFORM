@@ -54,7 +54,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("Поле id должно принимать null значение при создании"));
     }
 
@@ -63,11 +63,13 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
+                        "\"fullName\": null," +
                         "\"email\": \"admin@admin.ru\"," +
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле имя не должно быть Null при создании"));
     }
 
     @Test
@@ -80,7 +82,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле имя должен начинаться с буквы"));
     }
 
     @Test
@@ -93,7 +96,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле имя должен начинаться с буквы"));
     }
 
     @Test
@@ -102,10 +106,12 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
+                        "\"email\": null," +
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле Email не должно быть Null при создании"));
     }
 
     @Test
@@ -118,7 +124,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Email должен быть корректным"));
     }
 
     @Test
@@ -131,7 +138,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Email должен быть корректным"));
     }
 
     @Test
@@ -140,10 +148,12 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{" +
                         "\"fullName\": \"Админ\"," +
-                        "\"email\": \"admin@admin.ru\"" +
+                        "\"email\": \"admin@admin.ru\"," +
+                        "\"password\": null" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле password не должно быть Null при создании"));
     }
 
     @Test
@@ -156,7 +166,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"       \"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле password должен содержать 1 цифру, 1 заглавную букву."));
     }
 
     @Test
@@ -169,7 +180,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwert1\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле password должен быть не мение 8 символов."));
     }
 
     @Test
@@ -182,7 +194,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwertyuior\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле password должен содержать 1 цифру, 1 заглавную букву."));
     }
 
     @Test
@@ -195,7 +208,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"qwertys123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле password должен содержать 1 цифру, 1 заглавную букву."));
     }
 
     @Test
@@ -209,7 +223,9 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"role\": 1" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("'role' автоматически назначается при создании всем пользователям, " +
+                        "явно указывать не нужно"));
     }
 
     @Test
@@ -226,7 +242,24 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("3"))
                 .andExpect(jsonPath("$.fullName").value("Update"))
-                .andExpect(jsonPath("$.email").value("Update@email.com"));
+                .andExpect(jsonPath("$.email").value("Update@email.com"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void update_User_Invalid_Role() throws Exception {
+        this.mockMvc.perform(put("/api/user/{id}", 3L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 3," +
+                        "\"fullName\": \"Update\"," +
+                        "\"email\": \"Update@email.com\"," +
+                        "\"password\": \"Qwerty123\"," +
+                        "\"role\": \"Invalid\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Role с инянем Invalid не существует"));
     }
 
     @Test
@@ -240,7 +273,23 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле id не должно принимать null значение при обновлении"));
+    }
+
+    @Test
+    void update_User_Invalid_Id() throws Exception {
+        this.mockMvc.perform(put("/api/user/{id}", 111L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 111," +
+                        "\"fullName\": \"Василий\"," +
+                        "\"email\": \"vasiliy@email.com\"," +
+                        "\"password\": \"Qwerty123\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("User with ID: 111 does not exist"));
     }
 
     @Test
@@ -254,7 +303,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Поле id не должно принимать null значение при обновлении"));
     }
 
     @Test
@@ -268,7 +318,9 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Значения не должны быть символьными," +
+                        " только числовые!"));
     }
 
     @Test
@@ -282,7 +334,8 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                         "\"password\": \"Qwerty123\"" +
                         "}"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Specified ID: 3 does not match user ID: 4"));
     }
 
     @Test
@@ -296,14 +349,26 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.email").value("ivan@email.com"))
                 .andExpect(jsonPath("$.role").value("user"))
                 .andExpect(jsonPath("$.about").value("description 2"))
-                .andExpect(jsonPath("$.city").value("SPB"));
+                .andExpect(jsonPath("$.city").value("SPB"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void find_User_Invalid_Id() throws Exception {
+        this.mockMvc.perform(get("/api/user/{id}", 115L))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("User with ID: 115 does not exist"));
     }
 
     @Test
     void find_User_Invalid_Id_Path_Variable() throws Exception {
         this.mockMvc.perform(get("/api/user/{id}", "abc"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Значения не должны быть символьными, " +
+                        "только числовые!"));
     }
 
     @Test
@@ -316,6 +381,7 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+        // todo
     void get_List_New_Users_By_Reputation() throws Exception {
         this.mockMvc.perform(get("/api/user/new/reputation?count=5&page=1&weeks=12"))
                 .andDo(print())
@@ -326,24 +392,29 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     void get_List_New_Users_By_Reputation_Request_Parameter_Negative() throws Exception {
         this.mockMvc.perform(get("/api/user/new/reputation?count=5&page=1&weeks=-1"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_New_Users_By_Reputation_Request_Parameter_Zero() throws Exception {
         this.mockMvc.perform(get("/api/user/new/reputation?count=0&page=1&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_New_Users_By_Reputation_Request_Parameter_Invalid() throws Exception {
         this.mockMvc.perform(get("/api/user/new/reputation?count=abc&page=1&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Значения не должны быть символьными," +
+                        " только числовые!"));
     }
 
     @Test
+        // todo
     void get_List_Users_By_Creation_Date() throws Exception {
         this.mockMvc.perform(get("/api/user/new?count=5&page=1&weeks=12"))
                 .andDo(print())
@@ -354,24 +425,30 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     void get_List_Users_By_Creation_Date_Request_Parameter_Negative() throws Exception {
         this.mockMvc.perform(get("/api/user/new?count=-1&page=1&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Creation_Date_Request_Parameter_Zero() throws Exception {
         this.mockMvc.perform(get("/api/user/new?count=5&page=1&weeks=0"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Creation_Date_Request_Parameter_Invalid() throws Exception {
         this.mockMvc.perform(get("/api/user/new?count=5&page=abc&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Значения не должны быть символьными, " +
+                        "только числовые!"));
+
     }
 
     @Test
+        // todo
     void get_List_Users_By_Reputation() throws Exception {
         this.mockMvc.perform(get("/api/user/reputation?count=5&page=1&weeks=12"))
                 .andDo(print())
@@ -382,24 +459,29 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     void get_List_Users_By_Reputation_Request_Parameter_Negative() throws Exception {
         this.mockMvc.perform(get("/api/user/reputation?count=5&page=-1&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Reputation_Request_Parameter_Zero() throws Exception {
         this.mockMvc.perform(get("/api/user/reputation?count=0&page=1&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Reputation_Request_Parameter_Invalid() throws Exception {
         this.mockMvc.perform(get("/api/user/reputation?count=5&page=1&weeks=abc"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Значения не должны быть символьными, " +
+                        "только числовые!"));
     }
 
     @Test
+        // todo
     void get_List_Users_By_Quantity_Edited_Text() throws Exception {
         this.mockMvc.perform(get("/api/user/editor?count=5&page=1&weeks=12"))
                 .andDo(print())
@@ -410,21 +492,25 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     void get_List_Users_By_Quantity_Edited_Text_Request_Parameter_Negative() throws Exception {
         this.mockMvc.perform(get("/api/user/editor?count=-1&page=1&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Quantity_Edited_Text_Request_Parameter_Zero() throws Exception {
         this.mockMvc.perform(get("/api/user/editor?count=5&page=1&weeks=0"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Quantity_Edited_Text_Request_Parameter_Invalid() throws Exception {
         this.mockMvc.perform(get("/api/user/editor?count=5&page=abc&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Значения не должны быть символьными, " +
+                        "только числовые!"));
     }
 
     @Test
@@ -438,41 +524,50 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
 
     @Test
     void get_List_Users_By_Name_To_Search() throws Exception {
-        this.mockMvc.perform(get("/api/user/find?count=5&page=1&weeks=12&name=Андрей"))
+        this.mockMvc.perform(get("/api/user/find?count=5&page=1&weeks=12&name=Евгений"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.key[0].fullName").value("Евгений"))
+                .andExpect(jsonPath("$.key[0].reputationCount").value("4"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     void get_List_Users_By_Name_To_Search_Request_Parameter_Negative() throws Exception {
         this.mockMvc.perform(get("/api/user/find?count=5&page=-1&weeks=12&name=Андрей"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Name_To_Search_Request_Parameter_Zero() throws Exception {
         this.mockMvc.perform(get("/api/user/find?count=5&page=1&weeks=0&name=Андрей"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Name_To_Search_Request_Parameter_Invalid() throws Exception {
         this.mockMvc.perform(get("/api/user/find?count=abc&page=1&weeks=12&name=Андрей"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Значения не должны быть символьными, " +
+                        "только числовые!"));
     }
 
     @Test
     void get_List_Users_By_Name_To_Search_Request_Parameter_Name_Not_String() throws Exception {
         this.mockMvc.perform(get("/api/user/find?count=5&page=1&weeks=12&name=4"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Параметр name должен начинаться с буквы"));
     }
 
 
     @Test
+        // todo
     void get_List_Users_By_Voice() throws Exception {
         this.mockMvc.perform(get("/api/user/voice?count=5&page=1&weeks=12"))
                 .andDo(print())
@@ -483,353 +578,357 @@ public class UserRecourseControllerTest extends AbstractIntegrationTest {
     void get_List_Users_By_Voice_Request_Parameter_Negative() throws Exception {
         this.mockMvc.perform(get("/api/user/voice?count=-5&page=1&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Voice_Request_Parameter_Zero() throws Exception {
         this.mockMvc.perform(get("/api/user/voice?count=5&page=1&weeks=0"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("must be greater than 0"));
     }
 
     @Test
     void get_List_Users_By_Voice_Request_Parameter_Invalid() throws Exception {
         this.mockMvc.perform(get("/api/user/voice?count=5&page=abc&weeks=12"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Значения не должны быть символьными, " +
+                        "только числовые!"));
     }
 
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testUserDtoAndAnswerPairFromUserStatisticVotesSorting() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=answer"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.answerList.key").value("2"))
-                .andExpect(jsonPath("$.answerList.value[0].id").value("5"))
-                .andExpect(jsonPath("$.answerList.value[-1].id").value("2"))
-                .andExpect(jsonPath("$.answerList.value.size()").value("2"));
-
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testUserDtoAndAnswerPairFromUserStatisticDataSorting() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=answer&sort=newest"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.answerList.key").value("2"))
-                .andExpect(jsonPath("$.answerList.value[0].id").value("5"))
-                .andExpect(jsonPath("$.answerList.value[-1].id").value("2"))
-                .andExpect(jsonPath("$.answerList.value.size()").value("2"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testUserDtoAndAnswerPairFromUserStatisticSortingByViews() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=answer&sort=views"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.answerList.key").value("2"))
-                .andExpect(jsonPath("$.answerList.value[0].id").value("2"))
-                .andExpect(jsonPath("$.answerList.value[-1].id").value("5"))
-                .andExpect(jsonPath("$.answerList.value.size()").value("2"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/q_has_tagStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testQuestionPairFromUserStatisticSortingByVotes() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=question"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.questionDtoList.key").value("3"))
-                .andExpect(jsonPath("$.questionDtoList.value[0].id").value("1"))
-                .andExpect(jsonPath("$.questionDtoList.value[-1].id").value("5"))
-                .andExpect(jsonPath("$.questionDtoList.value.size()").value("3"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/q_has_tagStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testQuestionPairFromUserStatisticSortingByView() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=question&sort=views"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.questionDtoList.key").value("3"))
-                .andExpect(jsonPath("$.questionDtoList.value[0].id").value("2"))
-                .andExpect(jsonPath("$.questionDtoList.value[-1].id").value("5"))
-                .andExpect(jsonPath("$.questionDtoList.value.size()").value("3"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/q_has_tagStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testQuestionPairFromUserStatisticSortingByDate() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=question&sort=newest"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.questionDtoList.key").value("3"))
-                .andExpect(jsonPath("$.questionDtoList.value[0].id").value("5"))
-                .andExpect(jsonPath("$.questionDtoList.value[-1].id").value("1"))
-                .andExpect(jsonPath("$.questionDtoList.value.size()").value("3"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/q_has_tagStatistics.yml",
-            "userStatistics/userFavoriteQuestionStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testUserFavoriteQuestionPairFromUserStatisticSortingByVotes() throws Exception { //??
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=bookmarks"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.key").value("2"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.value[0].id").value("3"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.value[-1].id").value("8"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.value.size()").value("2"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/q_has_tagStatistics.yml",
-            "userStatistics/userFavoriteQuestionStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testUserFavoriteQuestionPairFromUserStatisticSortingByDate() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=bookmarks&sort=newest"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.key").value("2"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.value[0].id").value("8"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.value[-1].id").value("3"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.value.size()").value("2"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/q_has_tagStatistics.yml",
-            "userStatistics/userFavoriteQuestionStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testUserFavoriteQuestionPairFromUserStatisticSortingByViews() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=bookmarks&sort=views"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.key").value("2"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.value[0].id").value("3"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.value[-1].id").value("8"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.value.size()").value("2"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/q_has_tagStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testTagPairFromUserStatistic() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=tags"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.tagDtoList.key").value("2"))
-                .andExpect(jsonPath("$.tagDtoList.value[0].tagId").value("1"))
-                .andExpect(jsonPath("$.tagDtoList.value[-1].tagId").value("2"))
-                .andExpect(jsonPath("$.tagDtoList.value[0].countOfTag").value("3"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/badgesStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/user_badgesStatistics.yml"
-    }, cleanBefore = true, cleanAfter = true)
-    void testUserBadgesPairFromUserStatistic() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=badges"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.userBadges.key").value("2"))
-                .andExpect(jsonPath("$.userBadges.value[0].id").value("1"))
-                .andExpect(jsonPath("$.userBadges.value[0].badges").value("Helper"))
-                .andExpect(jsonPath("$.userBadges.value[-1].id").value("2"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/badgesStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/user_badgesStatistics.yml"
-    }, cleanBefore = true, cleanAfter = true)
-    void testUserReputationFromUserStatistic() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=reputation"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.userReputation.size()").value("2"))
-                .andExpect(jsonPath("$.userReputation[0].count").value("30"))
-                .andExpect(jsonPath("$.userReputation[1].count").value("100"));
-    }
-
-    @Test
-    @DataSet(value = {"userStatistics/usersStatistics.yml",
-            "userStatistics/roleStatistics.yml",
-            "userStatistics/reputationStatistics.yml",
-            "userStatistics/questionStatistics.yml",
-            "userStatistics/answerStatistics.yml",
-            "userStatistics/tagsStatistics.yml",
-            "userStatistics/badgesStatistics.yml",
-            "userStatistics/q_has_tagStatistics.yml",
-            "userStatistics/userFavoriteQuestionStatistics.yml",
-            "userStatistics/user_badgesStatistics.yml"}, cleanBefore = true, cleanAfter = true)
-    void testUserStatisticsProfileTabFromUserStatisticSortingByViews() throws Exception {
-        this.mockMvc.perform(get("/api/user/1/Teat?tab=profile"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalUserReputation").value("130"))
-                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
-                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
-                .andExpect(jsonPath("$.allViews").value("12"))
-                .andExpect(jsonPath("$.userDto.id").value("1"))
-                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
-                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
-                .andExpect(jsonPath("$.questionDtoList.key").value("3"))
-                .andExpect(jsonPath("$.answerList.key").value("2"))
-                .andExpect(jsonPath("$.tagDtoList.key").value("2"))
-                .andExpect(jsonPath("$.userBadges.key").value("2"))
-                .andExpect(jsonPath("$.userFavoriteQuestions.key").value("2"))
-                .andExpect(jsonPath("$.userReputation.size()").value("2"));
-    }
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testUserDtoAndAnswerPairFromUserStatisticVotesSorting() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=answer"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.answerList.key").value("2"))
+//                .andExpect(jsonPath("$.answerList.value[0].id").value("5"))
+//                .andExpect(jsonPath("$.answerList.value[-1].id").value("2"))
+//                .andExpect(jsonPath("$.answerList.value.size()").value("2"));
+//
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testUserDtoAndAnswerPairFromUserStatisticDataSorting() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=answer&sort=newest"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.answerList.key").value("2"))
+//                .andExpect(jsonPath("$.answerList.value[0].id").value("5"))
+//                .andExpect(jsonPath("$.answerList.value[-1].id").value("2"))
+//                .andExpect(jsonPath("$.answerList.value.size()").value("2"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testUserDtoAndAnswerPairFromUserStatisticSortingByViews() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=answer&sort=views"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.answerList.key").value("2"))
+//                .andExpect(jsonPath("$.answerList.value[0].id").value("2"))
+//                .andExpect(jsonPath("$.answerList.value[-1].id").value("5"))
+//                .andExpect(jsonPath("$.answerList.value.size()").value("2"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/q_has_tagStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testQuestionPairFromUserStatisticSortingByVotes() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=question"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.questionDtoList.key").value("3"))
+//                .andExpect(jsonPath("$.questionDtoList.value[0].id").value("1"))
+//                .andExpect(jsonPath("$.questionDtoList.value[-1].id").value("5"))
+//                .andExpect(jsonPath("$.questionDtoList.value.size()").value("3"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/q_has_tagStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testQuestionPairFromUserStatisticSortingByView() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=question&sort=views"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.questionDtoList.key").value("3"))
+//                .andExpect(jsonPath("$.questionDtoList.value[0].id").value("2"))
+//                .andExpect(jsonPath("$.questionDtoList.value[-1].id").value("5"))
+//                .andExpect(jsonPath("$.questionDtoList.value.size()").value("3"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/q_has_tagStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testQuestionPairFromUserStatisticSortingByDate() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=question&sort=newest"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.questionDtoList.key").value("3"))
+//                .andExpect(jsonPath("$.questionDtoList.value[0].id").value("5"))
+//                .andExpect(jsonPath("$.questionDtoList.value[-1].id").value("1"))
+//                .andExpect(jsonPath("$.questionDtoList.value.size()").value("3"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/q_has_tagStatistics.yml",
+//            "userStatistics/userFavoriteQuestionStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testUserFavoriteQuestionPairFromUserStatisticSortingByVotes() throws Exception { //??
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=bookmarks"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.key").value("2"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.value[0].id").value("3"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.value[-1].id").value("8"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.value.size()").value("2"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/q_has_tagStatistics.yml",
+//            "userStatistics/userFavoriteQuestionStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testUserFavoriteQuestionPairFromUserStatisticSortingByDate() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=bookmarks&sort=newest"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.key").value("2"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.value[0].id").value("8"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.value[-1].id").value("3"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.value.size()").value("2"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/q_has_tagStatistics.yml",
+//            "userStatistics/userFavoriteQuestionStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testUserFavoriteQuestionPairFromUserStatisticSortingByViews() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=bookmarks&sort=views"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.key").value("2"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.value[0].id").value("3"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.value[-1].id").value("8"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.value.size()").value("2"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/q_has_tagStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testTagPairFromUserStatistic() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=tags"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.tagDtoList.key").value("2"))
+//                .andExpect(jsonPath("$.tagDtoList.value[0].tagId").value("1"))
+//                .andExpect(jsonPath("$.tagDtoList.value[-1].tagId").value("2"))
+//                .andExpect(jsonPath("$.tagDtoList.value[0].countOfTag").value("3"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/badgesStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/user_badgesStatistics.yml"
+//    }, cleanBefore = true, cleanAfter = true)
+//    void testUserBadgesPairFromUserStatistic() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=badges"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.userBadges.key").value("2"))
+//                .andExpect(jsonPath("$.userBadges.value[0].id").value("1"))
+//                .andExpect(jsonPath("$.userBadges.value[0].badges").value("Helper"))
+//                .andExpect(jsonPath("$.userBadges.value[-1].id").value("2"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/badgesStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/user_badgesStatistics.yml"
+//    }, cleanBefore = true, cleanAfter = true)
+//    void testUserReputationFromUserStatistic() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=reputation"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.userReputation.size()").value("2"))
+//                .andExpect(jsonPath("$.userReputation[0].count").value("30"))
+//                .andExpect(jsonPath("$.userReputation[1].count").value("100"));
+//    }
+//
+//    @Test
+//    @DataSet(value = {"userStatistics/usersStatistics.yml",
+//            "userStatistics/roleStatistics.yml",
+//            "userStatistics/reputationStatistics.yml",
+//            "userStatistics/questionStatistics.yml",
+//            "userStatistics/answerStatistics.yml",
+//            "userStatistics/tagsStatistics.yml",
+//            "userStatistics/badgesStatistics.yml",
+//            "userStatistics/q_has_tagStatistics.yml",
+//            "userStatistics/userFavoriteQuestionStatistics.yml",
+//            "userStatistics/user_badgesStatistics.yml"}, cleanBefore = true, cleanAfter = true)
+//    void testUserStatisticsProfileTabFromUserStatisticSortingByViews() throws Exception {
+//        this.mockMvc.perform(get("/api/user/1/Teat?tab=profile"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.totalUserReputation").value("130"))
+//                .andExpect(jsonPath("$.totalUserQuestions").value("3"))
+//                .andExpect(jsonPath("$.totalUserAnswers").value("2"))
+//                .andExpect(jsonPath("$.allViews").value("12"))
+//                .andExpect(jsonPath("$.userDto.id").value("1"))
+//                .andExpect(jsonPath("$.userDto.fullName").value("Teat"))
+//                .andExpect(jsonPath("$.userDto.persistDateTime").value("2020-05-28T13:58:56"))
+//                .andExpect(jsonPath("$.questionDtoList.key").value("3"))
+//                .andExpect(jsonPath("$.answerList.key").value("2"))
+//                .andExpect(jsonPath("$.tagDtoList.key").value("2"))
+//                .andExpect(jsonPath("$.userBadges.key").value("2"))
+//                .andExpect(jsonPath("$.userFavoriteQuestions.key").value("2"))
+//                .andExpect(jsonPath("$.userReputation.size()").value("2"));
+//    }
 
 
 }
