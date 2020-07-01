@@ -68,6 +68,15 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
                 ("select count(t.id) from Tag t").getSingleResult()).longValue();
     }
 
+    @Override
+    public Long getTotalEntitiesCountSearch(String word) {
+        return ((Number) entityManager.createQuery
+                ("select count(t.id) from Tag t where t.name like :search")
+                .setParameter("search", "%" + word + "%")
+                .getSingleResult())
+                .longValue();
+    }
+
     @SuppressWarnings("unchecked")
     private List<TagDto> getTags(Query<TagDto> query, int pageSize, int pageNumber) {
         return query.setFirstResult((pageNumber - 1) * pageSize)

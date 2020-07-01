@@ -43,7 +43,7 @@ public class TagDtoServiceImpl implements TagDtoService {
     public Pair<Long, List<TagDto>> findAllTagsSearch(String word, int pageSize, int pageNumber) {
         word = word.trim();
         List<TagDto> list = word.isEmpty() ? tagDtoDAO.findAllTagsDtoPaginationPopular(pageSize, pageNumber) : tagDtoDAO.findAllTagsSearch(word, pageSize, pageNumber);
-        Long totalEntitiesCount = tagDtoDAO.getTotalEntitiesCount();
+        Long totalEntitiesCount = tagDtoDAO.getTotalEntitiesCountSearch(word);
         return new Pair<>(totalEntitiesCount, list);
     }
 }

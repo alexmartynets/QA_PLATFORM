@@ -472,6 +472,7 @@ public class TestDataEntityService {
                 .user(userService.getByKey(2L))
                 .question(questionService.getByKey(1L))
                 .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer2_1);
@@ -520,6 +521,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(3L))
                 .dateAcceptTime(LocalDateTime.now())
                 .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer2_3);
