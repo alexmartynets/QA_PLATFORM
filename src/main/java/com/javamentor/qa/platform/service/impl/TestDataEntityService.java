@@ -5,6 +5,7 @@ import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.question.*;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
+import com.javamentor.qa.platform.models.entity.question.answer.AnswerVote;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
 import com.javamentor.qa.platform.models.entity.user.*;
 import com.javamentor.qa.platform.service.abstracts.model.*;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,17 +51,19 @@ public class TestDataEntityService {
     private final BadgesService badgesService;
     private final UserBadgesService userBadgesService;
     private final VoteQuestionService voteQuestionService;
+    private final AnswerVoteService answerVoteService;
 
 
     @Autowired
     public TestDataEntityService(ReputationService reputationService,
                                  BadgesService badgesService,
                                  UserBadgesService userBadgesService,
-                                 VoteQuestionService voteQuestionService) {
+                                 VoteQuestionService voteQuestionService, AnswerVoteService answerVoteService) {
         this.reputationService = reputationService;
         this.badgesService = badgesService;
         this.userBadgesService = userBadgesService;
         this.voteQuestionService = voteQuestionService;
+        this.answerVoteService = answerVoteService;
     }
 
     public void createEntity() {
@@ -679,103 +681,156 @@ public class TestDataEntityService {
     private void creatAnswerEntity() {
         Answer answer1_1 = Answer.builder()
                 .user(userService.getByKey(3L))
-                .countValuable(0)
                 .isHelpful(true)
+                .dateAcceptTime(LocalDateTime.now())
                 .isDeleted(false)
                 .question(questionService.getByKey(1L))
                 .htmlBody("Helpful answer for question 1")
                 .build();
         answerService.persist(answer1_1);
 
-        Answer answer1_2 = Answer.builder()
-                .user(userService.getByKey(2L))
-                .countValuable(0)
-                .question(questionService.getByKey(1L))
-                .isHelpful(false)
-                .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 1")
-                .build();
-        answerService.persist(answer1_2);
-
-        Answer answer1_3 = Answer.builder()
-                .user(userService.getByKey(5L))
-                .countValuable(1)
-                .question(questionService.getByKey(1L))
-                .isHelpful(false)
-                .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 1")
-                .build();
-        answerService.persist(answer1_3);
-
-        Answer answer1_4 = Answer.builder()
-                .user(userService.getByKey(7L))
-                .countValuable(4)
-                .question(questionService.getByKey(1L))
-                .isHelpful(false)
-                .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 1")
-                .build();
-        answerService.persist(answer1_4);
-
         Answer answer2_1 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(7)
-                .question(questionService.getByKey(2L))
+                .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 2")
+                .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer2_1);
 
-        Answer answer2_2 = Answer.builder()
-                .user(userService.getByKey(4L))
-                .countValuable(0)
-                .question(questionService.getByKey(2L))
-                .isHelpful(true)
-                .isDeleted(false)
-                .htmlBody("Helpful answer for question 2")
-                .build();
-        answerService.persist(answer2_2);
-
-        Answer answer2_3 = Answer.builder()
-                .user(userService.getByKey(8L))
-                .countValuable(2)
-                .question(questionService.getByKey(2L))
-                .isHelpful(false)
-                .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 2")
-                .build();
-        answerService.persist(answer2_3);
-
         Answer answer3_1 = Answer.builder()
                 .user(userService.getByKey(4L))
-                .countValuable(0)
-                .question(questionService.getByKey(3L))
+                .question(questionService.getByKey(1L))
                 .isHelpful(false)
                 .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer3_1);
 
-        Answer answer3_2 = Answer.builder()
+        Answer answer1_2 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(2)
+                .question(questionService.getByKey(2L))
+                .isHelpful(false)
+                .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 2")
+                .build();
+        answerService.persist(answer1_2);
+
+        Answer answer2_2 = Answer.builder()
+                .user(userService.getByKey(4L))
+                .question(questionService.getByKey(2L))
+                .isHelpful(true)
+                .dateAcceptTime(LocalDateTime.now())
+                .isDeleted(false)
+                .htmlBody("Helpful answer for question 2")
+                .build();
+        answerService.persist(answer2_2);
+
+        Answer answer1_3 = Answer.builder()
+                .user(userService.getByKey(2L))
+                .question(questionService.getByKey(3L))
+                .isHelpful(false)
+                .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 1")
+                .build();
+        answerService.persist(answer1_3);
+
+        Answer answer2_3 = Answer.builder()
+                .user(userService.getByKey(4L))
                 .question(questionService.getByKey(3L))
                 .isHelpful(false)
                 .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 3")
                 .build();
-        answerService.persist(answer3_2);
+        answerService.persist(answer2_3);
 
-        Answer answer4_1 = Answer.builder()
-                .user(userService.getByKey(4L))
-                .countValuable(0)
+        Answer answer1_4 = Answer.builder()
+                .user(userService.getByKey(2L))
                 .question(questionService.getByKey(4L))
                 .isHelpful(false)
                 .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 2")
+                .build();
+        answerService.persist(answer1_4);
+
+        Answer answer2_4 = Answer.builder()
+                .user(userService.getByKey(2L))
+                .question(questionService.getByKey(4L))
+                .isHelpful(false)
+                .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 2")
+                .build();
+        answerService.persist(answer2_4);
+
+        Answer answer3_4 = Answer.builder()
+                .user(userService.getByKey(4L))
+                .question(questionService.getByKey(4L))
+                .isHelpful(true)
+                .dateAcceptTime(LocalDateTime.now())
+                .isDeleted(false)
                 .htmlBody("Helpful answer for question 4")
                 .build();
-        answerService.persist(answer4_1);
+        answerService.persist(answer3_4);
+
+        AnswerVote answerVote1 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(9L))
+                        .answer(answerService.getByKey(1L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote1);
+
+        AnswerVote answerVote2 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(8L))
+                        .answer(answerService.getByKey(1L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote2);
+
+        AnswerVote answerVote3 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(7L))
+                        .answer(answerService.getByKey(1L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote3);
+
+        AnswerVote answerVote4 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(9L))
+                        .answer(answerService.getByKey(2L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote4);
+
+        AnswerVote answerVote5 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(8L))
+                        .answer(answerService.getByKey(2L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote5);
+
+        AnswerVote answerVote6 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(9L))
+                        .answer(answerService.getByKey(3L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote6);
 
     }
 
@@ -783,7 +838,7 @@ public class TestDataEntityService {
         Comment comment1 = Comment.builder()
                 .commentType(CommentType.ANSWER)
                 .lastUpdateDateTime(LocalDateTime.now())
-                .text("Comment 1 text")
+                .text("Comment for answer 1")
                 .user(userService.getByKey(2L))
                 .build();
 
@@ -796,20 +851,33 @@ public class TestDataEntityService {
         Comment comment2 = Comment.builder()
                 .commentType(CommentType.ANSWER)
                 .lastUpdateDateTime(LocalDateTime.now())
-                .text("Comment 2 text")
+                .text("Comment for answer 2")
                 .user(userService.getByKey(2L))
                 .build();
 
         CommentAnswer commentAnswer2 = CommentAnswer.builder()
                 .comment(comment2)
-                .answer(answerService.getByKey(1L))
+                .answer(answerService.getByKey(2L))
                 .build();
         commentAnswerService.persist(commentAnswer2);
+
+        Comment comment4 = Comment.builder()
+                .commentType(CommentType.ANSWER)
+                .lastUpdateDateTime(LocalDateTime.now())
+                .text("Comment for answer 3")
+                .user(userService.getByKey(2L))
+                .build();
+
+        CommentAnswer commentAnswer4 = CommentAnswer.builder()
+                .comment(comment4)
+                .answer(answerService.getByKey(3L))
+                .build();
+        commentAnswerService.persist(commentAnswer4);
 
         Comment comment3 = Comment.builder()
                 .commentType(CommentType.QUESTION)
                 .lastUpdateDateTime(LocalDateTime.now())
-                .text("Comment 3 text")
+                .text("Comment for question 1")
                 .user(userService.getByKey(3L))
                 .build();
 
