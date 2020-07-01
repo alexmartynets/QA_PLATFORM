@@ -1,49 +1,55 @@
 question:
-  - id: 1
-    count_valuable: 1
-    description: "some description for first question"
-    title: "Question number one"
+  - description: "desc q1"
+    persist_date: "2020-05-28 13:58:56"
+    title: "What is Java?"
+    last_redaction_date: "2020-05-28 13:58:56"
+    is_deleted: 0
     view_count: 3
-    user_id: 1
-    persist_date: "2020-06-17 13:58:56"
+    user_id: 2
+    id: 1
 
-  - id: 2
-    count_valuable: 3
-    description: "some description for second question"
-    title: "Question number two"
+  - description: "desc q2"
+    persist_date: "2020-05-29 13:58:56"
+    title: "What is C++?"
+    last_redaction_date: "2020-05-28 13:58:56"
+    is_deleted: 0
     view_count: 5
     user_id: 1
-    persist_date: "2020-06-15 13:58:56"
+    id: 2
 
-  - id: 3
-    count_valuable: 2
-    description: "some description for next question number three"
-    title: "Question number three"
-    view_count: 2
-    user_id: 2
-    persist_date: "2020-06-01 13:58:56"
 
-  - id: 4
-    count_valuable: 1
-    description: "some description for first question"
-    title: "Question number four"
+  - description: "desc q3"
+    persist_date: "2020-05-28 13:58:56"
+    title: "What is JS?"
+    last_redaction_date: "2020-05-28 13:58:56"
+    is_deleted: 0
     view_count: 3
-    user_id: 1
-    persist_date: "2020-01-01 13:58:56"
+    user_id: 2
+    id: 3
 
-  - id: 5
-    count_valuable: 3
-    description: "some description for second question"
-    title: "Question number five"
+  - description: "desc q4"
+    persist_date: "2020-05-29 13:58:56"
+    title: "What is Hibernate?"
+    last_redaction_date: "2020-05-28 13:58:56"
+    is_deleted: 0
     view_count: 5
     user_id: 1
-    persist_date: "2020-01-10 13:58:56"
-
-  - id: 6
-    count_valuable: 2
-    description: "some description for next question number three"
-    title: "Question number six"
-    view_count: 2
+    id: 4
+  - description: "desc q5"
+    persist_date: "2020-05-28 13:58:56"
+    title: "What is Spring?"
+    last_redaction_date: "2020-05-28 13:58:56"
+    is_deleted: 0
+    view_count: 3
     user_id: 2
-    persist_date: "2020-01-20 13:58:56"
+    id: 5
+
+  - description: "desc q6"
+    persist_date: "2020-05-29 13:58:56"
+    title: "What is http?"
+    last_redaction_date: "2020-05-28 13:58:56"
+    is_deleted: 0
+    view_count: 5
+    user_id: 1
+    id: 6
 
