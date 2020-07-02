@@ -56,7 +56,10 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
     public List<TagDto> getRelatedTags(Long mainTagId) {
         List<TagDto> relatedDtoTags = new ArrayList<>();
         try {
-            relatedDtoTags = entityManager.createQuery("SELECT t.id, t.name, count(t.id) as i " +
+            relatedDtoTags = entityManager.createQuery("SELECT " +
+                    "t.id, " +
+                    "t.name, " +
+                    "count(t.id) as i " +
                     "FROM Tag as t " +
                     "JOIN t.questions " +
                     "WHERE t.id in " +

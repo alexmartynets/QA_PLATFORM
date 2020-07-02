@@ -1,0 +1,22 @@
+users:
+  - email: "user1@gmail.com"
+    reputation_count: 2
+    password: "user1"
+    about: "description 1"
+    full_name: "User1Name"
+    is_enabled: 1
+    last_redaction_date: "2020-05-28 13:58:56"
+    persist_date: "2020-05-28 13:58:56"
+    role_id: 1
+    id: 1
+
+  - email: "user2@gmail.com"
+    reputation_count: 1
+    password: "user2"
+    about: "description 2"
+    full_name: "User2Name"
+    is_enabled: 1
+    last_redaction_date: "2020-05-28 13:58:56"
+    persist_date: "2020-05-28 13:58:56"
+    role_id: 1
+    id: 2
