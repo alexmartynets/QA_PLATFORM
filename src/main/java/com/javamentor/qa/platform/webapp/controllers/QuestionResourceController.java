@@ -222,6 +222,4 @@ public class QuestionResourceController {
         logger.info(String.format("Вопрос с заголовком: %s добавлен в базу данных", questionDto.getTitle()));
         return ResponseEntity.ok().body(question.getId());
     }
-
-
 }
