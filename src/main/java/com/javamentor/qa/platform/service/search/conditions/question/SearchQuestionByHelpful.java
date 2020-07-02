@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.service.search.conditions.question;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.service.search.abstracts.Search;
@@ -13,9 +14,12 @@ public class SearchQuestionByHelpful implements Search {
 
     private final SearchQuestionDAO searchQuestionDAO;
 
+    private final QuestionDtoDao questionDtoDao;
+
     @Autowired
-    public SearchQuestionByHelpful(SearchQuestionDAO searchQuestionDAO) {
+    public SearchQuestionByHelpful(SearchQuestionDAO searchQuestionDAO, QuestionDtoDao questionDtoDao) {
         this.searchQuestionDAO = searchQuestionDAO;
+        this.questionDtoDao = questionDtoDao;
     }
 
     @Override
@@ -25,7 +29,9 @@ public class SearchQuestionByHelpful implements Search {
         } else if (searchHelpful.equals("no")) {
             return searchQuestionDAO.getQuestionsByFieldHelpfulFalse();
         } else {
-            return searchQuestionDAO.getQuestionsSortedByVotes();
+            List<QuestionDto> list = searchQuestionDAO.getQuestionsSortedByVotes();
+            list.forEach(f -> f.setTags(questionDtoDao.getTagList(f.getId())));
+            return list;
         }
     }
 }

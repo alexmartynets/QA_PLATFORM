@@ -25,4 +25,9 @@ public class CommentQuestionServiceDtoImpl extends ReadWriteServiceImpl<Comment,
     public List<CommentDto> getCommentsToQuestion(Long questionId) {
         return commentQuestionDtoDao.getCommentsToQuestion(questionId);
     }
+
+    @Override
+    public boolean hasUserToCommentQuestion(Long questionId, Long userId) {
+        return commentQuestionDtoDao.hasUserCommentQuestion(questionId, userId);
+    }
 }

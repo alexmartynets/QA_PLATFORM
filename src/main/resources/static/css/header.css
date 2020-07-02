@@ -1,0 +1,20 @@
+.navbar {
+    border-top-width: 2px;
+    border-top-style: solid;
+}
+
+.navbar-light {
+    background: #f7f7fafa;
+}
+.header__dropdown{
+    background: #f7f7fafa !important;
+
+}
+.search-users {
+    width: 600px; /* ширина блока */
+}
+
+#header__input {
+    left: 160px;
+    top: 8px;
+}

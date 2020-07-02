@@ -1,10 +1,12 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.models.dto.UserDto;
+import com.javamentor.qa.platform.models.dto.UserStatisticDto;
 import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import com.javamentor.qa.platform.service.abstracts.dto.UserDtoService;
+import com.javamentor.qa.platform.service.abstracts.dto.UserStatisticDtoService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.webapp.converter.UserConverter;
 import io.swagger.annotations.Api;
@@ -15,6 +17,7 @@ import javafx.util.Pair;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +37,19 @@ public class UserResourceController {
     private final UserService userService;
     private final UserDtoService userDtoService;
     private final UserConverter userConverter;
+    private final UserStatisticDtoService userStatisticDtoService;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public UserResourceController(UserService userService, UserDtoService userDtoService, UserConverter userConverter) {
+    @Autowired
+    public UserResourceController(UserService userService,
+                                  UserDtoService userDtoService,
+                                  UserConverter userConverter,
+                                  UserStatisticDtoService userStatisticDtoService) {
         this.userService = userService;
         this.userDtoService = userDtoService;
         this.userConverter = userConverter;
+        this.userStatisticDtoService = userStatisticDtoService;
     }
 
     @ApiOperation(value = "Добавление пользователя")
@@ -108,5 +118,27 @@ public class UserResourceController {
     public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersForPagination(@PathVariable @NonNull Long page,
                                                                                @PathVariable @NonNull Long count) {
         return ResponseEntity.ok().body(userDtoService.getListUsersForPagination(page.intValue(), count.intValue()));
+    }
+
+    @ApiOperation(value = "Предоставление статистики пользователя, по id и name")
+    @GetMapping("/{id}/{name}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь найден по id"),
+            @ApiResponse(code = 404, message = "Пользователь не найден по id")
+    })
+    public ResponseEntity<UserStatisticDto> getUserStatistics(@PathVariable @NonNull Long id,
+                                                              @RequestParam(defaultValue = "profile") String tab,
+                                                              @RequestParam(defaultValue = "votes") String sort,
+                                                              @RequestParam(defaultValue = "1") int page) {
+        Optional<UserDto> optionalUserDto = userDtoService.getUserDtoById(id);
+        if (optionalUserDto.isPresent()) {
+            UserDto userDto = optionalUserDto.get();
+            UserStatisticDto userStatisticDto = userStatisticDtoService.getUserStatistic(userDto, tab, sort, page);
+            return ResponseEntity.ok(userStatisticDto);
+        } else {
+            logger.info(String.format("Пользователь с указанным ID: %d не найден!", id));
+            return ResponseEntity.notFound().build();
+        }
+
     }
 }

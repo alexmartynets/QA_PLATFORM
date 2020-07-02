@@ -5,6 +5,7 @@ import com.javamentor.qa.platform.models.util.action.OnCreate;
 import com.javamentor.qa.platform.models.util.action.OnUpdate;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class CommentDto {
     @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значние при обновлении")
     private Long id;
     @NotNull
+    @NotBlank
     private String text;
     @NotNull
     private CommentType commentType;
