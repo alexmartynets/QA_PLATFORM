@@ -1,3 +1,4 @@
+/*
 jQuery(function ($) {
 
     $.ajax({
@@ -53,4 +54,4 @@ jQuery(function ($) {
         $("#getQuestions").append(newRow);
     }
 
-});
+});*/

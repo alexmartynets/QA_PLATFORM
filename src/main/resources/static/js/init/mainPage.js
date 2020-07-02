@@ -10,7 +10,7 @@ let items_number = 3;
 
 function setupPagination(pair, wrapper) {
     wrapper.innerHTML = "";
-    let number = Object.values(pair)[1];
+    let number = Object.values(pair)[0];
     let page_count = Math.ceil(number /items_number);
     for (let i = 1; i < page_count + 1; i++) {
         let btn = paginationButton(i);
