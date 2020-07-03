@@ -12,6 +12,17 @@ public interface UserDtoService {
 
     Optional<UserDto> getUserDtoById(Long id);
 
-    Pair<List<UserDto>, Long> getListUsersForPagination(int page, int count);
+    Pair<List<UserDto>, Long> getListNewUsersByReputation(int page, int count, long weeks);
 
+    Pair<List<UserDto>, Long> getListUsersByCreationDate(int page, int count, long weeks);
+
+    Pair<List<UserDto>, Long> getListUsersByReputation(int page, int count, long weeks);
+
+    Pair<List<UserDto>, Long> getListUsersByVoice(int page, int count, long weeks);
+
+    Pair<List<UserDto>, Long> getListUsersByNameToSearch(String name, int page, int count, long weeks);
+
+    Pair<List<UserDto>, Long> getListUsersByQuantityEditedText(int page, int count, long weeks);
+
+    Pair<List<UserDto>, Long> getListUsersByModerator();
 }
