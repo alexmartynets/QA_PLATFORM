@@ -56,22 +56,67 @@ jQuery(function ($) {
     // My block
     getListOfTags();
 
-    $('#v-pills-profile-tab').on('click', function () {
+    $('#v-pills-questions-tab').on('click', function () {
         window.location = "/questions";
     })
+
+    $('#v-pills-unanswered-tab').on('click', function () {
+        window.location = "/unanswered";
+    })
+
+    /*$("#recentTags").on("click", "#tagsHref", function (event) {
+        let mainTagId = $(this).attr('value');
+
+        getQuestionsByTag(mainTagId);
+    });*/
 });
 
 function getListOfTags() {
     $.ajax({
-        url: '/api/tags',
+        url: '/api/user/tag/mainTags',
         type: 'GET',
         dataType: 'json',
         success: function (listOfTags) {
             let tagData = '';
             $.each(listOfTags, function (i, tag) {
-                tagData += `<li class="post-tag"><a id="href" value="${tag.id}"  href="questions/tagged/${tag.id}">${tag.name}</a></li>`;
+                tagData += `<li class="post-tag"><a id="tagsHref" value="${tag.id}"  href="/questions/tagged/${tag.id}">${tag.name}</a></li>`;
             });
 
+            $('#recentTags').html(tagData);
+        },
+        error: function () {
+            alert("TagsError");
+        }
+    })
+}
+
+function getQuestionsByTag(mainTagId) {
+    alert("getQuestionsByTag - вопросы по тегу");
+    $.ajax({
+        url: '/api/questions/tagged/' + mainTagId,
+        type: 'GET',
+        dataType: 'json',
+        success: function (listOfQuestion) {
+            $.each(listOfQuestion, function (i, q) {
+                $('#getQuestionsByTag').append(fillQuestionBlock(q));
+            });
+        },
+        error: function () {
+            alert("getQuestionsByTagError");
+        }
+    })
+
+    $.ajax({
+        url: '/api/user/tag/relatedTags/' + mainTagId,
+        type: 'GET',
+        dataType: 'json',
+        success: function (listOfRelatedTags) {
+            let tagData = '';
+            $.each(listOfRelatedTags, function (i, tag) {
+                tagData += `<li class="post-tag btn btn-light"><a id="relatedHref" type="button" href="/questions/tagged/${tag.id}">${tag.name}</a></li>`;
+            });
+
+            $('#recentTagsHeader').html('Связанные Теги');
             $('#recentTags').html(tagData);
         },
         error: function () {

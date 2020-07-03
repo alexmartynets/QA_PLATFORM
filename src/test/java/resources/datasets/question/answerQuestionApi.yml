@@ -1,6 +1,5 @@
 answer:
   - id: 1
-    count_valuable: 0
     html_body: "This is first answer for question number one"
     is_helpful: 0
     question_id: 1
@@ -10,7 +9,6 @@ answer:
     update_date: "2020-01-01 13:58:56"
 
   - id: 2
-    count_valuable: 0
     html_body: "This is second answer for question number one"
     is_helpful: 1
     question_id: 1
@@ -20,7 +18,6 @@ answer:
     update_date: "2020-01-01 13:58:56"
 
   - id: 3
-    count_valuable: 0
     html_body: "This is first answer for question number one"
     is_helpful: 0
     question_id: 2

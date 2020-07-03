@@ -66,7 +66,7 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("User id can not be null on update."))
+                .andExpect(content().string("User id must be not null on create."))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -431,5 +431,19 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Only one time User can to vote by Question."));
+    }
+
+    @Test
+    void getUnansweredQuestions() throws Exception {
+        this.mockMvc.perform(get("/api/unanswered"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getUnansweredQuestions1() throws Exception {
+        this.mockMvc.perform(get("/api/questions/tagged/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

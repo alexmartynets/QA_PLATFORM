@@ -43,10 +43,10 @@
         <div class="col">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Главная</a>
-                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="" role="tab" aria-controls="v-pills-profile" aria-selected="false">Вопросы</a>
-<!--                <a class="nav-link" id="v-pills-profile-tab">Вопросы</a>-->
+                <a class="nav-link" id="v-pills-questions-tab" data-toggle="pill" href="#v-pills-questions" role="tab" aria-controls="v-pills-questions" aria-selected="false">Вопросы</a>
                 <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Метки</a>
                 <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Участники</a>
+                <a class="nav-link" id="v-pills-unanswered-tab" data-toggle="pill" href="#v-pills-unanswered" role="tab" aria-controls="v-pills-unanswered" aria-selected="false">Неотвеченные</a>
             </div>
         </div>
         <div class="col-6">
@@ -91,7 +91,7 @@
                         <div class="col">
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <ul class="list-group" id="getQuestions">
+                                    <ul class="list-group index" id="getQuestions">
 
                                     </ul>
                                 </div>
@@ -129,7 +129,6 @@
             <ul id="recentTags"></ul>
         </div>
     </div>
-
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -140,5 +139,6 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="/js/mainPage.js"></script>
+
 </body>
 </html>

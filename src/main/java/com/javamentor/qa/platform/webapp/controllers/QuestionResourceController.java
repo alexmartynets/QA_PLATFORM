@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.webapp.controllers;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.VoteQuestion;
@@ -40,18 +41,20 @@ public class QuestionResourceController {
     private final UserService userService;
     private final QuestionConverter questionConverter;
     private final VoteQuestionService voteQuestionService;
+    private final SearchQuestionDAO searchQuestionDAO;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public QuestionResourceController(QuestionDtoService questionDtoService,
                                       QuestionService questionService,
                                       UserService userService,
                                       QuestionConverter questionConverter,
-                                      VoteQuestionService voteQuestionService) {
+                                      VoteQuestionService voteQuestionService, SearchQuestionDAO searchQuestionDAO) {
         this.questionDtoService = questionDtoService;
         this.questionService = questionService;
         this.userService = userService;
         this.questionConverter = questionConverter;
         this.voteQuestionService = voteQuestionService;
+        this.searchQuestionDAO = searchQuestionDAO;
     }
 
     @ApiOperation(value = "Получение списка вопросов, которые не удалены")
@@ -223,5 +226,18 @@ public class QuestionResourceController {
         return ResponseEntity.ok().body(question.getId());
     }
 
+    @GetMapping("/questions")
+    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByCountValuable() {
+        return ResponseEntity.ok(searchQuestionDAO.getQuestionsSortedByVotes());
+    }
 
+    @GetMapping("/tagged/{mainTagId}")
+    public ResponseEntity<List<QuestionDto>> getQuestionsByTagId(@PathVariable Long mainTagId) {
+        return ResponseEntity.ok(questionDtoService.getQuestionsByTagId(mainTagId));
+    }
+
+    @GetMapping("/unanswered")
+    public List<QuestionDto> getUnansweredQuestions() {
+        return questionDtoService.getUnansweredQuestions();
+    }
 }

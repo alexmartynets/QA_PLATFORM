@@ -13,8 +13,22 @@ import java.util.List;
 
 import java.util.Optional;
 
+import javax.persistence.NoResultException;
+
 @Repository
 public class TagDAOImpl extends ReadWriteDAOImpl<Tag, Long> implements TagDAO {
+
+    @Override
+    public Tag getTagByName(String tagName) {
+        try {
+            return entityManager.createQuery("select t from Tag t where t.name=:tagName", Tag.class)
+                    .setParameter("tagName", tagName)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+
+    }
 
     @Override
     @SuppressWarnings("unchecked")

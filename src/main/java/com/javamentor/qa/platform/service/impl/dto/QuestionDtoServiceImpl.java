@@ -75,4 +75,9 @@ public class QuestionDtoServiceImpl implements QuestionDtoService {
     public List<QuestionDto> getQuestionsByTagId(Long mainTagId) {
         return questionDtoDao.getQuestionsByTagId(mainTagId);
     }
+
+    @Override
+    public List<QuestionDto> getUnansweredQuestions() {
+        return questionDtoDao.getUnansweredQuestions();
+    }
 }
