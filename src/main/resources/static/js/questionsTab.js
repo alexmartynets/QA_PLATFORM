@@ -8,28 +8,22 @@ $(document).ready(function () {
     $('#btnWatch').click(function () {
         let tags = {};
         tags.name = $('#watch').val();
-        $.cookie('tagsCookie',tags.name);
-        addWatchTag(tags);
+        $.cookie('WatchTagsCookie',tags.name);
+
+    });
+
+    $('#btnIgnore').click(function () {
+        let tags = {};
+        tags.name = $('#ignore').val();
+        $.cookie('IgnoreTagsCookie',tags.name);
+
     });
 })
 
-function addWatchTag(tags) {
-    $.ajax({
-        url: '/api/user/question/watchTag',
-        type: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        data: JSON.stringify(tags),
-        success: function (data) {
-           let a = data;
-        }
-    })
-}
-
 function getQuestionsSortedByVotes() {
-    let watchCookies = $.cookie('tagsCookie');
-    if (watchCookies === null){
+    let watchCookies = $.cookie('WatchTagsCookie');
+    let ignoreCookies = $.cookie('IgnoreTagsCookie');
+    if (watchCookies === undefined && ignoreCookies === undefined){
     $.ajax({
         url: '/api/user/question/questions',
         type: 'GET',
@@ -40,7 +34,7 @@ function getQuestionsSortedByVotes() {
             });
         }
     })
-    } else if ( watchCookies != null ){
+    } else if ( watchCookies != undefined && ignoreCookies === undefined){
         let tableBody = $('#tblWatchTag tbody');
         tableBody.empty();
         tableBody.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}</div></button>`);
@@ -48,6 +42,25 @@ function getQuestionsSortedByVotes() {
         tags.name = watchCookies;
         $.ajax({
             url: '/api/user/question/watchTag',
+            type: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify(tags),
+            success: function (listOfQuestion) {
+                $.each(listOfQuestion, function (i, q) {
+                    $('#getQuestionsQ').append(fillQuestionBlock(q));
+                });
+            }
+        })
+    } else if ( ignoreCookies != undefined && watchCookies === undefined){
+        let tableBody = $('#tblIgnoreTag tbody');
+        tableBody.empty();
+        tableBody.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${ignoreCookies}</div></button>`);
+        let tags = {};
+        tags.name = ignoreCookies;
+        $.ajax({
+            url: '/api/user/question/ignoreTag',
             type: 'POST',
             headers: {
                 "Content-Type": "application/json"
