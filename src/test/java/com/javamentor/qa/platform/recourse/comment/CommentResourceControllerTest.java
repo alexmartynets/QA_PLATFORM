@@ -85,7 +85,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'text' Must be greater than 10 characters CommentDto.class"));
     }
 
@@ -100,7 +100,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'text' Must not consist of spaces CommentDto.class"));
     }
 
@@ -115,7 +115,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("author 'id' Must not be null when creating CommentDto.class"));
     }
 
@@ -129,7 +129,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'type' Must not be null when creating and updating CommentDto.class"));
     }
 
@@ -160,7 +160,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("You can leave only one comment in question"));
     }
 
@@ -222,7 +222,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'text' Must be greater than 10 characters CommentDto.class"));
     }
 
@@ -237,7 +237,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'text' Must not consist of spaces CommentDto.class"));
     }
 
@@ -252,7 +252,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("author 'id' Must not be null when creating CommentDto.class"));
     }
 
@@ -266,7 +266,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'type' Must not be null when creating and updating CommentDto.class"));
     }
 
@@ -297,7 +297,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("Only one comment can be left under the answer"));
     }
 
@@ -360,7 +360,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'text' Must be greater than 10 characters CommentDto.class"));
     }
 
@@ -376,7 +376,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'text' Must not consist of spaces CommentDto.class"));
     }
 
@@ -392,7 +392,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'id' Must not accept null values when updating CommentDto.class"));
     }
 
@@ -423,7 +423,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'type' Must not be null when creating and updating CommentDto.class"));
     }
 
@@ -456,7 +456,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'text' Must be greater than 10 characters CommentDto.class"));
     }
 
@@ -472,7 +472,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'text' Must not consist of spaces CommentDto.class"));
     }
 
@@ -488,7 +488,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'id' Must not accept null values when updating CommentDto.class"));
     }
 
@@ -519,7 +519,7 @@ class CommentResourceControllerTest extends AbstractIntegrationTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("'type' Must not be null when creating and updating CommentDto.class"));
     }
 }
