@@ -64,16 +64,16 @@ jQuery(function ($) {
         window.location = "/unanswered";
     })
 
-    $("#recentTags").on("click", "#tagsHref", function (event) {
+    /*$("#recentTags").on("click", "#tagsHref", function (event) {
         let mainTagId = $(this).attr('value');
 
-        // getQuestionsByTag(mainTagId);
-    });
+        getQuestionsByTag(mainTagId);
+    });*/
 });
 
 function getListOfTags() {
     $.ajax({
-        url: '/api/tags',
+        url: '/api/user/tag/mainTags',
         type: 'GET',
         dataType: 'json',
         success: function (listOfTags) {
@@ -107,7 +107,7 @@ function getQuestionsByTag(mainTagId) {
     })
 
     $.ajax({
-        url: '/api/tags/relatedTags/' + mainTagId,
+        url: '/api/user/tag/relatedTags/' + mainTagId,
         type: 'GET',
         dataType: 'json',
         success: function (listOfRelatedTags) {

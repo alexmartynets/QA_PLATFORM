@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 function getQuestionsSortedByVotes() {
     $.ajax({
-        url: '/api/questions',
+        url: '/api/user/question/questions',
         type: 'GET',
         dataType: 'json',
         success: function (listOfQuestion) {

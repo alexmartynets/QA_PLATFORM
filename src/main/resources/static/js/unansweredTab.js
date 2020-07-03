@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 function getUnansweredQuestion() {
     $.ajax({
-        url: '/api/unanswered',
+        url: '/api/user/question/unanswered',
         type: 'GET',
         dataType: 'json',
         success: function (listOfQuestion) {

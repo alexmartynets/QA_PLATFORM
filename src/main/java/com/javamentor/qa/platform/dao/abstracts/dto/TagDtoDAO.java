@@ -12,7 +12,6 @@ public interface TagDtoDAO {
     Long getTotalEntitiesCount();
     Long getTotalEntitiesCountSearch(String word);
 
-}
 
     List<TagDto> getAllMainTagsSortedByFrequency();
 

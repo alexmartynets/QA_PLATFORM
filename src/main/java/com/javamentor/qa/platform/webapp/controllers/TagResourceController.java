@@ -22,6 +22,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
 @Validated
 @RestController
 @RequestMapping(value = "/api/user/tag", produces = "application/json")
@@ -144,33 +151,14 @@ public class TagResourceController {
         return ResponseEntity.ok().body("Тэг удален");
     }
 
-import com.javamentor.qa.platform.service.abstracts.dto.TagDtoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/tags")
-public class TagResourceController {
-    private final TagDtoService tagDtoService;
-
-    @Autowired
-    public TagResourceController(TagDtoService tagDtoService) {
-        this.tagDtoService = tagDtoService;
-    }
-
-    @GetMapping
+    @GetMapping("/mainTags")
     public ResponseEntity<List<TagDto>> getAllMainTagsSortedByFrequency() {
         return ResponseEntity.ok(tagDtoService.getAllMainTagsSortedByFrequency());
     }
 
     @GetMapping("/relatedTags/{mainTagId}")
     public ResponseEntity<List<TagDto>> getRelatedTags(@PathVariable Long mainTagId) {
+        List<TagDto> abc = tagDtoService.getRelatedTags(mainTagId);
         return ResponseEntity.ok(tagDtoService.getRelatedTags(mainTagId));
     }
 }

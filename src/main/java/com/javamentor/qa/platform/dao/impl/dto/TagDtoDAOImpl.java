@@ -114,6 +114,9 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
                     }
                 })
                 .getResultList();
+    }
+
+
     @Override
     @SuppressWarnings({"unchecked", "deprecated"})
     public List<TagDto> getAllMainTagsSortedByFrequency() {
@@ -135,7 +138,7 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
                             return TagDto.builder()
                                     .id((Long) objects[0])
                                     .name((String) objects[1])
-                                    .questionTagCount((Long) objects[2])
+                                    .questionCount(((Number) objects[2]).intValue())
                                     .build();
                         }
 
@@ -174,7 +177,7 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
                             return TagDto.builder()
                                     .id((Long) objects[0])
                                     .name((String) objects[1])
-                                    .questionTagCount((Long) objects[2])
+                                    .questionCount(((Number) objects[2]).intValue())
                                     .build();
                         }
 

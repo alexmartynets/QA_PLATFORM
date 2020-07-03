@@ -14,10 +14,6 @@ import java.util.List;
 public class TagDtoServiceImpl implements TagDtoService {
     private final TagDtoDAO tagDtoDAO;
 
-    @Autowired
-
-    private final TagDtoDAO tagDtoDAO;
-
     public TagDtoServiceImpl(TagDtoDAO tagDtoDAO) {
         this.tagDtoDAO = tagDtoDAO;
     }
@@ -49,6 +45,9 @@ public class TagDtoServiceImpl implements TagDtoService {
         List<TagDto> list = word.isEmpty() ? tagDtoDAO.findAllTagsDtoPaginationPopular(pageSize, pageNumber) : tagDtoDAO.findAllTagsSearch(word, pageSize, pageNumber);
         Long totalEntitiesCount = tagDtoDAO.getTotalEntitiesCountSearch(word);
         return new Pair<>(totalEntitiesCount, list);
+    }
+
+    @Override
     public List<TagDto> getAllMainTagsSortedByFrequency() {
         return tagDtoDAO.getAllMainTagsSortedByFrequency();
     }

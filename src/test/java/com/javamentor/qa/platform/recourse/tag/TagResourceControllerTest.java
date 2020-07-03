@@ -13,9 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DataSet(value = {"tagsDatasets/role.yml", "tagsDatasets/users.yml", "tagsDatasets/answer.yml", "tagsDatasets/question.yml", "tagsDatasets/tag.yml", "tagsDatasets/question_has_tag.yml"}, cleanBefore = true)
-@DataSet(value = {"tag/tag.yml", "tag/questions.yml",
-        "tag/question_has_tag.yml", "tag/users.yml",
-        "tag/role.yml", "tag/related_tag.yml"}, cleanBefore = true)
 public class TagResourceControllerTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -93,18 +90,5 @@ public class TagResourceControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.value[1].id").value("2"))
                 .andExpect(jsonPath("$.value[2].id").value("8"))
                 .andExpect(jsonPath("$.value[3].id").value("10"));
-    void getAllMainTagsSortedByFrequency() throws Exception {
-        this.mockMvc.perform(get("/api/tags"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"));
-    }
-
-    @Test
-    void getRelatedTags() throws Exception {
-        this.mockMvc.perform(get("/api/tags"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value("3"));
     }
 }
