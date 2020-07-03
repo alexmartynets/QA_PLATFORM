@@ -11,4 +11,5 @@ public interface TagDAO extends ReadWriteDAO<Tag, Long> {
     Optional<Long> getTagIdByName(String name);
     List<UserTagsDto> getUserTags(Long userId, Integer page);
     Long getCountOfUserTags(Long userId);
+    Tag getTagByName(String tagName);
 }
