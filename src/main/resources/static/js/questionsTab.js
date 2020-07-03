@@ -4,9 +4,32 @@ $(document).ready(function () {
 
     // getListOfTags is a method from mainPage.js
     getListOfTags();
+
+    $('#btnWatch').click(function () {
+        let tags = {};
+        tags.name = $('#watch').val();
+        $.cookie('tagsCookie',tags.name);
+        addWatchTag(tags);
+    });
 })
 
+function addWatchTag(tags) {
+    $.ajax({
+        url: '/api/user/question/watchTag',
+        type: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify(tags),
+        success: function (data) {
+           let a = data;
+        }
+    })
+}
+
 function getQuestionsSortedByVotes() {
+    let watchCookies = $.cookie('tagsCookie');
+    if (watchCookies === null){
     $.ajax({
         url: '/api/user/question/questions',
         type: 'GET',
@@ -17,6 +40,23 @@ function getQuestionsSortedByVotes() {
             });
         }
     })
+    } else if ( watchCookies != null ){
+        let tags = {};
+        tags.name = watchCookies;
+        $.ajax({
+            url: '/api/user/question/watchTag',
+            type: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify(tags),
+            success: function (listOfQuestion) {
+                $.each(listOfQuestion, function (i, q) {
+                    $('#getQuestionsQ').append(fillQuestionBlock(q));
+                });
+            }
+        })
+    }
 }
 
 function fillQuestionBlock(q) {

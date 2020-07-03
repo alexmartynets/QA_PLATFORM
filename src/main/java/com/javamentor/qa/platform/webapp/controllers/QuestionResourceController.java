@@ -2,6 +2,7 @@ package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.dto.TagDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.VoteQuestion;
 import com.javamentor.qa.platform.models.entity.user.User;
@@ -239,5 +240,43 @@ public class QuestionResourceController {
     @GetMapping("/unanswered")
     public List<QuestionDto> getUnansweredQuestions() {
         return questionDtoService.getUnansweredQuestions();
+    }
+
+    @ApiOperation(value = "Получение списка с watchTag")
+    @PostMapping("/watchTag")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список получен"),
+            @ApiResponse(code = 400, message = "Список не получен")
+    })
+    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByWatchTag(@RequestBody TagDto tags) {
+        List<QuestionDto> watchTag = searchQuestionDAO.getQuestionsSortedByVotes();
+        for (QuestionDto element : watchTag) {
+            for (TagDto e : element.getTags()) {
+                String name = e.getName();
+                if (name.equals(tags.getName())) {
+                    element.setWatchTag(true);
+                }
+            }
+        }
+        return ResponseEntity.ok(watchTag);
+    }
+
+    @ApiOperation(value = "Получение списка с ignoreTag")
+    @PostMapping("/ignoreTag")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список получен"),
+            @ApiResponse(code = 400, message = "Список не получен")
+    })
+    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByIgnoreTag(@RequestBody TagDto tags) {
+        List<QuestionDto> ignoreTag = searchQuestionDAO.getQuestionsSortedByVotes();
+        for (QuestionDto element : ignoreTag) {
+            for (TagDto e : element.getTags()) {
+                String name = e.getName();
+                if (name.equals(tags.getName())) {
+                    element.setIgnoreTag(true);
+                }
+            }
+        }
+        return ResponseEntity.ok(ignoreTag);
     }
 }

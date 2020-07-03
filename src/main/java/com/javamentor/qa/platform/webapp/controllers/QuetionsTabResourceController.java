@@ -38,42 +38,4 @@ public class QuetionsTabResourceController {
         return ResponseEntity.ok(questionDtoService.getQuestionsByTagId(mainTagId));
     }
 
-    @ApiOperation(value = "Получение списка с watchTag")
-    @PostMapping("/watchTag")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список получен"),
-            @ApiResponse(code = 400, message = "Список не получен")
-    })
-    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByWatchTag(@RequestBody TagDto tags) {
-        List<QuestionDto> watchTag = searchQuestionDAO.getQuestionsSortedByVotes();
-        for (QuestionDto element : watchTag) {
-            for (TagDto e : element.getTags()) {
-                String name = e.getName();
-                if (name.equals(tags.getName())) {
-                    element.setWatchTag(true);
-                }
-            }
-        }
-        return ResponseEntity.ok(watchTag);
-    }
-
-    @ApiOperation(value = "Получение списка с ignoreTag")
-    @PostMapping("/ignoreTag")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список получен"),
-            @ApiResponse(code = 400, message = "Список не получен")
-    })
-    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByIgnoreTag(@RequestBody TagDto tags) {
-        List<QuestionDto> ignoreTag = searchQuestionDAO.getQuestionsSortedByVotes();
-        for (QuestionDto element : ignoreTag) {
-            for (TagDto e : element.getTags()) {
-                String name = e.getName();
-                if (name.equals(tags.getName())) {
-                    element.setIgnoreTag(true);
-                }
-            }
-        }
-        return ResponseEntity.ok(ignoreTag);
-    }
-
 }
