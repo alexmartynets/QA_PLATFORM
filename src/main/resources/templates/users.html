@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/usersPage.css"/>
+    <title>Участники</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-sm navbar-light fixed-top">
+    <div class="container">
+        <a th:href="@{/index}" class="navbar-brand">Home</a>
+
+        <div class="input-group input-group-sm mb-3 search-users">
+            <input id="input" type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-sm" placeholder="Поиск...">
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a th:href="@{/user/login}" class="btn btn-primary btn-block">Log in</a>
+                </li>
+                <label class="interval-label"></label>
+                <li class="nav-item">
+                    <a th:href="@{/registration}" class="btn btn-primary btn-block">Sign up</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Home Section -->
+
+<div class="container">
+    <div class="row">
+        <div id="left-panel" class="col-md-2 left-panel">
+            <div class="col-md-12 btn-group-vertical position-fixed left-panel-blok">
+                <a th:href="@{/index}" class="btn btn-link text-dark">Главная</a>
+                <a href="#" class="btn btn-link text-dark">Вопросы</a>
+                <a href="#" class="btn btn-link text-dark">Метки</a>
+                <a th:href="@{/users}" class="btn btn-link text-dark">Участники</a>
+                <a href="#" class="btn btn-link text-dark">Неотвеченные</a>
+            </div>
+        </div>
+
+        <div class="col-md-10 section-center">
+
+            <div id="user-title">Участники</div>
+
+            <div class="row align-items-start py-2">
+                <div class="col">
+                    <div class="panel">
+                        <div class="btn-toolbar justify-content-between"
+                             role="toolbar"
+                             aria-label="Toolbar with button groups">
+                            <!-- user search field by name -->
+                            <div class="input-group input-group-sm md-3 flex-nowrap">
+                                <input id="find" type="text" class="form-control"
+                                       placeholder="Фильтрация по участникам"
+                                       aria-describedby="addon-wrapping"/>
+                            </div>
+                            <!-- user sorting buttons -->
+                            <div>
+                                <button id="reputation" type="button" class="btn btn-light text-dark search active"
+                                        data-search="reputation" value="reputation">Репутация
+                                </button>
+                                <button type="button" class="btn btn-light text-dark search" data-search="new" value="new">Новые
+                                    участники
+                                </button>
+                                <button type="button" class="btn btn-light text-dark search" data-search="voice" value="voice">
+                                    Голосующие
+                                </button>
+                                <button type="button" class="btn btn-light text-dark search" data-search="editor" value="editor">
+                                    Редакторы
+                                </button>
+                                <button type="button" class="btn btn-light text-dark search" data-search="moderator" value="moderator">
+                                    Модераторы
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-start py-2">
+                <div class="col">
+                    <div class="panel">
+                        <!-- user time sorting buttons -->
+                        <div id="sorting-time" class="btn-group text-dark float-right panel-button-small"
+                             role="group"
+                             aria-label="First group">
+                            <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="1">за неделю</a>
+                            <a href="#" id="month" class="btn btn-link text-dark sorting-time shows" data-weeks="4">за
+                                месяц</a>
+                            <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="12">квартал</a>
+                            <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="52">год</a>
+                            <a href="#" class="btn btn-link text-dark sorting-time shows" data-weeks="-1">все</a>
+
+                            <a href="#" class="btn btn-link text-dark sorting-time hides shows-hides" data-search="new-reputation"
+                               data-path="new-reputation" data-weeks="8">по рейтингу</a>
+                            <a href="#" id="new" class="btn btn-link text-dark sorting-time hides shows-hides" data-search="new"
+                               data-path="new" data-weeks="8">по дате</a>
+                        </div>
+                        <!-- user time sorting buttons for search -->
+                        <div id="sorting-time-search" class="btn-group text-dark float-right panel-button-small hides"
+                             role="group"
+                             aria-label="First group">
+                            <a href="#" class="btn btn-link text-dark sorting" data-weeks-search="1">за неделю</a>
+                            <a href="#" id="month-search" class="btn btn-link text-dark sorting" data-weeks-search="4">за
+                                месяц</a>
+                            <a href="#" class="btn btn-link text-dark sorting" data-weeks-search="12">квартал</a>
+                            <a href="#" class="btn btn-link text-dark sorting" data-weeks-search="52">год</a>
+                            <a href="#" class="btn btn-link text-dark sorting" data-weeks-search="-1">все</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="moderator">
+                <h4>Кто такие модераторы?</h4>
+                <p>
+                    Мы считаем, что модерация зарождается внутри самого сообщества, поэтому в дополнение к <a href="#">привилегиям,
+                    полученным за накопленную репутацию</a> мы периодически проводим <a href="#">демократические выборы
+                    модераторов</a>.
+                </p>
+                <p>
+                    Пожалуйста, см. <a href="#">«Теорию модерации»</a> для получения дополнительной информации о
+                    принципах работы модераторов.
+                </p>
+            </div>
+
+            <!-- Users -->
+            <div id="users" class="row row-cols-3">
+                <!-- List Users -->
+            </div>
+
+            <!-- pagination -->
+            <div class="row">
+                <div class="col">
+                    <ul id="pagination" class="pagination panel justify-content-end">
+                        <!-- List pagination -->
+                    </ul>
+                </div>
+            </div>
+            <!-- pagination search-->
+            <div id="pagination-search" class="row hides">
+                <div class="col">
+                    <ul id="search-pagination" class="pagination panel justify-content-end">
+                        <!-- List pagination -->
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer Null-->
+<div class="container null">
+    <div class="row">
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer font-small indigo footer-container">
+    <!-- Footer Links -->
+    <div class="container text-center text-md-left top-footer">
+        <!-- Grid row -->
+        <div class="row">
+
+            <div class="col-md-3 mx-auto">
+
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Very long link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Very long link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Very long link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Very long link 4</a>
+                    </li>
+                </ul>
+
+            </div>
+            <hr class="clearfix w-100 d-md-none">
+            <div class="col-md-3 mx-auto">
+
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
+
+            </div>
+            <hr class="clearfix w-100 d-md-none">
+            <div class="col-md-3 mx-auto">
+
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
+
+            </div>
+            <hr class="clearfix w-100 d-md-none">
+            <div class="col-md-3 mx-auto">
+
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3 bottom-footer">© 2020 java mentor:
+        <a href="#"> JM.com</a>
+    </div>
+
+</footer>
+
+<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/service/serviceUsersPage.js"></script>
+<script type="text/javascript" src="/js/init/usersPage.js"></script>
+</body>
+</html>
+
