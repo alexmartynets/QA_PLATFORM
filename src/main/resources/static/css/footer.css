@@ -1,0 +1,13 @@
+.footer-container {
+    color: white;
+}
+
+.top-footer {
+    background-color: #2E2E2E;
+    max-width: 100%;
+}
+
+.bottom-footer {
+    background-color: #212121;
+    max-width: 100%;
+}

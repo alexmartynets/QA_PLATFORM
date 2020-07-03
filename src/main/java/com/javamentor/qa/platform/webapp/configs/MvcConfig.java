@@ -22,7 +22,10 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/question/{id}").setViewName("question");
         registry.addViewController("/login").setViewName("loginPage");
         registry.addViewController("/question/add").setViewName("add_question");
-        registry.addViewController("/question/header").setViewName("header_sidebar_footer");
+        registry.addViewController("/header").setViewName("tools/header");
+        registry.addViewController("/sidebar").setViewName("tools/sidebar");
+        registry.addViewController("/footer").setViewName("tools/footer");
+        registry.addViewController("/hsf").setViewName("header_sidebar_footer");
     }
 
     @Override
