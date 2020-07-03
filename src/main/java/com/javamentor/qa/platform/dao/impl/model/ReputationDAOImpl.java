@@ -29,7 +29,7 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
                 "r.count, " +
                 "r.persistDate " +
                 "FROM Reputation r WHERE r.user.id = :user_id AND r.persistDate = :persistDate")
-                .setParameter("persistDate", LocalDate.now())
+                .setParameter("persistDate", LocalDateTime.now())
                 .setParameter("user_id", user.getId())
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
@@ -92,4 +92,7 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
 
         return reputation;
     }
+
 }
+
+

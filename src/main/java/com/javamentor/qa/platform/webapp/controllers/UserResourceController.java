@@ -204,7 +204,6 @@ public class UserResourceController {
                 .getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
     }
 
-
     @ApiOperation(value = "Предоставление статистики пользователя, по id и name")
     @GetMapping("/{id}/{name}")
     @ApiResponses(value = {

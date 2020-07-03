@@ -4,7 +4,8 @@ import com.javamentor.qa.platform.dao.abstracts.dto.AnswerDtoDAO;
 import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.abstracts.model.ReputationDAO;
-import com.javamentor.qa.platform.models.dto.*;
+import com.javamentor.qa.platform.models.dto.UserDto;
+import com.javamentor.qa.platform.models.dto.UserStatisticDto;
 import com.javamentor.qa.platform.service.abstracts.dto.UserStatisticDtoService;
 import com.javamentor.qa.platform.service.statistics.main.MainUserStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,3 +48,4 @@ public class UserStatisticDtoServiceImpl implements UserStatisticDtoService {
         return userStatisticDto;
     }
 }
+

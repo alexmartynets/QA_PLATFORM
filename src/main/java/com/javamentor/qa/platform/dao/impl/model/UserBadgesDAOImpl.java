@@ -51,3 +51,4 @@ public class UserBadgesDAOImpl extends ReadWriteDAOImpl<UserBadges, Long> implem
         return userBadgesList;
     }
 }
+

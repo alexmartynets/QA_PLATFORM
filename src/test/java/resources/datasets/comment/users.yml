@@ -59,3 +59,27 @@ users:
     persist_date: "2020-05-15 13:58:56"
     role_id: 1
 
+  - id: 6
+    email: "ivan@email.com"
+    reputation_count: 0
+    password: "Qwerty12"
+    about: "description 2"
+    full_name: "Игорь"
+    city: "SPB"
+    is_enabled: 1
+    last_redaction_date: "2020-06-17 13:58:56"
+    persist_date: "2020-06-15 13:58:56"
+    role_id: 1
+
+  - id: 7
+    email: "ivan@email.com"
+    reputation_count: 0
+    password: "Qwerty12"
+    about: "description 2"
+    full_name: "Артур"
+    city: "SPB"
+    is_enabled: 1
+    last_redaction_date: "2020-06-17 13:58:56"
+    persist_date: "2020-06-15 13:58:56"
+    role_id: 1
+

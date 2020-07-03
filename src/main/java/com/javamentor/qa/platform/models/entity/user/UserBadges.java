@@ -48,3 +48,4 @@ public class UserBadges {
         return Objects.hash(id, ready);
     }
 }
+
