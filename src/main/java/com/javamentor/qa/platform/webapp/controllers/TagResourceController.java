@@ -22,7 +22,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -152,11 +151,18 @@ public class TagResourceController {
     }
 
     @GetMapping("/mainTags")
+    @ApiOperation(value = "Получаем тэги отсортированные по частоте упоминания за все время")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список отсортированных тэгов получен")})
+
     public ResponseEntity<List<TagDto>> getAllMainTagsSortedByFrequency() {
         return ResponseEntity.ok(tagDtoService.getAllMainTagsSortedByFrequency());
     }
 
     @GetMapping("/relatedTags/{mainTagId}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список связанных тэгов получен")})
+    @ApiOperation(value = "Получаем связанные тэги также отсортированные по частоте упоминания")
     public ResponseEntity<List<TagDto>> getRelatedTags(@PathVariable Long mainTagId) {
         List<TagDto> abc = tagDtoService.getRelatedTags(mainTagId);
         return ResponseEntity.ok(tagDtoService.getRelatedTags(mainTagId));
