@@ -16,6 +16,25 @@ section article {
     /*gap: 12px;*/
 }
 
+.paginator {
+    padding: 8px 16px;
+    line-height: 150%;
+    display: inline-block;
+}
+
+.paginator > span {
+    padding: 8px 16px;
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #007fff;
+    cursor: pointer;
+}
+
+.paginator_active {
+    background-color: red;
+    color: white;
+}
+
 .grid-layout {
     display: grid;
     grid-gap: 12px;
