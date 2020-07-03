@@ -41,6 +41,9 @@ function getQuestionsSortedByVotes() {
         }
     })
     } else if ( watchCookies != null ){
+        let tableBody = $('#tblWatchTag tbody');
+        tableBody.empty();
+        tableBody.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}</div></button>`);
         let tags = {};
         tags.name = watchCookies;
         $.ajax({
