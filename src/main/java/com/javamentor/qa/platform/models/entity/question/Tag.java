@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.models.entity.question;
 
+import com.javamentor.qa.platform.models.entity.CommentType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -42,6 +43,25 @@ public class Tag {
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     @ContainedIn
     private List<Question> questions;
+
+    @PrePersist
+    private void prePersistFunction() {
+        checkConstraints();
+    }
+
+    @PreUpdate
+    private void preUpdateFunction() {
+        checkConstraints();
+    }
+
+    private void checkConstraints() {
+        if (this.description.isEmpty()) {
+            throw new RuntimeException("Поле description не должно быть пустым");
+        }
+        if (this.name.isEmpty()) {
+            throw new RuntimeException("Поле name не должно быть пустым");
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
