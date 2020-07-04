@@ -183,7 +183,6 @@ function fillQuestionBlock(q) {
             '</li>'
         return questionData;
     }
-   // return questionData;
 }
 
 function getTags(list) {
