@@ -58,7 +58,8 @@ public class TestDataEntityService {
     public TestDataEntityService(ReputationService reputationService,
                                  BadgesService badgesService,
                                  UserBadgesService userBadgesService,
-                                 VoteQuestionService voteQuestionService, AnswerVoteService answerVoteService) {
+                                 VoteQuestionService voteQuestionService,
+                                 AnswerVoteService answerVoteService) {
         this.reputationService = reputationService;
         this.badgesService = badgesService;
         this.userBadgesService = userBadgesService;

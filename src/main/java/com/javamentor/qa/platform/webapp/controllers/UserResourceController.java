@@ -18,12 +18,14 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,6 +35,9 @@ import java.util.Optional;
 @Api(value = "UserApi", description = "Операции с пользователем (создание, изменение, получение списка, получение пользователя по ID)")
 @Validated
 public class UserResourceController {
+
+    private final String regexps = "[а-яА-ЯёЁa-zA-Z]+.*$";
+    private final String messages = "Параметр name должен начинаться с буквы";
 
     private final UserService userService;
     private final UserDtoService userDtoService;
@@ -52,6 +57,15 @@ public class UserResourceController {
         this.userStatisticDtoService = userStatisticDtoService;
     }
 
+    @ApiOperation(value = "получение списка доступных пользователей")
+    @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен")
+    })
+    public ResponseEntity<List<UserDto>> findAllUsers() {
+        return ResponseEntity.ok(userDtoService.getUserDtoList());
+    }
+
     @ApiOperation(value = "Добавление пользователя")
     @PostMapping
     @ApiResponses(value = {
@@ -64,15 +78,6 @@ public class UserResourceController {
         return ResponseEntity.ok().body(userDto);
     }
 
-    @ApiOperation(value = "получение списка доступных пользователей")
-    @GetMapping
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список пользователей получен")
-    })
-    public ResponseEntity<List<UserDto>> findAllUsers() {
-        return ResponseEntity.ok(userDtoService.getUserDtoList());
-    }
-
     @ApiOperation(value = "Изменение пользователя (параметр ID обязателен)")
     @PutMapping(path = "/{id}")
     @ApiResponses(value = {
@@ -81,7 +86,7 @@ public class UserResourceController {
             @ApiResponse(code = 404, message = "Пользователь не найден по id")
     })
     @Validated(OnUpdate.class)
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
         if (Objects.equals(id, userDto.getId())) {
             User user = userConverter.toEntity(userDto);
             if (userService.existsById(userDto.getId())) {
@@ -90,10 +95,10 @@ public class UserResourceController {
                 return ResponseEntity.ok().body(userConverter.toDto(user));
             }
             logger.info(String.format("Пользователь с ID: %d не существует", userDto.getId()));
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("User with ID: %d does not exist", userDto.getId()));
         }
-        logger.info(String.format("Внимание! Указанный ID: %d не совпадает с ID пользователя %s, проверьте указанные данные", id, userDto.getEmail()));
-        return ResponseEntity.badRequest().build();
+        logger.info(String.format("Указанный ID: %d не совпадает с ID пользователя %d", id, userDto.getId()));
+        return ResponseEntity.badRequest().body(String.format("Specified ID: %d does not match user ID: %d", id, userDto.getId()));
     }
 
     @ApiOperation(value = "Поиск пользователя по ID")
@@ -102,23 +107,103 @@ public class UserResourceController {
             @ApiResponse(code = 200, message = "Пользователь найден по id"),
             @ApiResponse(code = 404, message = "Пользователь не найден по id")
     })
-    public ResponseEntity<UserDto> findUser(@PathVariable Long id) {
+    public ResponseEntity<?> findUser(@PathVariable Long id) {
         Optional<UserDto> optionalUserDto = userDtoService.getUserDtoById(id);
         if (optionalUserDto.isPresent()) {
             UserDto userDto = optionalUserDto.get();
             return ResponseEntity.ok(userDto);
-        } else {
-            logger.info(String.format("Пользователь с указанным ID: %d не найден!", id));
-            return ResponseEntity.notFound().build();
         }
+        logger.info(String.format("Пользователь с указанным ID: %d не найден!", id));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("User with ID: %d does not exist", id));
+
     }
 
-    @ApiIgnore
-    @GetMapping("/{count}/page/{page}")
-    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersForPagination(@PathVariable @NonNull Long page,
-                                                                               @PathVariable @NonNull Long count) {
-        return ResponseEntity.ok().body(userDtoService.getListUsersForPagination(page.intValue(), count.intValue()));
+    @ApiOperation(value = "получение списка новых пользователей отсортированный по репутации")
+    @GetMapping(path = "/new/reputation") // ?count=20&page=1&weeks=2
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListNewUsersByReputation(@RequestParam @NonNull @Positive Long count,
+                                                                                 @RequestParam @NonNull @Positive Long page,
+                                                                                 @RequestParam @NonNull @Positive Long weeks) {
+        return ResponseEntity.ok().body(userDtoService
+                .getListNewUsersByReputation(page.intValue(), count.intValue(), weeks));
+
     }
+
+    @ApiOperation(value = "получение списка новых пользователей отсортированный по дате создания")
+    @GetMapping(path = "/new") // ?count=20&page=1&weeks=2
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByCreationDate(@RequestParam @NonNull @Positive Long count,
+                                                                                @RequestParam @NonNull @Positive Long page,
+                                                                                @RequestParam @NonNull @Positive Long weeks) {
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByCreationDate(page.intValue(), count.intValue(), weeks));
+    }
+
+    @ApiOperation(value = "получение списка пользователей отсортированный по репутации")
+    @GetMapping(path = "/reputation") // ?count=20&page=1&weeks=12
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByReputation(@RequestParam @NonNull @Positive Long count,
+                                                                              @RequestParam @NonNull @Positive Long page,
+                                                                              @RequestParam @NonNull @Positive Long weeks) {
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByReputation(page.intValue(), count.intValue(), weeks));
+    }
+
+    @ApiOperation(value = "получение списка пользователей отсортированный по голосам")
+    @GetMapping(path = "/voice") // ?count=20&page=1&weeks=12
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByVoice(@RequestParam @NonNull @Positive Long count,
+                                                                         @RequestParam @NonNull @Positive Long page,
+                                                                         @RequestParam @NonNull @Positive Long weeks) {
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByVoice(page.intValue(), count.intValue(), weeks));
+    }
+
+    @ApiOperation(value = "получение списка редакторов")
+    @GetMapping(path = "/editor") // ?count=20&page=1&weeks=12
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список редакторов получен"),
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByQuantityEditedText(@RequestParam @NonNull @Positive Long count,
+                                                                                      @RequestParam @NonNull @Positive Long page,
+                                                                                      @RequestParam @NonNull @Positive Long weeks) {
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByQuantityEditedText(page.intValue(), count.intValue(), weeks));
+    }
+
+    @ApiOperation(value = "получение списка модераторов")
+    @GetMapping(path = "/moderator")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByModerator() {
+        return ResponseEntity.ok().body(userDtoService.getListUsersByModerator());
+    }
+
+    @ApiOperation(value = "получение списка пользователей по имяни")
+    @GetMapping(path = "/find") // ?count=20&page=1&weeks=12&name=Андрей
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список пользователей получен"),
+    })
+    public ResponseEntity<Pair<List<UserDto>, Long>> getListUsersByNameToSearch(@RequestParam @NonNull
+                                                                                @Pattern(regexp = regexps,
+                                                                                        message = messages) String name,
+                                                                                @RequestParam @NonNull @Positive Long count,
+                                                                                @RequestParam @NonNull @Positive Long page,
+                                                                                @RequestParam @NonNull @Positive Long weeks) {
+
+        return ResponseEntity.ok().body(userDtoService
+                .getListUsersByNameToSearch(name, page.intValue(), count.intValue(), weeks));
+    }
+
 
     @ApiOperation(value = "Предоставление статистики пользователя, по id и name")
     @GetMapping("/{id}/{name}")

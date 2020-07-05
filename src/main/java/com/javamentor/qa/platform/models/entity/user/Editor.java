@@ -8,14 +8,16 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "reputation")
-public class Reputation {
+@Table(name = "editor")
+public class Editor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,10 +38,10 @@ public class Reputation {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Reputation reputation = (Reputation) o;
-        return Objects.equals(id, reputation.id) &&
-                Objects.equals(persistDate, reputation.persistDate) &&
-                Objects.equals(count, reputation.count);
+        Editor editor = (Editor) o;
+        return Objects.equals(id, editor.id) &&
+                Objects.equals(persistDate, editor.persistDate) &&
+                Objects.equals(count, editor.count);
     }
 
     @Override
