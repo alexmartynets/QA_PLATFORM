@@ -34,7 +34,6 @@ public class QuetionsTabResourceController {
 
     @GetMapping("/tagged/{mainTagId}")
     public ResponseEntity<List<QuestionDto>> getQuestionsByTagId(@PathVariable Long mainTagId) {
-        List<QuestionDto> abc = questionDtoService.getQuestionsByTagId(mainTagId);
         return ResponseEntity.ok(questionDtoService.getQuestionsByTagId(mainTagId));
     }
 

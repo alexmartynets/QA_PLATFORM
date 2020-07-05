@@ -6,16 +6,16 @@ $(document).ready(function () {
     getListOfTags();
 
     $('#btnWatch').click(function () {
-        let tags = {};
-        tags.name = $('#watch').val();
-        $.cookie('WatchTagsCookie',tags.name);
+        let userTagsDto = {};
+        userTagsDto.WatchTagName = $('#watch').val();
+        $.cookie('WatchTagsCookie', userTagsDto.WatchTagName);
 
     });
 
     $('#btnIgnore').click(function () {
-        let tags = {};
-        tags.name = $('#ignore').val();
-        $.cookie('IgnoreTagsCookie',tags.name);
+        let userTagsDto = {};
+        userTagsDto.IgnoreTagName = $('#ignore').val();
+        $.cookie('IgnoreTagsCookie', userTagsDto.IgnoreTagName);
 
     });
 })
@@ -23,49 +23,66 @@ $(document).ready(function () {
 function getQuestionsSortedByVotes() {
     let watchCookies = $.cookie('WatchTagsCookie');
     let ignoreCookies = $.cookie('IgnoreTagsCookie');
-    if (watchCookies === undefined && ignoreCookies === undefined){
-    $.ajax({
-        url: '/api/user/question/questions',
-        type: 'GET',
-        dataType: 'json',
-        success: function (listOfQuestion) {
-            $.each(listOfQuestion, function (i, q) {
-                $('#getQuestionsQ').append(fillQuestionBlock(q));
-            });
-        }
-    })
-    } else if ( watchCookies != undefined && ignoreCookies === undefined){
-        let tableBody = $('#tblWatchTag tbody');
-        tableBody.empty();
-        tableBody.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}</div></button>`);
-        let tags = {};
-        tags.name = watchCookies;
+    if (watchCookies === undefined && ignoreCookies === undefined) {
         $.ajax({
-            url: '/api/user/question/watchTag',
-            type: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            data: JSON.stringify(tags),
+            url: '/api/user/question/questions',
+            type: 'GET',
+            dataType: 'json',
             success: function (listOfQuestion) {
                 $.each(listOfQuestion, function (i, q) {
                     $('#getQuestionsQ').append(fillQuestionBlock(q));
                 });
             }
         })
-    } else if ( ignoreCookies != undefined && watchCookies === undefined){
+    } else if (watchCookies !== undefined && ignoreCookies === undefined) {
+        let tableBody = $('#tblWatchTag tbody');
+        tableBody.empty();
+        tableBody.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}</div></button>`);
+        $.ajax({
+            url: '/api/user/question/watchTag',
+            type: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'WatchTagName': $.cookie('WatchTagsCookie')
+            },
+            success: function (listOfQuestion) {
+                $.each(listOfQuestion, function (i, q) {
+                    $('#getQuestionsQ').append(fillQuestionBlock(q));
+                });
+            }
+        })
+    } else if (ignoreCookies !== undefined && watchCookies === undefined) {
         let tableBody = $('#tblIgnoreTag tbody');
         tableBody.empty();
         tableBody.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${ignoreCookies}</div></button>`);
-        let tags = {};
-        tags.name = ignoreCookies;
         $.ajax({
             url: '/api/user/question/ignoreTag',
             type: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'IgnoreTagsName': $.cookie('IgnoreTagsCookie')
             },
-            data: JSON.stringify(tags),
+            success: function (listOfQuestion) {
+                $.each(listOfQuestion, function (i, q) {
+                    $('#getQuestionsQ').append(fillQuestionBlock(q));
+                });
+            }
+        })
+    } else if (ignoreCookies !== undefined && watchCookies !== undefined) {
+        let tableBodyWatchTag = $('#tblWatchTag tbody');
+        tableBodyWatchTag.empty();
+        tableBodyWatchTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}</div></button>`);
+        let tableBodyIgnoreTag = $('#tblIgnoreTag tbody');
+        tableBodyIgnoreTag.empty();
+        tableBodyIgnoreTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${ignoreCookies}</div></button>`);
+        $.ajax({
+            url: '/api/user/question/watchAndIgnoreTag',
+            type: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'WatchTagName': $.cookie('WatchTagsCookie'),
+                'IgnoreTagsName': $.cookie('IgnoreTagsCookie')
+            },
             success: function (listOfQuestion) {
                 $.each(listOfQuestion, function (i, q) {
                     $('#getQuestionsQ').append(fillQuestionBlock(q));
@@ -73,11 +90,12 @@ function getQuestionsSortedByVotes() {
             }
         })
     }
+
 }
 
 function fillQuestionBlock(q) {
 
-    if (q.ignoreTag === true ) {
+    if (q.ignoreTag === true) {
         let questionData =
             '<li class="list-group-item">' +
             '<div class="question-block container mt-4" style="background-color: #fdf7e3">' +
@@ -112,7 +130,42 @@ function fillQuestionBlock(q) {
             '</div>' +
             '</li>'
         return questionData;
-    } else  if (q.watchTag === true){
+    } else if (q.watchTag === true) {
+        let questionData =
+            '<li class="list-group-item">' +
+            '<div class="question-block container mt-4" style="background-color: #fdf7e3">' +
+            '<div class="voice-block">' +
+            '<div class="voices voice-item">' +
+            '<p class="points">' + q.countValuable + '</p>' +
+            '<span class="smallHeader">Голосов</span>' +
+            '</div>' +
+
+            '<div class="answers voice-item">' +
+            '<p class="points">' + q.countAnswer + '</p>' +
+            '<span class="smallHeader">Ответов</span>' +
+            '</div>' +
+            '<div class="voice-result">' +
+            '<p><span class="viewCount">' + q.viewCount + ' показов</span></p>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="text-block">' +
+            '<a id="qTitle" href="/question/' + q.id + '"> <h3 class="question-title mt-3">' + q.title + '</h3></a>' +
+            '<p class="question-body">' + q.description + '</p>' +
+            '<div class="question-foot">' +
+            '<div class="tags-block">' +
+            getTags(q.tags) +
+            '</div>' +
+            '</div>' + //question-foot
+            '</div>' + //text-block
+            '<div class="user-info">' +
+            // '<p class="timeOfQuestion">задан <span>' + q.persistDateTime - new Date($.now()) + '</span> минут назад</p>' +
+            '<p class="user-name">' + q.userDto.fullName + '</p>' +
+            '</div>' +
+            '</div>' +
+            '</li>'
+        return questionData;
+    } else if (q.watchTag === true && q.ignoreTag === true) {
         let questionData =
             '<li class="list-group-item">' +
             '<div class="question-block container mt-4" style="background-color: #fdf7e3">' +
@@ -186,9 +239,9 @@ function fillQuestionBlock(q) {
 }
 
 function getTags(list) {
-    let tags ="";
-    for (let i = 0; i < list.length; i++){
-        tags += ('<button type="button" class="btn btn-primary btn-sm mr-1">'+ list[i].name +'</button>')
+    let tags = "";
+    for (let i = 0; i < list.length; i++) {
+        tags += ('<button type="button" class="btn btn-primary btn-sm mr-1">' + list[i].name + '</button>')
     }
     return tags;
 }

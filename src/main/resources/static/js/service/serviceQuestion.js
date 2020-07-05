@@ -258,6 +258,7 @@ function putNewAnswer(id, answerDTO) {
     answerDTO.persistDateTime = null;
     answerDTO.dateAcceptTime = null;
     answerDTO.updateDateTime = null;
+    answerDTO.voteOfUser = null;
     $.ajax({
         url: '/api/user/question/' + questionId + '/answer/',
         method: 'POST',
