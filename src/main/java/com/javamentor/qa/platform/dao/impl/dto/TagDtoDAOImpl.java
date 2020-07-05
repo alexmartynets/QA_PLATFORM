@@ -191,7 +191,6 @@ public class TagDtoDAOImpl extends ReadWriteDAOImpl<TagDto, Long> implements Tag
             e.printStackTrace();
         }
 
-
         return relatedDtoTags;
     }
 }
