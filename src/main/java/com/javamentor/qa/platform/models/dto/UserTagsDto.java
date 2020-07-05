@@ -17,10 +17,6 @@ public class UserTagsDto {
 
     private String tagName;
 
-    private String WatchTagName;
-
-    private String IgnoreTagName;
-
     private String tagDescription;
 
     private Long countOfTag;
