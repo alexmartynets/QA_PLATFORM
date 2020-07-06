@@ -244,32 +244,13 @@ public class QuestionResourceController {
         return questionDtoService.getUnansweredQuestions();
     }
 
-    @ApiOperation(value = "Получение списка с watchTag")
-    @PostMapping("/watchTag")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список получен"),
-            @ApiResponse(code = 400, message = "Список не получен")
-    })
-    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByWatchTag(@RequestHeader (name="WatchTagName") String WatchTagName) {
-        List<QuestionDto> watchTag = searchQuestionDAO.getQuestionsSortedByVotes();
-        for (QuestionDto element : watchTag) {
-            for (TagDto e : element.getTags()) {
-                String name = e.getName();
-                if (name.equals(WatchTagName)) {
-                    element.setWatchTag(true);
-                }
-            }
-        }
-        return ResponseEntity.ok(watchTag);
-    }
-
     @ApiOperation(value = "Получение списка с watchAndIgnoreTag")
     @PostMapping("/watchAndIgnoreTag")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список получен"),
             @ApiResponse(code = 400, message = "Список не получен")
     })
-    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByIgnoreTag(@RequestHeader (name="IgnoreTagsName") String IgnoreTagsName,@RequestHeader (name="WatchTagName") String WatchTagName) {
+    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByIgnoreTag(@RequestHeader(name = "IgnoreTagsName") String IgnoreTagsName, @RequestHeader(name = "WatchTagName") String WatchTagName) {
         List<QuestionDto> ignoreTag = searchQuestionDAO.getQuestionsSortedByVotes();
         for (QuestionDto element : ignoreTag) {
             for (TagDto e : element.getTags()) {

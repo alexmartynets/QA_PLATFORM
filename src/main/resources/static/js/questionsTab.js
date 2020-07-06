@@ -34,47 +34,23 @@ function getQuestionsSortedByVotes() {
                 });
             }
         })
-    } else if (watchCookies !== undefined && ignoreCookies === undefined) {
-        let tableBody = $('#tblWatchTag tbody');
-        tableBody.empty();
-        tableBody.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}</div></button>`);
-        $.ajax({
-            url: '/api/user/question/watchTag',
-            type: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                'WatchTagName': $.cookie('WatchTagsCookie')
-            },
-            success: function (listOfQuestion) {
-                $.each(listOfQuestion, function (i, q) {
-                    $('#getQuestionsQ').append(fillQuestionBlock(q));
-                });
-            }
-        })
-    } else if (ignoreCookies !== undefined && watchCookies === undefined) {
-        let tableBody = $('#tblIgnoreTag tbody');
-        tableBody.empty();
-        tableBody.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${ignoreCookies}</div></button>`);
-        $.ajax({
-            url: '/api/user/question/ignoreTag',
-            type: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                'IgnoreTagsName': $.cookie('IgnoreTagsCookie')
-            },
-            success: function (listOfQuestion) {
-                $.each(listOfQuestion, function (i, q) {
-                    $('#getQuestionsQ').append(fillQuestionBlock(q));
-                });
-            }
-        })
-    } else if (ignoreCookies !== undefined && watchCookies !== undefined) {
-        let tableBodyWatchTag = $('#tblWatchTag tbody');
-        tableBodyWatchTag.empty();
-        tableBodyWatchTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}</div></button>`);
+    } else {
+        if ( watchCookies !== undefined ) {
+            let tableBodyWatchTag = $('#tblWatchTag tbody');
+            tableBodyWatchTag.empty();
+            tableBodyWatchTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}</div></button>`);
+        }
+       if ( ignoreCookies !== undefined ){
         let tableBodyIgnoreTag = $('#tblIgnoreTag tbody');
         tableBodyIgnoreTag.empty();
         tableBodyIgnoreTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${ignoreCookies}</div></button>`);
+       }
+        if ( watchCookies === undefined ){
+            $.cookie('WatchTagsCookie', "null");
+        }
+        if ( ignoreCookies === undefined ){
+            $.cookie('IgnoreTagsCookie', "null");
+        }
         $.ajax({
             url: '/api/user/question/watchAndIgnoreTag',
             type: 'POST',
@@ -90,7 +66,6 @@ function getQuestionsSortedByVotes() {
             }
         })
     }
-
 }
 
 function fillQuestionBlock(q) {
