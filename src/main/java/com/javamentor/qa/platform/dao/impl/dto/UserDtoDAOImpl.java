@@ -1,14 +1,16 @@
 package com.javamentor.qa.platform.dao.impl.dto;
 
+import com.javamentor.qa.platform.dao.abstracts.dto.QuestionDtoDao;
 import com.javamentor.qa.platform.dao.abstracts.dto.UserDtoDAO;
 import com.javamentor.qa.platform.dao.impl.model.ReadWriteDAOImpl;
 import com.javamentor.qa.platform.dao.util.SingleResultUtil;
+import com.javamentor.qa.platform.models.dto.UserBadgesDto;
 import com.javamentor.qa.platform.models.dto.UserDto;
-import javafx.util.Pair;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
+import javax.websocket.OnClose;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +62,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                                     .linkVk((String) objects[12])
                                     .build();
                         }
+
                         @Override
                         public List transformList(List list) {
                             return list;
@@ -67,7 +70,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                     })
                     .getResultList();
 
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
@@ -127,7 +130,6 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 .getSingleResult();
     }
 
-
     @SuppressWarnings("unchecked")
     @Override
     public List<UserDto> getListUsersForPagination(int page, int count) {
@@ -146,7 +148,7 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 "u.linkSite, " +
                 "u.linkVk " +
                 "FROM User u ORDER BY u.reputationCount DESC")
-                .setFirstResult(count*(page - 1))
+                .setFirstResult(count * (page - 1))
                 .setMaxResults(count)
                 .unwrap(Query.class)
                 .setResultTransformer(new ResultTransformer() {
@@ -176,6 +178,65 @@ public class UserDtoDAOImpl extends ReadWriteDAOImpl<UserDto, Long> implements U
                 })
                 .getResultList();
 
-        return listUsers.isEmpty()? Collections.emptyList():listUsers;
+        return listUsers.isEmpty() ? Collections.emptyList() : listUsers;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<UserBadgesDto> getUserBadges(Long userId, Integer page) {
+        List<UserBadgesDto> userBadgesList = entityManager.createQuery("SELECT " +
+                "b.id, " +
+                "b.description, " +
+                "b.badges " +
+                "FROM UserBadges ub JOIN Badges b ON ub.badges.id = b.id " +
+                "WHERE ub.user.id = :userId AND ub.ready = true ")
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * 42)
+                .setMaxResults(42)
+                .unwrap(Query.class)
+                .setResultTransformer(new ResultTransformer() {
+                    @Override
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        return UserBadgesDto.builder()
+                                .id((Long) objects[0])
+                                .badges((String) objects[2])
+                                .description((String) objects[1])
+                                .build();
+                    }
+
+                    @Override
+                    public List transformList(List list) {
+                        return list;
+                    }
+                })
+                .getResultList();
+        return userBadgesList.isEmpty() ? Collections.emptyList() : userBadgesList;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Long getCountOfUserBadges(Long userId) {
+        return entityManager.createQuery("SELECT " +
+                "COUNT(b.id) " +
+                "FROM UserBadges ub JOIN Badges b ON ub.badges.id = b.id " +
+                "WHERE ub.user.id = :userId AND ub.ready = true", Long.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Long getAllViews(Long userId) {
+        Long Qlong = entityManager.createQuery("SELECT SUM(q.viewCount) " +
+                "FROM Question q WHERE q.user.id = :userId", Long.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+        Long Along = entityManager.createQuery("SELECT SUM(a.question.viewCount) " +
+                "FROM Answer a JOIN Question q ON a.question.id = q.id " +
+                "WHERE a.user.id = :userId AND a.user.id <> q.user.id", Long.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+        Long result = Long.sum(Qlong == null ? 0l : Qlong, Along == null ? 0l : Along);
+        return result;
     }
 }

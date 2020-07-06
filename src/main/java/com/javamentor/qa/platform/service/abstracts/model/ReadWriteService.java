@@ -9,9 +9,13 @@ public interface ReadWriteService<T, PK>  {
 
     void delete (T t);
 
+    void deleteByFlagById(PK id);
+
     void deleteByKeyCascadeEnable(PK id);
 
     void deleteByKeyCascadeIgnore(PK id);
+
+    void deleteByFlag(PK id);
 
     boolean existsById(PK id);
 

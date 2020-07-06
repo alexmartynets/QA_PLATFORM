@@ -1,13 +1,10 @@
 package com.javamentor.qa.platform.models.dto;
 
 import com.javamentor.qa.platform.models.util.action.OnCreate;
-import com.javamentor.qa.platform.models.util.action.OnUpdate;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,16 +15,12 @@ import java.time.LocalDateTime;
 @Builder
 public class TagDto {
 
-    @Null(groups = OnCreate.class, message = "Должно принимать null значение при создании.")
-    @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении.")
-    @ApiModelProperty(notes = "Автоматически генерируемый ID тэга. Не указывать при создании, обязательно указывать при изменении.",
-            position = 1)
+    @Null(groups = OnCreate.class, message = "Поле Id должно принимать null значение при создании")
     private Long id;
 
-    @NotNull(groups = {OnUpdate.class, OnCreate.class},
-            message = "Не должно принимать null значение при создании или обновлении")
-    @ApiModelProperty(notes = "Название тэга. Обязательно указывать при создании и обновлении.",
-            position = 2)
+//    private Long questionId;
+
+    @NotNull
     private String name;
 
     @NotNull(groups = {OnUpdate.class, OnCreate.class},

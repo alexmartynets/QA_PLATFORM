@@ -1,16 +1,13 @@
 package com.javamentor.qa.platform.service.impl;
 
+import com.javamentor.qa.platform.models.entity.Badges;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
-import com.javamentor.qa.platform.models.entity.question.CommentQuestion;
-import com.javamentor.qa.platform.models.entity.question.Question;
-import com.javamentor.qa.platform.models.entity.question.RelatedTag;
-import com.javamentor.qa.platform.models.entity.question.Tag;
+import com.javamentor.qa.platform.models.entity.question.*;
 import com.javamentor.qa.platform.models.entity.question.answer.Answer;
+import com.javamentor.qa.platform.models.entity.question.answer.AnswerVote;
 import com.javamentor.qa.platform.models.entity.question.answer.CommentAnswer;
-import com.javamentor.qa.platform.models.entity.user.Role;
-import com.javamentor.qa.platform.models.entity.user.User;
-import com.javamentor.qa.platform.models.entity.user.UserFavoriteQuestion;
+import com.javamentor.qa.platform.models.entity.user.*;
 import com.javamentor.qa.platform.service.abstracts.model.*;
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentAnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.comment.CommentQuestionService;
@@ -50,6 +47,25 @@ public class TestDataEntityService {
     @Autowired
     private RelatedTagService relatedTagService;
 
+    private final ReputationService reputationService;
+    private final BadgesService badgesService;
+    private final UserBadgesService userBadgesService;
+    private final VoteQuestionService voteQuestionService;
+    private final AnswerVoteService answerVoteService;
+
+
+    @Autowired
+    public TestDataEntityService(ReputationService reputationService,
+                                 BadgesService badgesService,
+                                 UserBadgesService userBadgesService,
+                                 VoteQuestionService voteQuestionService, AnswerVoteService answerVoteService) {
+        this.reputationService = reputationService;
+        this.badgesService = badgesService;
+        this.userBadgesService = userBadgesService;
+        this.voteQuestionService = voteQuestionService;
+        this.answerVoteService = answerVoteService;
+    }
+
     public void createEntity() {
         creatUserEntity();
         creatTagEntity();
@@ -57,9 +73,13 @@ public class TestDataEntityService {
         creatAnswerEntity();
         creatComment();
         creatUserFavoriteQuestion();
+        createBadges();
+        createUserBadges();
+        createUserReputation();
     }
 
     private void creatUserEntity() {
+        Integer reputationCount = 0;
 
         Role adminRole = Role.builder()
                 .name("ADMIN")
@@ -73,7 +93,7 @@ public class TestDataEntityService {
                 .email("admin@admin.ru")
                 .password("admin")
                 .fullName("Админ Админович Админов")
-                .reputationCount(5)
+                .reputationCount(reputationCount)
                 .city("Moscow")
                 .linkSite("site.admin.ru")
                 .linkGitHub("github.admin.ru")
@@ -88,7 +108,7 @@ public class TestDataEntityService {
                 .email("user1@user.ru")
                 .password("user1")
                 .fullName("Иван Иванович Иванов")
-                .reputationCount(4)
+                .reputationCount(reputationCount)
                 .city("Moscow")
                 .linkSite("site.user1.ru")
                 .linkGitHub("github.user1.ru")
@@ -104,7 +124,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user2")
                 .fullName("Петр2 Петрович2 Петров2")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
@@ -119,7 +139,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user3")
                 .fullName("Петр3 Петрович3 Петров3")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user3.ru")
                 .linkGitHub("github.user3.ru")
@@ -134,7 +154,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user4")
                 .fullName("Петр4 Петрович4 Петров4")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user2.ru")
                 .linkGitHub("github.user2.ru")
@@ -149,7 +169,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user5")
                 .fullName("Петр5 Петрович5 Петров5")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user5.ru")
                 .linkGitHub("github.user5.ru")
@@ -164,7 +184,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user6")
                 .fullName("Петр6 Петрович6 Петров6")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user6.ru")
                 .linkGitHub("github.user6.ru")
@@ -179,7 +199,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user7")
                 .fullName("Петр7 Петрович7 Петров7")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user7.ru")
                 .linkGitHub("github.user7.ru")
@@ -194,7 +214,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user8")
                 .fullName("Петр8 Петрович8 Петров8")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user8.ru")
                 .linkGitHub("github.user8.ru")
@@ -209,7 +229,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user9")
                 .fullName("Петр9 Петрович9 Петров9")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user9.ru")
                 .linkGitHub("github.user9.ru")
@@ -224,7 +244,7 @@ public class TestDataEntityService {
                 .isEnabled(true)
                 .password("user10")
                 .fullName("Петр10 Петрович10 Петров10")
-                .reputationCount(3)
+                .reputationCount(reputationCount)
                 .city("SPB")
                 .linkSite("site.user10.ru")
                 .linkGitHub("github.user10.ru")
@@ -274,7 +294,7 @@ public class TestDataEntityService {
                 .viewCount(3)
                 .description("Question1 description")
                 .user(userService.getByKey(2L))
-                .countValuable(2)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList1 = new ArrayList<>();
         tagList1.add(tagService.getByKey(1L));
@@ -288,7 +308,7 @@ public class TestDataEntityService {
                 .viewCount(4)
                 .description("Question2 description")
                 .user(userService.getByKey(3L))
-                .countValuable(2)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList2 = new ArrayList<>();
         tagList2.add(tagService.getByKey(2L));
@@ -299,8 +319,8 @@ public class TestDataEntityService {
                 .title("Question3 title")
                 .viewCount(5)
                 .description("Question3 description")
-                .user(userService.getByKey(3L))
-                .countValuable(3)
+                .user(userService.getByKey(4L))
+                .isDeleted(false)
                 .build();
         List<Tag> tagList3 = new ArrayList<>();
         tagList3.add(tagService.getByKey(2L));
@@ -314,7 +334,7 @@ public class TestDataEntityService {
                 .viewCount(5)
                 .description("Question4 description")
                 .user(userService.getByKey(3L))
-                .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList4 = new ArrayList<>();
         tagList4.add(tagService.getByKey(3L));
@@ -325,8 +345,8 @@ public class TestDataEntityService {
                 .title("Question5 title")
                 .viewCount(5)
                 .description("Question5 description")
-                .user(userService.getByKey(3L))
-                .countValuable(3)
+                .user(userService.getByKey(5L))
+                .isDeleted(false)
                 .build();
         List<Tag> tagList5 = new ArrayList<>();
         tagList5.add(tagService.getByKey(3L));
@@ -337,8 +357,8 @@ public class TestDataEntityService {
                 .title("Question6 title")
                 .viewCount(5)
                 .description("Question6 description")
-                .user(userService.getByKey(3L))
-                .countValuable(6)
+                .user(userService.getByKey(4L))
+                .isDeleted(false)
                 .build();
         List<Tag> tagList6 = new ArrayList<>();
         tagList6.add(tagService.getByKey(1L));
@@ -354,7 +374,7 @@ public class TestDataEntityService {
                 .viewCount(8)
                 .description("Question7 description")
                 .user(userService.getByKey(3L))
-                .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList7 = new ArrayList<>();
         tagList7.add(tagService.getByKey(2L));
@@ -367,8 +387,8 @@ public class TestDataEntityService {
                 .title("Question8 title")
                 .viewCount(7)
                 .description("Question8 description")
-                .user(userService.getByKey(3L))
-                .countValuable(3)
+                .user(userService.getByKey(2L))
+                .isDeleted(false)
                 .build();
         List<Tag> tagList8 = new ArrayList<>();
         tagList8.add(tagService.getByKey(3L));
@@ -379,8 +399,8 @@ public class TestDataEntityService {
                 .title("Question9 title")
                 .viewCount(9)
                 .description("Question9 description")
-                .user(userService.getByKey(3L))
-                .countValuable(3)
+                .user(userService.getByKey(5L))
+                .isDeleted(false)
                 .build();
         List<Tag> tagList9 = new ArrayList<>();
         tagList9.add(tagService.getByKey(3L));
@@ -392,7 +412,7 @@ public class TestDataEntityService {
                 .viewCount(10)
                 .description("Question10 description")
                 .user(userService.getByKey(3L))
-                .countValuable(3)
+                .isDeleted(false)
                 .build();
         List<Tag> tagList10 = new ArrayList<>();
         tagList10.add(tagService.getByKey(1L));
@@ -413,109 +433,183 @@ public class TestDataEntityService {
         tagService.getByKey(1L).setQuestions(questionList1);
         tagService.getByKey(2L).setQuestions(questionList2);
         tagService.getByKey(3L).setQuestions(questionList3);
+
+        VoteQuestion voteQuestion1 = new VoteQuestion(userService.getByKey(3L), question1, 1);
+        VoteQuestion voteQuestion2 = new VoteQuestion(userService.getByKey(4L), question1, 1);
+        VoteQuestion voteQuestion3 = new VoteQuestion(userService.getByKey(5L), question1, 1);
+        VoteQuestion voteQuestion4 = new VoteQuestion(userService.getByKey(3L), question2, 1);
+        VoteQuestion voteQuestion5 = new VoteQuestion(userService.getByKey(4L), question2, -1);
+        VoteQuestion voteQuestion6 = new VoteQuestion(userService.getByKey(5L), question4, 1);
+        VoteQuestion voteQuestion7 = new VoteQuestion(userService.getByKey(6L), question4, 1);
+        VoteQuestion voteQuestion8 = new VoteQuestion(userService.getByKey(9L), question3, 1);
+        VoteQuestion voteQuestion9 = new VoteQuestion(userService.getByKey(8L), question3, 1);
+        VoteQuestion voteQuestion10 = new VoteQuestion(userService.getByKey(7L), question4, 1);
+
+        voteQuestionService.persist(voteQuestion1);
+        voteQuestionService.persist(voteQuestion2);
+        voteQuestionService.persist(voteQuestion3);
+        voteQuestionService.persist(voteQuestion4);
+        voteQuestionService.persist(voteQuestion5);
+        voteQuestionService.persist(voteQuestion6);
+        voteQuestionService.persist(voteQuestion7);
+        voteQuestionService.persist(voteQuestion8);
+        voteQuestionService.persist(voteQuestion9);
+        voteQuestionService.persist(voteQuestion10);
     }
 
     private void creatAnswerEntity() {
         Answer answer1_1 = Answer.builder()
                 .user(userService.getByKey(3L))
-                .countValuable(2)
                 .isHelpful(true)
-                .question(questionService.getByKey(1L))
                 .dateAcceptTime(LocalDateTime.now())
+                .isDeleted(false)
+                .question(questionService.getByKey(1L))
                 .htmlBody("Helpful answer for question 1")
                 .build();
         answerService.persist(answer1_1);
 
-        Answer answer1_2 = Answer.builder()
-                .user(userService.getByKey(2L))
-                .countValuable(2)
-                .question(questionService.getByKey(1L))
-                .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 1")
-                .build();
-        answerService.persist(answer1_2);
-
-        Answer answer1_3 = Answer.builder()
-                .user(userService.getByKey(2L))
-                .countValuable(2)
-                .question(questionService.getByKey(1L))
-                .dateAcceptTime(LocalDateTime.now())
-                .persistDateTime(LocalDateTime.now())
-                .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 1")
-                .build();
-        answerService.persist(answer1_3);
-
-        Answer answer1_4 = Answer.builder()
-                .user(userService.getByKey(2L))
-                .countValuable(2)
-                .question(questionService.getByKey(1L))
-                .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 1")
-                .build();
-        answerService.persist(answer1_4);
-
         Answer answer2_1 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(2)
-                .question(questionService.getByKey(2L))
-                .dateAcceptTime(LocalDateTime.now())
+                .question(questionService.getByKey(1L))
                 .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 2")
+                .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer2_1);
 
-        Answer answer2_2 = Answer.builder()
-                .user(userService.getByKey(4L))
-                .countValuable(2)
-                .question(questionService.getByKey(2L))
-                .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(true)
-                .htmlBody("Helpful answer for question 2")
-                .build();
-        answerService.persist(answer2_2);
-
-        Answer answer2_3 = Answer.builder()
-                .user(userService.getByKey(2L))
-                .countValuable(2)
-                .question(questionService.getByKey(2L))
-                .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(false)
-                .htmlBody("Don't helpful answer for question 2")
-                .build();
-        answerService.persist(answer2_3);
-
         Answer answer3_1 = Answer.builder()
                 .user(userService.getByKey(4L))
-                .countValuable(2)
-                .question(questionService.getByKey(3L))
-                .dateAcceptTime(LocalDateTime.now())
+                .question(questionService.getByKey(1L))
                 .isHelpful(false)
+                .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer3_1);
 
-        Answer answer3_2 = Answer.builder()
+        Answer answer1_2 = Answer.builder()
                 .user(userService.getByKey(2L))
-                .countValuable(2)
-                .question(questionService.getByKey(3L))
-                .dateAcceptTime(LocalDateTime.now())
-                .isHelpful(true)
-                .htmlBody("Helpful answer for question 3")
+                .question(questionService.getByKey(2L))
+                .isHelpful(false)
+                .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 2")
                 .build();
-        answerService.persist(answer3_2);
+        answerService.persist(answer1_2);
 
-        Answer answer4_1 = Answer.builder()
+        Answer answer2_2 = Answer.builder()
                 .user(userService.getByKey(4L))
-                .countValuable(2)
-                .question(questionService.getByKey(4L))
-                .dateAcceptTime(LocalDateTime.now())
+                .question(questionService.getByKey(2L))
                 .isHelpful(true)
+                .dateAcceptTime(LocalDateTime.now())
+                .isDeleted(false)
+                .htmlBody("Helpful answer for question 2")
+                .build();
+        answerService.persist(answer2_2);
+
+        Answer answer1_3 = Answer.builder()
+                .user(userService.getByKey(2L))
+                .question(questionService.getByKey(3L))
+                .isHelpful(false)
+                .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 1")
+                .build();
+        answerService.persist(answer1_3);
+
+        Answer answer2_3 = Answer.builder()
+                .user(userService.getByKey(4L))
+                .question(questionService.getByKey(3L))
+                .isHelpful(false)
+                .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 3")
+                .build();
+        answerService.persist(answer2_3);
+
+        Answer answer1_4 = Answer.builder()
+                .user(userService.getByKey(2L))
+                .question(questionService.getByKey(4L))
+                .isHelpful(false)
+                .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 2")
+                .build();
+        answerService.persist(answer1_4);
+
+        Answer answer2_4 = Answer.builder()
+                .user(userService.getByKey(2L))
+                .question(questionService.getByKey(4L))
+                .isHelpful(false)
+                .isDeleted(false)
+                .htmlBody("Don't helpful answer for question 2")
+                .build();
+        answerService.persist(answer2_4);
+
+        Answer answer3_4 = Answer.builder()
+                .user(userService.getByKey(4L))
+                .question(questionService.getByKey(4L))
+                .isHelpful(true)
+                .dateAcceptTime(LocalDateTime.now())
+                .isDeleted(false)
                 .htmlBody("Helpful answer for question 4")
                 .build();
-        answerService.persist(answer4_1);
+        answerService.persist(answer3_4);
+
+        AnswerVote answerVote1 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(9L))
+                        .answer(answerService.getByKey(1L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote1);
+
+        AnswerVote answerVote2 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(8L))
+                        .answer(answerService.getByKey(1L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote2);
+
+        AnswerVote answerVote3 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(7L))
+                        .answer(answerService.getByKey(1L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote3);
+
+        AnswerVote answerVote4 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(9L))
+                        .answer(answerService.getByKey(2L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote4);
+
+        AnswerVote answerVote5 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(8L))
+                        .answer(answerService.getByKey(2L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote5);
+
+        AnswerVote answerVote6 = AnswerVote.builder()
+                .voteAnswerPK(AnswerVote.VoteAnswerPK.builder()
+                        .persistDateTime(LocalDateTime.now())
+                        .user(userService.getByKey(9L))
+                        .answer(answerService.getByKey(3L))
+                        .build())
+                .vote(1)
+                .build();
+        answerVoteService.persist(answerVote6);
 
     }
 
@@ -523,7 +617,7 @@ public class TestDataEntityService {
         Comment comment1 = Comment.builder()
                 .commentType(CommentType.ANSWER)
                 .lastUpdateDateTime(LocalDateTime.now())
-                .text("Comment 1 text")
+                .text("Comment for answer 1")
                 .user(userService.getByKey(2L))
                 .build();
 
@@ -536,20 +630,33 @@ public class TestDataEntityService {
         Comment comment2 = Comment.builder()
                 .commentType(CommentType.ANSWER)
                 .lastUpdateDateTime(LocalDateTime.now())
-                .text("Comment 2 text")
+                .text("Comment for answer 2")
                 .user(userService.getByKey(2L))
                 .build();
 
         CommentAnswer commentAnswer2 = CommentAnswer.builder()
                 .comment(comment2)
-                .answer(answerService.getByKey(1L))
+                .answer(answerService.getByKey(2L))
                 .build();
         commentAnswerService.persist(commentAnswer2);
+
+        Comment comment4 = Comment.builder()
+                .commentType(CommentType.ANSWER)
+                .lastUpdateDateTime(LocalDateTime.now())
+                .text("Comment for answer 3")
+                .user(userService.getByKey(2L))
+                .build();
+
+        CommentAnswer commentAnswer4 = CommentAnswer.builder()
+                .comment(comment4)
+                .answer(answerService.getByKey(3L))
+                .build();
+        commentAnswerService.persist(commentAnswer4);
 
         Comment comment3 = Comment.builder()
                 .commentType(CommentType.QUESTION)
                 .lastUpdateDateTime(LocalDateTime.now())
-                .text("Comment 3 text")
+                .text("Comment for question 1")
                 .user(userService.getByKey(3L))
                 .build();
 
@@ -561,10 +668,93 @@ public class TestDataEntityService {
     }
 
     private void creatUserFavoriteQuestion() {
-        UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
-                .user(userService.getByKey(2L))
-                .question(questionService.getByKey(2L))
+        for (long i = 1l; i < 5; i++) {
+            UserFavoriteQuestion userFavoriteQuestion = UserFavoriteQuestion.builder()
+                    .user(userService.getByKey(2L))
+                    .question(questionService.getByKey(i))
+                    .build();
+            userFavoriteQuestionService.persist(userFavoriteQuestion);
+        }
+    }
+
+    private void createBadges() {
+        Badges badges1 = Badges.builder()
+                .badges("Помощник")
+                .description("Награждается если в день заработать 50 баллов")
+                .reputationForMerit(50)
                 .build();
-        userFavoriteQuestionService.persist(userFavoriteQuestion);
+        badgesService.persist(badges1);
+
+        Badges badges = Badges.builder()
+                .badges("Друг")
+                .description("Награждается если в день заработать 100 баллов")
+                .reputationForMerit(100)
+                .build();
+        badgesService.persist(badges);
+
+
+        Badges badges2 = Badges.builder()
+                .badges("Учитель")
+                .description("Награждается если в день заработать 150 баллов")
+                .reputationForMerit(150)
+                .build();
+        badgesService.persist(badges2);
+
+        Badges badges3 = Badges.builder()
+                .badges("Преподаватель")
+                .description("Награждается если в день заработать 200 баллов")
+                .reputationForMerit(200)
+                .build();
+        badgesService.persist(badges3);
+
+        Badges badges4 = Badges.builder()
+                .badges("Ментор")
+                .description("Награждается если в день заработать 250 баллов")
+                .reputationForMerit(250)
+                .build();
+        badgesService.persist(badges4);
+
+        Badges badges7 = Badges.builder()
+                .badges("JM Ментор")
+                .description("Награждается если в день заработать 300 баллов")
+                .reputationForMerit(300)
+                .build();
+        badgesService.persist(badges7);
+
+        Badges badges5 = Badges.builder()
+                .badges("Профессор")
+                .description("Награждается если в день заработать 400 баллов")
+                .reputationForMerit(400)
+                .build();
+        badgesService.persist(badges5);
+
+        Badges badges6 = Badges.builder()
+                .badges("Академик")
+                .description("Награждается если в день заработать 500 баллов")
+                .reputationForMerit(500)
+                .build();
+        badgesService.persist(badges6);
+
+    }
+
+    private void createUserBadges() {
+        for (long i = 1; i < 12; i++) {
+            for (long j = 1; j < 9; j++) {
+                UserBadges user1Badges1 = UserBadges.builder()
+                        .badges(badgesService.getByKey(j))
+                        .user(userService.getByKey(i))
+                        .ready(false)
+                        .build();
+                userBadgesService.persist(user1Badges1);
+            }
+        }
+    }
+
+    private void createUserReputation() {
+        reputationService.updateOrInsert(userService.getByKey(1l), 15);
+        reputationService.updateOrInsert(userService.getByKey(2l), 15);
+        reputationService.updateOrInsert(userService.getByKey(3l), 15);
+        reputationService.updateOrInsert(userService.getByKey(1l), 15);
+
     }
 }

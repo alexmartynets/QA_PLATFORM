@@ -1,0 +1,27 @@
+answer:
+  - id: 1
+    html_body: "This is first answer for question number one"
+    is_helpful: 0
+    question_id: 1
+    user_id: 3
+    persist_date: "2020-01-01 13:58:56"
+    is_deleted: 0
+    update_date: "2020-01-01 13:58:56"
+
+  - id: 2
+    html_body: "This is second answer for question number one"
+    is_helpful: 1
+    question_id: 1
+    user_id: 3
+    persist_date: "2020-01-02 13:58:56"
+    is_deleted: 0
+    update_date: "2020-01-01 13:58:56"
+
+  - id: 3
+    html_body: "This is first answer for question number one"
+    is_helpful: 0
+    question_id: 2
+    user_id: 3
+    persist_date: "2020-01-11 13:58:56"
+    is_deleted: 0
+    update_date: "2020-01-01 13:58:56"

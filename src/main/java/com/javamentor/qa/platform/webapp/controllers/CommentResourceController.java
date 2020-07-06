@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -59,8 +60,11 @@ public class CommentResourceController {
     }
 
     @PostMapping("/question/{questionId}/comment")
-    public ResponseEntity<CommentDto> saveCommentQuestion(@RequestBody @NonNull CommentDto commentDto,
-                                                          @PathVariable @NonNull Long questionId) {
+    public ResponseEntity<?> saveCommentQuestion(@RequestBody @NonNull CommentDto commentDto,
+                                                 @PathVariable @NonNull Long questionId) {
+        if (commentQuestionServiceDto.hasUserToCommentQuestion(questionId, commentDto.getUserId())) {
+            return ResponseEntity.badRequest().body("Только один комментарий можно оставлять");
+        }
         CommentQuestion commentQuestion = questionConverter.toCommentQuestion(commentDto, questionId);
         commentQuestionService.persist(commentQuestion);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
@@ -83,13 +87,15 @@ public class CommentResourceController {
     }
 
     @PutMapping("/answer/comment")
-    public ResponseEntity<CommentDto> updateCommentAnswer(@RequestBody @NonNull CommentDto commentDto) {
-        Comment comment = commentAnswerServiceDto.getByKey(commentDto.getId());
-        comment.setText(commentDto.getText());
-        commentAnswerServiceDto.update(comment);
-        return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
+    public ResponseEntity<?> updateCommentAnswer(@RequestBody @NonNull CommentDto commentDto,
+                                                 @RequestParam @NotNull Long userId) {
+        if (commentDto.getUserId().equals(userId)) {
+            Comment comment = commentAnswerServiceDto.getByKey(commentDto.getId());
+            comment.setText(commentDto.getText());
+            commentAnswerServiceDto.update(comment);
+            return ResponseEntity.ok().body(commentConverter.toCommentDto(comment));
+        }else {
+            return ResponseEntity.badRequest().body(String.format("Пользователь с id %d не может изменить комментарий который он не давал.", userId));
+        }
     }
 }
-
-
-

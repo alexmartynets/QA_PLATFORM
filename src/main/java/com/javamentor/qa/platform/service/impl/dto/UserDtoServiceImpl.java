@@ -13,8 +13,12 @@ import java.util.Optional;
 @Service
 public class UserDtoServiceImpl implements UserDtoService {
 
+    private final UserDtoDAO userDtoDao;
+
     @Autowired
-    private UserDtoDAO userDtoDao;
+    public UserDtoServiceImpl(UserDtoDAO userDtoDao) {
+        this.userDtoDao = userDtoDao;
+    }
 
     @Override
     public List<UserDto> getUserDtoList() {
