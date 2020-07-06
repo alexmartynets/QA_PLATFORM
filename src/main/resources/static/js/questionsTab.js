@@ -87,8 +87,6 @@ function getQuestionsSortedByVotes() {
             type: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                'WatchTagName': $.cookie('WatchTagsCookie'),
-                'IgnoreTagsName': $.cookie('IgnoreTagsCookie'),
                 'arr': arr,
             },
             success: function (listOfQuestion) {
