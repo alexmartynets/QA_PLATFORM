@@ -11,9 +11,11 @@ import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.persistence.EntityNotFoundException;
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 @Mapper(componentModel = "spring")
 public abstract class UserConverter {
@@ -65,9 +67,14 @@ public abstract class UserConverter {
 
     @Named("roleSetter")
     protected Role roleSetter(String role) {
-        if (role == null) {
-            role = "USER";
+        try {
+            if (role == null) {
+                role = "USER";
+            }
+            return roleService.getByRoleName(role).get();
+        } catch (NoSuchElementException n) {
+            throw new EntityNotFoundException(String.format("Role с инянем %s не существует", role));
         }
-        return roleService.getByRoleName(role).get();
     }
 }
+//NoSuchElementException

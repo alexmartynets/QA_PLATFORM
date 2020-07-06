@@ -32,3 +32,4 @@ public class MainUserStatistics {
         return userStatisticDto;
     }
 }
+

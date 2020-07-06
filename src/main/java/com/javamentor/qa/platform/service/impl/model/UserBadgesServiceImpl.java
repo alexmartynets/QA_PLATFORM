@@ -17,3 +17,4 @@ public class UserBadgesServiceImpl extends ReadWriteServiceImpl<UserBadges, Long
         this.userBadgesDAO = userBadgesDAO;
     }
 }
+

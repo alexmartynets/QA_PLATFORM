@@ -61,7 +61,6 @@ public class Question {
     @IndexedEmbedded(includePaths = {"fullName", "reputationCount"})
     private User user;
 
-
     @NotNull
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "question_has_tag",

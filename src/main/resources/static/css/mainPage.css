@@ -1,72 +1,64 @@
-p {
-    display: block;
+.navbar-nav li {
+    padding-right: 15px;
+}
+.navbar {
+    border-top-width: 2px;
+    border-top-style: solid;
 }
 
-#navigator > div {
-    left: 0;
-    position: fixed;
-    /*background-color: #fbf2d4;*/
+.navbar-light {
+    background-color: #fff;
+    opacity: 0.8;
 }
 
-section article {
-    width: 25%;
-    float: left;
-    padding: 5px;
-    border: 1px solid var(--dark);
-    /*gap: 12px;*/
+.interval-label {
+    margin-left: 10px;
 }
 
-.paginator {
-    padding: 8px 16px;
-    line-height: 150%;
-    display: inline-block;
-}
 
-.paginator > span {
-    padding: 8px 16px;
-    display: inline-block;
-    margin-right: 10px;
-    background-color: #007fff;
-    cursor: pointer;
+.btn-square
+{
+    width: 100px !important;
+    height: 100px !important;
+    font-size: 10px;
 }
-
-.paginator_active {
-    background-color: red;
-    color: white;
+​
+.btn-square:hover
+{
+    border: 0px solid white;
 }
-
-.grid-layout {
-    display: grid;
-    grid-gap: 12px;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-}
-
-.grid {
+.pagenumbers {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
-.fd-column {
-    flex-direction: column !important;
+.pagenumbers button {
+    width: 50px;
+    height: 50px;
+
+    appearance: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    background-color: #44AAEE;
+
+    margin: 5px;
+    transition: 0.4s;
+
+    color: #FFF;
+    font-size: 18px;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
 }
 
-.s-card {
-    padding: 12px;
-    border: 1px solid var(--secondary);
-    border-radius: 3px;
-    background-color: var(--white);
+.pagenumbers button:hover {
+    background-color: #44EEAA;
 }
 
-section p {
-    margin: 5px 0;
+.pagenumbers button.active {
+    background-color: #44EEAA;
+    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.2);
 }
-
-section ul {
-    margin-top: 0;
-}
-
-h2 {
-    font-size: 2.5rem;
-    /*letter-spacing: -5px;*/
-    margin-bottom: 10px;
-}
-

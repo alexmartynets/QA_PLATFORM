@@ -58,7 +58,8 @@ public class TestDataEntityService {
     public TestDataEntityService(ReputationService reputationService,
                                  BadgesService badgesService,
                                  UserBadgesService userBadgesService,
-                                 VoteQuestionService voteQuestionService, AnswerVoteService answerVoteService) {
+                                 VoteQuestionService voteQuestionService,
+                                 AnswerVoteService answerVoteService) {
         this.reputationService = reputationService;
         this.badgesService = badgesService;
         this.userBadgesService = userBadgesService;
@@ -268,13 +269,13 @@ public class TestDataEntityService {
                 .description("Description tag2")
                 .build();
         tagService.persist(tag2);
-
-        Tag tag3 = Tag.builder()
-                .name("Main tag3")
-                .description("Description tag3")
-                .build();
-        tagService.persist(tag3);
-
+        for (int i = 4; i < 50; i++) {
+            Tag tag3 = Tag.builder()
+                    .name(String.format("Main tag%s", i))
+                    .description(String.format("Description tag%s", i))
+                    .build();
+            tagService.persist(tag3);
+        }
         RelatedTag relatedTag = RelatedTag.builder()
                 .mainTag(tag1)
                 .childTag(tag2)
@@ -480,9 +481,11 @@ public class TestDataEntityService {
         Answer answer3_1 = Answer.builder()
                 .user(userService.getByKey(4L))
                 .question(questionService.getByKey(1L))
+                .dateAcceptTime(LocalDateTime.now())
+                .persistDateTime(LocalDateTime.now())
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 3")
+                .htmlBody("Don't helpful answer for question 1")
                 .build();
         answerService.persist(answer3_1);
 
@@ -510,13 +513,14 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(3L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 1")
+                .htmlBody("Don't helpful answer for question 3")
                 .build();
         answerService.persist(answer1_3);
 
         Answer answer2_3 = Answer.builder()
                 .user(userService.getByKey(4L))
                 .question(questionService.getByKey(3L))
+                .dateAcceptTime(LocalDateTime.now())
                 .isHelpful(false)
                 .isDeleted(false)
                 .htmlBody("Don't helpful answer for question 3")
@@ -528,7 +532,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(4L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 2")
+                .htmlBody("Don't helpful answer for question 4")
                 .build();
         answerService.persist(answer1_4);
 
@@ -537,7 +541,7 @@ public class TestDataEntityService {
                 .question(questionService.getByKey(4L))
                 .isHelpful(false)
                 .isDeleted(false)
-                .htmlBody("Don't helpful answer for question 2")
+                .htmlBody("Don't helpful answer for question 4")
                 .build();
         answerService.persist(answer2_4);
 

@@ -14,3 +14,4 @@ public interface ReputationDAO extends ReadWriteDAO<Reputation, Long> {
 
     Long getSumOfUserReputation(Long userId);
 }
+

@@ -7,5 +7,8 @@ import com.javamentor.qa.platform.models.entity.Comment;
 import java.util.List;
 
 public interface CommentAnswerDtoDAO extends ReadWriteDAO<Comment, Long> {
+
     List<CommentDto> getCommentsToAnswer(Long answerId);
+
+    Boolean hasUserCommentAnswer (Long answerId, Long userId);
 }

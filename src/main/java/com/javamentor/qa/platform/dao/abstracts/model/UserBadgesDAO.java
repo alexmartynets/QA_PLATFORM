@@ -8,3 +8,4 @@ import java.util.List;
 public interface UserBadgesDAO extends ReadWriteDAO<UserBadges, Long> {
     List<UserBadges> getUserBadges(User user);
 }
+
