@@ -1,8 +1,6 @@
 $(document).ready(function () {
 
     getQuestionsSortedByVotes();
-
-    // getListOfTags is a method from mainPage.js
     getListOfTags();
 
     $('#btnWatch').click(function () {
@@ -10,7 +8,7 @@ $(document).ready(function () {
         userTagsDto.WatchTagName = $('#watch').val();
         $.cookie('WatchTagsCookie', userTagsDto.WatchTagName);
         let watchCookie = userTagsDto.WatchTagName = $('#watch').val();
-        $.cookie(watchCookie+"W", userTagsDto.WatchTagName);
+        $.cookie(watchCookie + "W", userTagsDto.WatchTagName);
     });
 
     $('#btnIgnore').click(function () {
@@ -18,15 +16,29 @@ $(document).ready(function () {
         userTagsDto.IgnoreTagName = $('#ignore').val();
         $.cookie('IgnoreTagsCookie', userTagsDto.IgnoreTagName);
         let ignoreCookie = userTagsDto.IgnoreTagName = $('#ignore').val();
-        $.cookie(ignoreCookie+"I", userTagsDto.IgnoreTagName);
+        $.cookie(ignoreCookie + "I", userTagsDto.IgnoreTagName);
     });
 })
 
-function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
+
+function HeaderCookie() {
+    let result = "";
+    let arr = [];
+    let cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let fullCookie = cookies[i];
+        let NameAndTag = fullCookie.split("=");
+        let nameTag = NameAndTag[1];
+        if (NameAndTag[0].endsWith("W")) {
+            $.cookie('WatchTagsCookie', nameTag);
+            result = nameTag+"W";
+        }else if (NameAndTag[0].endsWith("I")) {
+            $.cookie('IgnoreTagsCookie', nameTag);
+            result = nameTag+"I";
+        }
+        arr.push(result);
+    }
+    return arr;
 }
 
 function getQuestionsSortedByVotes() {
@@ -34,33 +46,31 @@ function getQuestionsSortedByVotes() {
     tableBodyWatchTag.empty();
     let tableBodyIgnoreTag = $('#tblIgnoreTag tbody');
     tableBodyIgnoreTag.empty();
-    let cookies =  document.cookie.split(';');
-    for(let i = 0; i < cookies.length; i++) {
+    let cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
         let fullCookie = cookies[i];
         let NameAndTag = fullCookie.split("=");
         let nameTag = NameAndTag[1];
-        if (NameAndTag[0].endsWith("W")){
+        if (NameAndTag[0].endsWith("W")) {
             $.cookie('WatchTagsCookie', nameTag);
             tableBodyWatchTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${nameTag}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie(${NameAndTag[0]}); window.location.reload();">X</span></div></button><br>`);
         }
-        if (NameAndTag[0].endsWith("I")){
+        if (NameAndTag[0].endsWith("I")) {
             tableBodyIgnoreTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${nameTag}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie(${NameAndTag[0]}); window.location.reload();">X</span></div></button><br>`);
             $.cookie('IgnoreTagsCookie', nameTag);
         }
-
     }
 
-
-
-    let watchCookies = $.cookie('WatchTagsCookie');
+  /*  let watchCookies = $.cookie('WatchTagsCookie');
     let ignoreCookies = $.cookie('IgnoreTagsCookie');
     if (watchCookies === undefined) {
         $.cookie('WatchTagsCookie', null);
     }
     if (ignoreCookies === undefined) {
         $.cookie('IgnoreTagsCookie', null);
-    }
-    if (watchCookies === undefined && ignoreCookies === undefined) {
+    }*/
+    let arr = HeaderCookie();
+    if (arr === null) {
         $.ajax({
             url: '/api/user/question/questions',
             type: 'GET',
@@ -78,20 +88,10 @@ function getQuestionsSortedByVotes() {
             headers: {
                 "Content-Type": "application/json",
                 'WatchTagName': $.cookie('WatchTagsCookie'),
-                'IgnoreTagsName': $.cookie('IgnoreTagsCookie')
+                'IgnoreTagsName': $.cookie('IgnoreTagsCookie'),
+                'arr': arr,
             },
             success: function (listOfQuestion) {
-              /*  if (watchCookies  !== undefined && watchCookies !== null) {
-                    let tableBodyWatchTag = $('#tblWatchTag tbody');
-                    tableBodyWatchTag.empty();
-                    tableBodyWatchTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie('WatchTagsCookie'); window.location.reload();">X</span></div></button>`);
-                }*/
-              /*  if (ignoreCookies !== undefined && ignoreCookies !== null) {
-                    let tableBodyIgnoreTag = $('#tblIgnoreTag tbody');
-                    tableBodyIgnoreTag.empty();
-                    tableBodyIgnoreTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${ignoreCookies}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie('IgnoreTagsCookie'); window.location.reload();">X</span></div></button>`);
-
-                }*/
                 $.each(listOfQuestion, function (i, q) {
                     $('#getQuestionsQ').append(fillQuestionBlock(q));
                 });

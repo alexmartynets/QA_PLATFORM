@@ -250,19 +250,30 @@ public class QuestionResourceController {
             @ApiResponse(code = 200, message = "Список получен"),
             @ApiResponse(code = 400, message = "Список не получен")
     })
-    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByIgnoreTag(@RequestHeader(name = "IgnoreTagsName") String IgnoreTagsName, @RequestHeader(name = "WatchTagName") String WatchTagName) {
-        List<QuestionDto> ignoreTag = searchQuestionDAO.getQuestionsSortedByVotes();
-        for (QuestionDto element : ignoreTag) {
-            for (TagDto e : element.getTags()) {
-                String name = e.getName();
-                if (name.equals(IgnoreTagsName)) {
-                    element.setIgnoreTag(true);
-                }
-                if (name.equals(WatchTagName)) {
-                    element.setWatchTag(true);
+    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByIgnoreTag(@RequestHeader(name = "arr") String[] arr) {
+        List<QuestionDto> ignoreAndWatchTag = searchQuestionDAO.getQuestionsSortedByVotes();
+        String WatchTagName = "";
+        String IgnoreTagsName = "";
+        for (String s : arr) {
+            int last = s.length() - 1;
+            char ch = s.charAt(last);
+            if (s.endsWith("W")) {
+                WatchTagName = s;
+            } else if (s.endsWith("I")) {
+                IgnoreTagsName = s;
+            }
+            for (QuestionDto element : ignoreAndWatchTag) {
+                for (TagDto e : element.getTags()) {
+                    String name = e.getName() + ch;
+                    if (name.equals(IgnoreTagsName)) {
+                        element.setIgnoreTag(true);
+                    }
+                    if (name.equals(WatchTagName)) {
+                        element.setWatchTag(true);
+                    }
                 }
             }
         }
-        return ResponseEntity.ok(ignoreTag);
+        return ResponseEntity.ok(ignoreAndWatchTag);
     }
 }
