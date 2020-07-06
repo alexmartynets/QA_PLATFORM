@@ -6,16 +6,14 @@ $(document).ready(function () {
     $('#btnWatch').click(function () {
         let userTagsDto = {};
         userTagsDto.WatchTagName = $('#watch').val();
-        $.cookie('WatchTagsCookie', userTagsDto.WatchTagName);
-        let watchCookie = userTagsDto.WatchTagName = $('#watch').val();
+        let watchCookie = userTagsDto.WatchTagName;
         $.cookie(watchCookie + "W", userTagsDto.WatchTagName);
     });
 
     $('#btnIgnore').click(function () {
         let userTagsDto = {};
         userTagsDto.IgnoreTagName = $('#ignore').val();
-        $.cookie('IgnoreTagsCookie', userTagsDto.IgnoreTagName);
-        let ignoreCookie = userTagsDto.IgnoreTagName = $('#ignore').val();
+        let ignoreCookie = userTagsDto.IgnoreTagName;
         $.cookie(ignoreCookie + "I", userTagsDto.IgnoreTagName);
     });
 })
@@ -61,14 +59,6 @@ function getQuestionsSortedByVotes() {
         }
     }
 
-  /*  let watchCookies = $.cookie('WatchTagsCookie');
-    let ignoreCookies = $.cookie('IgnoreTagsCookie');
-    if (watchCookies === undefined) {
-        $.cookie('WatchTagsCookie', null);
-    }
-    if (ignoreCookies === undefined) {
-        $.cookie('IgnoreTagsCookie', null);
-    }*/
     let arr = HeaderCookie();
     if (arr === null) {
         $.ajax({
