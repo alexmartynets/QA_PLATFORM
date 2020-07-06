@@ -1,4 +1,3 @@
-//create requst for tags
 const section = document.querySelector('section');
 const numOfPageTags = 1;
 var currentPageNum = 1;
@@ -46,8 +45,6 @@ function pagination(event) {
 
     if (target.tagName.toLowerCase() != "span") return;
 
-    var num_ = id.substr(4);
-    var data_page = +target.dataset.page;
     main_page.classList.remove("paginator_active");
     main_page = document.getElementById(id);
     main_page.classList.add("paginator_active");
