@@ -35,16 +35,16 @@ function getQuestionsSortedByVotes() {
             }
         })
     } else {
-        if ( watchCookies !== undefined ) {
+        if ( watchCookies !== undefined) {
             let tableBodyWatchTag = $('#tblWatchTag tbody');
             tableBodyWatchTag.empty();
-            tableBodyWatchTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}</div></button>`);
+            tableBodyWatchTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${watchCookies}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie('WatchTagsCookie'); window.location.reload(); ">X</span></div></button>`);
         }
        if ( ignoreCookies !== undefined ){
         let tableBodyIgnoreTag = $('#tblIgnoreTag tbody');
         tableBodyIgnoreTag.empty();
-        tableBodyIgnoreTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${ignoreCookies}</div></button>`);
-       }
+        tableBodyIgnoreTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${ignoreCookies}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie('IgnoreTagsCookie'); window.location.reload();">X</span></div></button>`);
+        }
         if ( watchCookies === undefined ){
             $.cookie('WatchTagsCookie', "null");
         }
