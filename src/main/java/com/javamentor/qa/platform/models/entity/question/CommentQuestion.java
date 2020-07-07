@@ -1,5 +1,6 @@
 package com.javamentor.qa.platform.models.entity.question;
 
+import com.javamentor.qa.platform.exception.ApiRequestException;
 import com.javamentor.qa.platform.models.entity.Comment;
 import com.javamentor.qa.platform.models.entity.CommentType;
 import com.javamentor.qa.platform.models.entity.user.User;
@@ -45,7 +46,7 @@ public class CommentQuestion {
 
     private void checkConstraints() {
         if (this.comment.getCommentType() != CommentType.QUESTION) {
-            throw new RuntimeException("У экземпляра Comment, связанного с CommentQuestion, " +
+            throw new ApiRequestException("У экземпляра Comment, связанного с CommentQuestion, " +
                     "поле commentType должно принимать значение CommentType.QUESTION");
         }
     }

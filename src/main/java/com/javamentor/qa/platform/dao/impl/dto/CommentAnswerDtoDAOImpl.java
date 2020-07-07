@@ -57,4 +57,15 @@ public class CommentAnswerDtoDAOImpl extends ReadWriteDAOImpl<Comment, Long> imp
 
         return list.isEmpty() ? Collections.emptyList() : list;
     }
+
+    @Override
+    public Boolean hasUserCommentAnswer(Long answerId, Long userId) {
+        return (Boolean) entityManager.createQuery("SELECT " +
+                "CASE WHEN COUNT (c)>0 THEN TRUE ELSE FALSE END FROM Comment AS c JOIN CommentAnswer AS ca ON c.id = ca.id " +
+                "WHERE c.user.id = :userId AND ca.answer.id = :answerId")
+                .unwrap(Query.class)
+                .setParameter("answerId", answerId)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
 }

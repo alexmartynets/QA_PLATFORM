@@ -92,4 +92,7 @@ public class ReputationDAOImpl extends ReadWriteDAOImpl<Reputation, Long> implem
 
         return reputation;
     }
+
 }
+
+
