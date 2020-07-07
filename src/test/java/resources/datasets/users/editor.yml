@@ -1,0 +1,40 @@
+editor:
+  - count: 1
+    persist_date: "JS: new Date().toISOString().split('T')[0]"
+    user_id: 1
+    id: 1
+
+  - count: 1
+    persist_date: "JS: new Date().toISOString().split('T')[0]"
+    user_id: 2
+    id: 2
+
+  - count: 1
+    persist_date: "JS: new Date().toISOString().split('T')[0]"
+    user_id: 3
+    id: 3
+
+  - count: 1
+    persist_date: "2020-06-03 13:58:56"
+    user_id: 4
+    id: 4
+
+  - count: 1
+    persist_date: "2020-06-15 13:58:56"
+    user_id: 5
+    id: 5
+
+  - count: 3
+    persist_date: "JS: new Date().toISOString().split('T')[0]"
+    user_id: 1
+    id: 6
+
+  - count: 1
+    persist_date: "2020-06-16 13:58:56"
+    user_id: 2
+    id: 7
+
+  - count: 2
+    persist_date: "2020-06-17 13:58:56"
+    user_id: 3
+    id: 8

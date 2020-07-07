@@ -1,0 +1,19 @@
+question:
+  - id: 1
+    description: "some description for first question"
+    title: "Question number one"
+    view_count: 3
+    user_id: 1
+    persist_date: "2020-01-01 13:58:56"
+    is_deleted: 0
+    last_redaction_date: "2020-01-02 13:58:56"
+
+  - id: 2
+    description: "some description for second question"
+    title: "Question number two"
+    view_count: 5
+    user_id: 2
+    persist_date: "2020-01-10 13:58:56"
+    is_deleted: 0
+    last_redaction_date: "2020-01-20 13:58:56"
+
