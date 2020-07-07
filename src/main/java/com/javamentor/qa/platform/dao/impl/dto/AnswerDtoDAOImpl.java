@@ -58,14 +58,39 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId, Long userId) {
-        return entityManager
-                .createQuery(HQL + "where a.question.id = :questionId group by a.id order by sum (v.vote) desc ")
+        return entityManager.createQuery("select " +
+                "a.id, " +
+                "a.question.id, " +
+                "a.htmlBody, " +
+                "a.persistDateTime, " +
+                "a.dateAcceptTime, " +
+                "a.updateDateTime, " +
+//                "sum (v.vote) as i, " +
+                "COALESCE(sum(v.vote), 0) as i, " +
+                "a.isHelpful, " +
+                "a.isDeleted, " +
+                "a.user.id, " +
+                "a.user.fullName, " +
+                "a.user.imageUser, " +
+                "a.user.reputationCount, " +
+                "(select (sum(aV.vote)) from AnswerVote aV where aV.voteAnswerPK.user.id = :userId and aV.voteAnswerPK.answer.id = a.id )" +
+                "from Answer a " +
+                "left join AnswerVote v on a.id = v.voteAnswerPK.answer.id " +
+                "where a.question.id = :questionId " +
+                "group by a.id " +
+                "order by i desc ")
                 .setParameter("questionId", questionId)
                 .setParameter("userId", userId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
                 .getResultList();
     }
+
+
+
+
+
+
 
     @Transactional
     @SuppressWarnings("unchecked")
