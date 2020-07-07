@@ -435,14 +435,14 @@ public class QuestionRecourseControllerTest extends AbstractIntegrationTest {
 
     @Test
     void getUnansweredQuestions() throws Exception {
-        this.mockMvc.perform(get("/api/unanswered"))
+        this.mockMvc.perform(get("/api/user/question/unanswered"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    void getUnansweredQuestions1() throws Exception {
-        this.mockMvc.perform(get("/api/questions/tagged/1"))
+    void getQuestionsByTagId() throws Exception {
+        this.mockMvc.perform(get("/api/user/question/tagged/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

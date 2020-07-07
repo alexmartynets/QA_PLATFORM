@@ -238,7 +238,7 @@ public class QuestionResourceController {
     }
 
     @GetMapping("/unanswered")
-    public List<QuestionDto> getUnansweredQuestions() {
-        return questionDtoService.getUnansweredQuestions();
+    public ResponseEntity<List<QuestionDto>> getUnansweredQuestions() {
+        return ResponseEntity.ok(questionDtoService.getUnansweredQuestions());
     }
 }
