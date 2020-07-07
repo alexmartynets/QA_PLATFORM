@@ -21,7 +21,7 @@
     }
 </style>
 <div class="container-">
-    <nav class="navbar navbar-light bg-light justify-content-between">
+    <nav class="navbar sticky-top navbar-light bg-light justify-content-between">
         <a class="navbar-brand" href="#">
             <img src="/images/question.png" width="30" height="30" class="d-inline-block align-top" alt="">StackOverMentor</a>
 
@@ -55,14 +55,6 @@
                         </div>
                     </div>
                     <div class="row">
-<!--                        <div class="col-4">-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">java</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">javaScript</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">front-End</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">back-End</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">jquery</button>-->
-<!--                            <button type="button" class="btn btn-primary btn-sm mb-1 mt-3">html</button>-->
-<!--                        </div>-->
                         <div class="col">
                             <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
                                 <li class="nav-item">
@@ -99,10 +91,12 @@
                                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                     <ul class="list-group mt-3" id="list2">
 
+
                                     </ul>
                                 </div>
                                 <div class="tab-pane fade" id="week" role="tabpanel" aria-labelledby="week-tab">
                                     <ul class="list-group mt-3" id="list3">
+
 
                                     </ul>
                                 </div>
@@ -114,6 +108,59 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+
+                    <h4 class="fs-headline1 mb16">
+                        Метки
+                    </h4>
+                    <p>
+                        Метка помогает поместить ваш вопрос в одну категорию с другими похожими вопросами.<br>
+                        Таким образом другим участникам будет легче найти ваш вопрос и быстрее ответить на него.
+                    </p>
+                    <div class="row">
+                        <div class="col">
+                            <input id="tag-filter" class="s-input s-input__search h100" autocomplete="off"
+                                   name="tag-filter" type="text" maxlength="35" placeholder="Фильтрация по имени"
+                                   autofocus="">
+                            <svg aria-hidden="true" class="s-input-icon s-input-icon__search svg-icon iconSearch"
+                                 width="18" height="18" viewBox="0 0 18 18">
+                                <path d="M18 16.5l-5.14-5.18h-.35a7 7 0 10-1.19 1.19v.35L16.5 18l1.5-1.5zM12 7A5 5 0 112 7a5 5 0 0110 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="col" style="padding-bottom: 25px">
+                            <div class="btn-group" role="group" aria-label="Basic example"
+                                 style="text-align:right;float:right;">
+                                <button href="#" id="MostPopularTags" type="button" class="selected-item btn btn-outline-secondary"
+                                        title="самые популярные метки">
+                                    Популярные
+                                </button>
+                                <button href="#" id="TagsInAlphabeticalOrder" type="button"
+                                        class="btn btn-outline-secondary" title="метки по алфавитному порядку">
+                                    Имя
+                                </button>
+                                <button href="#" id="RecentlyCreatedTags" type="button"
+                                        class="btn btn-outline-secondary" title="недавно созданные метки">
+                                    Новые
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="tags-list">
+                        <section>
+
+                        </section>
+                        <div>
+                                Страницы:
+                                <div class="paginator" id="paginator-list" onclick="pagination(event)"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                    ...
                 </div>
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
                 <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
