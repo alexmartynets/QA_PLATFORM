@@ -146,10 +146,10 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "a.id as id, " +
                 "a.persistDateTime as persistDateTime, " +
                 "a.isHelpful as isHelpful, " +
-                "a.countValuable as countValuable, " +
                 "a.question.id as questionId, " +
-                "a.question.title as htmlBody " +
-                "FROM Answer a WHERE a.user.id = :userId " +
+                "a.question.title as htmlBody, " +
+                "(select (sum(uv.vote)) from AnswerVote uv where uv.voteAnswerPK.user.id = :userId and uv.voteAnswerPK.answer.id = a.id ) as countValuable"+
+                "FROM Answer a WHERE a.user.id = :userId" +
                 "ORDER BY a.persistDateTime DESC")
                 .setParameter("userId", userId)
                 .setFirstResult((page - 1) * 20)
@@ -167,7 +167,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "a.id as id, " +
                 "a.persistDateTime as persistDateTime, " +
                 "a.isHelpful as isHelpful, " +
-                "a.countValuable as countValuable, " +
+                "(select (sum(uv.vote)) from AnswerVote uv where uv.voteAnswerPK.user.id = :userId and uv.voteAnswerPK.answer.id = a.id ) as countValuable,"+
                 "a.question.id as questionId, " +
                 "a.question.title as htmlBody, " +
                 "a.question.viewCount " +
@@ -189,7 +189,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "a.id as id, " +
                 "a.persistDateTime as persistDateTime, " +
                 "a.isHelpful as isHelpful, " +
-                "a.countValuable as countValuable, " +
+                "(select (sum(uv.vote)) from AnswerVote uv where uv.voteAnswerPK.user.id = :userId and uv.voteAnswerPK.answer.id = a.id ) as countValuable,"+
                 "a.question.id as questionId, " +
                 "a.question.title as htmlBody " +
                 "FROM Answer a WHERE a.user.id = :userId " +
