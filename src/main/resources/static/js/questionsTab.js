@@ -100,7 +100,7 @@ function fillQuestionBlock(q) {
 
     if (q.ignoreTag === true) {
         let questionData =
-            '<div class="question-block container mt-0 bg-light text-dark" style="opacity: 35%">' +
+            '<div class="question-block container mt-4 bg-light text-dark" style="opacity: 35%">' +
             '<div class="voice-block">' +
             '<div class="voices voice-item">' +
             '<p class="points">' + q.countValuable + '</p>' +
@@ -133,7 +133,7 @@ function fillQuestionBlock(q) {
         return questionData;
     } else if (q.watchTag === true) {
         let questionData =
-            '<div class="question-block container mt-0" style="background-color: #fdf7e3">' +
+            '<div class="question-block container mt-4" style="background-color: #fdf7e3">' +
             '<div class="voice-block">' +
             '<div class="voices voice-item">' +
             '<p class="points">' + q.countValuable + '</p>' +
@@ -166,7 +166,7 @@ function fillQuestionBlock(q) {
         return questionData;
     } else if (q.watchTag === true && q.ignoreTag === true) {
         let questionData =
-            '<div class="question-block container mt-0" style="background-color: #fdf7e3">' +
+            '<div class="question-block container mt-4" style="background-color: #fdf7e3">' +
             '<div class="voice-block">' +
             '<div class="voices voice-item">' +
             '<p class="points">' + q.countValuable + '</p>' +
@@ -199,7 +199,7 @@ function fillQuestionBlock(q) {
         return questionData;
     } else {
         let questionData =
-            '<div class="question-block container mt-0">' +
+            '<div class="question-block container mt-4">' +
             '<div class="voice-block">' +
             '<div class="voices voice-item">' +
             '<p class="points">' + q.countValuable + '</p>' +
