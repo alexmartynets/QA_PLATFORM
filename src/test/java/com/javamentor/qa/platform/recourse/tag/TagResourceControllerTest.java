@@ -6,11 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.web.servlet.function.RequestPredicates.accept;
 
 @DataSet(value = {"tagsDatasets/role.yml", "tagsDatasets/users.yml", "tagsDatasets/answer.yml", "tagsDatasets/question.yml", "tagsDatasets/tag.yml", "tagsDatasets/question_has_tag.yml"}, cleanBefore = true)
 public class TagResourceControllerTest extends AbstractIntegrationTest {
@@ -90,5 +92,59 @@ public class TagResourceControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.value[1].id").value("2"))
                 .andExpect(jsonPath("$.value[2].id").value("8"))
                 .andExpect(jsonPath("$.value[3].id").value("10"));
+    }
+
+    @Test
+    void addMainTag() throws Exception {
+        this.mockMvc.perform(post("/api/user/tag")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": null," +
+                        "\"name\": \"newLanguage\"," +
+                        "\"description\": \"new language description\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void addChildTag() throws Exception {
+        this.mockMvc.perform(post("/api/user/tag/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"name\": \"childTag\"," +
+                        "\"description\": \"child tag description\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateTag() throws Exception {
+        this.mockMvc.perform(put("/api/user/tag/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"id\": 1," +
+                        "\"name\": \"newLanguage\"," +
+                        "\"description\": \"new language description\"" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.name").value("newLanguage"))
+                .andExpect(jsonPath("$.description").value("new language description"))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    public void deleteTag() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/user/tag/delete/{id}", 16))
+                .andExpect(status().isAccepted());
     }
 }
