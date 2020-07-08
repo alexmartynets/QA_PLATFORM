@@ -110,7 +110,7 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id)," +
                 "(SELECT a.user.fullName FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)), " +
                 "(SELECT a.persistDateTime FROM Answer a WHERE a.question.id = q.id AND a.id = (SELECT MAX(a.id) FROM a WHERE a.question.id = q.id)) " +
-                "FROM Question q JOIN q.tags t WHERE q.id =: id ")
+                "FROM Question q JOIN q.tags t WHERE q.id = :id ")
                 .unwrap(Query.class)
                 .setParameter("id", id)
                 .setResultTransformer(new ResultTransformer() {
@@ -616,5 +616,129 @@ public class QuestionDtoDaoImpl extends ReadWriteDAOImpl<QuestionDto, Long> impl
                 }).getResultList();
 
         return questionDtoList.isEmpty()? Collections.emptyList() : questionDtoList;
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked", "deprecated"})
+    public List<QuestionDto> getQuestionsByTagId(Long tagId) {
+        List<QuestionDto> questionsDtoByTagId = new ArrayList<>();
+        try {
+            questionsDtoByTagId = entityManager.createQuery("SELECT " +
+                    "q.id, " +
+                    "q.title, " +
+                    "q.user.id, " +
+                    "q.user.fullName, " +
+                    "q.user.reputationCount, " +
+                    "q.user.imageUser, " +
+                    "q.viewCount, " +
+                    "(SELECT SUM (v.vote) FROM VoteQuestion v WHERE v.voteQuestionPK.question.id = q.id) as i, " +
+                    "q.persistDateTime,  " +
+                    "t.id, " +
+                    "t.name, " +
+                    "t.description, " +
+                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id), " +
+                    "(SELECT CASE WHEN MAX (a.isHelpful) > 0 THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                    "FROM Question q JOIN q.tags t " +
+                    "WHERE t.id = :tI " +
+                    "ORDER BY i DESC")
+                    .setParameter("tI", tagId)
+                    .unwrap(Query.class)
+                    .setResultTransformer(new ResultTransformer() {
+                        @Override
+                        public Object transformTuple(Object[] objects, String[] strings) {
+                            UserDto userDto = UserDto.builder()
+                                    .id((Long) objects[2])
+                                    .fullName((String) objects[3])
+                                    .reputationCount((Integer) objects[4])
+                                    .imageUser((byte[]) objects[5])
+                                    .build();
+                            TagDto tagDto = TagDto.builder()
+                                    .id((Long) objects[9])
+                                    .name((String) objects[10])
+                                    .description((String) objects[11])
+                                    .build();
+                            List<TagDto> tagDtoList = new ArrayList<>();
+                            tagDtoList.add(tagDto);
+                            return QuestionDto.builder()
+                                    .id((Long) objects[0])
+                                    .title((String) objects[1])
+                                    .userDto(userDto)
+                                    .viewCount((Integer) objects[6])
+                                    .countValuable((objects[7] == null ? 0 : ((Number) objects[7]).intValue()))
+                                    .persistDateTime((LocalDateTime) objects[8])
+                                    .tags(tagDtoList)
+                                    .countAnswer(((Number) objects[12]).intValue())
+                                    .isHelpful((Boolean) objects[13])
+                                    .build();
+                        }
+
+                        @Override
+                        public List transformList(List list) {
+                            List<QuestionDto> newList = list;
+                            newList.forEach(f -> f.setTags(getTagList(f.getId())));
+                            return newList;
+                        }
+                    })
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return questionsDtoByTagId;
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked", "deprecated"})
+    public List<QuestionDto> getUnansweredQuestions() {
+        List<QuestionDto> unansweredQuestions = new ArrayList<>();
+        try {
+            unansweredQuestions = entityManager.createQuery("SELECT " +
+                    "q.id, " +
+                    "q.persistDateTime, " +
+                    "q.title, " +
+                    "q.description, " +
+                    "q.user.fullName, " +
+                    "SUM(v.vote), " +
+                    "q.user.reputationCount, " +
+                    "q.viewCount, " +
+                    "(SELECT COUNT (a) FROM Answer a WHERE a.question.id = q.id) as answerCount, " +
+                    "(SELECT CASE WHEN MAX (a.isHelpful) > false THEN true ELSE false END FROM Answer a WHERE a.question.id = q.id) " +
+                    "FROM Question q LEFT JOIN VoteQuestion v ON q.id = v.voteQuestionPK.question.id " +
+                    "GROUP BY q.id " +
+                    "ORDER BY answerCount, SUM (v.vote) DESC, q.viewCount DESC")
+                    .unwrap(Query.class)
+                    .setResultTransformer(new ResultTransformer() {
+                        @Override
+                        public Object transformTuple(Object[] tuple, String[] aliases) {
+                            UserDto userDto = UserDto.builder()
+                                    .fullName((String) tuple[4])
+                                    .reputationCount(((Number) tuple[6]).intValue())
+                                    .build();
+                            List<TagDto> tagDtoList = new ArrayList<>();
+                            return QuestionDto.builder()
+                                    .id(((Number) tuple[0]).longValue())
+                                    .persistDateTime((LocalDateTime) tuple[1])
+                                    .title((String) tuple[2])
+                                    .description((String) tuple[3])
+                                    .userDto(userDto)
+                                    .countValuable((tuple[5] == null ? 0 : ((Number) tuple[5]).intValue()))
+                                    .countAnswer(((Number) tuple[8]).intValue())
+                                    .isHelpful((Boolean) tuple[9])
+                                    .viewCount(((Number) tuple[7]).intValue())
+                                    .tags(tagDtoList)
+                                    .build();
+                        }
+
+                        @Override
+                        public List transformList(List list) {
+                            List<QuestionDto> newList = list;
+                            newList.forEach(f -> f.setTags(getTagList(f.getId())));
+                            return list;
+                        }
+                    })
+                    .getResultList();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return unansweredQuestions;
     }
 }

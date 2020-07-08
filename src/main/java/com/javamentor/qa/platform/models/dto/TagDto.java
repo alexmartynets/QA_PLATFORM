@@ -59,4 +59,13 @@ public class TagDto {
     @ApiModelProperty(notes = "Дата создания тэга.", position = 4)
     private LocalDateTime persistDateTime;
 
+
+    public TagDto(@Null(groups = OnCreate.class, message = "Должно принимать null значение при создании.") @NotNull(groups = OnUpdate.class, message = "Не должно принимать null значение при обновлении.") Long id, @NotNull(groups = {OnUpdate.class, OnCreate.class},
+            message = "Не должно принимать null значение при создании или обновлении") String name, @NotNull(groups = {OnUpdate.class, OnCreate.class},
+            message = "Не должно принимать null значение при создании или обновлении.") String description, Integer questionCount) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.questionCount = questionCount;
+    }
 }

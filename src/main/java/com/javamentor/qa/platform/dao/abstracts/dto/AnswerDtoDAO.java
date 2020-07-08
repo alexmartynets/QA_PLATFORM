@@ -5,6 +5,7 @@ import com.javamentor.qa.platform.models.dto.AnswerDto;
 import java.util.List;
 
 public interface AnswerDtoDAO {
+
     List<AnswerDto> getAnswersDtoByQuestionIdSortNew(Long questionId, Long userId);
 
     List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId, Long userId);

@@ -10,4 +10,9 @@ public interface TagDtoService {
     Pair<Long, List<TagDto>> findAllTagsDtoPaginationName(int pageSize, int pageNumber);
     Pair<Long, List<TagDto>> findAllTagsDtoPaginationDate(int pageSize, int pageNumber);
     Pair<Long, List<TagDto>> findAllTagsSearch(String word, int pageSize, int pageNumber);
+
+
+    List<TagDto> getAllMainTagsSortedByFrequency();
+
+    List<TagDto> getRelatedTags(Long mainTagId);
 }

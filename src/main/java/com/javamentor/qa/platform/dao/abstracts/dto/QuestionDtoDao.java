@@ -47,4 +47,8 @@ public interface QuestionDtoDao {
 
     List<QuestionDto> getQuestionDtoByUserIdSortByViews(Long userId, Integer page);
 
+
+    List<QuestionDto> getQuestionsByTagId(Long tagId);
+
+    List<QuestionDto> getUnansweredQuestions();
 }

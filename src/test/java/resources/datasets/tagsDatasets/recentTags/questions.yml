@@ -1,0 +1,30 @@
+question:
+  - id: 1
+    #    count_valuable: 1
+    description: "Question1 description"
+    title: "Question1 title"
+    view_count: 1
+    user_id: 1
+    persist_date: "2020-01-01 13:58:56"
+    is_deleted: 0
+    last_redaction_date: "2020-01-02 13:58:56"
+
+  - id: 2
+    #    count_valuable: 1
+    description: "Question2 description"
+    title: "Question2 title"
+    view_count: 2
+    user_id: 1
+    persist_date: "2020-01-01 13:58:56"
+    is_deleted: 0
+    last_redaction_date: "2020-01-02 13:58:56"
+
+  - id: 3
+    #    count_valuable: 1
+    description: "Question3 description"
+    title: "Question3 title"
+    view_count: 3
+    user_id: 2
+    persist_date: "2020-01-01 13:58:56"
+    is_deleted: 0
+    last_redaction_date: "2020-01-02 13:58:56"
