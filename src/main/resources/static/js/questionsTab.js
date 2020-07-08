@@ -50,10 +50,10 @@ function getQuestionsSortedByVotes() {
         let NameAndTag = fullCookie.split("=");
         let nameTag = NameAndTag[1];
         if (NameAndTag[0].endsWith("W")) {
-            tableBodyWatchTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${nameTag}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie(${NameAndTag[0]}); window.location.reload();">X</span></div></button><br>`);
+            tableBodyWatchTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${nameTag}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie('${NameAndTag[0]}'); window.location.reload();">X</span></div></button><br>`);
         }
         if (NameAndTag[0].endsWith("I")) {
-            tableBodyIgnoreTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${nameTag}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie(${NameAndTag[0]}); window.location.reload();">X</span></div></button><br>`);
+            tableBodyIgnoreTag.append(`<button type="button" class="btn btn-light btn-sm mr-1" style="background-color: #e1ecf4"><div style="color: #007bff">${nameTag}<span class="badge badge-pill badge-light ml-2" style="background-color: #d1e5f1" title="Удалить метку" onclick="$.removeCookie('${NameAndTag[0]}'); window.location.reload();">X</span></div></button><br>`);
         }
     }
 
