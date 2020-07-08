@@ -22,9 +22,9 @@ import java.util.List;
 @Builder
 public class QuestionDto {
 
+    @ApiModelProperty(notes = "Автоматически генерируемы ID вопроса. При создании не указывать, указывать при изменении")
     @Null(groups = OnCreate.class, message = "Поле Id должно принимать null значение при создании")
     @NotNull(groups = OnUpdate.class, message = "Поле Id не должно принимать null значение при обновлении")
-    @ApiModelProperty(notes = "Автоматически генерируемы ID вопроса. При создании не указывать, указывать при изменении")
     private Long id;
 
     @NotNull(groups = {OnUpdate.class, OnCreate.class}, message = "Поле title не должно быть пустым")

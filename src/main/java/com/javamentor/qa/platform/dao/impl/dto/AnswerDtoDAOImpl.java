@@ -58,14 +58,39 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<AnswerDto> getAnswersDtoByQuestionIdSortCount(Long questionId, Long userId) {
-        return entityManager
-                .createQuery(HQL + "where a.question.id = :questionId group by a.id order by sum (v.vote) desc ")
+        return entityManager.createQuery("select " +
+                "a.id, " +
+                "a.question.id, " +
+                "a.htmlBody, " +
+                "a.persistDateTime, " +
+                "a.dateAcceptTime, " +
+                "a.updateDateTime, " +
+//                "sum (v.vote) as i, " +
+                "COALESCE(sum(v.vote), 0) as i, " +
+                "a.isHelpful, " +
+                "a.isDeleted, " +
+                "a.user.id, " +
+                "a.user.fullName, " +
+                "a.user.imageUser, " +
+                "a.user.reputationCount, " +
+                "(select (sum(aV.vote)) from AnswerVote aV where aV.voteAnswerPK.user.id = :userId and aV.voteAnswerPK.answer.id = a.id )" +
+                "from Answer a " +
+                "left join AnswerVote v on a.id = v.voteAnswerPK.answer.id " +
+                "where a.question.id = :questionId " +
+                "group by a.id " +
+                "order by i desc ")
                 .setParameter("questionId", questionId)
                 .setParameter("userId", userId)
                 .unwrap(Query.class)
                 .setResultTransformer(resultTransformer())
                 .getResultList();
     }
+
+
+
+
+
+
 
     @Transactional
     @SuppressWarnings("unchecked")
@@ -146,10 +171,10 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "a.id as id, " +
                 "a.persistDateTime as persistDateTime, " +
                 "a.isHelpful as isHelpful, " +
-                "a.countValuable as countValuable, " +
                 "a.question.id as questionId, " +
-                "a.question.title as htmlBody " +
-                "FROM Answer a WHERE a.user.id = :userId " +
+                "a.question.title as htmlBody, " +
+                "(select (sum(uv.vote)) from AnswerVote uv where uv.voteAnswerPK.user.id = :userId and uv.voteAnswerPK.answer.id = a.id ) as countValuable"+
+                "FROM Answer a WHERE a.user.id = :userId" +
                 "ORDER BY a.persistDateTime DESC")
                 .setParameter("userId", userId)
                 .setFirstResult((page - 1) * 20)
@@ -167,7 +192,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "a.id as id, " +
                 "a.persistDateTime as persistDateTime, " +
                 "a.isHelpful as isHelpful, " +
-                "a.countValuable as countValuable, " +
+                "(select (sum(uv.vote)) from AnswerVote uv where uv.voteAnswerPK.user.id = :userId and uv.voteAnswerPK.answer.id = a.id ) as countValuable,"+
                 "a.question.id as questionId, " +
                 "a.question.title as htmlBody, " +
                 "a.question.viewCount " +
@@ -189,7 +214,7 @@ public class AnswerDtoDAOImpl implements AnswerDtoDAO {
                 "a.id as id, " +
                 "a.persistDateTime as persistDateTime, " +
                 "a.isHelpful as isHelpful, " +
-                "a.countValuable as countValuable, " +
+                "(select (sum(uv.vote)) from AnswerVote uv where uv.voteAnswerPK.user.id = :userId and uv.voteAnswerPK.answer.id = a.id ) as countValuable,"+
                 "a.question.id as questionId, " +
                 "a.question.title as htmlBody " +
                 "FROM Answer a WHERE a.user.id = :userId " +

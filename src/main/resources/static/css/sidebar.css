@@ -1,0 +1,48 @@
+body {
+    height: 100%;
+    background-color: #fff;
+    color: #000;
+    margin: 4rem 0;
+}
+
+.left-panel-blok .btn {
+    text-align: left;
+    font-size: 16px;
+}
+
+.left-panel-blok {
+    opacity: 0.9;
+    top: 110px;
+}
+
+#left-panel {
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+
+.left-panel {
+    top: 50px;
+    height: 165px;
+    border-right-width: 1px;
+    border-right-color: rgba(190, 178, 178, 0.801);
+}
+
+
+.null{
+    height: 300px;
+    max-width: 1950px;
+}
+
+.footer-container {
+    color: white;
+}
+
+.top-footer {
+    background-color: #2E2E2E;
+    max-width: 1950px;
+}
+
+.bottom-footer {
+    background-color: #212121;
+    max-width: 1950px;
+}

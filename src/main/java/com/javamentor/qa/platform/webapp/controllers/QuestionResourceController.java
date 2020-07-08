@@ -188,6 +188,7 @@ public class QuestionResourceController {
         return ResponseEntity.ok(questionDtoService.getQuestionDtoListByUserId(id));
     }
 
+
     @ApiOperation(value = "Получение списка пагинации из QuestionDto (без фильтра)")
     @GetMapping(value = "/pagination")
     @ApiResponses(value = {
@@ -240,8 +241,8 @@ public class QuestionResourceController {
     }
 
     @GetMapping("/unanswered")
-    public List<QuestionDto> getUnansweredQuestions() {
-        return questionDtoService.getUnansweredQuestions();
+    public ResponseEntity<List<QuestionDto>> getUnansweredQuestions() {
+        return ResponseEntity.ok(questionDtoService.getUnansweredQuestions());
     }
 
     @ApiOperation(value = "Получение списка с watchAndIgnoreTag")

@@ -1,0 +1,47 @@
+/*
+#v-pills-messages > div {
+    padding: 16px;
+}
+*/
+
+#content {
+    max-width: 1100px;
+    width: calc(100% - 164px);
+    background-color: var(--white);
+    border-radius: 0;
+    border: 1px solid var(--dark);
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 1px;
+    border-right-width: 0;
+    padding: 24px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+#mainbar-full::after, .mainbar-full::after {
+    clear: both;
+}
+
+#mainbar-full::before, .mainbar-full::before, #mainbar-full::after, .mainbar-full::after {
+    content: "";
+    display: table;
+}
+
+#mainbar-full, .mainbar-full {
+    width: 100%;
+    padding: 0;
+}
+
+.fs-headline1 {
+    font-size: 2.07692308rem !important;
+}
+
+.mb16 {
+    margin-bottom: 16px !important;
+}
+
+
+
+
+

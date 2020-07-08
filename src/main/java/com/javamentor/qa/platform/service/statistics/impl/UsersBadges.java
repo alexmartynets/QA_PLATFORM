@@ -25,3 +25,4 @@ public class UsersBadges implements Tabs {
                 .build();
     }
 }
+
