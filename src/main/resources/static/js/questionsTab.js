@@ -28,10 +28,8 @@ function HeaderCookie() {
         let NameAndTag = fullCookie.split("=");
         let nameTag = NameAndTag[1];
         if (NameAndTag[0].endsWith("W")) {
-            $.cookie('WatchTagsCookie', nameTag);
             result = nameTag+"W";
         }else if (NameAndTag[0].endsWith("I")) {
-            $.cookie('IgnoreTagsCookie', nameTag);
             result = nameTag+"I";
         }
         arr.push(result);
