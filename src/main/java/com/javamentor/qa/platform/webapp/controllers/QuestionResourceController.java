@@ -2,6 +2,8 @@ package com.javamentor.qa.platform.webapp.controllers;
 
 import com.javamentor.qa.platform.dao.abstracts.dto.SearchQuestionDAO;
 import com.javamentor.qa.platform.models.dto.QuestionDto;
+import com.javamentor.qa.platform.models.dto.TagDto;
+import com.javamentor.qa.platform.models.dto.UserTagsDto;
 import com.javamentor.qa.platform.models.entity.question.Question;
 import com.javamentor.qa.platform.models.entity.question.VoteQuestion;
 import com.javamentor.qa.platform.models.entity.user.User;
@@ -19,6 +21,7 @@ import io.swagger.annotations.ApiResponses;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -240,5 +243,38 @@ public class QuestionResourceController {
     @GetMapping("/unanswered")
     public ResponseEntity<List<QuestionDto>> getUnansweredQuestions() {
         return ResponseEntity.ok(questionDtoService.getUnansweredQuestions());
+    }
+
+    @ApiOperation(value = "Получение списка с watchAndIgnoreTag")
+    @PostMapping("/watchAndIgnoreTag")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список получен"),
+            @ApiResponse(code = 400, message = "Список не получен")
+    })
+    public ResponseEntity<List<QuestionDto>> getQuestionsSortedByIgnoreTag(@RequestHeader(name = "arr") String[] arr) {
+        List<QuestionDto> ignoreAndWatchTag = searchQuestionDAO.getQuestionsSortedByVotes();
+        String WatchTagName = "";
+        String IgnoreTagsName = "";
+        for (String s : arr) {
+            int last = s.length() - 1;
+            char ch = s.charAt(last);
+            if (s.endsWith("W")) {
+                WatchTagName = s;
+            } else if (s.endsWith("I")) {
+                IgnoreTagsName = s;
+            }
+            for (QuestionDto element : ignoreAndWatchTag) {
+                for (TagDto e : element.getTags()) {
+                    String name = e.getName() + ch;
+                    if (name.equals(IgnoreTagsName)) {
+                        element.setIgnoreTag(true);
+                    }
+                    if (name.equals(WatchTagName)) {
+                        element.setWatchTag(true);
+                    }
+                }
+            }
+        }
+        return ResponseEntity.ok(ignoreAndWatchTag);
     }
 }
