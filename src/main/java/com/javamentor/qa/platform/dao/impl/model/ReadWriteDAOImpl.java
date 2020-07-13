@@ -88,4 +88,6 @@ public abstract class ReadWriteDAOImpl<T, PK> implements ReadWriteDAO<T, PK> {
     public List<T> getAll() {
         return entityManager.createQuery("from " + tClass.getName()).getResultList();
     }
+
+
 }
