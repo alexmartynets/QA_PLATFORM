@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiResponses;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -141,13 +142,13 @@ public class TagResourceController {
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "Удаление тэга по ID. {Id} - ID тэга")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Тэг удален")
+            @ApiResponse(code = 202, message = "Тэг удален")
     })
     public ResponseEntity<String> deleteTag(@PathVariable @NotNull Long id) {
         tagService.deleteByKeyCascadeIgnore(id);
         relatedTagService.deleteRelTagsByTagId(id);
         logger.info(String.format("Тэг id: %s удален", id));
-        return ResponseEntity.ok().body("Тэг удален");
+        return ResponseEntity.accepted().body("Тэг удален");
     }
 
     @GetMapping("/mainTags")
